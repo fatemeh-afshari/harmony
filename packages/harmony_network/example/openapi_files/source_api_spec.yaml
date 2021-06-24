@@ -1,0 +1,1146 @@
+openapi: 3.0.3
+info:
+  title: ''
+  version: 0.0.0
+paths:
+  /api/v1/auth/email_password/login/:
+    post:
+      operationId: Get Token
+      description: ''
+      tags:
+      - auth email-password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailPasswordLoginRequestRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EmailPasswordLoginRequestRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EmailPasswordLoginRequestRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailPasswordLoginResponse200'
+          description: ''
+  /api/v1/auth/email_password/verification/:
+    post:
+      operationId: Verification
+      description: ''
+      tags:
+      - auth email-password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailPasswordVerificationRequestRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EmailPasswordVerificationRequestRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EmailPasswordVerificationRequestRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+        '401':
+          description: Incorrect authentication credentials.
+  /api/v1/auth/main/token/:
+    post:
+      operationId: Username-Password Get Token
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - auth username-password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomTokenObtainPairRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomTokenObtainPairRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomTokenObtainPairRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomTokenObtainPair'
+          description: Successful
+  /api/v1/auth/main/token/refresh/:
+    post:
+      operationId: auth_main_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/v1/auth/main/token/verify/:
+    post:
+      operationId: auth_main_token_verify_create
+      description: |-
+        Takes a token and indicates if it is valid.  This view provides no
+        information about a token's fitness for a particular use.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenVerifyRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenVerifyRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenVerifyRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenVerify'
+          description: ''
+  /api/v1/post_it/post_its/:
+    post:
+      operationId: post_it_post_its_create
+      description: ''
+      tags:
+      - post_it
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostIt'
+              examples:
+                Successful:
+                  value:
+                    id: 6c12ab5d-dca5-4ae5-b404-3ab8a159f238
+                    source_image: http://206.189.207.172:8002/media/post_its/2021/05/18/1.jpg
+                    detection_response:
+                      predictions:
+                      - key: 6c12ab5d-dca5-4ae5-b404-3ab8a159f238
+                        image_info:
+                        - 512
+                        - 512
+                        - 1
+                        - 0
+                        - 512
+                        - 512
+                        num_detections: 40.0
+                        detection_boxes:
+                        - - 0.14605622
+                          - 0.0928692
+                          - 0.463355
+                          - 0.334907085
+                        - - 0.518045247
+                          - 0.653151155
+                          - 0.853909552
+                          - 0.91370225
+                        - - 0.512633324
+                          - 0.0816591084
+                          - 0.8577317
+                          - 0.337849349
+                        - - 0.109262213
+                          - 0.656672955
+                          - 0.480757594
+                          - 0.919023633
+                        - - 0.156438857
+                          - 0.374574423
+                          - 0.475356787
+                          - 0.626526952
+                        - - 0.521814108
+                          - 0.366145074
+                          - 0.840394258
+                          - 0.62633
+                        - - 0.404705822
+                          - 0.203669265
+                          - 0.834133804
+                          - 0.581254065
+                        - - 0.408106029
+                          - 0.430562735
+                          - 0.831447065
+                          - 0.802596
+                        - - 0.141574234
+                          - 0.20244202
+                          - 0.580264926
+                          - 0.583853
+                        - - 0.416902184
+                          - 0.0
+                          - 0.861866
+                          - 0.358210444
+                        - - 0.000346507877
+                          - 0.720640659
+                          - 0.0535798445
+                          - 0.94870162
+                        - - 0.141543016
+                          - 0.441040933
+                          - 0.58204633
+                          - 0.816734374
+                        - - 0.144829
+                          - 0.0
+                          - 0.587650776
+                          - 0.356753647
+                        - - 0.402463198
+                          - 0.616351247
+                          - 0.848740697
+                          - 1.0
+                        - - 0.0
+                          - 0.19390963
+                          - 0.35426414
+                          - 0.578689098
+                        - - 0.863865852
+                          - 0.249813855
+                          - 1.0
+                          - 0.810166657
+                        - - 0.862054288
+                          - 0.0
+                          - 1.0
+                          - 0.492939591
+                        - - 0.134386063
+                          - 0.617541373
+                          - 0.59144491
+                          - 1.0
+                        - - 0.0
+                          - 0.437940121
+                          - 0.36102289
+                          - 0.821881652
+                        - - 0.582010627
+                          - 0.176243499
+                          - 1.0
+                          - 0.579707205
+                        - - 0.86512208
+                          - 0.538183749
+                          - 1.0
+                          - 1.0
+                        - - 0.0
+                          - 0.619689584
+                          - 0.374491811
+                          - 1.0
+                        - - 0.568176031
+                          - 0.0
+                          - 1.0
+                          - 0.360207587
+                        - - 0.585678935
+                          - 0.407261848
+                          - 1.0
+                          - 0.811674237
+                        - - 0.00131275505
+                          - 0.0905469954
+                          - 0.055303596
+                          - 0.306148112
+                        - - 0.00674775243
+                          - 0.719877601
+                          - 0.722578645
+                          - 0.960902333
+                        - - 0.277805448
+                          - 0.720015049
+                          - 0.977916
+                          - 0.961854815
+                        - - 0.0188694522
+                          - 0.55396682
+                          - 0.152548283
+                          - 1.0
+                        - - 0.307356954
+                          - 0.0197529793
+                          - 1.0
+                          - 0.249056011
+                        - - 0.0
+                          - 0.729643
+                          - 0.536338627
+                          - 0.972148299
+                        - - 0.0
+                          - 0.0
+                          - 0.369058907
+                          - 0.351360321
+                        - - 0.0199397504
+                          - 0.0256168693
+                          - 0.734903932
+                          - 0.248501614
+                        - - 0.137198687
+                          - 0.00320721231
+                          - 0.345660985
+                          - 0.0203181524
+                        - - 0.0
+                          - 0.51645714
+                          - 0.50510788
+                          - 0.756096423
+                        - - 0.584128678
+                          - 0.622826457
+                          - 1.0
+                          - 1.0
+                        - - 0.0
+                          - 0.270636439
+                          - 0.502337217
+                          - 0.5112
+                        - - 0.0
+                          - 0.0157753825
+                          - 0.539874554
+                          - 0.24497202
+                        - - 0.0399900079
+                          - 0.278746843
+                          - 0.693962455
+                          - 0.519003808
+                        - - 0.305471271
+                          - 0.275313556
+                          - 0.947595954
+                          - 0.514649
+                        - - 0.0
+                          - 0.0
+                          - 0.148193672
+                          - 0.475436032
+                        detection_scores:
+                        - 0.995677054
+                        - 0.993479848
+                        - 0.985717475
+                        - 0.974744141
+                        - 0.97294867
+                        - 0.937019169
+                        - 0.192284644
+                        - 0.130866021
+                        - 0.117585897
+                        - 0.115359038
+                        - 0.0997821093
+                        - 0.0918040276
+                        - 0.0915677845
+                        - 0.0829313695
+                        - 0.0736882687
+                        - 0.0730679631
+                        - 0.0703188777
+                        - 0.0690642595
+                        - 0.0683345497
+                        - 0.0674130917
+                        - 0.0641740263
+                        - 0.0609128773
+                        - 0.0607589781
+                        - 0.0552559793
+                        - 0.054297775
+                        - 0.0532776713
+                        - 0.0528069139
+                        - 0.0526734293
+                        - 0.0526659787
+                        - 0.0521068573
+                        - 0.0506266057
+                        - 0.0504240692
+                        - 0.0501995981
+                        - 0.0451355577
+                        - 0.0449821651
+                        - 0.0445233
+                        - 0.0441342592
+                        - 0.0436523855
+                        - 0.0432857871
+                        - 0.0417833924
+                        detection_classes:
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        - 1.0
+                        detection_classes_as_text:
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        - postit
+                        detection_multiclass_scores:
+                        - - 0.00300180912
+                          - 0.995677054
+                        - - 0.00392949581
+                          - 0.993479848
+                        - - 0.00414735079
+                          - 0.985717475
+                        - - 0.00465750694
+                          - 0.974744141
+                        - - 0.0032106936
+                          - 0.97294867
+                        - - 0.00341805816
+                          - 0.937019169
+                        - - 0.00327378511
+                          - 0.192284644
+                        - - 0.00304949284
+                          - 0.130866021
+                        - - 0.00322926044
+                          - 0.117585897
+                        - - 0.00439792871
+                          - 0.115359038
+                        - - 0.00235670805
+                          - 0.0997821093
+                        - - 0.0029053688
+                          - 0.0918040276
+                        - - 0.00443062186
+                          - 0.0915677845
+                        - - 0.00393590331
+                          - 0.0829313695
+                        - - 0.0040165484
+                          - 0.0736882687
+                        - - 0.00236275792
+                          - 0.0730679631
+                        - - 0.00275838375
+                          - 0.0703188777
+                        - - 0.00374105573
+                          - 0.0690642595
+                        - - 0.00374680758
+                          - 0.0683345497
+                        - - 0.00438082218
+                          - 0.0674130917
+                        - - 0.0033685267
+                          - 0.0641740263
+                        - - 0.00459194183
+                          - 0.0609128773
+                        - - 0.00541359186
+                          - 0.0607589781
+                        - - 0.00444743037
+                          - 0.0552559793
+                        - - 0.0021930337
+                          - 0.054297775
+                        - - 0.00353682041
+                          - 0.0532776713
+                        - - 0.0037214458
+                          - 0.0528069139
+                        - - 0.00378978252
+                          - 0.0526734293
+                        - - 0.00415021181
+                          - 0.0526659787
+                        - - 0.00445365906
+                          - 0.0521068573
+                        - - 0.00513443351
+                          - 0.0506266057
+                        - - 0.00422620773
+                          - 0.0504240692
+                        - - 0.00257396698
+                          - 0.0501995981
+                        - - 0.00357207656
+                          - 0.0451355577
+                        - - 0.0052703917
+                          - 0.0449821651
+                        - - 0.00387066603
+                          - 0.0445233
+                        - - 0.00502681732
+                          - 0.0441342592
+                        - - 0.00300788879
+                          - 0.0436523855
+                        - - 0.00297182798
+                          - 0.0432857871
+                        - - 0.00317621231
+                          - 0.0417833924
+                    date_created: '2021-05-18T21:47:49.213428Z'
+          description: Successful
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Exception'
+          description: Error in detection module
+  /api/v1/post_it/post_its/{id}/:
+    get:
+      operationId: Retrieve item from Post Its
+      description: ''
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this post it.
+        required: true
+      tags:
+      - post_it
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostIt'
+          description: ''
+  /api/v1/schema/:
+    get:
+      operationId: 'Retrieve item from '
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - schema
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/v1/users/profiles/:
+    get:
+      operationId: users_profiles_list
+      description: ''
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Profile'
+          description: ''
+    post:
+      operationId: users_profiles_create
+      description: ''
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProfileRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProfileRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+          description: ''
+  /api/v1/users/profiles/{id}/:
+    get:
+      operationId: Retrieve item from Profiles
+      description: ''
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this profile.
+        required: true
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+          description: ''
+    put:
+      operationId: users_profiles_update
+      description: ''
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this profile.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProfileRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProfileRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+          description: ''
+    patch:
+      operationId: users_profiles_partial_update
+      description: ''
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this profile.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedProfileRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedProfileRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedProfileRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+          description: ''
+    delete:
+      operationId: users_profiles_destroy
+      description: ''
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this profile.
+        required: true
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/users/profiles/check_mail/:
+    post:
+      operationId: users_profiles_check_mail_create
+      description: Checks for email existence, if not found or password not set on
+        account, sends a verification email
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileCheckMailRequestRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProfileCheckMailRequestRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProfileCheckMailRequestRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: Email is available & registration completed
+        '201':
+          description: Email was not available or registration not completed, verification
+            email sent
+  /api/v1/users/profiles/registration/:
+    post:
+      operationId: Registration
+      description: ''
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileRegistrationRequestRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProfileRegistrationRequestRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProfileRegistrationRequestRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+          description: Created
+components:
+  schemas:
+    CustomTokenObtainPair:
+      type: object
+      properties:
+        username:
+          type: string
+      required:
+      - username
+    CustomTokenObtainPairRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - password
+      - username
+    EmailPasswordLoginRequestRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+      required:
+      - email
+      - password
+    EmailPasswordLoginResponse200:
+      type: object
+      properties:
+        access:
+          type: string
+        refresh:
+          type: string
+        profile:
+          $ref: '#/components/schemas/Profile'
+      required:
+      - access
+      - profile
+      - refresh
+    EmailPasswordVerificationRequestRequest:
+      type: object
+      properties:
+        verification_code:
+          type: string
+      required:
+      - verification_code
+    Exception:
+      type: object
+      properties:
+        detail:
+          type: string
+        code:
+          type: string
+      required:
+      - code
+      - detail
+    PatchedProfileRequest:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/UserPublicRequest'
+        name:
+          type: string
+          nullable: true
+          maxLength: 255
+    PostIt:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        source_image:
+          type: string
+          format: uri
+        detection_response:
+          type: object
+          additionalProperties: {}
+          nullable: true
+        date_created:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - date_created
+      - id
+      - source_image
+    Profile:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        user:
+          $ref: '#/components/schemas/UserPublic'
+        name:
+          type: string
+          nullable: true
+          maxLength: 255
+      required:
+      - id
+      - user
+    ProfileCheckMailRequestRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+      - email
+    ProfileRegistrationRequestRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        password:
+          type: string
+      required:
+      - name
+      - password
+    ProfileRequest:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/UserPublicRequest'
+        name:
+          type: string
+          nullable: true
+          maxLength: 255
+      required:
+      - user
+    TokenObtainPair:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - refresh
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+      required:
+      - access
+      - refresh
+    TokenRefreshRequest:
+      type: object
+      properties:
+        refresh:
+          type: string
+      required:
+      - refresh
+    TokenVerify:
+      type: object
+      properties:
+        token:
+          type: string
+      required:
+      - token
+    TokenVerifyRequest:
+      type: object
+      properties:
+        token:
+          type: string
+      required:
+      - token
+    UserPublic:
+      type: object
+      description: Serializer for public safe user data
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        last_login:
+          type: string
+          format: date-time
+          nullable: true
+        is_superuser:
+          type: boolean
+          title: Superuser status
+          description: Designates that this user has all permissions without explicitly
+            assigning them.
+        username:
+          type: string
+          nullable: true
+          pattern: ^[\w.@+-]+$
+          maxLength: 255
+      required:
+      - id
+    UserPublicRequest:
+      type: object
+      description: Serializer for public safe user data
+      properties:
+        last_login:
+          type: string
+          format: date-time
+          nullable: true
+        is_superuser:
+          type: boolean
+          title: Superuser status
+          description: Designates that this user has all permissions without explicitly
+            assigning them.
+        username:
+          type: string
+          nullable: true
+          pattern: ^[\w.@+-]+$
+          maxLength: 255
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Bearer

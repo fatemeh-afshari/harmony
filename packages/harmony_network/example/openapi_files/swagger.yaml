@@ -1,0 +1,7696 @@
+swagger: '2.0'
+info:
+  description: kofitness Platform API documentation
+  version: <VERSION>
+  title: API Reference for kofitness
+host: api-kofitness.calligo.dev
+basePath: /
+tags:
+  - name: basic-error-controller
+    description: Basic Error Controller
+  - name: daily-motivational-message-controller
+    description: Daily Motivational Message Controller
+  - name: entity-def-controller
+    description: Entity Def Controller
+  - name: excersise-user-controller
+    description: Excersise User Controller
+  - name: file-db-controller
+    description: File DB Controller
+  - name: journals-controller
+    description: Journals Controller
+  - name: jwt-authentication-controller
+    description: Jwt Authentication Controller
+  - name: local-purchace-history-controller
+    description: local Purchace History Controller
+  - name: measurements-controller
+    description: Measurements Controller
+  - name: menu-controller
+    description: Menu Controller
+  - name: my-category-controller
+    description: my Category Controller
+  - name: my-excersise-data-controller
+    description: my Excersise Data Controller
+  - name: my-program-controller
+    description: my Program Controller
+  - name: my-work-outs-controller
+    description: my Work Outs Controller
+  - name: myvideodata-controller
+    description: myvideodata Controller
+  - name: myweek-data-controller
+    description: myweek Data Controller
+  - name: operation-handler
+    description: Operation Handler
+  - name: privilege-controller
+    description: Privilege Controller
+  - name: program-user-controller
+    description: Program User Controller
+  - name: push-notifs-controller
+    description: Push Notifs Controller
+  - name: role-controller
+    description: Role Controller
+  - name: user-controller
+    description: User Controller
+  - name: videoelement-controller
+    description: Videoelement Controller
+  - name: view-controller
+    description: View Controller
+  - name: web-mvc-links-handler
+    description: Web Mvc Links Handler
+  - name: week-user-controller
+    description: Week User Controller
+paths:
+  /actuator:
+    get:
+      tags:
+        - web-mvc-links-handler
+      summary: links
+      operationId: linksUsingGET
+      produces:
+        - application/json
+        - application/vnd.spring-boot.actuator.v2+json
+        - application/vnd.spring-boot.actuator.v3+json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+              additionalProperties:
+                $ref: '#/definitions/Link'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /actuator/health:
+    get:
+      tags:
+        - operation-handler
+      summary: handle
+      operationId: handleUsingGET
+      produces:
+        - application/json
+        - application/vnd.spring-boot.actuator.v2+json
+        - application/vnd.spring-boot.actuator.v3+json
+      parameters:
+        - in: body
+          name: body
+          description: body
+          required: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /actuator/health/**:
+    get:
+      tags:
+        - operation-handler
+      summary: handle
+      operationId: handleUsingGET_1
+      produces:
+        - application/json
+        - application/vnd.spring-boot.actuator.v2+json
+        - application/vnd.spring-boot.actuator.v3+json
+      parameters:
+        - in: body
+          name: body
+          description: body
+          required: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /actuator/info:
+    get:
+      tags:
+        - operation-handler
+      summary: handle
+      operationId: handleUsingGET_2
+      produces:
+        - application/json
+        - application/vnd.spring-boot.actuator.v2+json
+        - application/vnd.spring-boot.actuator.v3+json
+      parameters:
+        - in: body
+          name: body
+          description: body
+          required: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /authenticate:
+    post:
+      tags:
+        - jwt-authentication-controller
+      summary: authenticateUser
+      operationId: authenticateUserUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: loginRequest
+          description: loginRequest
+          required: true
+          schema:
+            $ref: '#/definitions/JwtRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/JwtResponse'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /daily-motivational-message:
+    get:
+      tags:
+        - daily-motivational-message-controller
+      summary: getDailyMotivationalMessages
+      operationId: getDailyMotivationalMessagesUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: direction
+          in: query
+          description: direction
+          required: false
+          type: string
+          default: ASC
+        - name: orderBy
+          in: query
+          description: orderBy
+          required: false
+          type: string
+          default: id
+        - name: page
+          in: query
+          description: page
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: paginate
+          in: query
+          description: paginate
+          required: false
+          type: boolean
+          default: true
+        - name: search
+          in: query
+          description: search
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: size
+          required: false
+          type: integer
+          default: 20
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DailyMotivationalMessage'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - daily-motivational-message-controller
+      summary: createDailyMotivationalMessage
+      operationId: createDailyMotivationalMessageUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: DailyMotivationalMessage
+          description: DailyMotivationalMessage
+          required: true
+          schema:
+            $ref: '#/definitions/DailyMotivationalMessage'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/DailyMotivationalMessage'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /daily-motivational-message/Delete/All:
+    delete:
+      tags:
+        - daily-motivational-message-controller
+      summary: deleteAll
+      operationId: deleteAllUsingDELETE
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /daily-motivational-message/getEntityFields:
+    get:
+      tags:
+        - daily-motivational-message-controller
+      summary: getEntityFields
+      operationId: getEntityFieldsUsingGET
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /daily-motivational-message/ids:
+    delete:
+      tags:
+        - daily-motivational-message-controller
+      summary: deleteDailyMotivationalMessages
+      operationId: deleteDailyMotivationalMessagesUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: ids
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /daily-motivational-message/import:
+    post:
+      tags:
+        - daily-motivational-message-controller
+      summary: importDailyMotivationalMessages
+      operationId: importDailyMotivationalMessagesUsingPOST
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          in: formData
+          required: false
+          type: file
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DailyMotivationalMessage'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/daily-motivational-message/{id}':
+    get:
+      tags:
+        - daily-motivational-message-controller
+      summary: getDailyMotivationalMessage
+      operationId: getDailyMotivationalMessageUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/DailyMotivationalMessage'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - daily-motivational-message-controller
+      summary: updateDailyMotivationalMessage
+      operationId: updateDailyMotivationalMessageUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: DailyMotivationalMessage
+          description: DailyMotivationalMessage
+          required: true
+          schema:
+            $ref: '#/definitions/DailyMotivationalMessage'
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/DailyMotivationalMessage'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - daily-motivational-message-controller
+      summary: deleteDailyMotivationalMessage
+      operationId: deleteDailyMotivationalMessageUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - daily-motivational-message-controller
+      summary: updateDailyMotivationalMessage
+      operationId: updateDailyMotivationalMessageUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: patch
+          description: patch
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/DailyMotivationalMessage'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /entity-def:
+    get:
+      tags:
+        - entity-def-controller
+      summary: getEntityDefs
+      operationId: getEntityDefsUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: direction
+          in: query
+          description: direction
+          required: false
+          type: string
+          default: ASC
+        - name: orderBy
+          in: query
+          description: orderBy
+          required: false
+          type: string
+          default: id
+        - name: page
+          in: query
+          description: page
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: paginate
+          in: query
+          description: paginate
+          required: false
+          type: boolean
+          default: true
+        - name: search
+          in: query
+          description: search
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: size
+          required: false
+          type: integer
+          default: 20
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/EntityDef'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - entity-def-controller
+      summary: createEntityDef
+      operationId: createEntityDefUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: EntityDef
+          description: EntityDef
+          required: true
+          schema:
+            $ref: '#/definitions/EntityDef'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/EntityDef'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /entity-def/Delete/All:
+    delete:
+      tags:
+        - entity-def-controller
+      summary: deleteAll
+      operationId: deleteAllUsingDELETE_1
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /entity-def/getEntityFields:
+    get:
+      tags:
+        - entity-def-controller
+      summary: getEntityFields
+      operationId: getEntityFieldsUsingGET_1
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /entity-def/ids:
+    delete:
+      tags:
+        - entity-def-controller
+      summary: deleteEntityDefs
+      operationId: deleteEntityDefsUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: ids
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /entity-def/import:
+    post:
+      tags:
+        - entity-def-controller
+      summary: importEntityDefs
+      operationId: importEntityDefsUsingPOST
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          in: formData
+          required: false
+          type: file
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/EntityDef'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/entity-def/{id}':
+    get:
+      tags:
+        - entity-def-controller
+      summary: getEntityDef
+      operationId: getEntityDefUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/EntityDef'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - entity-def-controller
+      summary: updateEntityDef
+      operationId: updateEntityDefUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: EntityDef
+          description: EntityDef
+          required: true
+          schema:
+            $ref: '#/definitions/EntityDef'
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/EntityDef'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - entity-def-controller
+      summary: deleteEntityDef
+      operationId: deleteEntityDefUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - entity-def-controller
+      summary: updateEntityDef
+      operationId: updateEntityDefUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: patch
+          description: patch
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/EntityDef'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /error:
+    get:
+      tags:
+        - basic-error-controller
+      summary: errorHtml
+      operationId: errorHtmlUsingGET
+      produces:
+        - text/html
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ModelAndView'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    head:
+      tags:
+        - basic-error-controller
+      summary: errorHtml
+      operationId: errorHtmlUsingHEAD
+      consumes:
+        - application/json
+      produces:
+        - text/html
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ModelAndView'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    post:
+      tags:
+        - basic-error-controller
+      summary: errorHtml
+      operationId: errorHtmlUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - text/html
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ModelAndView'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - basic-error-controller
+      summary: errorHtml
+      operationId: errorHtmlUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - text/html
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ModelAndView'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - basic-error-controller
+      summary: errorHtml
+      operationId: errorHtmlUsingDELETE
+      produces:
+        - text/html
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ModelAndView'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    options:
+      tags:
+        - basic-error-controller
+      summary: errorHtml
+      operationId: errorHtmlUsingOPTIONS
+      consumes:
+        - application/json
+      produces:
+        - text/html
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ModelAndView'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - basic-error-controller
+      summary: errorHtml
+      operationId: errorHtmlUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - text/html
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ModelAndView'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /excersise-user:
+    get:
+      tags:
+        - excersise-user-controller
+      summary: getExcersiseUsers
+      operationId: getExcersiseUsersUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: direction
+          in: query
+          description: direction
+          required: false
+          type: string
+          default: ASC
+        - name: orderBy
+          in: query
+          description: orderBy
+          required: false
+          type: string
+          default: id
+        - name: page
+          in: query
+          description: page
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: paginate
+          in: query
+          description: paginate
+          required: false
+          type: boolean
+          default: true
+        - name: search
+          in: query
+          description: search
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: size
+          required: false
+          type: integer
+          default: 20
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ExcersiseUser'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - excersise-user-controller
+      summary: createExcersiseUser
+      operationId: createExcersiseUserUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: ExcersiseUser
+          description: ExcersiseUser
+          required: true
+          schema:
+            $ref: '#/definitions/ExcersiseUser'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/ExcersiseUser'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /excersise-user/Delete/All:
+    delete:
+      tags:
+        - excersise-user-controller
+      summary: deleteAll
+      operationId: deleteAllUsingDELETE_2
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /excersise-user/getEntityFields:
+    get:
+      tags:
+        - excersise-user-controller
+      summary: getEntityFields
+      operationId: getEntityFieldsUsingGET_2
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /excersise-user/ids:
+    delete:
+      tags:
+        - excersise-user-controller
+      summary: deleteExcersiseUsers
+      operationId: deleteExcersiseUsersUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: ids
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /excersise-user/import:
+    post:
+      tags:
+        - excersise-user-controller
+      summary: importExcersiseUsers
+      operationId: importExcersiseUsersUsingPOST
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          in: formData
+          required: false
+          type: file
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ExcersiseUser'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/excersise-user/{id}':
+    get:
+      tags:
+        - excersise-user-controller
+      summary: getExcersiseUser
+      operationId: getExcersiseUserUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ExcersiseUser'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - excersise-user-controller
+      summary: updateExcersiseUser
+      operationId: updateExcersiseUserUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: ExcersiseUser
+          description: ExcersiseUser
+          required: true
+          schema:
+            $ref: '#/definitions/ExcersiseUser'
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ExcersiseUser'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - excersise-user-controller
+      summary: deleteExcersiseUser
+      operationId: deleteExcersiseUserUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - excersise-user-controller
+      summary: updateExcersiseUser
+      operationId: updateExcersiseUserUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: patch
+          description: patch
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ExcersiseUser'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /file-d-b:
+    get:
+      tags:
+        - file-db-controller
+      summary: getFileDBs
+      operationId: getFileDBsUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: direction
+          in: query
+          description: direction
+          required: false
+          type: string
+          default: ASC
+        - name: orderBy
+          in: query
+          description: orderBy
+          required: false
+          type: string
+          default: id
+        - name: page
+          in: query
+          description: page
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: paginate
+          in: query
+          description: paginate
+          required: false
+          type: boolean
+          default: true
+        - name: search
+          in: query
+          description: search
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: size
+          required: false
+          type: integer
+          default: 20
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/FileDB'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - file-db-controller
+      summary: createFileDB
+      operationId: createFileDBUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: FileDB
+          description: FileDB
+          required: true
+          schema:
+            $ref: '#/definitions/FileDB'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/FileDB'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /file-d-b/Delete/All:
+    delete:
+      tags:
+        - file-db-controller
+      summary: deleteAll
+      operationId: deleteAllUsingDELETE_3
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  '/file-d-b/downloadFile/{id}':
+    get:
+      tags:
+        - file-db-controller
+      summary: downloadFileFromLocal
+      operationId: downloadFileFromLocalUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ResponseEntity'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /file-d-b/getEntityFields:
+    get:
+      tags:
+        - file-db-controller
+      summary: getEntityFields
+      operationId: getEntityFieldsUsingGET_3
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /file-d-b/ids:
+    delete:
+      tags:
+        - file-db-controller
+      summary: deleteFileDBs
+      operationId: deleteFileDBsUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: ids
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /file-d-b/import:
+    post:
+      tags:
+        - file-db-controller
+      summary: importFileDBs
+      operationId: importFileDBsUsingPOST
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          in: formData
+          required: false
+          type: file
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/FileDB'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /file-d-b/uploadFile:
+    post:
+      tags:
+        - file-db-controller
+      summary: uploadFile
+      operationId: uploadFileUsingPOST
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: file
+          description: file
+          required: true
+          schema:
+            type: string
+            format: binary
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/UploadFileResponse'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/file-d-b/{id}':
+    get:
+      tags:
+        - file-db-controller
+      summary: getFileDB
+      operationId: getFileDBUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/FileDB'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - file-db-controller
+      summary: updateFileDB
+      operationId: updateFileDBUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: FileDB
+          description: FileDB
+          required: true
+          schema:
+            $ref: '#/definitions/FileDB'
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/FileDB'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - file-db-controller
+      summary: deleteFileDB
+      operationId: deleteFileDBUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - file-db-controller
+      summary: updateFileDB
+      operationId: updateFileDBUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: patch
+          description: patch
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/FileDB'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /journals:
+    get:
+      tags:
+        - journals-controller
+      summary: getJournalss
+      operationId: getJournalssUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: direction
+          in: query
+          description: direction
+          required: false
+          type: string
+          default: ASC
+        - name: orderBy
+          in: query
+          description: orderBy
+          required: false
+          type: string
+          default: id
+        - name: page
+          in: query
+          description: page
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: paginate
+          in: query
+          description: paginate
+          required: false
+          type: boolean
+          default: true
+        - name: search
+          in: query
+          description: search
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: size
+          required: false
+          type: integer
+          default: 20
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Journals'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - journals-controller
+      summary: createJournals
+      operationId: createJournalsUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: Journals
+          description: Journals
+          required: true
+          schema:
+            $ref: '#/definitions/Journals'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/Journals'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /journals/Delete/All:
+    delete:
+      tags:
+        - journals-controller
+      summary: deleteAll
+      operationId: deleteAllUsingDELETE_4
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /journals/getEntityFields:
+    get:
+      tags:
+        - journals-controller
+      summary: getEntityFields
+      operationId: getEntityFieldsUsingGET_4
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /journals/ids:
+    delete:
+      tags:
+        - journals-controller
+      summary: deleteJournalss
+      operationId: deleteJournalssUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: ids
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /journals/import:
+    post:
+      tags:
+        - journals-controller
+      summary: importJournalss
+      operationId: importJournalssUsingPOST
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          in: formData
+          required: false
+          type: file
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Journals'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/journals/{id}':
+    get:
+      tags:
+        - journals-controller
+      summary: getJournals
+      operationId: getJournalsUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Journals'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - journals-controller
+      summary: updateJournals
+      operationId: updateJournalsUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: Journals
+          description: Journals
+          required: true
+          schema:
+            $ref: '#/definitions/Journals'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Journals'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - journals-controller
+      summary: deleteJournals
+      operationId: deleteJournalsUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - journals-controller
+      summary: updateJournals
+      operationId: updateJournalsUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: patch
+          description: patch
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Journals'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /local-purchace-history:
+    get:
+      tags:
+        - local-purchace-history-controller
+      summary: getlocalPurchaceHistorys
+      operationId: getlocalPurchaceHistorysUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: direction
+          in: query
+          description: direction
+          required: false
+          type: string
+          default: ASC
+        - name: orderBy
+          in: query
+          description: orderBy
+          required: false
+          type: string
+          default: id
+        - name: page
+          in: query
+          description: page
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: paginate
+          in: query
+          description: paginate
+          required: false
+          type: boolean
+          default: true
+        - name: search
+          in: query
+          description: search
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: size
+          required: false
+          type: integer
+          default: 20
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/localPurchaceHistory'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - local-purchace-history-controller
+      summary: createlocalPurchaceHistory
+      operationId: createlocalPurchaceHistoryUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: LocalPurchaceHistory
+          description: LocalPurchaceHistory
+          required: true
+          schema:
+            $ref: '#/definitions/localPurchaceHistory'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/localPurchaceHistory'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /local-purchace-history/Delete/All:
+    delete:
+      tags:
+        - local-purchace-history-controller
+      summary: deleteAll
+      operationId: deleteAllUsingDELETE_5
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /local-purchace-history/getEntityFields:
+    get:
+      tags:
+        - local-purchace-history-controller
+      summary: getEntityFields
+      operationId: getEntityFieldsUsingGET_5
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /local-purchace-history/ids:
+    delete:
+      tags:
+        - local-purchace-history-controller
+      summary: deletelocalPurchaceHistorys
+      operationId: deletelocalPurchaceHistorysUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: ids
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /local-purchace-history/import:
+    post:
+      tags:
+        - local-purchace-history-controller
+      summary: importlocalPurchaceHistorys
+      operationId: importlocalPurchaceHistorysUsingPOST
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          in: formData
+          required: false
+          type: file
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/localPurchaceHistory'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/local-purchace-history/{id}':
+    get:
+      tags:
+        - local-purchace-history-controller
+      summary: getlocalPurchaceHistory
+      operationId: getlocalPurchaceHistoryUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/localPurchaceHistory'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - local-purchace-history-controller
+      summary: updatelocalPurchaceHistory
+      operationId: updatelocalPurchaceHistoryUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: LocalPurchaceHistory
+          description: LocalPurchaceHistory
+          required: true
+          schema:
+            $ref: '#/definitions/localPurchaceHistory'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/localPurchaceHistory'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - local-purchace-history-controller
+      summary: deletelocalPurchaceHistory
+      operationId: deletelocalPurchaceHistoryUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - local-purchace-history-controller
+      summary: updatelocalPurchaceHistory
+      operationId: updatelocalPurchaceHistoryUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: patch
+          description: patch
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/localPurchaceHistory'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /measurements:
+    get:
+      tags:
+        - measurements-controller
+      summary: getMeasurementss
+      operationId: getMeasurementssUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: direction
+          in: query
+          description: direction
+          required: false
+          type: string
+          default: ASC
+        - name: orderBy
+          in: query
+          description: orderBy
+          required: false
+          type: string
+          default: id
+        - name: page
+          in: query
+          description: page
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: paginate
+          in: query
+          description: paginate
+          required: false
+          type: boolean
+          default: true
+        - name: search
+          in: query
+          description: search
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: size
+          required: false
+          type: integer
+          default: 20
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Measurements'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - measurements-controller
+      summary: createMeasurements
+      operationId: createMeasurementsUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: Measurements
+          description: Measurements
+          required: true
+          schema:
+            $ref: '#/definitions/Measurements'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/Measurements'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /measurements/Delete/All:
+    delete:
+      tags:
+        - measurements-controller
+      summary: deleteAll
+      operationId: deleteAllUsingDELETE_6
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /measurements/getEntityFields:
+    get:
+      tags:
+        - measurements-controller
+      summary: getEntityFields
+      operationId: getEntityFieldsUsingGET_6
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /measurements/ids:
+    delete:
+      tags:
+        - measurements-controller
+      summary: deleteMeasurementss
+      operationId: deleteMeasurementssUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: ids
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /measurements/import:
+    post:
+      tags:
+        - measurements-controller
+      summary: importMeasurementss
+      operationId: importMeasurementssUsingPOST
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          in: formData
+          required: false
+          type: file
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Measurements'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/measurements/{id}':
+    get:
+      tags:
+        - measurements-controller
+      summary: getMeasurements
+      operationId: getMeasurementsUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Measurements'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - measurements-controller
+      summary: updateMeasurements
+      operationId: updateMeasurementsUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: Measurements
+          description: Measurements
+          required: true
+          schema:
+            $ref: '#/definitions/Measurements'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Measurements'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - measurements-controller
+      summary: deleteMeasurements
+      operationId: deleteMeasurementsUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - measurements-controller
+      summary: updateMeasurements
+      operationId: updateMeasurementsUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: patch
+          description: patch
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Measurements'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /menu:
+    get:
+      tags:
+        - menu-controller
+      summary: getMenus
+      operationId: getMenusUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: direction
+          in: query
+          description: direction
+          required: false
+          type: string
+          default: ASC
+        - name: orderBy
+          in: query
+          description: orderBy
+          required: false
+          type: string
+          default: id
+        - name: page
+          in: query
+          description: page
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: paginate
+          in: query
+          description: paginate
+          required: false
+          type: boolean
+          default: true
+        - name: search
+          in: query
+          description: search
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: size
+          required: false
+          type: integer
+          default: 20
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Menu'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - menu-controller
+      summary: createMenu
+      operationId: createMenuUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: Menu
+          description: Menu
+          required: true
+          schema:
+            $ref: '#/definitions/Menu'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/Menu'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /menu/Delete/All:
+    delete:
+      tags:
+        - menu-controller
+      summary: deleteAll
+      operationId: deleteAllUsingDELETE_7
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /menu/getEntityFields:
+    get:
+      tags:
+        - menu-controller
+      summary: getEntityFields
+      operationId: getEntityFieldsUsingGET_7
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /menu/ids:
+    delete:
+      tags:
+        - menu-controller
+      summary: deleteMenus
+      operationId: deleteMenusUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: ids
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /menu/import:
+    post:
+      tags:
+        - menu-controller
+      summary: importMenus
+      operationId: importMenusUsingPOST
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          in: formData
+          required: false
+          type: file
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Menu'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/menu/{id}':
+    get:
+      tags:
+        - menu-controller
+      summary: getMenu
+      operationId: getMenuUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Menu'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - menu-controller
+      summary: updateMenu
+      operationId: updateMenuUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: Menu
+          description: Menu
+          required: true
+          schema:
+            $ref: '#/definitions/Menu'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Menu'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - menu-controller
+      summary: deleteMenu
+      operationId: deleteMenuUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - menu-controller
+      summary: updateMenu
+      operationId: updateMenuUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: patch
+          description: patch
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Menu'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /my-category:
+    get:
+      tags:
+        - my-category-controller
+      summary: getmyCategorys
+      operationId: getmyCategorysUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: direction
+          in: query
+          description: direction
+          required: false
+          type: string
+          default: ASC
+        - name: orderBy
+          in: query
+          description: orderBy
+          required: false
+          type: string
+          default: id
+        - name: page
+          in: query
+          description: page
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: paginate
+          in: query
+          description: paginate
+          required: false
+          type: boolean
+          default: true
+        - name: search
+          in: query
+          description: search
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: size
+          required: false
+          type: integer
+          default: 20
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/myCategory'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - my-category-controller
+      summary: createmyCategory
+      operationId: createmyCategoryUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: MyCategory
+          description: MyCategory
+          required: true
+          schema:
+            $ref: '#/definitions/myCategory'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/myCategory'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /my-category/Delete/All:
+    delete:
+      tags:
+        - my-category-controller
+      summary: deleteAll
+      operationId: deleteAllUsingDELETE_8
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /my-category/getEntityFields:
+    get:
+      tags:
+        - my-category-controller
+      summary: getEntityFields
+      operationId: getEntityFieldsUsingGET_8
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /my-category/ids:
+    delete:
+      tags:
+        - my-category-controller
+      summary: deletemyCategorys
+      operationId: deletemyCategorysUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: ids
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /my-category/import:
+    post:
+      tags:
+        - my-category-controller
+      summary: importmyCategorys
+      operationId: importmyCategorysUsingPOST
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          in: formData
+          required: false
+          type: file
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/myCategory'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/my-category/{id}':
+    get:
+      tags:
+        - my-category-controller
+      summary: getmyCategory
+      operationId: getmyCategoryUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/myCategory'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - my-category-controller
+      summary: updatemyCategory
+      operationId: updatemyCategoryUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: MyCategory
+          description: MyCategory
+          required: true
+          schema:
+            $ref: '#/definitions/myCategory'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/myCategory'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - my-category-controller
+      summary: deletemyCategory
+      operationId: deletemyCategoryUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - my-category-controller
+      summary: updatemyCategory
+      operationId: updatemyCategoryUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: patch
+          description: patch
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/myCategory'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /my-excersise-data:
+    get:
+      tags:
+        - my-excersise-data-controller
+      summary: getmyExcersiseDatas
+      operationId: getmyExcersiseDatasUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: direction
+          in: query
+          description: direction
+          required: false
+          type: string
+          default: ASC
+        - name: orderBy
+          in: query
+          description: orderBy
+          required: false
+          type: string
+          default: id
+        - name: page
+          in: query
+          description: page
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: paginate
+          in: query
+          description: paginate
+          required: false
+          type: boolean
+          default: true
+        - name: search
+          in: query
+          description: search
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: size
+          required: false
+          type: integer
+          default: 20
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/myExcersiseData'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - my-excersise-data-controller
+      summary: createmyExcersiseData
+      operationId: createmyExcersiseDataUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: MyExcersiseData
+          description: MyExcersiseData
+          required: true
+          schema:
+            $ref: '#/definitions/myExcersiseData'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/myExcersiseData'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /my-excersise-data/Delete/All:
+    delete:
+      tags:
+        - my-excersise-data-controller
+      summary: deleteAll
+      operationId: deleteAllUsingDELETE_9
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /my-excersise-data/getEntityFields:
+    get:
+      tags:
+        - my-excersise-data-controller
+      summary: getEntityFields
+      operationId: getEntityFieldsUsingGET_9
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /my-excersise-data/ids:
+    delete:
+      tags:
+        - my-excersise-data-controller
+      summary: deletemyExcersiseDatas
+      operationId: deletemyExcersiseDatasUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: ids
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /my-excersise-data/import:
+    post:
+      tags:
+        - my-excersise-data-controller
+      summary: importmyExcersiseDatas
+      operationId: importmyExcersiseDatasUsingPOST
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          in: formData
+          required: false
+          type: file
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/myExcersiseData'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/my-excersise-data/{id}':
+    get:
+      tags:
+        - my-excersise-data-controller
+      summary: getmyExcersiseData
+      operationId: getmyExcersiseDataUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/myExcersiseData'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - my-excersise-data-controller
+      summary: updatemyExcersiseData
+      operationId: updatemyExcersiseDataUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: MyExcersiseData
+          description: MyExcersiseData
+          required: true
+          schema:
+            $ref: '#/definitions/myExcersiseData'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/myExcersiseData'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - my-excersise-data-controller
+      summary: deletemyExcersiseData
+      operationId: deletemyExcersiseDataUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - my-excersise-data-controller
+      summary: updatemyExcersiseData
+      operationId: updatemyExcersiseDataUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: patch
+          description: patch
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/myExcersiseData'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /my-program:
+    get:
+      tags:
+        - my-program-controller
+      summary: getmyPrograms
+      operationId: getmyProgramsUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: direction
+          in: query
+          description: direction
+          required: false
+          type: string
+          default: ASC
+        - name: orderBy
+          in: query
+          description: orderBy
+          required: false
+          type: string
+          default: id
+        - name: page
+          in: query
+          description: page
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: paginate
+          in: query
+          description: paginate
+          required: false
+          type: boolean
+          default: true
+        - name: search
+          in: query
+          description: search
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: size
+          required: false
+          type: integer
+          default: 20
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/myProgram'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - my-program-controller
+      summary: createmyProgram
+      operationId: createmyProgramUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: MyProgram
+          description: MyProgram
+          required: true
+          schema:
+            $ref: '#/definitions/myProgram'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/myProgram'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /my-program/Delete/All:
+    delete:
+      tags:
+        - my-program-controller
+      summary: deleteAll
+      operationId: deleteAllUsingDELETE_10
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /my-program/getEntityFields:
+    get:
+      tags:
+        - my-program-controller
+      summary: getEntityFields
+      operationId: getEntityFieldsUsingGET_10
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /my-program/ids:
+    delete:
+      tags:
+        - my-program-controller
+      summary: deletemyPrograms
+      operationId: deletemyProgramsUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: ids
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /my-program/import:
+    post:
+      tags:
+        - my-program-controller
+      summary: importmyPrograms
+      operationId: importmyProgramsUsingPOST
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          in: formData
+          required: false
+          type: file
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/myProgram'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/my-program/{id}':
+    get:
+      tags:
+        - my-program-controller
+      summary: getmyProgram
+      operationId: getmyProgramUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/myProgram'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - my-program-controller
+      summary: updatemyProgram
+      operationId: updatemyProgramUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: MyProgram
+          description: MyProgram
+          required: true
+          schema:
+            $ref: '#/definitions/myProgram'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/myProgram'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - my-program-controller
+      summary: deletemyProgram
+      operationId: deletemyProgramUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - my-program-controller
+      summary: updatemyProgram
+      operationId: updatemyProgramUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: patch
+          description: patch
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/myProgram'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /my-work-outs:
+    get:
+      tags:
+        - my-work-outs-controller
+      summary: getmyWorkOutss
+      operationId: getmyWorkOutssUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: direction
+          in: query
+          description: direction
+          required: false
+          type: string
+          default: ASC
+        - name: orderBy
+          in: query
+          description: orderBy
+          required: false
+          type: string
+          default: id
+        - name: page
+          in: query
+          description: page
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: paginate
+          in: query
+          description: paginate
+          required: false
+          type: boolean
+          default: true
+        - name: search
+          in: query
+          description: search
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: size
+          required: false
+          type: integer
+          default: 20
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/myWorkOuts'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - my-work-outs-controller
+      summary: createmyWorkOuts
+      operationId: createmyWorkOutsUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: MyWorkOuts
+          description: MyWorkOuts
+          required: true
+          schema:
+            $ref: '#/definitions/myWorkOuts'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/myWorkOuts'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /my-work-outs/Delete/All:
+    delete:
+      tags:
+        - my-work-outs-controller
+      summary: deleteAll
+      operationId: deleteAllUsingDELETE_11
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /my-work-outs/getEntityFields:
+    get:
+      tags:
+        - my-work-outs-controller
+      summary: getEntityFields
+      operationId: getEntityFieldsUsingGET_11
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /my-work-outs/ids:
+    delete:
+      tags:
+        - my-work-outs-controller
+      summary: deletemyWorkOutss
+      operationId: deletemyWorkOutssUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: ids
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /my-work-outs/import:
+    post:
+      tags:
+        - my-work-outs-controller
+      summary: importmyWorkOutss
+      operationId: importmyWorkOutssUsingPOST
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          in: formData
+          required: false
+          type: file
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/myWorkOuts'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/my-work-outs/{id}':
+    get:
+      tags:
+        - my-work-outs-controller
+      summary: getmyWorkOuts
+      operationId: getmyWorkOutsUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/myWorkOuts'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - my-work-outs-controller
+      summary: updatemyWorkOuts
+      operationId: updatemyWorkOutsUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: MyWorkOuts
+          description: MyWorkOuts
+          required: true
+          schema:
+            $ref: '#/definitions/myWorkOuts'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/myWorkOuts'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - my-work-outs-controller
+      summary: deletemyWorkOuts
+      operationId: deletemyWorkOutsUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - my-work-outs-controller
+      summary: updatemyWorkOuts
+      operationId: updatemyWorkOutsUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: patch
+          description: patch
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/myWorkOuts'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /myvideodata:
+    get:
+      tags:
+        - myvideodata-controller
+      summary: getmyvideodatas
+      operationId: getmyvideodatasUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: direction
+          in: query
+          description: direction
+          required: false
+          type: string
+          default: ASC
+        - name: orderBy
+          in: query
+          description: orderBy
+          required: false
+          type: string
+          default: id
+        - name: page
+          in: query
+          description: page
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: paginate
+          in: query
+          description: paginate
+          required: false
+          type: boolean
+          default: true
+        - name: search
+          in: query
+          description: search
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: size
+          required: false
+          type: integer
+          default: 20
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/myvideodata'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - myvideodata-controller
+      summary: createmyvideodata
+      operationId: createmyvideodataUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: Myvideodata
+          description: Myvideodata
+          required: true
+          schema:
+            $ref: '#/definitions/myvideodata'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/myvideodata'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /myvideodata/Delete/All:
+    delete:
+      tags:
+        - myvideodata-controller
+      summary: deleteAll
+      operationId: deleteAllUsingDELETE_12
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /myvideodata/getEntityFields:
+    get:
+      tags:
+        - myvideodata-controller
+      summary: getEntityFields
+      operationId: getEntityFieldsUsingGET_12
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /myvideodata/ids:
+    delete:
+      tags:
+        - myvideodata-controller
+      summary: deletemyvideodatas
+      operationId: deletemyvideodatasUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: ids
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /myvideodata/import:
+    post:
+      tags:
+        - myvideodata-controller
+      summary: importmyvideodatas
+      operationId: importmyvideodatasUsingPOST
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          in: formData
+          required: false
+          type: file
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/myvideodata'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/myvideodata/{id}':
+    get:
+      tags:
+        - myvideodata-controller
+      summary: getmyvideodata
+      operationId: getmyvideodataUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/myvideodata'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - myvideodata-controller
+      summary: updatemyvideodata
+      operationId: updatemyvideodataUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: Myvideodata
+          description: Myvideodata
+          required: true
+          schema:
+            $ref: '#/definitions/myvideodata'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/myvideodata'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - myvideodata-controller
+      summary: deletemyvideodata
+      operationId: deletemyvideodataUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - myvideodata-controller
+      summary: updatemyvideodata
+      operationId: updatemyvideodataUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: patch
+          description: patch
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/myvideodata'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /myweek-data:
+    get:
+      tags:
+        - myweek-data-controller
+      summary: getmyweekDatas
+      operationId: getmyweekDatasUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: direction
+          in: query
+          description: direction
+          required: false
+          type: string
+          default: ASC
+        - name: orderBy
+          in: query
+          description: orderBy
+          required: false
+          type: string
+          default: id
+        - name: page
+          in: query
+          description: page
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: paginate
+          in: query
+          description: paginate
+          required: false
+          type: boolean
+          default: true
+        - name: search
+          in: query
+          description: search
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: size
+          required: false
+          type: integer
+          default: 20
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/myweekData'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - myweek-data-controller
+      summary: createmyweekData
+      operationId: createmyweekDataUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: MyweekData
+          description: MyweekData
+          required: true
+          schema:
+            $ref: '#/definitions/myweekData'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/myweekData'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /myweek-data/Delete/All:
+    delete:
+      tags:
+        - myweek-data-controller
+      summary: deleteAll
+      operationId: deleteAllUsingDELETE_13
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /myweek-data/getEntityFields:
+    get:
+      tags:
+        - myweek-data-controller
+      summary: getEntityFields
+      operationId: getEntityFieldsUsingGET_13
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /myweek-data/ids:
+    delete:
+      tags:
+        - myweek-data-controller
+      summary: deletemyweekDatas
+      operationId: deletemyweekDatasUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: ids
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /myweek-data/import:
+    post:
+      tags:
+        - myweek-data-controller
+      summary: importmyweekDatas
+      operationId: importmyweekDatasUsingPOST
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          in: formData
+          required: false
+          type: file
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/myweekData'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/myweek-data/{id}':
+    get:
+      tags:
+        - myweek-data-controller
+      summary: getmyweekData
+      operationId: getmyweekDataUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/myweekData'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - myweek-data-controller
+      summary: updatemyweekData
+      operationId: updatemyweekDataUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: MyweekData
+          description: MyweekData
+          required: true
+          schema:
+            $ref: '#/definitions/myweekData'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/myweekData'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - myweek-data-controller
+      summary: deletemyweekData
+      operationId: deletemyweekDataUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - myweek-data-controller
+      summary: updatemyweekData
+      operationId: updatemyweekDataUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: patch
+          description: patch
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/myweekData'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /privilege:
+    get:
+      tags:
+        - privilege-controller
+      summary: getPrivileges
+      operationId: getPrivilegesUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: direction
+          in: query
+          description: direction
+          required: false
+          type: string
+          default: ASC
+        - name: orderBy
+          in: query
+          description: orderBy
+          required: false
+          type: string
+          default: id
+        - name: page
+          in: query
+          description: page
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: paginate
+          in: query
+          description: paginate
+          required: false
+          type: boolean
+          default: true
+        - name: search
+          in: query
+          description: search
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: size
+          required: false
+          type: integer
+          default: 20
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Privilege'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - privilege-controller
+      summary: createPrivilege
+      operationId: createPrivilegeUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: Privilege
+          description: Privilege
+          required: true
+          schema:
+            $ref: '#/definitions/Privilege'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/Privilege'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /privilege/Delete/All:
+    delete:
+      tags:
+        - privilege-controller
+      summary: deleteAll
+      operationId: deleteAllUsingDELETE_14
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /privilege/getEntityFields:
+    get:
+      tags:
+        - privilege-controller
+      summary: getEntityFields
+      operationId: getEntityFieldsUsingGET_14
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /privilege/ids:
+    delete:
+      tags:
+        - privilege-controller
+      summary: deletePrivileges
+      operationId: deletePrivilegesUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: ids
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /privilege/import:
+    post:
+      tags:
+        - privilege-controller
+      summary: importPrivileges
+      operationId: importPrivilegesUsingPOST
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          in: formData
+          required: false
+          type: file
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Privilege'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/privilege/{id}':
+    get:
+      tags:
+        - privilege-controller
+      summary: getPrivilege
+      operationId: getPrivilegeUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Privilege'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - privilege-controller
+      summary: updatePrivilege
+      operationId: updatePrivilegeUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: Privilege
+          description: Privilege
+          required: true
+          schema:
+            $ref: '#/definitions/Privilege'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Privilege'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - privilege-controller
+      summary: deletePrivilege
+      operationId: deletePrivilegeUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - privilege-controller
+      summary: updatePrivilege
+      operationId: updatePrivilegeUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: patch
+          description: patch
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Privilege'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /program-user:
+    get:
+      tags:
+        - program-user-controller
+      summary: getProgramUsers
+      operationId: getProgramUsersUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: direction
+          in: query
+          description: direction
+          required: false
+          type: string
+          default: ASC
+        - name: orderBy
+          in: query
+          description: orderBy
+          required: false
+          type: string
+          default: id
+        - name: page
+          in: query
+          description: page
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: paginate
+          in: query
+          description: paginate
+          required: false
+          type: boolean
+          default: true
+        - name: search
+          in: query
+          description: search
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: size
+          required: false
+          type: integer
+          default: 20
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ProgramUser'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - program-user-controller
+      summary: createProgramUser
+      operationId: createProgramUserUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: ProgramUser
+          description: ProgramUser
+          required: true
+          schema:
+            $ref: '#/definitions/ProgramUser'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/ProgramUser'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /program-user/Delete/All:
+    delete:
+      tags:
+        - program-user-controller
+      summary: deleteAll
+      operationId: deleteAllUsingDELETE_15
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /program-user/getEntityFields:
+    get:
+      tags:
+        - program-user-controller
+      summary: getEntityFields
+      operationId: getEntityFieldsUsingGET_15
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /program-user/ids:
+    delete:
+      tags:
+        - program-user-controller
+      summary: deleteProgramUsers
+      operationId: deleteProgramUsersUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: ids
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /program-user/import:
+    post:
+      tags:
+        - program-user-controller
+      summary: importProgramUsers
+      operationId: importProgramUsersUsingPOST
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          in: formData
+          required: false
+          type: file
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ProgramUser'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/program-user/{id}':
+    get:
+      tags:
+        - program-user-controller
+      summary: getProgramUser
+      operationId: getProgramUserUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ProgramUser'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - program-user-controller
+      summary: updateProgramUser
+      operationId: updateProgramUserUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: ProgramUser
+          description: ProgramUser
+          required: true
+          schema:
+            $ref: '#/definitions/ProgramUser'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ProgramUser'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - program-user-controller
+      summary: deleteProgramUser
+      operationId: deleteProgramUserUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - program-user-controller
+      summary: updateProgramUser
+      operationId: updateProgramUserUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: patch
+          description: patch
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ProgramUser'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /push-notifs:
+    get:
+      tags:
+        - push-notifs-controller
+      summary: getPushNotifss
+      operationId: getPushNotifssUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: direction
+          in: query
+          description: direction
+          required: false
+          type: string
+          default: ASC
+        - name: orderBy
+          in: query
+          description: orderBy
+          required: false
+          type: string
+          default: id
+        - name: page
+          in: query
+          description: page
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: paginate
+          in: query
+          description: paginate
+          required: false
+          type: boolean
+          default: true
+        - name: search
+          in: query
+          description: search
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: size
+          required: false
+          type: integer
+          default: 20
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PushNotifs'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - push-notifs-controller
+      summary: createPushNotifs
+      operationId: createPushNotifsUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: PushNotifs
+          description: PushNotifs
+          required: true
+          schema:
+            $ref: '#/definitions/PushNotifs'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/PushNotifs'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /push-notifs/Delete/All:
+    delete:
+      tags:
+        - push-notifs-controller
+      summary: deleteAll
+      operationId: deleteAllUsingDELETE_16
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /push-notifs/getEntityFields:
+    get:
+      tags:
+        - push-notifs-controller
+      summary: getEntityFields
+      operationId: getEntityFieldsUsingGET_16
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /push-notifs/ids:
+    delete:
+      tags:
+        - push-notifs-controller
+      summary: deletePushNotifss
+      operationId: deletePushNotifssUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: ids
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /push-notifs/import:
+    post:
+      tags:
+        - push-notifs-controller
+      summary: importPushNotifss
+      operationId: importPushNotifssUsingPOST
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          in: formData
+          required: false
+          type: file
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PushNotifs'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/push-notifs/{id}':
+    get:
+      tags:
+        - push-notifs-controller
+      summary: getPushNotifs
+      operationId: getPushNotifsUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/PushNotifs'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - push-notifs-controller
+      summary: updatePushNotifs
+      operationId: updatePushNotifsUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: PushNotifs
+          description: PushNotifs
+          required: true
+          schema:
+            $ref: '#/definitions/PushNotifs'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/PushNotifs'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - push-notifs-controller
+      summary: deletePushNotifs
+      operationId: deletePushNotifsUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - push-notifs-controller
+      summary: updatePushNotifs
+      operationId: updatePushNotifsUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: patch
+          description: patch
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/PushNotifs'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /role:
+    get:
+      tags:
+        - role-controller
+      summary: getRoles
+      operationId: getRolesUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: direction
+          in: query
+          description: direction
+          required: false
+          type: string
+          default: ASC
+        - name: orderBy
+          in: query
+          description: orderBy
+          required: false
+          type: string
+          default: id
+        - name: page
+          in: query
+          description: page
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: paginate
+          in: query
+          description: paginate
+          required: false
+          type: boolean
+          default: true
+        - name: search
+          in: query
+          description: search
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: size
+          required: false
+          type: integer
+          default: 20
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Role'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - role-controller
+      summary: createRole
+      operationId: createRoleUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: Role
+          description: Role
+          required: true
+          schema:
+            $ref: '#/definitions/Role'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/Role'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /role/Delete/All:
+    delete:
+      tags:
+        - role-controller
+      summary: deleteAll
+      operationId: deleteAllUsingDELETE_17
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /role/getEntityFields:
+    get:
+      tags:
+        - role-controller
+      summary: getEntityFields
+      operationId: getEntityFieldsUsingGET_17
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /role/ids:
+    delete:
+      tags:
+        - role-controller
+      summary: deleteRoles
+      operationId: deleteRolesUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: ids
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /role/import:
+    post:
+      tags:
+        - role-controller
+      summary: importRoles
+      operationId: importRolesUsingPOST
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          in: formData
+          required: false
+          type: file
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Role'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/role/{id}':
+    get:
+      tags:
+        - role-controller
+      summary: getRole
+      operationId: getRoleUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Role'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - role-controller
+      summary: updateRole
+      operationId: updateRoleUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: Role
+          description: Role
+          required: true
+          schema:
+            $ref: '#/definitions/Role'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Role'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - role-controller
+      summary: deleteRole
+      operationId: deleteRoleUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - role-controller
+      summary: updateRole
+      operationId: updateRoleUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: patch
+          description: patch
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Role'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /signup/google:
+    post:
+      tags:
+        - jwt-authentication-controller
+      summary: registerUsergoogle
+      operationId: registerUsergoogleUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: signUpRequest
+          description: signUpRequest
+          required: true
+          schema:
+            $ref: '#/definitions/SignUpRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/SignUpResponse'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /user:
+    get:
+      tags:
+        - user-controller
+      summary: getUsers
+      operationId: getUsersUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: direction
+          in: query
+          description: direction
+          required: false
+          type: string
+          default: ASC
+        - name: orderBy
+          in: query
+          description: orderBy
+          required: false
+          type: string
+          default: id
+        - name: page
+          in: query
+          description: page
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: paginate
+          in: query
+          description: paginate
+          required: false
+          type: boolean
+          default: true
+        - name: search
+          in: query
+          description: search
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: size
+          required: false
+          type: integer
+          default: 20
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - user-controller
+      summary: createUser
+      operationId: createUserUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: User
+          description: User
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/User'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /user/Delete/All:
+    delete:
+      tags:
+        - user-controller
+      summary: deleteAll
+      operationId: deleteAllUsingDELETE_18
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /user/getEntityFields:
+    get:
+      tags:
+        - user-controller
+      summary: getEntityFields
+      operationId: getEntityFieldsUsingGET_18
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /user/ids:
+    delete:
+      tags:
+        - user-controller
+      summary: deleteUsers
+      operationId: deleteUsersUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: ids
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /user/import:
+    post:
+      tags:
+        - user-controller
+      summary: importUsers
+      operationId: importUsersUsingPOST
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          in: formData
+          required: false
+          type: file
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /user/me/:
+    get:
+      tags:
+        - user-controller
+      summary: getMe
+      operationId: getMeUsingGET
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/user/{id}':
+    get:
+      tags:
+        - user-controller
+      summary: getUser
+      operationId: getUserUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - user-controller
+      summary: updateUser
+      operationId: updateUserUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: User
+          description: User
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - user-controller
+      summary: deleteUser
+      operationId: deleteUserUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - user-controller
+      summary: updateUser
+      operationId: updateUserUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: patch
+          description: patch
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /videoelement:
+    get:
+      tags:
+        - videoelement-controller
+      summary: getVideoelements
+      operationId: getVideoelementsUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: direction
+          in: query
+          description: direction
+          required: false
+          type: string
+          default: ASC
+        - name: orderBy
+          in: query
+          description: orderBy
+          required: false
+          type: string
+          default: id
+        - name: page
+          in: query
+          description: page
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: paginate
+          in: query
+          description: paginate
+          required: false
+          type: boolean
+          default: true
+        - name: search
+          in: query
+          description: search
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: size
+          required: false
+          type: integer
+          default: 20
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Videoelement'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - videoelement-controller
+      summary: createVideoelement
+      operationId: createVideoelementUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: Videoelement
+          description: Videoelement
+          required: true
+          schema:
+            $ref: '#/definitions/Videoelement'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/Videoelement'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /videoelement/Delete/All:
+    delete:
+      tags:
+        - videoelement-controller
+      summary: deleteAll
+      operationId: deleteAllUsingDELETE_19
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /videoelement/getEntityFields:
+    get:
+      tags:
+        - videoelement-controller
+      summary: getEntityFields
+      operationId: getEntityFieldsUsingGET_19
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /videoelement/ids:
+    delete:
+      tags:
+        - videoelement-controller
+      summary: deleteVideoelements
+      operationId: deleteVideoelementsUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: ids
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /videoelement/import:
+    post:
+      tags:
+        - videoelement-controller
+      summary: importVideoelements
+      operationId: importVideoelementsUsingPOST
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          in: formData
+          required: false
+          type: file
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Videoelement'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/videoelement/{id}':
+    get:
+      tags:
+        - videoelement-controller
+      summary: getVideoelement
+      operationId: getVideoelementUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Videoelement'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - videoelement-controller
+      summary: updateVideoelement
+      operationId: updateVideoelementUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: Videoelement
+          description: Videoelement
+          required: true
+          schema:
+            $ref: '#/definitions/Videoelement'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Videoelement'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - videoelement-controller
+      summary: deleteVideoelement
+      operationId: deleteVideoelementUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - videoelement-controller
+      summary: updateVideoelement
+      operationId: updateVideoelementUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: patch
+          description: patch
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Videoelement'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /view:
+    get:
+      tags:
+        - view-controller
+      summary: getViews
+      operationId: getViewsUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: direction
+          in: query
+          description: direction
+          required: false
+          type: string
+          default: ASC
+        - name: orderBy
+          in: query
+          description: orderBy
+          required: false
+          type: string
+          default: id
+        - name: page
+          in: query
+          description: page
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: paginate
+          in: query
+          description: paginate
+          required: false
+          type: boolean
+          default: true
+        - name: search
+          in: query
+          description: search
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: size
+          required: false
+          type: integer
+          default: 20
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/View'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - view-controller
+      summary: createView
+      operationId: createViewUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: View
+          description: View
+          required: true
+          schema:
+            $ref: '#/definitions/View'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/View'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /view/Delete/All:
+    delete:
+      tags:
+        - view-controller
+      summary: deleteAll
+      operationId: deleteAllUsingDELETE_20
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /view/getEntityFields:
+    get:
+      tags:
+        - view-controller
+      summary: getEntityFields
+      operationId: getEntityFieldsUsingGET_20
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /view/ids:
+    delete:
+      tags:
+        - view-controller
+      summary: deleteViews
+      operationId: deleteViewsUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: ids
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /view/import:
+    post:
+      tags:
+        - view-controller
+      summary: importViews
+      operationId: importViewsUsingPOST
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          in: formData
+          required: false
+          type: file
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/View'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/view/{id}':
+    get:
+      tags:
+        - view-controller
+      summary: getView
+      operationId: getViewUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/View'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - view-controller
+      summary: updateView
+      operationId: updateViewUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: View
+          description: View
+          required: true
+          schema:
+            $ref: '#/definitions/View'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/View'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - view-controller
+      summary: deleteView
+      operationId: deleteViewUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - view-controller
+      summary: updateView
+      operationId: updateViewUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: patch
+          description: patch
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/View'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /week-user:
+    get:
+      tags:
+        - week-user-controller
+      summary: getWeekUsers
+      operationId: getWeekUsersUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: direction
+          in: query
+          description: direction
+          required: false
+          type: string
+          default: ASC
+        - name: orderBy
+          in: query
+          description: orderBy
+          required: false
+          type: string
+          default: id
+        - name: page
+          in: query
+          description: page
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: paginate
+          in: query
+          description: paginate
+          required: false
+          type: boolean
+          default: true
+        - name: search
+          in: query
+          description: search
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: size
+          required: false
+          type: integer
+          default: 20
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/WeekUser'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - week-user-controller
+      summary: createWeekUser
+      operationId: createWeekUserUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: WeekUser
+          description: WeekUser
+          required: true
+          schema:
+            $ref: '#/definitions/WeekUser'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/WeekUser'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /week-user/Delete/All:
+    delete:
+      tags:
+        - week-user-controller
+      summary: deleteAll
+      operationId: deleteAllUsingDELETE_21
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /week-user/getEntityFields:
+    get:
+      tags:
+        - week-user-controller
+      summary: getEntityFields
+      operationId: getEntityFieldsUsingGET_21
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /week-user/ids:
+    delete:
+      tags:
+        - week-user-controller
+      summary: deleteWeekUsers
+      operationId: deleteWeekUsersUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: ids
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /week-user/import:
+    post:
+      tags:
+        - week-user-controller
+      summary: importWeekUsers
+      operationId: importWeekUsersUsingPOST
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: file
+          in: formData
+          required: false
+          type: file
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/WeekUser'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/week-user/{id}':
+    get:
+      tags:
+        - week-user-controller
+      summary: getWeekUser
+      operationId: getWeekUserUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/WeekUser'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - week-user-controller
+      summary: updateWeekUser
+      operationId: updateWeekUserUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: WeekUser
+          description: WeekUser
+          required: true
+          schema:
+            $ref: '#/definitions/WeekUser'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/WeekUser'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - week-user-controller
+      summary: deleteWeekUser
+      operationId: deleteWeekUserUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - week-user-controller
+      summary: updateWeekUser
+      operationId: updateWeekUserUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: patch
+          description: patch
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/WeekUser'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+securityDefinitions:
+  Authorization:
+    type: apiKey
+    name: Authorization
+    in: header
+definitions:
+  ApiResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      success:
+        type: boolean
+    title: ApiResponse
+  DailyMotivationalMessage:
+    type: object
+    properties:
+      id:
+        type: string
+      message_:
+        type: string
+    title: DailyMotivationalMessage
+    description: DailyMotivationalMessage model
+  EntityConf:
+    type: object
+    properties:
+      name:
+        type: string
+      value:
+        type: string
+    title: EntityConf
+    description: EntityConf model
+  EntityDef:
+    type: object
+    properties:
+      endpoint:
+        type: string
+      fields:
+        type: array
+        items:
+          $ref: '#/definitions/FieldDef'
+      friendlyName:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      setting:
+        type: array
+        items:
+          $ref: '#/definitions/EntityConf'
+    title: EntityDef
+    description: EntityDef model
+  ExcersiseUser:
+    type: object
+    properties:
+      id:
+        type: string
+      ownerId:
+        type: string
+      updateddate:
+        type: string
+        example: yyyy-MM-dd
+      workoutSetDatatblID:
+        type: string
+    title: ExcersiseUser
+    description: ExcersiseUser model
+  FieldDef:
+    type: object
+    properties:
+      friendlyName:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+    title: FieldDef
+    description: FieldDef model
+  FileDB:
+    type: object
+    properties:
+      fileName:
+        type: string
+      filedata:
+        type: string
+      filetype:
+        type: string
+      id:
+        type: string
+      size:
+        type: integer
+        format: int64
+    title: FileDB
+    description: FileDB model
+  Journals:
+    type: object
+    properties:
+      add_date:
+        type: string
+        example: yyyy-MM-dd
+      id:
+        type: string
+      journal_text:
+        type: string
+      ownerId:
+        type: string
+      photo:
+        type: string
+    title: Journals
+    description: Journals model
+  JwtRequest:
+    type: object
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    title: JwtRequest
+  JwtResponse:
+    type: object
+    properties:
+      token:
+        type: string
+    title: JwtResponse
+  Link:
+    type: object
+    properties:
+      href:
+        type: string
+      templated:
+        type: boolean
+    title: Link
+  Measurements:
+    type: object
+    properties:
+      add_date:
+        type: string
+        example: yyyy-MM-dd
+      back_image:
+        type: string
+      chest:
+        type: number
+        format: float
+      feet_centi:
+        type: string
+      front_image:
+        type: string
+      hips:
+        type: number
+        format: float
+      id:
+        type: string
+      lbs_kilo:
+        type: string
+      left_image:
+        type: string
+      left_right_bicep:
+        type: number
+        format: float
+      left_right_calf:
+        type: number
+        format: float
+      left_right_thigh:
+        type: number
+        format: float
+      ownerId:
+        type: string
+      shoulders:
+        type: number
+        format: float
+      waist:
+        type: number
+        format: float
+      weight:
+        type: number
+        format: float
+    title: Measurements
+    description: Measurements model
+  Menu:
+    type: object
+    properties:
+      caption:
+        type: string
+      dateCreated:
+        type: string
+        example: yyyy-MM-dd
+      dateUpdated:
+        type: string
+        example: yyyy-MM-dd
+      enabled:
+        type: boolean
+      endpoint:
+        type: string
+      entity:
+        $ref: '#/definitions/EntityDef'
+      friendlyName:
+        type: string
+      icon:
+        type: string
+      id:
+        type: string
+      order:
+        type: integer
+        format: int32
+      ownerId:
+        type: string
+      parentId:
+        type: string
+    title: Menu
+    description: Menu model
+  ModelAndView:
+    type: object
+    properties:
+      empty:
+        type: boolean
+      model:
+        type: object
+      modelMap:
+        type: object
+        additionalProperties:
+          type: object
+      reference:
+        type: boolean
+      status:
+        type: string
+        enum:
+          - ACCEPTED
+          - ALREADY_REPORTED
+          - BAD_GATEWAY
+          - BAD_REQUEST
+          - BANDWIDTH_LIMIT_EXCEEDED
+          - CHECKPOINT
+          - CONFLICT
+          - CONTINUE
+          - CREATED
+          - DESTINATION_LOCKED
+          - EXPECTATION_FAILED
+          - FAILED_DEPENDENCY
+          - FORBIDDEN
+          - FOUND
+          - GATEWAY_TIMEOUT
+          - GONE
+          - HTTP_VERSION_NOT_SUPPORTED
+          - IM_USED
+          - INSUFFICIENT_SPACE_ON_RESOURCE
+          - INSUFFICIENT_STORAGE
+          - INTERNAL_SERVER_ERROR
+          - I_AM_A_TEAPOT
+          - LENGTH_REQUIRED
+          - LOCKED
+          - LOOP_DETECTED
+          - METHOD_FAILURE
+          - METHOD_NOT_ALLOWED
+          - MOVED_PERMANENTLY
+          - MOVED_TEMPORARILY
+          - MULTIPLE_CHOICES
+          - MULTI_STATUS
+          - NETWORK_AUTHENTICATION_REQUIRED
+          - NON_AUTHORITATIVE_INFORMATION
+          - NOT_ACCEPTABLE
+          - NOT_EXTENDED
+          - NOT_FOUND
+          - NOT_IMPLEMENTED
+          - NOT_MODIFIED
+          - NO_CONTENT
+          - OK
+          - PARTIAL_CONTENT
+          - PAYLOAD_TOO_LARGE
+          - PAYMENT_REQUIRED
+          - PERMANENT_REDIRECT
+          - PRECONDITION_FAILED
+          - PRECONDITION_REQUIRED
+          - PROCESSING
+          - PROXY_AUTHENTICATION_REQUIRED
+          - REQUESTED_RANGE_NOT_SATISFIABLE
+          - REQUEST_ENTITY_TOO_LARGE
+          - REQUEST_HEADER_FIELDS_TOO_LARGE
+          - REQUEST_TIMEOUT
+          - REQUEST_URI_TOO_LONG
+          - RESET_CONTENT
+          - SEE_OTHER
+          - SERVICE_UNAVAILABLE
+          - SWITCHING_PROTOCOLS
+          - TEMPORARY_REDIRECT
+          - TOO_EARLY
+          - TOO_MANY_REQUESTS
+          - UNAUTHORIZED
+          - UNAVAILABLE_FOR_LEGAL_REASONS
+          - UNPROCESSABLE_ENTITY
+          - UNSUPPORTED_MEDIA_TYPE
+          - UPGRADE_REQUIRED
+          - URI_TOO_LONG
+          - USE_PROXY
+          - VARIANT_ALSO_NEGOTIATES
+      view:
+        $ref: '#/definitions/View'
+      viewName:
+        type: string
+    title: ModelAndView
+  Privilege:
+    type: object
+    properties:
+      friendlyName:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+    title: Privilege
+    description: Privilege model
+  ProgramUser:
+    type: object
+    properties:
+      id:
+        type: string
+      ownerId:
+        type: string
+      programtblID:
+        type: string
+      updateddate:
+        type: string
+        example: yyyy-MM-dd
+    title: ProgramUser
+    description: ProgramUser model
+  PushNotifs:
+    type: object
+    properties:
+      categorycontainer:
+        $ref: '#/definitions/myCategory'
+      end_date:
+        type: string
+        example: yyyy-MM-dd
+      id:
+        type: string
+      message_:
+        type: string
+      recipients:
+        type: string
+      register_date:
+        type: string
+        example: yyyy-MM-dd
+      status:
+        type: string
+    title: PushNotifs
+    description: PushNotifs model
+  ResponseEntity:
+    type: object
+    properties:
+      body:
+        type: object
+      statusCode:
+        type: string
+        enum:
+          - ACCEPTED
+          - ALREADY_REPORTED
+          - BAD_GATEWAY
+          - BAD_REQUEST
+          - BANDWIDTH_LIMIT_EXCEEDED
+          - CHECKPOINT
+          - CONFLICT
+          - CONTINUE
+          - CREATED
+          - DESTINATION_LOCKED
+          - EXPECTATION_FAILED
+          - FAILED_DEPENDENCY
+          - FORBIDDEN
+          - FOUND
+          - GATEWAY_TIMEOUT
+          - GONE
+          - HTTP_VERSION_NOT_SUPPORTED
+          - IM_USED
+          - INSUFFICIENT_SPACE_ON_RESOURCE
+          - INSUFFICIENT_STORAGE
+          - INTERNAL_SERVER_ERROR
+          - I_AM_A_TEAPOT
+          - LENGTH_REQUIRED
+          - LOCKED
+          - LOOP_DETECTED
+          - METHOD_FAILURE
+          - METHOD_NOT_ALLOWED
+          - MOVED_PERMANENTLY
+          - MOVED_TEMPORARILY
+          - MULTIPLE_CHOICES
+          - MULTI_STATUS
+          - NETWORK_AUTHENTICATION_REQUIRED
+          - NON_AUTHORITATIVE_INFORMATION
+          - NOT_ACCEPTABLE
+          - NOT_EXTENDED
+          - NOT_FOUND
+          - NOT_IMPLEMENTED
+          - NOT_MODIFIED
+          - NO_CONTENT
+          - OK
+          - PARTIAL_CONTENT
+          - PAYLOAD_TOO_LARGE
+          - PAYMENT_REQUIRED
+          - PERMANENT_REDIRECT
+          - PRECONDITION_FAILED
+          - PRECONDITION_REQUIRED
+          - PROCESSING
+          - PROXY_AUTHENTICATION_REQUIRED
+          - REQUESTED_RANGE_NOT_SATISFIABLE
+          - REQUEST_ENTITY_TOO_LARGE
+          - REQUEST_HEADER_FIELDS_TOO_LARGE
+          - REQUEST_TIMEOUT
+          - REQUEST_URI_TOO_LONG
+          - RESET_CONTENT
+          - SEE_OTHER
+          - SERVICE_UNAVAILABLE
+          - SWITCHING_PROTOCOLS
+          - TEMPORARY_REDIRECT
+          - TOO_EARLY
+          - TOO_MANY_REQUESTS
+          - UNAUTHORIZED
+          - UNAVAILABLE_FOR_LEGAL_REASONS
+          - UNPROCESSABLE_ENTITY
+          - UNSUPPORTED_MEDIA_TYPE
+          - UPGRADE_REQUIRED
+          - URI_TOO_LONG
+          - USE_PROXY
+          - VARIANT_ALSO_NEGOTIATES
+      statusCodeValue:
+        type: integer
+        format: int32
+    title: ResponseEntity
+  Role:
+    type: object
+    properties:
+      friendlyName:
+        type: string
+      id:
+        type: string
+      privileges:
+        type: array
+        items:
+          $ref: '#/definitions/Privilege'
+    title: Role
+    description: Role model
+  SignUpRequest:
+    type: object
+    properties:
+      fbtoken:
+        type: string
+    title: SignUpRequest
+    description: SignUpRequest model
+  SignUpResponse:
+    type: object
+    properties:
+      jwttoken:
+        type: string
+      username:
+        type: string
+    title: SignUpResponse
+    description: SignUpResponse model
+  UploadFileResponse:
+    type: object
+    properties:
+      fileDownloadUri:
+        type: string
+      fileName:
+        type: string
+      fileType:
+        type: string
+      size:
+        type: integer
+        format: int64
+    title: UploadFileResponse
+    description: UploadFileResponse model
+  User:
+    type: object
+    properties:
+      active:
+        type: boolean
+      birtDate:
+        type: string
+        example: yyyy-MM-dd
+      email:
+        type: string
+      friendlyName:
+        type: string
+      gender:
+        type: boolean
+      height:
+        type: number
+        format: float
+      id:
+        type: string
+      imageurl:
+        type: string
+      lastUpdate:
+        type: string
+        example: yyyy-MM-dd
+      login_type:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      provider:
+        type: string
+        enum:
+          - facebook
+          - github
+          - google
+          - local
+      providerId:
+        type: string
+      register_date:
+        type: string
+        example: yyyy-MM-dd
+      roles:
+        type: array
+        items:
+          type: string
+      subscription_status:
+        type: boolean
+      username:
+        type: string
+      weight:
+        type: number
+        format: float
+    title: User
+    description: User model
+  Videoelement:
+    type: object
+    properties:
+      cover_photo:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      videolink:
+        type: string
+    title: Videoelement
+    description: Videoelement model
+  View:
+    type: object
+    properties:
+      dateAdded:
+        type: string
+        example: yyyy-MM-dd
+      fields:
+        type: array
+        items:
+          type: string
+      friendlyName:
+        type: string
+      id:
+        type: string
+      lastUpdate:
+        type: string
+        example: yyyy-MM-dd
+      lastUpdateBy:
+        type: string
+      ownerId:
+        type: string
+      path:
+        type: string
+    title: View
+    description: View model
+  WeekUser:
+    type: object
+    properties:
+      id:
+        type: string
+      ownerId:
+        type: string
+      updateddate:
+        type: string
+        example: yyyy-MM-dd
+      weektblID:
+        $ref: '#/definitions/myweekData'
+    title: WeekUser
+    description: WeekUser model
+  localPurchaceHistory:
+    type: object
+    properties:
+      id:
+        type: string
+      localPurchaceVerificationData:
+        type: string
+      ownerId:
+        type: string
+      productId:
+        type: string
+      purchaceId:
+        type: string
+      serverPurchaceVErificationData:
+        type: string
+      source:
+        type: string
+      transactionDate:
+        type: string
+    title: localPurchaceHistory
+    description: localPurchaceHistory model
+  myCategory:
+    type: object
+    properties:
+      id:
+        type: string
+      image_cover:
+        type: string
+      name:
+        type: string
+      sortindex:
+        type: integer
+        format: int32
+    title: myCategory
+    description: myCategory model
+  myExcersiseData:
+    type: object
+    properties:
+      cover_photo:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      sortindex:
+        type: integer
+        format: int32
+      title:
+        type: string
+      videos:
+        type: array
+        items:
+          $ref: '#/definitions/myvideodata'
+    title: myExcersiseData
+    description: myExcersiseData model
+  myProgram:
+    type: object
+    properties:
+      cover_photo:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      intro_video:
+        type: string
+      listofweeks:
+        type: array
+        items:
+          $ref: '#/definitions/myweekData'
+      name:
+        type: string
+      shortdescription:
+        type: string
+      weeksCount:
+        type: integer
+        format: int32
+    title: myProgram
+    description: myProgram model
+  myWorkOuts:
+    type: object
+    properties:
+      categorycontainer:
+        type: string
+      cover_photo:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      videos:
+        type: array
+        items:
+          $ref: '#/definitions/myvideodata'
+    title: myWorkOuts
+    description: myWorkOuts model
+  myvideodata:
+    type: object
+    properties:
+      id:
+        type: string
+      repcount:
+        type: string
+      restperiod:
+        type: integer
+        format: int32
+      sortindex:
+        type: integer
+        format: int32
+      video_elementid:
+        $ref: '#/definitions/Videoelement'
+    title: myvideodata
+    description: myvideodata model
+  myweekData:
+    type: object
+    properties:
+      description:
+        type: string
+      excersiseslist:
+        type: array
+        items:
+          $ref: '#/definitions/myExcersiseData'
+      id:
+        type: string
+      sortindex:
+        type: integer
+        format: int32
+      title:
+        type: string
+    title: myweekData
+    description: myweekData model
