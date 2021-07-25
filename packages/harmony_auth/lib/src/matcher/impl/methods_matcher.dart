@@ -3,16 +3,11 @@ import 'package:meta/meta.dart';
 import '../base/abstract_matcher.dart';
 
 /// provide regex or string to match exactly
-///
-/// should not be empty
 @internal
 class AuthMatcherMethodsImpl extends AbstractAuthMatcher {
-  /// should not be empty
   final Set<Pattern> methodPatterns;
 
-  AuthMatcherMethodsImpl(this.methodPatterns) {
-    if (methodPatterns.isEmpty) throw AssertionError();
-  }
+  const AuthMatcherMethodsImpl(this.methodPatterns);
 
   @override
   bool matches(String method, String _) {

@@ -3,16 +3,11 @@ import 'package:meta/meta.dart';
 import '../base/abstract_matcher.dart';
 
 /// provide regex or string to match exactly
-///
-/// should not be empty
 @internal
 class AuthMatcherUrlsImpl extends AbstractAuthMatcher {
-  /// should not be empty
   final Set<Pattern> urlPatterns;
 
-  AuthMatcherUrlsImpl(this.urlPatterns) {
-    if (urlPatterns.isEmpty) throw AssertionError();
-  }
+  const AuthMatcherUrlsImpl(this.urlPatterns);
 
   @override
   bool matches(String _, String url) {
