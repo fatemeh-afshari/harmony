@@ -13,8 +13,7 @@ import '../builder.dart';
 class AuthBuilderImpl implements AuthBuilder {
   final Dio dio;
 
-  /// should end with '/'
-  final String baseUrl;
+  final String refreshUrl;
 
   final AuthMatcher matcher;
 
@@ -22,7 +21,7 @@ class AuthBuilderImpl implements AuthBuilder {
 
   const AuthBuilderImpl({
     required this.dio,
-    required this.baseUrl,
+    required this.refreshUrl,
     required this.matcher,
     required this.logger,
   });
@@ -38,7 +37,7 @@ class AuthBuilderImpl implements AuthBuilder {
   @override
   Interceptor get interceptor {
     return AuthInterceptor(
-      baseUrl: baseUrl,
+      refreshUrl: refreshUrl,
       dio: dio,
       logger: logger,
       storage: AuthStorageIml(

@@ -2,20 +2,18 @@ import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
 
-import '../storage/storage.dart';
+import '../exception/exception.dart';
 import '../matcher/matcher.dart';
 import '../model/token_pair.dart';
-import '../exception/exception.dart';
+import '../storage/storage.dart';
 
 /// interceptor for [Dio] to handle auth
 @immutable
 @internal
 class AuthInterceptor implements Interceptor {
   static const _keyIsRetry = 'harmony_auth_interceptor_is_retry';
-  static const _refreshTokensRelativeUrl = 'auth/main/token/refresh/';
 
-  /// should end with '/'
-  final String baseUrl;
+  final String refreshUrl;
 
   final Dio dio;
 
@@ -26,7 +24,7 @@ class AuthInterceptor implements Interceptor {
   final AuthMatcher matcher;
 
   const AuthInterceptor({
-    required this.baseUrl,
+    required this.refreshUrl,
     required this.dio,
     required this.logger,
     required this.storage,
@@ -128,7 +126,7 @@ class AuthInterceptor implements Interceptor {
           await storage.removeAccessToken();
           options.extra[_keyIsRetry] = true;
           try {
-            // todo: type ? for example text/plain !
+            // todo: type ? for example text plain !
             final response = await dio.fetch<dynamic>(options);
             handler.resolve(response);
           } on DioError catch (e) {
@@ -141,16 +139,6 @@ class AuthInterceptor implements Interceptor {
     } else {
       handler.next(err);
     }
-  }
-
-  /// note: should add trailing '/' to base url if not present
-  String get _refreshTokensUrl {
-    final s = StringBuffer(baseUrl);
-    if (!baseUrl.endsWith('/')) {
-      s.write('/');
-    }
-    s.write(_refreshTokensRelativeUrl);
-    return s.toString();
   }
 
   /// note: should NOT contain queries
@@ -167,7 +155,9 @@ class AuthInterceptor implements Interceptor {
   bool _shouldHandle(RequestOptions request) {
     final method = request.method;
     final url = _extractUrl(request.uri);
-    return url != _refreshTokensUrl && matcher.matches(method, url);
+    // maybe refreshUrl comes as relative or full format
+    return !(url == refreshUrl || request.path == refreshUrl) &&
+        matcher.matches(method, url);
   }
 
   /// note: should ONLY throw DioError
@@ -179,7 +169,7 @@ class AuthInterceptor implements Interceptor {
     // build options for refresh request
     final options = Options(method: 'POST').compose(
       dio.options,
-      _refreshTokensUrl,
+      refreshUrl,
       data: {
         'refresh': refresh,
       },

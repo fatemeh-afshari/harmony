@@ -1,6 +1,6 @@
 import 'impl/impl.dart';
 
-/// Matchers to include/exclude urls from authentication
+/// Matchers to include or exclude urls from authentication
 ///
 /// NOTE: do NOT throw in matchers
 abstract class AuthMatcher {

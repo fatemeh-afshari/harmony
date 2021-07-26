@@ -13,7 +13,7 @@ import 'impl/builder.dart';
 abstract class AuthBuilder {
   const factory AuthBuilder({
     required Dio dio,
-    required String baseUrl,
+    required String refreshUrl,
     required AuthMatcher matcher,
     required Logger logger,
   }) = AuthBuilderImpl;
