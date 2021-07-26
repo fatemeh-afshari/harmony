@@ -2,14 +2,11 @@ import 'package:meta/meta.dart';
 
 import '../exception.dart';
 
-@internal
 @immutable
+@internal
 class AuthExceptionImpl implements AuthException {
-  @override
-  final String code;
-
-  const AuthExceptionImpl(this.code);
+  const AuthExceptionImpl();
 
   @override
-  String toString() => 'AuthException{$code}';
+  String toString() => 'AuthException';
 }

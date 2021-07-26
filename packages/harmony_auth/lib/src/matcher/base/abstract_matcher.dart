@@ -1,9 +1,9 @@
-import 'package:harmony_auth/src/matcher/base/not_matcher.dart';
 import 'package:meta/meta.dart';
 
 import '../matcher.dart';
 import 'difference_matcher.dart';
 import 'intersection_matcher.dart';
+import 'not_matcher.dart';
 import 'symmetric_difference_matcher.dart';
 import 'union_matcher.dart';
 

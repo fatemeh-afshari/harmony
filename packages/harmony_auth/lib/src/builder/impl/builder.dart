@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:harmony_auth/src/interceptor/interceptor.dart';
 import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
 
-import '../../storage/storage.dart';
-import '../../storage/impl/storage.dart';
+import '../../interceptor/interceptor.dart';
 import '../../matcher/matcher.dart';
+import '../../rest/impl/rest.dart';
+import '../../storage/impl/storage.dart';
+import '../../storage/storage.dart';
 import '../builder.dart';
 
 @internal
@@ -37,12 +38,16 @@ class AuthBuilderImpl implements AuthBuilder {
   @override
   Interceptor get interceptor {
     return AuthInterceptor(
-      refreshUrl: refreshUrl,
       dio: dio,
       logger: logger,
       storage: AuthStorageIml(
         logger: logger,
         isInternal: true,
+      ),
+      rest: AuthRestImpl(
+        dio: dio,
+        refreshUrl: refreshUrl,
+        logger: logger,
       ),
       matcher: matcher,
     );

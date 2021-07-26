@@ -4,31 +4,28 @@ import 'package:meta/meta.dart';
 
 import '../exception/exception.dart';
 import '../matcher/matcher.dart';
-import '../model/token_pair.dart';
+import '../rest/rest.dart';
 import '../storage/storage.dart';
+import '../utils/dio_error_extensions.dart';
 
 /// interceptor for [Dio] to handle auth
 @immutable
 @internal
 class AuthInterceptor implements Interceptor {
-  static const _keyIsRetry = 'harmony_auth_interceptor_is_retry';
-
-  final String refreshUrl;
+  static const _keyIsRetry = 'harmony_auth_is_retry';
 
   final Dio dio;
-
+  final AuthStorage storage;
+  final AuthMatcher matcher;
+  final AuthRest rest;
   final Logger logger;
 
-  final AuthStorage storage;
-
-  final AuthMatcher matcher;
-
   const AuthInterceptor({
-    required this.refreshUrl,
     required this.dio,
-    required this.logger,
     required this.storage,
     required this.matcher,
+    required this.rest,
+    required this.logger,
   });
 
   /// note: artificial DioErrors should NOT have response
@@ -50,7 +47,7 @@ class AuthInterceptor implements Interceptor {
         if (refresh1 != null) {
           _logI('refresh token is available, attempting to refresh ...');
           try {
-            final pair2 = await _refreshTokens(refresh1);
+            final pair2 = await rest.refreshTokens(refresh1);
             _logI('got new tokens, attempting to call ...');
             final refresh2 = pair2.refresh;
             final access2 = pair2.access;
@@ -60,7 +57,7 @@ class AuthInterceptor implements Interceptor {
             handler.next(options);
           } on DioError catch (e) {
             // check to see if refresh token was invalid
-            if (e.type == DioErrorType.other && e.error is AuthException) {
+            if (e.isAuthException) {
               _logI('refresh token is not valid, error');
               await storage.removeRefreshToken();
             }
@@ -85,7 +82,7 @@ class AuthInterceptor implements Interceptor {
               requestOptions: options,
               type: DioErrorType.other,
               response: null,
-              error: AuthException('refresh-token-not-available'),
+              error: AuthException(),
             ),
             true,
           );
@@ -120,13 +117,11 @@ class AuthInterceptor implements Interceptor {
         handler.next(err);
       } else {
         _logI('request is NOT on retry, checking status code ...');
-        if (err.type == DioErrorType.response &&
-            err.response?.statusCode == 401) {
+        if (_isUnauthorized(err)) {
           _logI('unauthorized invalid access token, attempting to retry ...');
           await storage.removeAccessToken();
           options.extra[_keyIsRetry] = true;
           try {
-            // todo: type ? for example text plain !
             final response = await dio.fetch<dynamic>(options);
             handler.resolve(response);
           } on DioError catch (e) {
@@ -141,9 +136,9 @@ class AuthInterceptor implements Interceptor {
     }
   }
 
-  /// note: should NOT contain queries
+  /// note: output should NOT contain queries
   ///
-  /// note: should start with http(s)
+  /// note: output should start with http(s)
   String _extractUrl(Uri uri) {
     final str = uri.toString();
     final index = str.indexOf('?');
@@ -152,60 +147,15 @@ class AuthInterceptor implements Interceptor {
 
   /// note: should not handle refresh api calls as well as
   /// not matcher calls
-  bool _shouldHandle(RequestOptions request) {
-    final method = request.method;
-    final url = _extractUrl(request.uri);
-    // maybe refreshUrl comes as relative or full format
-    return !(url == refreshUrl || request.path == refreshUrl) &&
-        matcher.matches(method, url);
+  bool _shouldHandle(RequestOptions options) {
+    final method = options.method;
+    final url = _extractUrl(options.uri);
+    return !rest.isRefreshTokens(options) && matcher.matches(method, url);
   }
 
-  /// note: should ONLY throw DioError
-  ///
-  /// note: should NOT do anything other than making request,
-  /// such as writing to storage ...
-  Future<AuthTokenPair> _refreshTokens(String refresh) async {
-    _logI('rest, calling refresh token api');
-    // build options for refresh request
-    final options = Options(method: 'POST').compose(
-      dio.options,
-      refreshUrl,
-      data: {
-        'refresh': refresh,
-      },
-    );
-    try {
-      final response = await dio.fetch<dynamic>(options);
-      _logI('rest, call was successful');
-      try {
-        final data = response.data as Map<String, dynamic>;
-        return AuthTokenPair(
-          refresh: data['refresh'] as String,
-          access: data['access'] as String,
-        );
-      } catch (_) {
-        // should not happen, but handling loosely ...
-        _logI('rest, failed to parse response');
-        throw DioError(
-          requestOptions: options,
-          type: DioErrorType.other,
-          response: null,
-          error: AuthException('refresh-api-bad-response'),
-        );
-      }
-    } on DioError catch (e) {
-      if (e.type == DioErrorType.response && e.response?.statusCode == 401) {
-        _logI('rest, call failed due to invalid refresh token');
-        throw DioError(
-          requestOptions: options,
-          type: DioErrorType.other,
-          response: null,
-          error: AuthException('refresh-api-invalid-refresh-token'),
-        );
-      } else {
-        rethrow;
-      }
-    }
+  /// check if request was unauthorized
+  bool _isUnauthorized(DioError e) {
+    return e.type == DioErrorType.response && e.response?.statusCode == 401;
   }
 
   void _logI(String message) {
