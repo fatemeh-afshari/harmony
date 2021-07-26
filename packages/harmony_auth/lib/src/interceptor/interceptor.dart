@@ -7,6 +7,7 @@ import '../matcher/matcher.dart';
 import '../model/token_pair.dart';
 import '../exception/exception.dart';
 
+/// interceptor for [Dio] to handle auth
 @immutable
 @internal
 class AuthInterceptor implements Interceptor {
