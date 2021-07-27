@@ -7,6 +7,7 @@ import '../matcher/matcher.dart';
 import '../rest/rest.dart';
 import '../storage/storage.dart';
 import '../utils/error_extensions.dart';
+import '../utils/intermediate_error_extensions.dart';
 
 /// interceptor for [Dio] to handle auth
 @immutable
@@ -104,7 +105,7 @@ class AuthInterceptor implements Interceptor {
     ErrorInterceptorHandler handler,
   ) async {
     final request = error.requestOptions;
-    if (_shouldHandle(request) && _isUnauthorized(error)) {
+    if (_shouldHandle(request) && error.isUnauthorized) {
       _logI('unauthorized, error needs handling, checking retry status ...');
       final isRetry = request.extra[_keyIsRetry] != null;
       if (isRetry) {
@@ -144,11 +145,6 @@ class AuthInterceptor implements Interceptor {
     final method = request.method;
     final url = _extractUrl(request.uri);
     return combine.matches(method, url);
-  }
-
-  /// check if request was unauthorized
-  bool _isUnauthorized(DioError e) {
-    return e.type == DioErrorType.response && e.response?.statusCode == 401;
   }
 
   void _logI(String message) {

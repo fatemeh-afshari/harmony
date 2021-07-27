@@ -3,10 +3,11 @@ import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
 
 import '../../exception/exception.dart';
+import '../../matcher/matcher.dart';
+import '../../utils/error_extensions.dart';
+import '../../utils/intermediate_error_extensions.dart';
 import '../model/token_pair.dart';
 import '../rest.dart';
-import '../../utils/error_extensions.dart';
-import '../../matcher/matcher.dart';
 
 @internal
 class AuthRestImpl implements AuthRest {
@@ -51,7 +52,7 @@ class AuthRestImpl implements AuthRest {
         );
       }
     } on DioError catch (e) {
-      if (_isUnauthorized(e)) {
+      if (e.isUnauthorized) {
         _logI('call failed due to invalid refresh token');
         throw AuthException().toDioError(request);
       } else {
@@ -63,11 +64,6 @@ class AuthRestImpl implements AuthRest {
   @override
   AuthMatcher get refreshTokensMatcher {
     return AuthMatcher.url(refreshUrl) & AuthMatcher.method('POST');
-  }
-
-  /// check if request was unauthorized
-  bool _isUnauthorized(DioError e) {
-    return e.type == DioErrorType.response && e.response?.statusCode == 401;
   }
 
   void _logI(String message) {
