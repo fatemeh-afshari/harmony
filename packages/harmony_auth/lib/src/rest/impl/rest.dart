@@ -6,6 +6,7 @@ import '../../exception/exception.dart';
 import '../model/token_pair.dart';
 import '../rest.dart';
 import '../../utils/error_extensions.dart';
+import '../../matcher/matcher.dart';
 
 @internal
 class AuthRestImpl implements AuthRest {
@@ -60,11 +61,8 @@ class AuthRestImpl implements AuthRest {
   }
 
   @override
-  bool isRefreshTokens(RequestOptions requestOptions) {
-    // should check both for relative and full url.
-    // and there is no queries on refresh api.
-    return requestOptions.path == refreshUrl ||
-        requestOptions.uri.toString() == refreshUrl;
+  AuthMatcher get refreshTokensMatcher {
+    return AuthMatcher.url(refreshUrl) & AuthMatcher.method('POST');
   }
 
   /// check if request was unauthorized

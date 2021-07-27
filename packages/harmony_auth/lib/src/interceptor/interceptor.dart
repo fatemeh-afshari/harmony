@@ -140,9 +140,10 @@ class AuthInterceptor implements Interceptor {
   /// note: should not handle refresh api calls as well as
   /// not matcher calls
   bool _shouldHandle(RequestOptions request) {
+    final combine = matcher - rest.refreshTokensMatcher;
     final method = request.method;
     final url = _extractUrl(request.uri);
-    return !rest.isRefreshTokens(request) && matcher.matches(method, url);
+    return combine.matches(method, url);
   }
 
   /// check if request was unauthorized

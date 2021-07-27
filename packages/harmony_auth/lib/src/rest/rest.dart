@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 import 'model/token_pair.dart';
+import '../matcher/matcher.dart';
 
 /// handle token refresh api calls.
 @internal
@@ -13,6 +14,6 @@ abstract class AuthRest {
   /// such as writing to storage ...
   Future<AuthTokenPair> refreshTokens(String refresh);
 
-  /// check to see if this call is to refresh tokens
-  bool isRefreshTokens(RequestOptions requestOptions);
+  /// check to see if this call is to refresh tokens\
+  AuthMatcher get refreshTokensMatcher;
 }
