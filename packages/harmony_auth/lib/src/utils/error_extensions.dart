@@ -13,7 +13,20 @@ extension AuthDioErrorExtensions on DioError {
       type == DioErrorType.other && error is AuthException;
 
   AuthException? get asAuthExceptionOrNull =>
-      type == DioErrorType.other && error is AuthException
-          ? error as AuthException
-          : null;
+      isAuthException ? error as AuthException : null;
+
+  AuthException get asAuthException =>
+      isAuthException ? error as AuthException : throw AssertionError();
+}
+
+/// transform an [AuthException] to [DioError].
+extension AuthExceptionExtensions on AuthException {
+  DioError toDioError(RequestOptions request) {
+    return DioError(
+      requestOptions: request,
+      type: DioErrorType.other,
+      response: null,
+      error: this,
+    );
+  }
 }

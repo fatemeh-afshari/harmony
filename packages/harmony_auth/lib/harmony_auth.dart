@@ -8,4 +8,4 @@ export 'src/builder/builder.dart';
 export 'src/exception/exception.dart';
 export 'src/matcher/matcher.dart';
 export 'src/storage/storage.dart';
-export 'src/utils/dio_error_extensions.dart';
+export 'src/utils/error_extensions.dart';

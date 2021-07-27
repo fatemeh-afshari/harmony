@@ -6,7 +6,7 @@ import '../exception/exception.dart';
 import '../matcher/matcher.dart';
 import '../rest/rest.dart';
 import '../storage/storage.dart';
-import '../utils/dio_error_extensions.dart';
+import '../utils/error_extensions.dart';
 
 /// interceptor for [Dio] to handle auth
 @immutable
@@ -31,16 +31,16 @@ class AuthInterceptor implements Interceptor {
   /// note: artificial DioErrors should NOT have response
   @override
   Future<void> onRequest(
-    RequestOptions options,
+    RequestOptions request,
     RequestInterceptorHandler handler,
   ) async {
-    if (_shouldHandle(options)) {
+    if (_shouldHandle(request)) {
       _logI('request needs handling, checking access token ...');
       final access1 = await storage.getAccessToken();
       if (access1 != null) {
         _logI('access token is available, attempting to call ...');
-        options.headers['AUTHORIZATION'] = 'Bearer $access1';
-        handler.next(options);
+        request.headers['AUTHORIZATION'] = 'Bearer $access1';
+        handler.next(request);
       } else {
         _logI('access token is NOT available, checking refresh token ...');
         final refresh1 = await storage.getRefreshToken();
@@ -53,8 +53,8 @@ class AuthInterceptor implements Interceptor {
             final access2 = pair2.access;
             await storage.setRefreshToken(refresh2);
             await storage.setAccessToken(access2);
-            options.headers['AUTHORIZATION'] = 'Bearer $access2';
-            handler.next(options);
+            request.headers['AUTHORIZATION'] = 'Bearer $access2';
+            handler.next(request);
           } on DioError catch (e) {
             // check to see if refresh token was invalid
             if (e.isAuthException) {
@@ -63,7 +63,7 @@ class AuthInterceptor implements Interceptor {
             }
             handler.reject(
               DioError(
-                requestOptions: options,
+                requestOptions: request,
                 // propagate type,
                 // being 'other' on auth exception
                 type: e.type,
@@ -78,18 +78,13 @@ class AuthInterceptor implements Interceptor {
         } else {
           _logI('refresh token is NOT available, error');
           handler.reject(
-            DioError(
-              requestOptions: options,
-              type: DioErrorType.other,
-              response: null,
-              error: AuthException(),
-            ),
+            AuthException().toDioError(request),
             true,
           );
         }
       }
     } else {
-      handler.next(options);
+      handler.next(request);
     }
   }
 
@@ -105,34 +100,31 @@ class AuthInterceptor implements Interceptor {
   /// note: should retry only once
   @override
   Future<void> onError(
-    DioError err,
+    DioError error,
     ErrorInterceptorHandler handler,
   ) async {
-    final options = err.requestOptions;
-    if (_shouldHandle(options)) {
-      _logI('error needs handling, checking retry status ...');
-      final isRetry = options.extra[_keyIsRetry] != null;
+    final request = error.requestOptions;
+    if (_shouldHandle(request) && _isUnauthorized(error)) {
+      _logI('unauthorized, error needs handling, checking retry status ...');
+      final isRetry = request.extra[_keyIsRetry] != null;
       if (isRetry) {
-        _logI('request is on retry already, NOT handling ...');
-        handler.next(err);
+        _logI('request is already retried, error');
+        handler.reject(
+          AuthException().toDioError(request),
+        );
       } else {
-        _logI('request is NOT on retry, checking status code ...');
-        if (_isUnauthorized(err)) {
-          _logI('unauthorized invalid access token, attempting to retry ...');
-          await storage.removeAccessToken();
-          options.extra[_keyIsRetry] = true;
-          try {
-            final response = await dio.fetch<dynamic>(options);
-            handler.resolve(response);
-          } on DioError catch (e) {
-            handler.reject(e);
-          }
-        } else {
-          handler.next(err);
+        _logI('request is NOT retried, attempting to retry ...');
+        await storage.removeAccessToken();
+        request.extra[_keyIsRetry] = true;
+        try {
+          final response = await dio.fetch<dynamic>(request);
+          handler.resolve(response);
+        } on DioError catch (e) {
+          handler.reject(e);
         }
       }
     } else {
-      handler.next(err);
+      handler.next(error);
     }
   }
 
@@ -147,10 +139,10 @@ class AuthInterceptor implements Interceptor {
 
   /// note: should not handle refresh api calls as well as
   /// not matcher calls
-  bool _shouldHandle(RequestOptions options) {
-    final method = options.method;
-    final url = _extractUrl(options.uri);
-    return !rest.isRefreshTokens(options) && matcher.matches(method, url);
+  bool _shouldHandle(RequestOptions request) {
+    final method = request.method;
+    final url = _extractUrl(request.uri);
+    return !rest.isRefreshTokens(request) && matcher.matches(method, url);
   }
 
   /// check if request was unauthorized

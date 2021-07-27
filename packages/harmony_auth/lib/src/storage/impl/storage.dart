@@ -25,9 +25,6 @@ class AuthStorageIml implements AuthStorage {
 
   @override
   Future<String?> getAccessToken() async {
-    if (!isInternal) {
-      _logI('get access token');
-    }
     final prefs = await _preferences();
     return prefs.getString(_keyAccessToken);
   }
@@ -52,9 +49,6 @@ class AuthStorageIml implements AuthStorage {
 
   @override
   Future<String?> getRefreshToken() async {
-    if (!isInternal) {
-      _logI('get refresh token');
-    }
     final prefs = await _preferences();
     return prefs.getString(_keyRefreshToken);
   }

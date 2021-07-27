@@ -5,6 +5,7 @@ import 'package:meta/meta.dart';
 import '../../exception/exception.dart';
 import '../model/token_pair.dart';
 import '../rest.dart';
+import '../../utils/error_extensions.dart';
 
 @internal
 class AuthRestImpl implements AuthRest {
@@ -21,8 +22,8 @@ class AuthRestImpl implements AuthRest {
   @override
   Future<AuthTokenPair> refreshTokens(String refresh) async {
     _logI('calling refresh token api');
-    // build options for refresh request
-    final options = Options(method: 'POST').compose(
+    // build request for refresh request
+    final request = Options(method: 'POST').compose(
       dio.options,
       refreshUrl,
       data: {
@@ -30,7 +31,7 @@ class AuthRestImpl implements AuthRest {
       },
     );
     try {
-      final response = await dio.fetch<dynamic>(options);
+      final response = await dio.fetch<dynamic>(request);
       _logI('call was successful');
       try {
         final data = response.data as Map<String, dynamic>;
@@ -42,7 +43,7 @@ class AuthRestImpl implements AuthRest {
         // should not happen, but handling loosely ...
         _logI('failed to parse response');
         throw DioError(
-          requestOptions: options,
+          requestOptions: request,
           type: DioErrorType.other,
           response: null,
           error: AssertionError('failed to parse refresh tokens api response.'),
@@ -51,12 +52,7 @@ class AuthRestImpl implements AuthRest {
     } on DioError catch (e) {
       if (_isUnauthorized(e)) {
         _logI('call failed due to invalid refresh token');
-        throw DioError(
-          requestOptions: options,
-          type: DioErrorType.other,
-          response: null,
-          error: AuthException(),
-        );
+        throw AuthException().toDioError(request);
       } else {
         rethrow;
       }
