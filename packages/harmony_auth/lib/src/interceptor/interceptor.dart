@@ -8,6 +8,7 @@ import '../rest/rest.dart';
 import '../storage/storage.dart';
 import '../utils/error_extensions.dart';
 import '../utils/intermediate_error_extensions.dart';
+import '../utils/uri_utils.dart';
 
 /// interceptor for [Dio] to handle auth
 @immutable
@@ -129,22 +130,11 @@ class AuthInterceptor implements Interceptor {
     }
   }
 
-  /// note: output should NOT contain queries
-  ///
-  /// note: output should start with http(s)
-  String _extractUrl(Uri uri) {
-    final str = uri.toString();
-    final index = str.indexOf('?');
-    return index == -1 ? str : str.substring(0, index);
-  }
-
   /// note: should not handle refresh api calls as well as
   /// not matcher calls
   bool _shouldHandle(RequestOptions request) {
     final combine = matcher - rest.refreshTokensMatcher;
-    final method = request.method;
-    final url = _extractUrl(request.uri);
-    return combine.matches(method, url);
+    return combine.matches(request.method, request.uri.url);
   }
 
   void _logI(String message) {
