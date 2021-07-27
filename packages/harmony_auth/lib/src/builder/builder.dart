@@ -12,7 +12,6 @@ import 'impl/builder.dart';
 /// change token from outside.
 abstract class AuthBuilder {
   const factory AuthBuilder({
-    required Dio dio,
     required String refreshUrl,
     required AuthMatcher matcher,
     required Logger logger,
@@ -20,5 +19,13 @@ abstract class AuthBuilder {
 
   AuthStorage get storage;
 
-  Interceptor get interceptor;
+  void applyTo(Dio dio);
+}
+
+/// extension method for easier addition of auth to [Dio].
+extension AuthDioExtensions on Dio {
+  Dio addAuth(AuthBuilder builder) {
+    builder.applyTo(this);
+    return this;
+  }
 }

@@ -12,8 +12,6 @@ import '../builder.dart';
 @internal
 @immutable
 class AuthBuilderImpl implements AuthBuilder {
-  final Dio dio;
-
   final String refreshUrl;
 
   final AuthMatcher matcher;
@@ -21,7 +19,6 @@ class AuthBuilderImpl implements AuthBuilder {
   final Logger logger;
 
   const AuthBuilderImpl({
-    required this.dio,
     required this.refreshUrl,
     required this.matcher,
     required this.logger,
@@ -36,20 +33,22 @@ class AuthBuilderImpl implements AuthBuilder {
   }
 
   @override
-  Interceptor get interceptor {
-    return AuthInterceptor(
-      dio: dio,
-      logger: logger,
-      storage: AuthStorageIml(
-        logger: logger,
-        isInternal: true,
-      ),
-      rest: AuthRestImpl(
+  void applyTo(final Dio dio) {
+    dio.interceptors.add(
+      AuthInterceptor(
         dio: dio,
-        refreshUrl: refreshUrl,
         logger: logger,
+        storage: AuthStorageIml(
+          logger: logger,
+          isInternal: true,
+        ),
+        rest: AuthRestImpl(
+          dio: dio,
+          refreshUrl: refreshUrl,
+          logger: logger,
+        ),
+        matcher: matcher,
       ),
-      matcher: matcher,
     );
   }
 }

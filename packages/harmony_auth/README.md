@@ -31,7 +31,6 @@ for example:
 
 ```dart
 void init() {
-  final dio = Dio();
   final logger = Logger();
   final matcher =
       AuthMatcher.baseUrl('https://base.com/api/') +
@@ -45,8 +44,10 @@ void init() {
     matcher: matcher,
   );
   final storage = builder.storage;
-  final interceptor = builder.interceptor;
-  dio.interceptors.add(interceptor);
+
+  final dio = Dio();
+  builder.applyTo(dio);
+
   // then register with injection: dio and storage
 }
 ```
