@@ -41,7 +41,7 @@ class AuthInterceptor implements Interceptor {
       final access1 = await storage.getAccessToken();
       if (access1 != null) {
         _logI('access token is available, attempting to call ...');
-        request.headers['AUTHORIZATION'] = 'Bearer $access1';
+        request.headers['authorization'] = 'bearer $access1';
         handler.next(request);
       } else {
         _logI('access token is NOT available, checking refresh token ...');
@@ -55,7 +55,7 @@ class AuthInterceptor implements Interceptor {
             final access2 = pair2.access;
             await storage.setRefreshToken(refresh2);
             await storage.setAccessToken(access2);
-            request.headers['AUTHORIZATION'] = 'Bearer $access2';
+            request.headers['authorization'] = 'bearer $access2';
             handler.next(request);
           } on DioError catch (e) {
             // check to see if refresh token was invalid
