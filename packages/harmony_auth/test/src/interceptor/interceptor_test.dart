@@ -75,6 +75,52 @@ void main() {
       });
     });
 
+    group('check refresh call is not matched', () {
+      setUp(() {
+        registerFallbackValue(FakeRequestOptions());
+        adapter = MockAdapter();
+        when(() => adapter.close()).thenAnswer((_) {});
+        storage = InMemoryAuthStorage();
+        dio = Dio();
+        dio.httpClientAdapter = adapter;
+        dio.interceptors.add(AuthInterceptor(
+          dio: dio,
+          storage: storage,
+          matcher: AuthMatcher.all(),
+          rest: AuthRestImpl(
+            dio: dio,
+            refreshUrl: refreshUrl,
+            logger: noopLogger,
+          ),
+          logger: noopLogger,
+        ));
+      });
+
+      tearDown(() {
+        resetMocktailState();
+      });
+
+      test('when make refresh request no token should be added', () async {
+        await storage.setAccessToken('a1');
+        await storage.setRefreshToken('r1');
+
+        when(() => adapter.fetch(
+              any(
+                that: predicate((RequestOptions request) =>
+                    request.path == refreshUrl &&
+                    request.headers['authorization'] == null),
+              ),
+              any(),
+              any(),
+            )).thenAnswer((_) async => ResponseBody(
+              Stream.empty(),
+              200,
+            ));
+
+        await dio.post<dynamic>(refreshUrl);
+      });
+    });
+
     group('matching call', () {
       setUp(() {
         registerFallbackValue(FakeRequestOptions());
