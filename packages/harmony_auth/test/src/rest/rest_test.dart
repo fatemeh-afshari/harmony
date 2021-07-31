@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:harmony_auth/src/exception/exception.dart';
 import 'package:harmony_auth/src/rest/impl/rest.dart';
+import 'package:harmony_auth/src/rest/model/token_pair.dart';
 import 'package:harmony_auth/src/rest/rest.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -16,6 +17,14 @@ class MockAdapter extends Mock implements HttpClientAdapter {}
 class FakeRequestOptions extends Fake implements RequestOptions {}
 
 void main() {
+  group('AuthTokenPair', () {
+    test('initialization', () {
+      final pair = AuthTokenPair(refresh: 'r', access: 'a');
+      expect(pair.access, equals('a'));
+      expect(pair.refresh, equals('r'));
+    });
+  });
+
   group('AuthRest', () {
     group('method refreshTokens', () {
       late MockAdapter adapter;
