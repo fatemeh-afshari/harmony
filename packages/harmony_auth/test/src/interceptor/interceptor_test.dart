@@ -62,6 +62,7 @@ void main() {
               any(
                 that: predicate((RequestOptions request) =>
                     request.path == testUrl &&
+                    request.method == 'GET' &&
                     request.headers['authorization'] == null),
               ),
               any(),
@@ -108,6 +109,7 @@ void main() {
               any(
                 that: predicate((RequestOptions request) =>
                     request.path == refreshUrl &&
+                    request.method == 'POST' &&
                     request.headers['authorization'] == null),
               ),
               any(),
@@ -156,6 +158,7 @@ void main() {
                 any(
                   that: predicate((RequestOptions request) =>
                       request.path == testUrl &&
+                      request.method == 'GET' &&
                       request.headers['authorization'] == 'bearer a1' &&
                       request.extra[keyRetry] == null),
                 ),
@@ -183,6 +186,7 @@ void main() {
                 any(
                   that: predicate((RequestOptions request) =>
                       request.path == testUrl &&
+                      request.method == 'GET' &&
                       request.headers['authorization'] == 'bearer a1' &&
                       request.extra[keyRetry] == null),
                 ),
@@ -217,6 +221,7 @@ void main() {
                 any(
                   that: predicate((RequestOptions request) =>
                       request.path == testUrl &&
+                      request.method == 'GET' &&
                       request.headers['authorization'] == 'bearer a1' &&
                       request.extra[keyRetry] == null),
                 ),
@@ -231,6 +236,7 @@ void main() {
                 any(
                   that: predicate((RequestOptions request) =>
                       request.path == refreshUrl &&
+                      request.method == 'POST' &&
                       request.headers['authorization'] == null &&
                       request.data['refresh'] == 'r1'),
                 ),
@@ -255,6 +261,7 @@ void main() {
                 any(
                   that: predicate((RequestOptions request) =>
                       request.path == testUrl &&
+                      request.method == 'GET' &&
                       request.headers['authorization'] == 'bearer a2' &&
                       request.extra[keyRetry] != null),
                 ),
@@ -282,6 +289,7 @@ void main() {
                 any(
                   that: predicate((RequestOptions request) =>
                       request.path == testUrl &&
+                      request.method == 'GET' &&
                       request.headers['authorization'] == 'bearer a1' &&
                       request.extra[keyRetry] == null),
                 ),
@@ -296,6 +304,7 @@ void main() {
                 any(
                   that: predicate((RequestOptions request) =>
                       request.path == refreshUrl &&
+                      request.method == 'POST' &&
                       request.headers['authorization'] == null &&
                       request.data['refresh'] == 'r1'),
                 ),
@@ -320,6 +329,7 @@ void main() {
                 any(
                   that: predicate((RequestOptions request) =>
                       request.path == testUrl &&
+                      request.method == 'GET' &&
                       request.headers['authorization'] == 'bearer a2' &&
                       request.extra[keyRetry] != null),
                 ),
@@ -354,6 +364,7 @@ void main() {
                 any(
                   that: predicate((RequestOptions request) =>
                       request.path == testUrl &&
+                      request.method == 'GET' &&
                       request.headers['authorization'] == 'bearer a1' &&
                       request.extra[keyRetry] == null),
                 ),
@@ -368,6 +379,7 @@ void main() {
                 any(
                   that: predicate((RequestOptions request) =>
                       request.path == refreshUrl &&
+                      request.method == 'POST' &&
                       request.headers['authorization'] == null &&
                       request.data['refresh'] == 'r1'),
                 ),
@@ -392,6 +404,7 @@ void main() {
                 any(
                   that: predicate((RequestOptions request) =>
                       request.path == testUrl &&
+                      request.method == 'GET' &&
                       request.headers['authorization'] == 'bearer a2' &&
                       request.extra[keyRetry] != null),
                 ),
@@ -429,6 +442,7 @@ void main() {
                 any(
                   that: predicate((RequestOptions request) =>
                       request.path == testUrl &&
+                      request.method == 'GET' &&
                       request.headers['authorization'] == 'bearer a1' &&
                       request.extra[keyRetry] == null),
                 ),
@@ -443,6 +457,7 @@ void main() {
                 any(
                   that: predicate((RequestOptions request) =>
                       request.path == refreshUrl &&
+                      request.method == 'POST' &&
                       request.headers['authorization'] == null &&
                       request.data['refresh'] == 'r1'),
                 ),
@@ -477,6 +492,7 @@ void main() {
                 any(
                   that: predicate((RequestOptions request) =>
                       request.path == testUrl &&
+                      request.method == 'GET' &&
                       request.headers['authorization'] == 'bearer a1' &&
                       request.extra[keyRetry] == null),
                 ),
@@ -491,6 +507,7 @@ void main() {
                 any(
                   that: predicate((RequestOptions request) =>
                       request.path == refreshUrl &&
+                      request.method == 'POST' &&
                       request.headers['authorization'] == null &&
                       request.data['refresh'] == 'r1'),
                 ),
