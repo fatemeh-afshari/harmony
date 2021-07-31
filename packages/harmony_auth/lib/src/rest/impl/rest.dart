@@ -25,7 +25,13 @@ class AuthRestImpl implements AuthRest {
   Future<AuthTokenPair> refreshTokens(String refresh) async {
     _logI('calling refresh token api');
     // build request for refresh request
-    final request = Options(method: 'POST').compose(
+    final request = Options(
+      method: 'POST',
+      headers: <String, dynamic>{
+        'content-type': 'application/json',
+        'accept': 'application/json',
+      },
+    ).compose(
       dio.options,
       refreshUrl,
       data: {

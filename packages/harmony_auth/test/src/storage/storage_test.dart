@@ -3,7 +3,7 @@ import 'package:harmony_auth/src/storage/impl/storage.dart';
 import 'package:harmony_auth/src/storage/storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../logger.dart';
+import '../../utils/logger.dart';
 
 void main() {
   group('AuthStorage', () {
