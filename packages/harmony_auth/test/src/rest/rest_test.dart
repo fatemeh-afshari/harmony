@@ -33,6 +33,7 @@ void main() {
       setUp(() {
         registerFallbackValue(FakeRequestOptions());
         adapter = MockAdapter();
+        when(() => adapter.close()).thenAnswer((_) {});
         rest = AuthRestImpl(
           dio: Dio()..httpClientAdapter = adapter,
           refreshUrl: 'https://refresh',
