@@ -183,14 +183,26 @@ void main() {
           expect(
             () async => await rest.refreshTokens('r1'),
             throwsA(
-              predicate(
-                (DioError e) =>
-                    e.type == DioErrorType.other && e.error is SocketException,
-              ),
+              predicate((DioError e) =>
+                  e.type == DioErrorType.other && e.error is SocketException),
             ),
           );
         },
       );
+    });
+
+    test('getter refreshTokensMatcher', () {
+      final rest = AuthRestImpl(
+        dio: Dio(),
+        refreshUrl: 'https://refresh',
+        logger: noopLogger,
+      );
+
+      final matcher = rest.refreshTokensMatcher;
+
+      expect(matcher.matches('POST', 'https://refresh'), isTrue);
+      expect(matcher.matches('GET', 'https://refresh'), isFalse);
+      expect(matcher.matches('POST', 'https://test'), isFalse);
     });
   });
 }
