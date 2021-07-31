@@ -7,8 +7,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:harmony_auth/harmony_auth.dart';
 import 'package:harmony_auth/src/exception/exception.dart';
 import 'package:harmony_auth/src/rest/impl/rest.dart';
-import 'package:harmony_auth/src/rest/model/token_pair.dart';
-import 'package:harmony_auth/src/rest/rest.dart';
 import 'package:harmony_auth/src/interceptor/interceptor.dart';
 import 'package:mocktail/mocktail.dart';
 
