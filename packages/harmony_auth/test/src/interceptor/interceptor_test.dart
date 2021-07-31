@@ -532,6 +532,43 @@ void main() {
           );
         },
       );
+
+      test(
+        'access -> auth fail -> !refresh',
+        () async {
+          await storage.setAccessToken('a1');
+
+          when(() => adapter.fetch(
+                any(
+                  that: predicate((RequestOptions request) =>
+                      request.path == testUrl &&
+                      request.method == 'GET' &&
+                      request.headers['authorization'] == 'bearer a1' &&
+                      request.extra[keyRetry] == null),
+                ),
+                any(),
+                any(),
+              )).thenAnswer((_) async => ResponseBody(
+                Stream.empty(),
+                401,
+              ));
+
+          expect(
+            () async {
+              try {
+                await dio.get<dynamic>(testUrl);
+              } finally {
+                expect(await storage.getAccessToken(), isNull);
+                expect(await storage.getRefreshToken(), isNull);
+              }
+            },
+            throwsA(
+              predicate((DioError e) =>
+                  e.type == DioErrorType.other && e.error is AuthException),
+            ),
+          );
+        },
+      );
     });
   });
 }
