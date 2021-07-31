@@ -6,7 +6,7 @@ import 'dart:async';
 abstract class AuthStorage {
   Future<String?> getAccessToken();
 
-  Future<void> setAccessToken(String token);
+  Future<void> setAccessToken(String accessToken);
 
   Future<void> removeAccessToken();
 

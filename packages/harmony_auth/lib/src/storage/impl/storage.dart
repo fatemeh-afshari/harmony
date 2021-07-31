@@ -30,10 +30,10 @@ class AuthStorageIml implements AuthStorage {
   }
 
   @override
-  Future<void> setAccessToken(String token) async {
+  Future<void> setAccessToken(String accessToken) async {
     _logI('set access token');
     final prefs = await _preferences();
-    if (!await prefs.setString(_keyAccessToken, token)) {
+    if (!await prefs.setString(_keyAccessToken, accessToken)) {
       throw AssertionError();
     }
   }
