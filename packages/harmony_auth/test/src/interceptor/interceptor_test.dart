@@ -569,6 +569,26 @@ void main() {
           );
         },
       );
+
+      test(
+        '!access -> !refresh',
+        () async {
+          expect(
+            () async {
+              try {
+                await dio.get<dynamic>(testUrl);
+              } finally {
+                expect(await storage.getAccessToken(), isNull);
+                expect(await storage.getRefreshToken(), isNull);
+              }
+            },
+            throwsA(
+              predicate((DioError e) =>
+                  e.type == DioErrorType.other && e.error is AuthException),
+            ),
+          );
+        },
+      );
     });
   });
 }
