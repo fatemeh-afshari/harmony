@@ -12,6 +12,10 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../utils/logger.dart';
 
+const keyRetry = 'harmony_auth_is_retry';
+const testUrl = 'https://test';
+const refreshUrl = 'https://refresh';
+
 class MockAdapter extends Mock implements HttpClientAdapter {}
 
 class FakeRequestOptions extends Fake implements RequestOptions {}
@@ -36,7 +40,7 @@ void main() {
         when(() => adapter.close()).thenAnswer((_) {});
         rest = AuthRestImpl(
           dio: Dio()..httpClientAdapter = adapter,
-          refreshUrl: 'https://refresh',
+          refreshUrl: refreshUrl,
           logger: noopLogger,
         );
       });
@@ -51,7 +55,7 @@ void main() {
           when(() => adapter.fetch(
                 any(
                   that: predicate((RequestOptions request) =>
-                      request.path == 'https://refresh' &&
+                      request.path == refreshUrl &&
                       request.method == 'POST' &&
                       request.headers['content-type'] == 'application/json' &&
                       request.headers['accept'] == 'application/json' &&
@@ -87,7 +91,7 @@ void main() {
                 any(
                   that: predicate(
                     (RequestOptions request) =>
-                        request.path == 'https://refresh' &&
+                        request.path == refreshUrl &&
                         request.method == 'POST' &&
                         request.headers['content-type'] == 'application/json' &&
                         request.headers['accept'] == 'application/json' &&
@@ -112,7 +116,7 @@ void main() {
                 (DioError e) =>
                     e.type == DioErrorType.other &&
                     e.error is AuthException &&
-                    e.requestOptions.path == 'https://refresh',
+                    e.requestOptions.path == refreshUrl,
               ),
             ),
           );
@@ -126,7 +130,7 @@ void main() {
                 any(
                   that: predicate(
                     (RequestOptions request) =>
-                        request.path == 'https://refresh' &&
+                        request.path == refreshUrl &&
                         request.method == 'POST' &&
                         request.headers['content-type'] == 'application/json' &&
                         request.headers['accept'] == 'application/json' &&
@@ -169,7 +173,7 @@ void main() {
                 any(
                   that: predicate(
                     (RequestOptions request) =>
-                        request.path == 'https://refresh' &&
+                        request.path == refreshUrl &&
                         request.method == 'POST' &&
                         request.headers['content-type'] == 'application/json' &&
                         request.headers['accept'] == 'application/json' &&
@@ -194,15 +198,15 @@ void main() {
     test('getter refreshTokensMatcher', () {
       final rest = AuthRestImpl(
         dio: Dio(),
-        refreshUrl: 'https://refresh',
+        refreshUrl: refreshUrl,
         logger: noopLogger,
       );
 
       final matcher = rest.refreshTokensMatcher;
 
-      expect(matcher.matches('POST', 'https://refresh'), isTrue);
-      expect(matcher.matches('GET', 'https://refresh'), isFalse);
-      expect(matcher.matches('POST', 'https://test'), isFalse);
+      expect(matcher.matches('POST', refreshUrl), isTrue);
+      expect(matcher.matches('GET', refreshUrl), isFalse);
+      expect(matcher.matches('POST', testUrl), isFalse);
     });
   });
 }
