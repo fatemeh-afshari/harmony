@@ -571,8 +571,170 @@ void main() {
       );
 
       test(
-        '!access -> !refresh',
+        '!access -> (refresh -> success) -> retry -> success',
         () async {
+          await storage.setRefreshToken('r1');
+
+          when(() => adapter.fetch(
+                any(
+                  that: predicate((RequestOptions request) =>
+                      request.path == refreshUrl &&
+                      request.method == 'POST' &&
+                      request.headers['authorization'] == null &&
+                      request.data['refresh'] == 'r1'),
+                ),
+                any(),
+                any(),
+              )).thenAnswer((_) async => ResponseBody(
+                Stream.fromIterable([
+                  Uint8List.fromList(
+                    utf8.encode(
+                      '{"refresh":"r2", "access":"a2"}',
+                    ),
+                  ),
+                ]),
+                200,
+                headers: {
+                  'content-type': ['application/json'],
+                  'accept': ['application/json'],
+                },
+              ));
+
+          when(() => adapter.fetch(
+                any(
+                  that: predicate((RequestOptions request) =>
+                      request.path == testUrl &&
+                      request.method == 'GET' &&
+                      request.headers['authorization'] == 'bearer a2' &&
+                      request.extra[keyRetry] == null),
+                ),
+                any(),
+                any(),
+              )).thenAnswer((_) async => ResponseBody(
+                Stream.empty(),
+                200,
+              ));
+
+          await dio.get<dynamic>(testUrl);
+
+          expect(await storage.getAccessToken(), equals('a2'));
+          expect(await storage.getRefreshToken(), equals('r2'));
+        },
+      );
+
+      test(
+        '!access -> (refresh -> success) -> retry -> network fail',
+        () async {
+          await storage.setRefreshToken('r1');
+
+          when(() => adapter.fetch(
+                any(
+                  that: predicate((RequestOptions request) =>
+                      request.path == refreshUrl &&
+                      request.method == 'POST' &&
+                      request.headers['authorization'] == null &&
+                      request.data['refresh'] == 'r1'),
+                ),
+                any(),
+                any(),
+              )).thenAnswer((_) async => ResponseBody(
+                Stream.fromIterable([
+                  Uint8List.fromList(
+                    utf8.encode(
+                      '{"refresh":"r2", "access":"a2"}',
+                    ),
+                  ),
+                ]),
+                200,
+                headers: {
+                  'content-type': ['application/json'],
+                  'accept': ['application/json'],
+                },
+              ));
+
+          when(() => adapter.fetch(
+                any(
+                  that: predicate((RequestOptions request) =>
+                      request.path == testUrl &&
+                      request.method == 'GET' &&
+                      request.headers['authorization'] == 'bearer a2' &&
+                      request.extra[keyRetry] == null),
+                ),
+                any(),
+                any(),
+              )).thenAnswer((_) async => throw SocketException('error'));
+
+          expect(
+            () async {
+              try {
+                await dio.get<dynamic>(testUrl);
+              } finally {
+                expect(await storage.getAccessToken(), equals('a2'));
+                expect(await storage.getRefreshToken(), equals('r2'));
+              }
+            },
+            throwsA(
+              predicate((DioError e) =>
+                  e.type == DioErrorType.other && e.error is SocketException),
+            ),
+          );
+        },
+      );
+
+      test(
+        'access -> (refresh -> network fail)',
+        () async {
+          await storage.setRefreshToken('r1');
+
+          when(() => adapter.fetch(
+                any(
+                  that: predicate((RequestOptions request) =>
+                      request.path == refreshUrl &&
+                      request.method == 'POST' &&
+                      request.headers['authorization'] == null &&
+                      request.data['refresh'] == 'r1'),
+                ),
+                any(),
+                any(),
+              )).thenAnswer((_) async => throw SocketException('error'));
+
+          expect(
+            () async {
+              try {
+                await dio.get<dynamic>(testUrl);
+              } finally {
+                expect(await storage.getAccessToken(), isNull);
+                expect(await storage.getRefreshToken(), equals('r1'));
+              }
+            },
+            throwsA(
+              predicate((DioError e) =>
+                  e.type == DioErrorType.other && e.error is SocketException),
+            ),
+          );
+        },
+      );
+
+      test(
+        'access -> (refresh -> auth fail)',
+        () async {
+          await storage.setRefreshToken('r1');
+
+          when(() => adapter.fetch(
+                any(
+                  that: predicate((RequestOptions request) =>
+                      request.path == refreshUrl &&
+                      request.method == 'POST' &&
+                      request.headers['authorization'] == null &&
+                      request.data['refresh'] == 'r1'),
+                ),
+                any(),
+                any(),
+              )).thenAnswer((_) async => ResponseBody(
+                Stream.empty(),
+                401,
+              ));
+
           expect(
             () async {
               try {
