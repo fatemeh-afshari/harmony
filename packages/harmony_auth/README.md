@@ -51,3 +51,20 @@ void init() {
   // then register with injection: dio and storage
 }
 ```
+
+## Tokens
+
+When logging in you should set access and refresh tokens to storage.
+
+When logging out you should clear storage.
+
+If you want to check logged in state use isLoggedIn extension method on storage.
+
+## Errors
+
+The only type of error from harmony_auth is DioError with type of DioErrorType.other and error of type AuthException.
+
+You can use isAuthException, asAuthException and asAuthExceptionOrNull extension methods on DioError for convenience.
+
+When auth exception occurs it means that no tokens are present and user is logged out. so you should make user log in
+again.
