@@ -22,7 +22,7 @@ void main() {
 
       setUp(() {
         SharedPreferences.setMockInitialValues({});
-        storage = AuthStorageIml(
+        storage = AuthStorageImpl(
           logger: noopLogger,
           isInternal: true,
         );

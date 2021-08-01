@@ -7,14 +7,14 @@ import '../storage.dart';
 /// auth storage implementation based on shared_preferences
 @internal
 @immutable
-class AuthStorageIml implements AuthStorage {
+class AuthStorageImpl implements AuthStorage {
   static const _keyAccessToken = 'harmony_auth_storage_access_token';
   static const _keyRefreshToken = 'harmony_auth_storage_refresh_token';
 
   final Logger logger;
   final bool isInternal;
 
-  const AuthStorageIml({
+  const AuthStorageImpl({
     required this.logger,
     required this.isInternal,
   });

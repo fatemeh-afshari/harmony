@@ -26,7 +26,7 @@ class AuthBuilderImpl implements AuthBuilder {
 
   @override
   AuthStorage get storage {
-    return AuthStorageIml(
+    return AuthStorageImpl(
       logger: logger,
       isInternal: false,
     );
@@ -38,7 +38,7 @@ class AuthBuilderImpl implements AuthBuilder {
       AuthInterceptor(
         dio: dio,
         logger: logger,
-        storage: AuthStorageIml(
+        storage: AuthStorageImpl(
           logger: logger,
           isInternal: true,
         ),
