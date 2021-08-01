@@ -21,11 +21,3 @@ abstract class AuthBuilder {
 
   void applyTo(Dio dio);
 }
-
-/// extension method for easier addition of auth to [Dio].
-extension AuthDioExtensions on Dio {
-  Dio addAuth(AuthBuilder builder) {
-    builder.applyTo(this);
-    return this;
-  }
-}
