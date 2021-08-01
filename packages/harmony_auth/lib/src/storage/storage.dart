@@ -21,5 +21,5 @@ abstract class AuthStorage {
 
 /// extension for checking login state
 extension AuthStorageExt on AuthStorage {
-  Future<bool> get isLoggedIn async => await getAccessToken() != null;
+  Future<bool> get isLoggedIn async => await getRefreshToken() != null;
 }

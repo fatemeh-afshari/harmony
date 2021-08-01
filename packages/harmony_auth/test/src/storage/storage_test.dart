@@ -4,9 +4,19 @@ import 'package:harmony_auth/src/storage/storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utils/logger.dart';
+import '../../utils/storage.dart';
 
 void main() {
   group('AuthStorage', () {
+    group('AuthStorageExt', () {
+      test('isLoggedIn', () async {
+        final storage = InMemoryAuthStorage();
+        expect(await storage.isLoggedIn, isFalse);
+        await storage.setRefreshToken('r1');
+        expect(await storage.isLoggedIn, isTrue);
+      });
+    });
+
     group('initialize with mocked empty storage', () {
       late AuthStorage storage;
 
