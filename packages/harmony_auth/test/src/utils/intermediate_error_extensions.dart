@@ -7,7 +7,7 @@ class FakeRequestOptions extends Fake implements RequestOptions {}
 class FakeObject extends Fake {}
 
 void main() {
-  group('IntermediateErrorExtensions', () {
+  group('AuthDioErrorIntermediateExtensions', () {
     test('isUnauthorized', () {
       expect(
         DioError(
