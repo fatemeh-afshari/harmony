@@ -108,15 +108,15 @@ class AuthInterceptor implements Interceptor {
     final request = error.requestOptions;
     if (_shouldHandle(request) && error.isUnauthorized) {
       _logI('unauthorized, error needs handling, checking retry status ...');
-      final isRetry = request.extra[_keyIsRetry] != null;
-      if (isRetry) {
+      await storage.removeAccessToken();
+      if (request.extra[_keyIsRetry] != null) {
         _logI('request is already retried, error');
+        await storage.removeRefreshToken();
         handler.reject(
           AuthException().toDioError(request),
         );
       } else {
         _logI('request is NOT retried, attempting to retry ...');
-        await storage.removeAccessToken();
         request.extra[_keyIsRetry] = true;
         try {
           final response = await dio.fetch<dynamic>(request);

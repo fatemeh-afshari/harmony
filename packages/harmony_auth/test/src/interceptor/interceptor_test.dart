@@ -418,8 +418,8 @@ void main() {
               try {
                 await dio.get<dynamic>(testUrl);
               } finally {
-                expect(await storage.getAccessToken(), equals('a2'));
-                expect(await storage.getRefreshToken(), equals('r2'));
+                expect(await storage.getAccessToken(), isNull);
+                expect(await storage.getRefreshToken(), isNull);
               }
             },
             throwsA(
