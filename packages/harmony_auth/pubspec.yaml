@@ -1,0 +1,23 @@
+name: harmony_auth
+description: Harmony Low-Level Authentication/Authorization Mechanism.
+version: 0.1.0
+homepage: https://github.com/6thsolution/harmony
+repository: https://github.com/6thsolution/harmony
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+  flutter: ">=2.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  meta: ^1.0.0
+  dio: ^4.0.0
+  shared_preferences: ^2.0.0
+  logger: ^1.0.0
+  mocktail: ^0.1.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  pedantic: ^1.11.0
