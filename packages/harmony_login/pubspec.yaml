@@ -1,8 +1,12 @@
 name: harmony_login
 description: Harmony Login and User Management.
-version: 0.1.0
 homepage: https://github.com/6thsolution/harmony
 repository: https://github.com/6thsolution/harmony
+
+version: 0.1.0
+
+# remove this to publish
+publish_to: 'none'
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -23,6 +27,8 @@ dependencies:
   flutter_facebook_auth: ^3.5.0
   sign_in_with_apple: ^3.0.0
   crypto: ^3.0.0
+  harmony_auth:
+    path: ../harmony_auth/
 
 dev_dependencies:
   flutter_test:
