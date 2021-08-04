@@ -70,6 +70,6 @@ class AuthRestImpl implements AuthRest {
   }
 
   void _log(String message) {
-    Auth.log('harmony_auth rest $message');
+    Auth.log('harmony_auth rest.standard: $message');
   }
 }

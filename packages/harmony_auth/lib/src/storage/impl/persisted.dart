@@ -6,12 +6,11 @@ import '../storage.dart';
 
 /// auth storage implementation based on shared_preferences
 @internal
-@immutable
-class AuthStorageImpl implements AuthStorage {
+class AuthStorageStandardImpl implements AuthStorage {
   static const _keyAccessToken = 'harmony_auth_storage_access_token';
   static const _keyRefreshToken = 'harmony_auth_storage_refresh_token';
 
-  const AuthStorageImpl();
+  const AuthStorageStandardImpl();
 
   Future<SharedPreferences> _preferences() async {
     return await SharedPreferences.getInstance();
@@ -73,6 +72,6 @@ class AuthStorageImpl implements AuthStorage {
   }
 
   void _logI(String message) {
-    Auth.log('harmony_auth storage: $message');
+    Auth.log('harmony_auth storage.persisted: $message');
   }
 }

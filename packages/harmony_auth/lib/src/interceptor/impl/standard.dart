@@ -136,6 +136,6 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
   }
 
   void _log(String message) {
-    Auth.log('harmony_auth interceptor $message');
+    Auth.log('harmony_auth interceptor.standard: $message');
   }
 }
