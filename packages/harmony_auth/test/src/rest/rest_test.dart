@@ -5,7 +5,6 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:harmony_auth/src/exception/exception.dart';
-import 'package:harmony_auth/src/rest/impl/rest.dart';
 import 'package:harmony_auth/src/rest/model/token_pair.dart';
 import 'package:harmony_auth/src/rest/rest.dart';
 import 'package:mocktail/mocktail.dart';
@@ -36,7 +35,7 @@ void main() {
         registerFallbackValue(FakeRequestOptions());
         adapter = MockAdapter();
         when(() => adapter.close()).thenAnswer((_) {});
-        rest = AuthRestImpl(
+        rest = AuthRest.standard(
           dio: Dio()..httpClientAdapter = adapter,
           refreshUrl: refreshUrl,
         );
@@ -193,7 +192,7 @@ void main() {
     });
 
     test('getter refreshTokensMatcher', () {
-      final rest = AuthRestImpl(
+      final rest = AuthRest.standard(
         dio: Dio(),
         refreshUrl: refreshUrl,
       );

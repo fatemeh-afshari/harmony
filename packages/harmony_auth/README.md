@@ -70,12 +70,21 @@ again.
 
 If you want to log process add a logger to `Auth` class, like this:
 
-```dart
-void init() {
-  final logger = Logger();
-  Auth.logger = logger;
+```
+// to add a logger:
+final logger = Logger( ... );
+Auth.logger = logger;
 
-  // if you want to clear logger:
-  Auth.logger = null;
-}
+// to clear logger:
+Auth.logger = null;
+```
+
+### AuthRest
+
+#### standard rest
+
+when sending refresh token and getting both refresh and access token.
+
+```
+AuthRest.standard( ... );
 ```

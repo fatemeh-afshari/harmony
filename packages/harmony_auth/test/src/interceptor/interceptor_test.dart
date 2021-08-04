@@ -7,7 +7,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:harmony_auth/harmony_auth.dart';
 import 'package:harmony_auth/src/exception/exception.dart';
 import 'package:harmony_auth/src/interceptor/interceptor.dart';
-import 'package:harmony_auth/src/rest/impl/rest.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../utils/storage.dart';
@@ -39,7 +38,7 @@ void main() {
             dio: dio,
             storage: storage,
             matcher: AuthMatcher.all(),
-            rest: AuthRestImpl(
+            rest: AuthRest.standard(
               dio: dio,
               refreshUrl: refreshUrl,
             ),
@@ -84,7 +83,7 @@ void main() {
             dio: dio,
             storage: storage,
             matcher: AuthMatcher.none(),
-            rest: AuthRestImpl(
+            rest: AuthRest.standard(
               dio: dio,
               refreshUrl: refreshUrl,
             ),
@@ -129,7 +128,7 @@ void main() {
             dio: dio,
             storage: storage,
             matcher: AuthMatcher.all(),
-            rest: AuthRestImpl(
+            rest: AuthRest.standard(
               dio: dio,
               refreshUrl: refreshUrl,
             ),
