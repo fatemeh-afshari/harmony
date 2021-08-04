@@ -1,8 +1,4 @@
-import 'package:meta/meta.dart';
-
 /// access and refresh token pair
-@internal
-@immutable
 class AuthTokenPair {
   /// refresh token
   final String refresh;

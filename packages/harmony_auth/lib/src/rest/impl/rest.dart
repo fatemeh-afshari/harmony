@@ -21,7 +21,7 @@ class AuthRestImpl implements AuthRest {
 
   @override
   Future<AuthTokenPair> refreshTokens(String refresh) async {
-    _logI('calling refresh token api');
+    _log('calling refresh token api');
     // build request for refresh request
     final request = Options(
       method: 'POST',
@@ -38,7 +38,7 @@ class AuthRestImpl implements AuthRest {
     );
     try {
       final response = await dio.fetch<dynamic>(request);
-      _logI('call was successful');
+      _log('call was successful');
       try {
         final data = response.data as Map<String, dynamic>;
         return AuthTokenPair(
@@ -47,7 +47,7 @@ class AuthRestImpl implements AuthRest {
         );
       } catch (_) {
         // should not happen, but handling loosely ...
-        _logI('failed to parse response');
+        _log('failed to parse response');
         throw DioError(
           requestOptions: request,
           type: DioErrorType.other,
@@ -57,7 +57,7 @@ class AuthRestImpl implements AuthRest {
       }
     } on DioError catch (e) {
       if (e.isUnauthorized) {
-        _logI('call failed due to invalid refresh token');
+        _log('call failed due to invalid refresh token');
         throw AuthException().toDioError(request);
       } else {
         rethrow;
@@ -70,7 +70,7 @@ class AuthRestImpl implements AuthRest {
     return AuthMatcher.url(refreshUrl) & AuthMatcher.method('POST');
   }
 
-  void _logI(String message) {
+  void _log(String message) {
     Auth.log('harmony_auth rest $message');
   }
 }
