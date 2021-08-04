@@ -2,7 +2,7 @@
 
 Harmony Low-Level Authentication/Authorization Mechanism.
 
-## Installation and Usage
+## Installation
 
 add this library to your pubspec.yaml.
 
@@ -18,38 +18,6 @@ import harmony_auth.
 
 ```dart
 import 'package:harmony_auth/harmony_auth.dart';
-```
-
-- create a dio.
-- create a logger.
-- create an auth matcher.
-- create an auth builder.
-- get storage for external token manipulation.
-- get interceptor and add it to your dio interceptors.
-
-for example:
-
-```dart
-void init() {
-  final logger = Logger();
-  final matcher =
-      AuthMatcher.baseUrl('https://base.com/api/') +
-          AuthMatcher.baseUrl('https://other_base.com/api/') -
-          AuthMatcher.baseUrl('https://base.com/api/ignored/') -
-          (AuthMatcher.url('https://base.com/api/exception/') & AuthMatcher.method('GET'));
-  final builder = AuthBuilder(
-    dio: dio,
-    logger: logger,
-    refreshUrl: 'https://base.com/api/user/token/refresh/',
-    matcher: matcher,
-  );
-  final storage = builder.storage;
-
-  final dio = Dio();
-  builder.applyTo(dio);
-
-  // then register with injection: dio and storage
-}
 ```
 
 ## Tokens
@@ -68,3 +36,76 @@ You can use isAuthException, asAuthException and asAuthExceptionOrNull extension
 
 When auth exception occurs it means that no tokens are present and user is logged out. so you should make user log in
 again.
+
+## Usage
+
+- create and add a logger if needed.
+- create an auth storage.
+- create a dio.
+- create an auth matcher.
+- create an auth rest.
+- create and add interceptor.
+
+for example:
+
+```dart
+void init() {
+  // to add a logger:
+  final logger = Logger(/*...*/);
+  Auth.logger = logger;
+  // to clear logger:
+  Auth.logger = null;
+
+  // storage:
+  final storage = AuthStorage.standard();
+  // standard will be using shared preferences and is persisted
+  // or use in memory implementation
+  AuthStorage.inMemory();
+  // or subclass AuthStorage by yourself for other scenarios
+  // you should register storage with dependency injection
+
+  // dio:
+  final dio = Dio();
+  // you can apply all sorts of configurations to your dio
+  // like adding loggers, setting baseUrl and ...
+  // you should register dio with dependency injection
+  //  after adding auth interceptor to it.
+
+  // matcher:
+  // example
+  final matcher = AuthMatcher.baseUrl('https://base.com/api/') +
+      AuthMatcher.baseUrl('https://other_base.com/api/') -
+      AuthMatcher.baseUrl('https://base.com/api/ignored/') -
+      (AuthMatcher.url('https://base.com/api/exception/') & AuthMatcher.method('GET'));
+  // you can use most of set operation on matchers
+  // or match all urls
+  AuthMatcher.all();
+  // or match none of urls
+  AuthMatcher.none();
+  // or check docs for other types of matchers
+  // you can almost match anything without the need for sub-classing AuthMatcher
+
+  // rest:
+  final rest = AuthRest.standard(
+    dio: dio,
+    refreshUrl: 'https://base.com/api/user/token/refresh/',
+  );
+  // or use accessOnly implementation if refresh request only
+  //  responses with access token
+  AuthRest.accessOnly(/* ... */);
+  // or subclass AuthRest by yourself
+  // please check docs for further details
+
+  // interceptor:
+  final interceptor = AuthInterceptor.standard(
+    dio: dio,
+    storage: storage,
+    matcher: matcher,
+    rest: rest,
+  );
+  // and add it to your dio
+  dio.interceptors.add(interceptor);
+
+  // now you can register dio with dependency injection.
+}
+```

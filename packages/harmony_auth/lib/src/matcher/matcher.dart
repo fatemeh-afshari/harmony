@@ -40,6 +40,11 @@ abstract class AuthMatcher {
   /// never match
   const factory AuthMatcher.none() = AuthMatcherNoneImpl;
 
+  /// provide lambda for method and url
+  const factory AuthMatcher.byMethodAndUrl(
+    bool Function(String method, String url) match,
+  ) = AuthMatcherByMethodAndUrlImpl;
+
   /// method will be upper case
   ///
   /// url will be all but queries

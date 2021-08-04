@@ -111,6 +111,16 @@ void main() {
       expect(matcher.matches('n', 'u'), isFalse);
     });
 
+    test('implementation byMethodAndUrl', () {
+      final matcher = AuthMatcher.byMethodAndUrl(
+        (method, url) => method == 'm' && url == 'u',
+      );
+      expect(matcher.matches('m', 'u'), isTrue);
+      expect(matcher.matches('m', 'v'), isFalse);
+      expect(matcher.matches('n', 'u'), isFalse);
+      expect(matcher.matches('n', 'v'), isFalse);
+    });
+
     group('operations', () {
       test('union', () {
         final matcher = AuthMatcher.method('m') | AuthMatcher.url('u');

@@ -1,9 +1,16 @@
-import 'dart:async';
+import 'impl/in_memory.dart';
+import 'impl/persisted.dart';
 
 /// harmony_auth storage for tokens
 ///
 /// it will be backed by shared_preferences by default
 abstract class AuthStorage {
+  /// persisted using shared preferences
+  const factory AuthStorage.standard() = AuthStorageStandardImpl;
+
+  /// in memory implementation
+  factory AuthStorage.inMemory() = AuthStorageInMemoryImpl;
+
   Future<String?> getAccessToken();
 
   Future<void> setAccessToken(String accessToken);

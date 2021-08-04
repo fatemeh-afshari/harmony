@@ -1,29 +1,26 @@
 import 'package:dio/dio.dart';
-import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
 
+import '../../auth.dart';
 import '../../exception/exception.dart';
 import '../../matcher/matcher.dart';
 import '../../utils/error_extensions.dart';
 import '../../utils/intermediate_error_extensions.dart';
-import '../model/token_pair.dart';
 import '../rest.dart';
 
 @internal
-class AuthRestImpl implements AuthRest {
+class AuthRestStandardImpl implements AuthRest {
   final Dio dio;
   final String refreshUrl;
-  final Logger logger;
 
-  const AuthRestImpl({
+  const AuthRestStandardImpl({
     required this.dio,
     required this.refreshUrl,
-    required this.logger,
   });
 
   @override
-  Future<AuthTokenPair> refreshTokens(String refresh) async {
-    _logI('calling refresh token api');
+  Future<AuthRestToken> refreshTokens(String refresh) async {
+    _log('calling refresh token api');
     // build request for refresh request
     final request = Options(
       method: 'POST',
@@ -40,16 +37,16 @@ class AuthRestImpl implements AuthRest {
     );
     try {
       final response = await dio.fetch<dynamic>(request);
-      _logI('call was successful');
+      _log('call was successful');
       try {
         final data = response.data as Map<String, dynamic>;
-        return AuthTokenPair(
+        return AuthRestToken(
           refresh: data['refresh'] as String,
           access: data['access'] as String,
         );
       } catch (_) {
         // should not happen, but handling loosely ...
-        _logI('failed to parse response');
+        _log('failed to parse response');
         throw DioError(
           requestOptions: request,
           type: DioErrorType.other,
@@ -59,7 +56,7 @@ class AuthRestImpl implements AuthRest {
       }
     } on DioError catch (e) {
       if (e.isUnauthorized) {
-        _logI('call failed due to invalid refresh token');
+        _log('call failed due to invalid refresh token');
         throw AuthException().toDioError(request);
       } else {
         rethrow;
@@ -72,7 +69,7 @@ class AuthRestImpl implements AuthRest {
     return AuthMatcher.url(refreshUrl) & AuthMatcher.method('POST');
   }
 
-  void _logI(String message) {
-    logger.i('harmony_auth rest $message');
+  void _log(String message) {
+    Auth.log('harmony_auth rest.standard: $message');
   }
 }

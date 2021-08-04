@@ -1,23 +1,16 @@
-import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../auth.dart';
 import '../storage.dart';
 
 /// auth storage implementation based on shared_preferences
 @internal
-@immutable
-class AuthStorageImpl implements AuthStorage {
+class AuthStorageStandardImpl implements AuthStorage {
   static const _keyAccessToken = 'harmony_auth_storage_access_token';
   static const _keyRefreshToken = 'harmony_auth_storage_refresh_token';
 
-  final Logger logger;
-  final bool isInternal;
-
-  const AuthStorageImpl({
-    required this.logger,
-    required this.isInternal,
-  });
+  const AuthStorageStandardImpl();
 
   Future<SharedPreferences> _preferences() async {
     return await SharedPreferences.getInstance();
@@ -31,7 +24,7 @@ class AuthStorageImpl implements AuthStorage {
 
   @override
   Future<void> setAccessToken(String accessToken) async {
-    _logI('set access token');
+    _log('set access token');
     final prefs = await _preferences();
     if (!await prefs.setString(_keyAccessToken, accessToken)) {
       throw AssertionError();
@@ -40,7 +33,7 @@ class AuthStorageImpl implements AuthStorage {
 
   @override
   Future<void> removeAccessToken() async {
-    _logI('remove access token');
+    _log('remove access token');
     final prefs = await _preferences();
     if (!await prefs.remove(_keyAccessToken)) {
       throw AssertionError();
@@ -55,7 +48,7 @@ class AuthStorageImpl implements AuthStorage {
 
   @override
   Future<void> setRefreshToken(String refreshToken) async {
-    _logI('set refresh token');
+    _log('set refresh token');
     final prefs = await _preferences();
     if (!await prefs.setString(_keyRefreshToken, refreshToken)) {
       throw AssertionError();
@@ -64,7 +57,7 @@ class AuthStorageImpl implements AuthStorage {
 
   @override
   Future<void> removeRefreshToken() async {
-    _logI('remove refresh token');
+    _log('remove refresh token');
     final prefs = await _preferences();
     if (!await prefs.remove(_keyRefreshToken)) {
       throw AssertionError();
@@ -73,18 +66,12 @@ class AuthStorageImpl implements AuthStorage {
 
   @override
   Future<void> clear() async {
-    _logI('clear');
+    _log('clear');
     await removeAccessToken();
     await removeRefreshToken();
   }
 
-  void _logI(String message) {
-    final s = StringBuffer('harmony_auth storage ');
-    if (!isInternal) {
-      s.write('EXTERNAL');
-    }
-    s.write(': ');
-    s.write(message);
-    logger.i(s.toString());
+  void _log(String message) {
+    Auth.log('harmony_auth storage.persisted: $message');
   }
 }
