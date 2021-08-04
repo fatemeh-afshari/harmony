@@ -17,6 +17,9 @@ abstract class AuthRest {
   /// other error will be of [type] [DioErrorType.other]
   /// and they will have [error] of type [AuthException]
   ///
+  /// You can convert [AuthException] to [DioError] using
+  /// `.toDioError(...)` extension function.
+  ///
   /// note: should NOT do anything other than making request,
   /// such as writing to storage ...
   ///
