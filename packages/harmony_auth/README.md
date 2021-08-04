@@ -2,7 +2,7 @@
 
 Harmony Low-Level Authentication/Authorization Mechanism.
 
-## Installation and Usage
+## Installation
 
 add this library to your pubspec.yaml.
 
@@ -19,6 +19,38 @@ import harmony_auth.
 ```dart
 import 'package:harmony_auth/harmony_auth.dart';
 ```
+
+## Logging
+
+If you want to log process add a logger to `Auth` class, like this:
+
+```
+// to add a logger:
+final logger = Logger( ... );
+Auth.logger = logger;
+
+// to clear logger:
+Auth.logger = null;
+```
+
+## Outside: Tokens
+
+When logging in you should set access and refresh tokens to storage.
+
+When logging out you should clear storage.
+
+If you want to check logged in state use isLoggedIn extension method on storage.
+
+## Outside: Errors
+
+The only type of error from harmony_auth is DioError with type of DioErrorType.other and error of type AuthException.
+
+You can use isAuthException, asAuthException and asAuthExceptionOrNull extension methods on DioError for convenience.
+
+When auth exception occurs it means that no tokens are present and user is logged out. so you should make user log in
+again.
+
+## Usage
 
 - create a dio.
 - create an auth matcher.
@@ -48,39 +80,3 @@ void init() {
   // then register with injection: dio and storage
 }
 ```
-
-## Tokens
-
-When logging in you should set access and refresh tokens to storage.
-
-When logging out you should clear storage.
-
-If you want to check logged in state use isLoggedIn extension method on storage.
-
-## Errors
-
-The only type of error from harmony_auth is DioError with type of DioErrorType.other and error of type AuthException.
-
-You can use isAuthException, asAuthException and asAuthExceptionOrNull extension methods on DioError for convenience.
-
-When auth exception occurs it means that no tokens are present and user is logged out. so you should make user log in
-again.
-
-### Logging
-
-If you want to log process add a logger to `Auth` class, like this:
-
-```
-// to add a logger:
-final logger = Logger( ... );
-Auth.logger = logger;
-
-// to clear logger:
-Auth.logger = null;
-```
-
-### AuthRest
-
-#### standard rest
-
-when sending refresh token and getting both refresh and access token.

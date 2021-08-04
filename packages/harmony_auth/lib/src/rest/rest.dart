@@ -37,6 +37,8 @@ abstract class AuthRest {
   Future<AuthRestToken> refreshTokens(String refresh);
 
   /// matcher to check to see if this call is to refresh tokens.
+  ///
+  /// note: this should match exactly only refresh request.
   AuthMatcher get refreshTokensMatcher;
 }
 
