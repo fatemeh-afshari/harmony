@@ -6,11 +6,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:harmony_auth/harmony_auth.dart';
 import 'package:harmony_auth/src/exception/exception.dart';
-import 'package:harmony_auth/src/rest/impl/rest.dart';
 import 'package:harmony_auth/src/interceptor/interceptor.dart';
+import 'package:harmony_auth/src/rest/impl/rest.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../utils/logger.dart';
 import '../../utils/storage.dart';
 
 const keyRetry = 'harmony_auth_is_retry';
@@ -42,9 +41,7 @@ void main() {
           rest: AuthRestImpl(
             dio: dio,
             refreshUrl: refreshUrl,
-            logger: noopLogger,
           ),
-          logger: noopLogger,
         ));
       });
 
@@ -89,9 +86,7 @@ void main() {
           rest: AuthRestImpl(
             dio: dio,
             refreshUrl: refreshUrl,
-            logger: noopLogger,
           ),
-          logger: noopLogger,
         ));
       });
 
@@ -136,9 +131,7 @@ void main() {
           rest: AuthRestImpl(
             dio: dio,
             refreshUrl: refreshUrl,
-            logger: noopLogger,
           ),
-          logger: noopLogger,
         ));
       });
 

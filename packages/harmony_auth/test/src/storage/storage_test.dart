@@ -3,7 +3,6 @@ import 'package:harmony_auth/src/storage/impl/storage.dart';
 import 'package:harmony_auth/src/storage/storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../utils/logger.dart';
 import '../../utils/storage.dart';
 
 void main() {
@@ -22,10 +21,7 @@ void main() {
 
       setUp(() {
         SharedPreferences.setMockInitialValues({});
-        storage = AuthStorageImpl(
-          logger: noopLogger,
-          isInternal: true,
-        );
+        storage = AuthStorageImpl();
       });
 
       test('check initial data', () async {

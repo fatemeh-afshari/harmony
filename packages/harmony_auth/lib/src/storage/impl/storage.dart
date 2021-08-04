@@ -1,7 +1,7 @@
-import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../auth.dart';
 import '../storage.dart';
 
 /// auth storage implementation based on shared_preferences
@@ -11,13 +11,7 @@ class AuthStorageImpl implements AuthStorage {
   static const _keyAccessToken = 'harmony_auth_storage_access_token';
   static const _keyRefreshToken = 'harmony_auth_storage_refresh_token';
 
-  final Logger logger;
-  final bool isInternal;
-
-  const AuthStorageImpl({
-    required this.logger,
-    required this.isInternal,
-  });
+  const AuthStorageImpl();
 
   Future<SharedPreferences> _preferences() async {
     return await SharedPreferences.getInstance();
@@ -79,12 +73,6 @@ class AuthStorageImpl implements AuthStorage {
   }
 
   void _logI(String message) {
-    final s = StringBuffer('harmony_auth storage ');
-    if (!isInternal) {
-      s.write('EXTERNAL');
-    }
-    s.write(': ');
-    s.write(message);
-    logger.i(s.toString());
+    Auth.log('harmony_auth storage: $message');
   }
 }

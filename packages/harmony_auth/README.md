@@ -21,7 +21,6 @@ import 'package:harmony_auth/harmony_auth.dart';
 ```
 
 - create a dio.
-- create a logger.
 - create an auth matcher.
 - create an auth builder.
 - get storage for external token manipulation.
@@ -31,7 +30,6 @@ for example:
 
 ```dart
 void init() {
-  final logger = Logger();
   final matcher =
       AuthMatcher.baseUrl('https://base.com/api/') +
           AuthMatcher.baseUrl('https://other_base.com/api/') -
@@ -39,7 +37,6 @@ void init() {
           (AuthMatcher.url('https://base.com/api/exception/') & AuthMatcher.method('GET'));
   final builder = AuthBuilder(
     dio: dio,
-    logger: logger,
     refreshUrl: 'https://base.com/api/user/token/refresh/',
     matcher: matcher,
   );
@@ -68,3 +65,17 @@ You can use isAuthException, asAuthException and asAuthExceptionOrNull extension
 
 When auth exception occurs it means that no tokens are present and user is logged out. so you should make user log in
 again.
+
+### Logging
+
+If you want to log process add a logger to `Auth` class, like this:
+
+```dart
+void init() {
+  final logger = Logger();
+  Auth.logger = logger;
+
+  // if you want to clear logger:
+  Auth.logger = null;
+}
+```

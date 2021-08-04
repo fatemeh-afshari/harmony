@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
 
+import '../../auth.dart';
 import '../../exception/exception.dart';
 import '../../matcher/matcher.dart';
 import '../../utils/error_extensions.dart';
@@ -13,12 +13,10 @@ import '../rest.dart';
 class AuthRestImpl implements AuthRest {
   final Dio dio;
   final String refreshUrl;
-  final Logger logger;
 
   const AuthRestImpl({
     required this.dio,
     required this.refreshUrl,
-    required this.logger,
   });
 
   @override
@@ -73,6 +71,6 @@ class AuthRestImpl implements AuthRest {
   }
 
   void _logI(String message) {
-    logger.i('harmony_auth rest $message');
+    Auth.log('harmony_auth rest $message');
   }
 }

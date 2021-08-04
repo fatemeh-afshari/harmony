@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
 
+import '../auth.dart';
 import '../exception/exception.dart';
 import '../matcher/matcher.dart';
 import '../rest/rest.dart';
@@ -20,14 +20,12 @@ class AuthInterceptor implements Interceptor {
   final AuthStorage storage;
   final AuthMatcher matcher;
   final AuthRest rest;
-  final Logger logger;
 
   const AuthInterceptor({
     required this.dio,
     required this.storage,
     required this.matcher,
     required this.rest,
-    required this.logger,
   });
 
   /// note: artificial DioErrors should NOT have response
@@ -138,6 +136,6 @@ class AuthInterceptor implements Interceptor {
   }
 
   void _logI(String message) {
-    logger.i('harmony_auth interceptor $message');
+    Auth.log('harmony_auth interceptor $message');
   }
 }

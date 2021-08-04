@@ -10,8 +10,6 @@ import 'package:harmony_auth/src/rest/model/token_pair.dart';
 import 'package:harmony_auth/src/rest/rest.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../utils/logger.dart';
-
 const keyRetry = 'harmony_auth_is_retry';
 const testUrl = 'https://test';
 const refreshUrl = 'https://refresh';
@@ -41,7 +39,6 @@ void main() {
         rest = AuthRestImpl(
           dio: Dio()..httpClientAdapter = adapter,
           refreshUrl: refreshUrl,
-          logger: noopLogger,
         );
       });
 
@@ -199,7 +196,6 @@ void main() {
       final rest = AuthRestImpl(
         dio: Dio(),
         refreshUrl: refreshUrl,
-        logger: noopLogger,
       );
 
       final matcher = rest.refreshTokensMatcher;
