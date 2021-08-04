@@ -8,6 +8,9 @@ import 'impl/exception.dart';
 ///
 /// When you get [AuthException], it means that
 /// you should reauthenticate the current user.
+///
+/// [AuthException] is also used in [AuthRest] to
+/// indicate refresh errors due to invalid refresh tokens.
 class AuthException implements Exception {
   const factory AuthException() = AuthExceptionImpl;
 }

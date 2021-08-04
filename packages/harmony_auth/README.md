@@ -20,20 +20,7 @@ import harmony_auth.
 import 'package:harmony_auth/harmony_auth.dart';
 ```
 
-## Logging
-
-If you want to log process add a logger to `Auth` class, like this:
-
-```
-// to add a logger:
-final logger = Logger( ... );
-Auth.logger = logger;
-
-// to clear logger:
-Auth.logger = null;
-```
-
-## Outside: Tokens
+## Tokens
 
 When logging in you should set access and refresh tokens to storage.
 
@@ -41,7 +28,7 @@ When logging out you should clear storage.
 
 If you want to check logged in state use isLoggedIn extension method on storage.
 
-## Outside: Errors
+## Errors
 
 The only type of error from harmony_auth is DioError with type of DioErrorType.other and error of type AuthException.
 
@@ -52,31 +39,73 @@ again.
 
 ## Usage
 
+- create and add a logger if needed.
+- create an auth storage.
 - create a dio.
 - create an auth matcher.
-- create an auth builder.
-- get storage for external token manipulation.
-- get interceptor and add it to your dio interceptors.
+- create an auth rest.
+- create and add interceptor.
 
 for example:
 
 ```dart
 void init() {
-  final matcher =
-      AuthMatcher.baseUrl('https://base.com/api/') +
-          AuthMatcher.baseUrl('https://other_base.com/api/') -
-          AuthMatcher.baseUrl('https://base.com/api/ignored/') -
-          (AuthMatcher.url('https://base.com/api/exception/') & AuthMatcher.method('GET'));
-  final builder = AuthBuilder(
+  // to add a logger:
+  final logger = Logger(/*...*/);
+  Auth.logger = logger;
+  // to clear logger:
+  Auth.logger = null;
+
+  // storage:
+  final storage = AuthStorage.standard();
+  // standard will be using shared preferences and is persisted
+  // or use in memory implementation
+  AuthStorage.inMemory();
+  // or subclass AuthStorage by yourself for other scenarios
+  // you should register storage with dependency injection
+
+  // dio:
+  final dio = Dio();
+  // you can apply all sorts of configurations to your dio
+  // like adding loggers, setting baseUrl and ...
+  // you should register dio with dependency injection
+  //  after adding auth interceptor to it.
+
+  // matcher:
+  // example
+  final matcher = AuthMatcher.baseUrl('https://base.com/api/') +
+      AuthMatcher.baseUrl('https://other_base.com/api/') -
+      AuthMatcher.baseUrl('https://base.com/api/ignored/') -
+      (AuthMatcher.url('https://base.com/api/exception/') & AuthMatcher.method('GET'));
+  // you can use most of set operation on matchers
+  // or match all urls
+  AuthMatcher.all();
+  // or match none of urls
+  AuthMatcher.none();
+  // or check docs for other types of matchers
+  // you can almost match anything without the need for sub-classing AuthMatcher
+
+  // rest:
+  final rest = AuthRest.standard(
     dio: dio,
     refreshUrl: 'https://base.com/api/user/token/refresh/',
-    matcher: matcher,
   );
-  final storage = builder.storage;
+  // or use accessOnly implementation if refresh request only
+  //  responses with access token
+  AuthRest.accessOnly(/* ... */);
+  // or subclass AuthRest by yourself
+  // please check docs for further details
 
-  final dio = Dio();
-  builder.applyTo(dio);
+  // interceptor:
+  final interceptor = AuthInterceptor.standard(
+    dio: dio,
+    storage: storage,
+    matcher: matcher,
+    rest: rest,
+  );
+  // and add it to your dio
+  dio.interceptors.add(interceptor);
 
-  // then register with injection: dio and storage
+  // now you can register dio with dependency injection.
 }
 ```

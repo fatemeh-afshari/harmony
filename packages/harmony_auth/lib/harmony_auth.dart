@@ -6,6 +6,7 @@ library harmony_auth;
 
 export 'src/auth.dart';
 export 'src/exception/exception.dart';
+export 'src/interceptor/interceptor.dart';
 export 'src/matcher/matcher.dart';
 export 'src/rest/rest.dart';
 export 'src/storage/storage.dart';
