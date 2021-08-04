@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../matcher/matcher.dart';
+import 'impl/access_only.dart';
 import 'impl/standard.dart';
 
 /// handle token refresh api calls for harmony_auth.
@@ -11,7 +12,16 @@ abstract class AuthRest {
   const factory AuthRest.standard({
     required Dio dio,
     required String refreshUrl,
-  }) = AuthRestImpl;
+  }) = AuthRestStandardImpl;
+
+  /// accessOnly implementation.
+  ///
+  /// after sending refresh, server returns only access token and
+  /// refresh token remains the same.
+  const factory AuthRest.accessOnly({
+    required Dio dio,
+    required String refreshUrl,
+  }) = AuthRestAccessOnlyImpl;
 
   /// note: should ONLY throw DioError.
   /// other error will be of [type] [DioErrorType.other]

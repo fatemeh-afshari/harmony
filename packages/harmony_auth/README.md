@@ -84,7 +84,3 @@ Auth.logger = null;
 #### standard rest
 
 when sending refresh token and getting both refresh and access token.
-
-```
-AuthRest.standard( ... );
-```

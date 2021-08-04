@@ -9,11 +9,11 @@ import '../../utils/intermediate_error_extensions.dart';
 import '../rest.dart';
 
 @internal
-class AuthRestStandardImpl implements AuthRest {
+class AuthRestAccessOnlyImpl implements AuthRest {
   final Dio dio;
   final String refreshUrl;
 
-  const AuthRestStandardImpl({
+  const AuthRestAccessOnlyImpl({
     required this.dio,
     required this.refreshUrl,
   });
@@ -41,7 +41,8 @@ class AuthRestStandardImpl implements AuthRest {
       try {
         final data = response.data as Map<String, dynamic>;
         return AuthRestToken(
-          refresh: data['refresh'] as String,
+          // using the same refresh token:
+          refresh: refresh,
           access: data['access'] as String,
         );
       } catch (_) {
@@ -70,6 +71,6 @@ class AuthRestStandardImpl implements AuthRest {
   }
 
   void _log(String message) {
-    Auth.log('harmony_auth rest.standard: $message');
+    Auth.log('harmony_auth rest.accessOnly: $message');
   }
 }
