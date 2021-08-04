@@ -6,7 +6,6 @@ import '../../exception/exception.dart';
 import '../../matcher/matcher.dart';
 import '../../utils/error_extensions.dart';
 import '../../utils/intermediate_error_extensions.dart';
-import '../model/token_pair.dart';
 import '../rest.dart';
 
 @internal
@@ -20,7 +19,7 @@ class AuthRestImpl implements AuthRest {
   });
 
   @override
-  Future<AuthTokenPair> refreshTokens(String refresh) async {
+  Future<AuthRestToken> refreshTokens(String refresh) async {
     _log('calling refresh token api');
     // build request for refresh request
     final request = Options(
@@ -41,7 +40,7 @@ class AuthRestImpl implements AuthRest {
       _log('call was successful');
       try {
         final data = response.data as Map<String, dynamic>;
-        return AuthTokenPair(
+        return AuthRestToken(
           refresh: data['refresh'] as String,
           access: data['access'] as String,
         );
