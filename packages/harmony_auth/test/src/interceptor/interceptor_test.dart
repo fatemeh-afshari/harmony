@@ -9,8 +9,6 @@ import 'package:harmony_auth/src/exception/exception.dart';
 import 'package:harmony_auth/src/interceptor/interceptor.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../utils/storage.dart';
-
 const keyRetry = 'harmony_auth_is_retry';
 const testUrl = 'https://test';
 const refreshUrl = 'https://refresh';
@@ -31,7 +29,7 @@ void main() {
           registerFallbackValue(FakeRequestOptions());
           adapter = MockAdapter();
           when(() => adapter.close()).thenAnswer((_) {});
-          storage = InMemoryAuthStorage();
+          storage = AuthStorage.inMemory();
           dio = Dio();
           dio.httpClientAdapter = adapter;
           dio.interceptors.add(AuthInterceptor.standard(
@@ -76,7 +74,7 @@ void main() {
           registerFallbackValue(FakeRequestOptions());
           adapter = MockAdapter();
           when(() => adapter.close()).thenAnswer((_) {});
-          storage = InMemoryAuthStorage();
+          storage = AuthStorage.inMemory();
           dio = Dio();
           dio.httpClientAdapter = adapter;
           dio.interceptors.add(AuthInterceptor.standard(
@@ -121,7 +119,7 @@ void main() {
           registerFallbackValue(FakeRequestOptions());
           adapter = MockAdapter();
           when(() => adapter.close()).thenAnswer((_) {});
-          storage = InMemoryAuthStorage();
+          storage = AuthStorage.inMemory();
           dio = Dio();
           dio.httpClientAdapter = adapter;
           dio.interceptors.add(AuthInterceptor.standard(

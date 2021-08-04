@@ -24,7 +24,7 @@ class AuthStorageStandardImpl implements AuthStorage {
 
   @override
   Future<void> setAccessToken(String accessToken) async {
-    _logI('set access token');
+    _log('set access token');
     final prefs = await _preferences();
     if (!await prefs.setString(_keyAccessToken, accessToken)) {
       throw AssertionError();
@@ -33,7 +33,7 @@ class AuthStorageStandardImpl implements AuthStorage {
 
   @override
   Future<void> removeAccessToken() async {
-    _logI('remove access token');
+    _log('remove access token');
     final prefs = await _preferences();
     if (!await prefs.remove(_keyAccessToken)) {
       throw AssertionError();
@@ -48,7 +48,7 @@ class AuthStorageStandardImpl implements AuthStorage {
 
   @override
   Future<void> setRefreshToken(String refreshToken) async {
-    _logI('set refresh token');
+    _log('set refresh token');
     final prefs = await _preferences();
     if (!await prefs.setString(_keyRefreshToken, refreshToken)) {
       throw AssertionError();
@@ -57,7 +57,7 @@ class AuthStorageStandardImpl implements AuthStorage {
 
   @override
   Future<void> removeRefreshToken() async {
-    _logI('remove refresh token');
+    _log('remove refresh token');
     final prefs = await _preferences();
     if (!await prefs.remove(_keyRefreshToken)) {
       throw AssertionError();
@@ -66,12 +66,12 @@ class AuthStorageStandardImpl implements AuthStorage {
 
   @override
   Future<void> clear() async {
-    _logI('clear');
+    _log('clear');
     await removeAccessToken();
     await removeRefreshToken();
   }
 
-  void _logI(String message) {
+  void _log(String message) {
     Auth.log('harmony_auth storage.persisted: $message');
   }
 }
