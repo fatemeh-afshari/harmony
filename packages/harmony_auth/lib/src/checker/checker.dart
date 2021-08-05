@@ -15,10 +15,13 @@ import 'impl/standard.dart';
 abstract class AuthChecker {
   /// standard checker
   ///
-  /// it will categorize only [401] status code with
-  /// error type of [DioErrorType.response] as unauthorized.
+  /// it will categorize only [401] status code as unauthorized.
   ///
   /// note: it will ignore errors with null [DioError.response].
+  ///
+  /// note: it will ignore error type of other than [DioErrorType.response].
+  ///
+  /// note: it will ignore null status code.
   const factory AuthChecker.standard() = AuthCheckerStandardImpl;
 
   /// check to see if error is from unauthorized call
