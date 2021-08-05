@@ -43,6 +43,7 @@ again.
 - create an auth storage.
 - create a dio.
 - create an auth matcher.
+- create an auth checker.
 - create an auth rest.
 - create and add interceptor.
 
@@ -57,12 +58,27 @@ void init() {
   Auth.logger = null;
 
   // storage:
-  final storage = AuthStorage.standard();
+  var storage = AuthStorage.standard();
   // standard will be using shared preferences and is persisted
   // or use in memory implementation
   AuthStorage.inMemory();
   // or subclass AuthStorage by yourself for other scenarios
   // you should register storage with dependency injection
+
+  // you can get authentication status by using:
+  // await storage.status;
+
+  // if you want to listen status changes stream:
+  storage = storage.wrapWithStatus();
+  // then you can use:
+  storage.statusStream;
+  // or
+  storage.statusStreamOrNull;
+  // which will be null if storage is not wrapped.
+  // and you can initialize stream by initial value if needed.
+  // await storage.initializeStatusStreamOrNothing();
+  // and
+  // await storage.initializeStatusStream();
 
   // dio:
   final dio = Dio();
@@ -84,16 +100,39 @@ void init() {
   AuthMatcher.none();
   // or check docs for other types of matchers
   // you can almost match anything without the need for sub-classing AuthMatcher
+  // for very complex scenarios there is [AuthMatcherBase] class
+  //  which can be implemented to have request level control.
+
+  // checker:
+  final checker = AuthChecker.standard();
+  // this is to check which dio errors are because of unauthorized call.
+  // there are other checkers based on status code
+  AuthChecker.statusCode(401);
+  AuthChecker.statusCodes({401, 402});
+  // and ...
+  // you can subclass AuthChecker your self if you need better control.
+  // also keep in mind that, non-matched requests are not
+  //  checked for unauthorized responses.
+  // note: you can use different checkers for interceptor and rest,
+  //  but it is not needed most of the time.
 
   // rest:
   final rest = AuthRest.standard(
     dio: dio,
     refreshUrl: 'https://base.com/api/user/token/refresh/',
+    checker: checker,
   );
   // or use accessOnly implementation if refresh request only
   //  responses with access token
   AuthRest.accessOnly(/* ... */);
-  // or subclass AuthRest by yourself
+  // or subclass AuthRest by yourself.
+  //  if you decided to subclass [AuthRest] by your self,
+  //  make sure that your refresh operation does not have any
+  //  side effects and also please only throw [DioError]s from
+  //  refresh method and if refresh token is invalid, throw dio error
+  //  with type of other and error of type AuthException. there
+  //  is AuthException().toDioError( ... ) extension method to help
+  //  you.
   // please check docs for further details
 
   // interceptor:
@@ -101,6 +140,7 @@ void init() {
     dio: dio,
     storage: storage,
     matcher: matcher,
+    checker: checker,
     rest: rest,
   );
   // and add it to your dio
@@ -109,3 +149,7 @@ void init() {
   // now you can register dio with dependency injection.
 }
 ```
+
+## TODO
+
+calls which response is not JSON.

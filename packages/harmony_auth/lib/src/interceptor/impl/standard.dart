@@ -2,13 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
 import '../../auth.dart';
+import '../../checker/checker.dart';
 import '../../exception/exception.dart';
 import '../../matcher/matcher.dart';
 import '../../rest/rest.dart';
 import '../../storage/storage.dart';
 import '../../utils/error_extensions.dart';
-import '../../utils/intermediate_error_extensions.dart';
-import '../../utils/uri_utils.dart';
 import '../interceptor.dart';
 
 /// interceptor for [Dio] to handle auth
@@ -18,13 +17,15 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
 
   final Dio dio;
   final AuthStorage storage;
-  final AuthMatcher matcher;
+  final AuthMatcherBase matcher;
+  final AuthChecker checker;
   final AuthRest rest;
 
   const AuthInterceptorStandardImpl({
     required this.dio,
     required this.storage,
     required this.matcher,
+    required this.checker,
     required this.rest,
   });
 
@@ -39,7 +40,7 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
       final access1 = await storage.getAccessToken();
       if (access1 != null) {
         _log('access token is available, attempting to call ...');
-        request.headers['authorization'] = 'bearer $access1';
+        request.headers['authorization'] = 'Bearer $access1';
         handler.next(request);
       } else {
         _log('access token is NOT available, checking refresh token ...');
@@ -53,7 +54,7 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
             final access2 = pair2.access;
             await storage.setRefreshToken(refresh2);
             await storage.setAccessToken(access2);
-            request.headers['authorization'] = 'bearer $access2';
+            request.headers['authorization'] = 'Bearer $access2';
             handler.next(request);
           } on DioError catch (e) {
             // check to see if refresh token was invalid
@@ -104,7 +105,7 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
     ErrorInterceptorHandler handler,
   ) async {
     final request = error.requestOptions;
-    if (_shouldHandle(request) && error.isUnauthorized) {
+    if (_shouldHandle(request) && checker.isUnauthorizedError(error)) {
       _log('unauthorized, error needs handling, checking retry status ...');
       await storage.removeAccessToken();
       if (request.extra[_keyIsRetry] != null) {
@@ -130,10 +131,9 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
 
   /// note: should not handle refresh api calls as well as
   /// not matcher calls
-  bool _shouldHandle(RequestOptions request) {
-    final combine = matcher - rest.refreshTokensMatcher;
-    return combine.matches(request.method, request.uri.url);
-  }
+  bool _shouldHandle(RequestOptions request) =>
+      !rest.refreshTokensMatcher.matchesRequest(request) &&
+      matcher.matchesRequest(request);
 
   void _log(String message) {
     Auth.log('harmony_auth interceptor.standard: $message');

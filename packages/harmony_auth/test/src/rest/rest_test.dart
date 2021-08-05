@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:harmony_auth/src/checker/checker.dart';
 import 'package:harmony_auth/src/exception/exception.dart';
 import 'package:harmony_auth/src/rest/rest.dart';
 import 'package:mocktail/mocktail.dart';
@@ -38,6 +39,7 @@ void main() {
           rest = AuthRest.standard(
             dio: Dio()..httpClientAdapter = adapter,
             refreshUrl: refreshUrl,
+            checker: AuthChecker.standard(),
           );
         });
 
@@ -198,13 +200,31 @@ void main() {
         final rest = AuthRest.standard(
           dio: Dio(),
           refreshUrl: refreshUrl,
+          checker: AuthChecker.standard(),
         );
 
         final matcher = rest.refreshTokensMatcher;
-
-        expect(matcher.matches('POST', refreshUrl), isTrue);
-        expect(matcher.matches('GET', refreshUrl), isFalse);
-        expect(matcher.matches('POST', testUrl), isFalse);
+        expect(
+          matcher.matchesRequest(RequestOptions(
+            path: refreshUrl,
+            method: 'POST',
+          )),
+          isTrue,
+        );
+        expect(
+          matcher.matchesRequest(RequestOptions(
+            path: refreshUrl,
+            method: 'GET',
+          )),
+          isFalse,
+        );
+        expect(
+          matcher.matchesRequest(RequestOptions(
+            path: testUrl,
+            method: 'POST',
+          )),
+          isFalse,
+        );
       });
     });
 
@@ -220,6 +240,7 @@ void main() {
           rest = AuthRest.accessOnly(
             dio: Dio()..httpClientAdapter = adapter,
             refreshUrl: refreshUrl,
+            checker: AuthChecker.standard(),
           );
         });
 
@@ -380,13 +401,32 @@ void main() {
         final rest = AuthRest.accessOnly(
           dio: Dio(),
           refreshUrl: refreshUrl,
+          checker: AuthChecker.standard(),
         );
 
         final matcher = rest.refreshTokensMatcher;
 
-        expect(matcher.matches('POST', refreshUrl), isTrue);
-        expect(matcher.matches('GET', refreshUrl), isFalse);
-        expect(matcher.matches('POST', testUrl), isFalse);
+        expect(
+          matcher.matchesRequest(RequestOptions(
+            path: refreshUrl,
+            method: 'POST',
+          )),
+          isTrue,
+        );
+        expect(
+          matcher.matchesRequest(RequestOptions(
+            path: refreshUrl,
+            method: 'GET',
+          )),
+          isFalse,
+        );
+        expect(
+          matcher.matchesRequest(RequestOptions(
+            path: testUrl,
+            method: 'POST',
+          )),
+          isFalse,
+        );
       });
     });
   });

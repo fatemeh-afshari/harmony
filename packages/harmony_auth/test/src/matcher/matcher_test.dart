@@ -1,7 +1,34 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:harmony_auth/src/matcher/matcher.dart';
 
 void main() {
+  group('AuthMatcherBase', () {
+    test('method matchesRequest', () {
+      final AuthMatcherBase matcher = AuthMatcher.url('https://test');
+      expect(
+        matcher.matchesRequest(RequestOptions(
+          path: 'https://test',
+          method: 'POST',
+        )),
+        isTrue,
+      );
+      expect(
+        matcher.matchesRequest(RequestOptions(
+          path: 'https://test',
+          method: 'GET',
+        )),
+        isTrue,
+      );
+      expect(
+        matcher.matchesRequest(RequestOptions(
+          path: 'https://other',
+        )),
+        isFalse,
+      );
+    });
+  });
+
   group('AuthMatcher', () {
     test('implementation all', () {
       final matcher = AuthMatcher.all();

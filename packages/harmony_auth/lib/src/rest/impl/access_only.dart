@@ -2,20 +2,22 @@ import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
 import '../../auth.dart';
+import '../../checker/checker.dart';
 import '../../exception/exception.dart';
 import '../../matcher/matcher.dart';
 import '../../utils/error_extensions.dart';
-import '../../utils/intermediate_error_extensions.dart';
 import '../rest.dart';
 
 @internal
 class AuthRestAccessOnlyImpl implements AuthRest {
   final Dio dio;
   final String refreshUrl;
+  final AuthChecker checker;
 
   const AuthRestAccessOnlyImpl({
     required this.dio,
     required this.refreshUrl,
+    required this.checker,
   });
 
   @override
@@ -55,8 +57,8 @@ class AuthRestAccessOnlyImpl implements AuthRest {
           error: AssertionError('failed to parse refresh tokens api response.'),
         );
       }
-    } on DioError catch (e) {
-      if (e.isUnauthorized) {
+    } on DioError catch (error) {
+      if (checker.isUnauthorizedError(error)) {
         _log('call failed due to invalid refresh token');
         throw AuthException().toDioError(request);
       } else {
@@ -66,7 +68,7 @@ class AuthRestAccessOnlyImpl implements AuthRest {
   }
 
   @override
-  AuthMatcher get refreshTokensMatcher {
+  AuthMatcherBase get refreshTokensMatcher {
     return AuthMatcher.url(refreshUrl) & AuthMatcher.method('POST');
   }
 

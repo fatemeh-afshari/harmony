@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 
+import '../checker/checker.dart';
 import '../matcher/matcher.dart';
 import 'impl/access_only.dart';
 import 'impl/standard.dart';
@@ -9,18 +10,28 @@ abstract class AuthRest {
   /// standard implementation.
   ///
   /// after sending refresh, server returns refresh and access.
+  ///
+  /// note: most of the time the same checker used for
+  /// interceptor will suffice. and also most of the time
+  /// standard checkers will suffice.
   const factory AuthRest.standard({
     required Dio dio,
     required String refreshUrl,
+    required AuthChecker checker,
   }) = AuthRestStandardImpl;
 
   /// accessOnly implementation.
   ///
   /// after sending refresh, server returns only access token and
   /// refresh token remains the same.
+  ///
+  /// note: most of the time the same checker used for
+  /// interceptor will suffice. and also most of the time
+  /// standard checkers will suffice.
   const factory AuthRest.accessOnly({
     required Dio dio,
     required String refreshUrl,
+    required AuthChecker checker,
   }) = AuthRestAccessOnlyImpl;
 
   /// note: should ONLY throw DioError.
@@ -39,7 +50,7 @@ abstract class AuthRest {
   /// matcher to check to see if this call is to refresh tokens.
   ///
   /// note: this should match exactly only refresh request.
-  AuthMatcher get refreshTokensMatcher;
+  AuthMatcherBase get refreshTokensMatcher;
 }
 
 /// access and refresh token pair returned from auth rest refresh operation
