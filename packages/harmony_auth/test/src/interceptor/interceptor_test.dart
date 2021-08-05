@@ -157,7 +157,7 @@ void main() {
                     that: predicate((RequestOptions request) =>
                         request.path == testUrl &&
                         request.method == 'GET' &&
-                        request.headers['authorization'] == 'bearer a1' &&
+                        request.headers['authorization'] == 'Bearer a1' &&
                         request.extra[keyRetry] == null),
                   ),
                   any(),
@@ -185,7 +185,7 @@ void main() {
                     that: predicate((RequestOptions request) =>
                         request.path == testUrl &&
                         request.method == 'GET' &&
-                        request.headers['authorization'] == 'bearer a1' &&
+                        request.headers['authorization'] == 'Bearer a1' &&
                         request.extra[keyRetry] == null),
                   ),
                   any(),
@@ -220,7 +220,7 @@ void main() {
                     that: predicate((RequestOptions request) =>
                         request.path == testUrl &&
                         request.method == 'GET' &&
-                        request.headers['authorization'] == 'bearer a1' &&
+                        request.headers['authorization'] == 'Bearer a1' &&
                         request.extra[keyRetry] == null),
                   ),
                   any(),
@@ -260,7 +260,7 @@ void main() {
                     that: predicate((RequestOptions request) =>
                         request.path == testUrl &&
                         request.method == 'GET' &&
-                        request.headers['authorization'] == 'bearer a2' &&
+                        request.headers['authorization'] == 'Bearer a2' &&
                         request.extra[keyRetry] != null),
                   ),
                   any(),
@@ -288,7 +288,7 @@ void main() {
                     that: predicate((RequestOptions request) =>
                         request.path == testUrl &&
                         request.method == 'GET' &&
-                        request.headers['authorization'] == 'bearer a1' &&
+                        request.headers['authorization'] == 'Bearer a1' &&
                         request.extra[keyRetry] == null),
                   ),
                   any(),
@@ -328,7 +328,7 @@ void main() {
                     that: predicate((RequestOptions request) =>
                         request.path == testUrl &&
                         request.method == 'GET' &&
-                        request.headers['authorization'] == 'bearer a2' &&
+                        request.headers['authorization'] == 'Bearer a2' &&
                         request.extra[keyRetry] != null),
                   ),
                   any(),
@@ -363,7 +363,7 @@ void main() {
                     that: predicate((RequestOptions request) =>
                         request.path == testUrl &&
                         request.method == 'GET' &&
-                        request.headers['authorization'] == 'bearer a1' &&
+                        request.headers['authorization'] == 'Bearer a1' &&
                         request.extra[keyRetry] == null),
                   ),
                   any(),
@@ -403,7 +403,7 @@ void main() {
                     that: predicate((RequestOptions request) =>
                         request.path == testUrl &&
                         request.method == 'GET' &&
-                        request.headers['authorization'] == 'bearer a2' &&
+                        request.headers['authorization'] == 'Bearer a2' &&
                         request.extra[keyRetry] != null),
                   ),
                   any(),
@@ -441,7 +441,7 @@ void main() {
                     that: predicate((RequestOptions request) =>
                         request.path == testUrl &&
                         request.method == 'GET' &&
-                        request.headers['authorization'] == 'bearer a1' &&
+                        request.headers['authorization'] == 'Bearer a1' &&
                         request.extra[keyRetry] == null),
                   ),
                   any(),
@@ -491,7 +491,7 @@ void main() {
                     that: predicate((RequestOptions request) =>
                         request.path == testUrl &&
                         request.method == 'GET' &&
-                        request.headers['authorization'] == 'bearer a1' &&
+                        request.headers['authorization'] == 'Bearer a1' &&
                         request.extra[keyRetry] == null),
                   ),
                   any(),
@@ -543,7 +543,7 @@ void main() {
                     that: predicate((RequestOptions request) =>
                         request.path == testUrl &&
                         request.method == 'GET' &&
-                        request.headers['authorization'] == 'bearer a1' &&
+                        request.headers['authorization'] == 'Bearer a1' &&
                         request.extra[keyRetry] == null),
                   ),
                   any(),
@@ -605,7 +605,7 @@ void main() {
                     that: predicate((RequestOptions request) =>
                         request.path == testUrl &&
                         request.method == 'GET' &&
-                        request.headers['authorization'] == 'bearer a2' &&
+                        request.headers['authorization'] == 'Bearer a2' &&
                         request.extra[keyRetry] == null),
                   ),
                   any(),
@@ -657,7 +657,7 @@ void main() {
                     that: predicate((RequestOptions request) =>
                         request.path == testUrl &&
                         request.method == 'GET' &&
-                        request.headers['authorization'] == 'bearer a2' &&
+                        request.headers['authorization'] == 'Bearer a2' &&
                         request.extra[keyRetry] == null),
                   ),
                   any(),

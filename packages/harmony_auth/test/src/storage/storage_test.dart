@@ -46,9 +46,9 @@ void main() {
       group('AuthStorageExt', () {
         test('isLoggedIn', () async {
           final storage = AuthStorage.inMemory();
-          expect(await storage.isLoggedIn, isFalse);
+          expect(await storage.status, equals(AuthStatus.loggedOut));
           await storage.setRefreshToken('r1');
-          expect(await storage.isLoggedIn, isTrue);
+          expect(await storage.status, equals(AuthStatus.loggedIn));
         });
       });
 
