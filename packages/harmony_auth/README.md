@@ -91,6 +91,10 @@ void init() {
   // checker:
   final checker = AuthChecker.standard();
   // this is to check which dio errors are because of unauthorized call.
+  // there are other checkers based on status code
+  AuthChecker.statusCode(401);
+  AuthChecker.statusCodes({401, 402});
+  // and ...
   // you can subclass AuthChecker your self if you need better control.
   // also keep in mind that, non-matched requests are not
   //  checked for unauthorized responses.

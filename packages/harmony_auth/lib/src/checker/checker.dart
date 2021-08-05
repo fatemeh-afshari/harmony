@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import 'impl/standard.dart';
+import 'impl/impl.dart';
 
 /// harmony_auth checker to check which [DioError]s are from
 /// unauthorized calls.
@@ -23,6 +23,45 @@ abstract class AuthChecker {
   ///
   /// note: it will ignore null status code.
   const factory AuthChecker.standard() = AuthCheckerStandardImpl;
+
+  /// statusCode checker
+  ///
+  /// it will categorize only given status code as unauthorized.
+  ///
+  /// note: it will ignore errors with null [DioError.response].
+  ///
+  /// note: it will ignore error type of other than [DioErrorType.response].
+  ///
+  /// note: it will ignore null status code.
+  const factory AuthChecker.statusCode(
+    int statusCode,
+  ) = AuthCheckerStatusCodeImpl;
+
+  /// statusCodes checker
+  ///
+  /// it will categorize only given status codes as unauthorized.
+  ///
+  /// note: it will ignore errors with null [DioError.response].
+  ///
+  /// note: it will ignore error type of other than [DioErrorType.response].
+  ///
+  /// note: it will ignore null status code.
+  const factory AuthChecker.statusCodes(
+    Set<int> statusCodes,
+  ) = AuthCheckerStatusCodesImpl;
+
+  /// byStatusCode checker
+  ///
+  /// it will categorize matched given status codes as unauthorized.
+  ///
+  /// note: it will ignore errors with null [DioError.response].
+  ///
+  /// note: it will ignore error type of other than [DioErrorType.response].
+  ///
+  /// note: it will ignore null status code.
+  const factory AuthChecker.byStatusCode(
+    bool Function(int statusCode) statusCode,
+  ) = AuthCheckerByStatusCodeImpl;
 
   /// check to see if error is from unauthorized call
   bool isUnauthorizedError(DioError error);

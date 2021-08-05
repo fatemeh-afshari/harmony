@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
-import '../base/status_code.dart';
+import '../impl/impl.dart';
 
 /// standard checker
 ///
@@ -13,9 +13,6 @@ import '../base/status_code.dart';
 ///
 /// note: it will ignore null status code.
 @internal
-class AuthCheckerStandardImpl extends AuthCheckerStatusCodeBase {
-  const AuthCheckerStandardImpl();
-
-  @override
-  bool isUnauthorizedStatusCode(int statusCode) => statusCode == 401;
+class AuthCheckerStandardImpl extends AuthCheckerStatusCodeImpl {
+  const AuthCheckerStandardImpl() : super(401);
 }
