@@ -66,7 +66,7 @@ class AuthRestAccessOnlyImpl implements AuthRest {
   }
 
   @override
-  AuthMatcher get refreshTokensMatcher {
+  AuthMatcherBase get refreshTokensMatcher {
     return AuthMatcher.url(refreshUrl) & AuthMatcher.method('POST');
   }
 

@@ -39,7 +39,7 @@ abstract class AuthRest {
   /// matcher to check to see if this call is to refresh tokens.
   ///
   /// note: this should match exactly only refresh request.
-  AuthMatcher get refreshTokensMatcher;
+  AuthMatcherBase get refreshTokensMatcher;
 }
 
 /// access and refresh token pair returned from auth rest refresh operation

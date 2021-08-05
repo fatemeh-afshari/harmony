@@ -8,7 +8,6 @@ import '../../rest/rest.dart';
 import '../../storage/storage.dart';
 import '../../utils/error_extensions.dart';
 import '../../utils/intermediate_error_extensions.dart';
-import '../../utils/uri_utils.dart';
 import '../interceptor.dart';
 
 /// interceptor for [Dio] to handle auth
@@ -18,7 +17,7 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
 
   final Dio dio;
   final AuthStorage storage;
-  final AuthMatcher matcher;
+  final AuthMatcherBase matcher;
   final AuthRest rest;
 
   const AuthInterceptorStandardImpl({
@@ -130,10 +129,9 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
 
   /// note: should not handle refresh api calls as well as
   /// not matcher calls
-  bool _shouldHandle(RequestOptions request) {
-    final combine = matcher - rest.refreshTokensMatcher;
-    return combine.matches(request.method, request.uri.url);
-  }
+  bool _shouldHandle(RequestOptions request) =>
+      !rest.refreshTokensMatcher.matchesRequest(request) &&
+      matcher.matchesRequest(request);
 
   void _log(String message) {
     Auth.log('harmony_auth interceptor.standard: $message');

@@ -201,10 +201,27 @@ void main() {
         );
 
         final matcher = rest.refreshTokensMatcher;
-
-        expect(matcher.matches('POST', refreshUrl), isTrue);
-        expect(matcher.matches('GET', refreshUrl), isFalse);
-        expect(matcher.matches('POST', testUrl), isFalse);
+        expect(
+          matcher.matchesRequest(RequestOptions(
+            path: refreshUrl,
+            method: 'POST',
+          )),
+          isTrue,
+        );
+        expect(
+          matcher.matchesRequest(RequestOptions(
+            path: refreshUrl,
+            method: 'GET',
+          )),
+          isFalse,
+        );
+        expect(
+          matcher.matchesRequest(RequestOptions(
+            path: testUrl,
+            method: 'POST',
+          )),
+          isFalse,
+        );
       });
     });
 
@@ -384,9 +401,27 @@ void main() {
 
         final matcher = rest.refreshTokensMatcher;
 
-        expect(matcher.matches('POST', refreshUrl), isTrue);
-        expect(matcher.matches('GET', refreshUrl), isFalse);
-        expect(matcher.matches('POST', testUrl), isFalse);
+        expect(
+          matcher.matchesRequest(RequestOptions(
+            path: refreshUrl,
+            method: 'POST',
+          )),
+          isTrue,
+        );
+        expect(
+          matcher.matchesRequest(RequestOptions(
+            path: refreshUrl,
+            method: 'GET',
+          )),
+          isFalse,
+        );
+        expect(
+          matcher.matchesRequest(RequestOptions(
+            path: testUrl,
+            method: 'POST',
+          )),
+          isFalse,
+        );
       });
     });
   });
