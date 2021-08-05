@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 
+import '../checker/checker.dart';
 import '../matcher/matcher.dart';
 import '../rest/rest.dart';
 import '../storage/storage.dart';
@@ -12,6 +13,7 @@ abstract class AuthInterceptor implements Interceptor {
     required Dio dio,
     required AuthStorage storage,
     required AuthMatcher matcher,
+    required AuthChecker checker,
     required AuthRest rest,
   }) = AuthInterceptorStandardImpl;
 }

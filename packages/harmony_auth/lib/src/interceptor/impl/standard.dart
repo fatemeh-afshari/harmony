@@ -2,12 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
 import '../../auth.dart';
+import '../../checker/checker.dart';
 import '../../exception/exception.dart';
 import '../../matcher/matcher.dart';
 import '../../rest/rest.dart';
 import '../../storage/storage.dart';
 import '../../utils/error_extensions.dart';
-import '../../utils/intermediate_error_extensions.dart';
 import '../interceptor.dart';
 
 /// interceptor for [Dio] to handle auth
@@ -18,12 +18,14 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
   final Dio dio;
   final AuthStorage storage;
   final AuthMatcherBase matcher;
+  final AuthChecker checker;
   final AuthRest rest;
 
   const AuthInterceptorStandardImpl({
     required this.dio,
     required this.storage,
     required this.matcher,
+    required this.checker,
     required this.rest,
   });
 
@@ -103,7 +105,7 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
     ErrorInterceptorHandler handler,
   ) async {
     final request = error.requestOptions;
-    if (_shouldHandle(request) && error.isUnauthorized) {
+    if (_shouldHandle(request) && checker.isUnauthorizedError(error)) {
       _log('unauthorized, error needs handling, checking retry status ...');
       await storage.removeAccessToken();
       if (request.extra[_keyIsRetry] != null) {
