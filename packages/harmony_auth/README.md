@@ -58,12 +58,27 @@ void init() {
   Auth.logger = null;
 
   // storage:
-  final storage = AuthStorage.standard();
+  var storage = AuthStorage.standard();
   // standard will be using shared preferences and is persisted
   // or use in memory implementation
   AuthStorage.inMemory();
   // or subclass AuthStorage by yourself for other scenarios
   // you should register storage with dependency injection
+
+  // you can get authentication status by using:
+  // await storage.status;
+
+  // if you want to listen status changes stream:
+  storage = storage.wrapWithStatus();
+  // then you can use:
+  storage.statusStream;
+  // or
+  storage.statusStreamOrNull;
+  // which will be null if storage is not wrapped.
+  // and you can initialize stream by initial value if needed.
+  // await storage.initializeStatusStreamOrNothing();
+  // and
+  // await storage.initializeStatusStream();
 
   // dio:
   final dio = Dio();
