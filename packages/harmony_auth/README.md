@@ -99,7 +99,12 @@ void init() {
       AuthMatcher.baseUrl('https://other_base.com/api/') -
       AuthMatcher.baseUrl('https://base.com/api/ignored/') -
       (AuthMatcher.url('https://base.com/api/exception/') & AuthMatcher.method('GET'));
-  // you can use most of set operation on matchers
+  // you can use set operators on matchers.
+  // m1 + m2
+  // m1 - m2
+  // m1 ^ m2
+  // m1 & m2
+  // !m1
   // or match all urls
   AuthMatcher.all();
   // or match none of urls
