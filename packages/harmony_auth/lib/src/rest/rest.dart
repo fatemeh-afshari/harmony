@@ -38,7 +38,7 @@ abstract class AuthRest {
   /// provide matcher and lambda to refresh tokens.
   const factory AuthRest.general({
     required Dio dio,
-    required AuthMatcherBase refreshTokensMatcher,
+    required AuthMatcher refreshTokensMatcher,
     required Future<AuthRestToken> Function(Dio dio, String refresh) lambda,
   }) = AuthRestGeneralImpl;
 
@@ -58,7 +58,7 @@ abstract class AuthRest {
   /// matcher to check to see if this call is to refresh tokens.
   ///
   /// note: this should match exactly only refresh request.
-  AuthMatcherBase get refreshTokensMatcher;
+  AuthMatcher get refreshTokensMatcher;
 }
 
 /// access and refresh token pair returned from auth rest refresh operation

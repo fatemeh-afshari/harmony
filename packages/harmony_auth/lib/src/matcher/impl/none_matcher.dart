@@ -1,6 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
-import '../base/abstract_matcher.dart';
+import '../base/base.dart';
 
 /// never match
 @internal
@@ -8,5 +9,5 @@ class AuthMatcherNoneImpl extends AbstractAuthMatcher {
   const AuthMatcherNoneImpl();
 
   @override
-  bool matches(String _, String __) => false;
+  bool matchesRequest(RequestOptions _) => false;
 }

@@ -1,10 +1,10 @@
 import 'package:meta/meta.dart';
 
-import '../base/abstract_matcher.dart';
+import '../base/base.dart';
 
 /// base urls matching
 @internal
-class AuthMatcherBaseUrlsImpl extends AbstractAuthMatcher {
+class AuthMatcherBaseUrlsImpl extends AbstractMethodUrlAuthMatcher {
   final Set<String> baseUrls;
 
   const AuthMatcherBaseUrlsImpl(this.baseUrls);

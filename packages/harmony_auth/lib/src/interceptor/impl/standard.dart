@@ -18,7 +18,7 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
 
   final Dio dio;
   final AuthStorage storage;
-  final AuthMatcherBase matcher;
+  final AuthMatcher matcher;
   final AuthChecker checker;
   final AuthRest rest;
   final AuthManipulator manipulator;

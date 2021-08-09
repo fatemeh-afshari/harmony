@@ -1,10 +1,10 @@
 import 'package:meta/meta.dart';
 
-import '../base/abstract_matcher.dart';
+import '../base/base.dart';
 
 /// provide lambda for url
 @internal
-class AuthMatcherByMethodAndUrlImpl extends AbstractAuthMatcher {
+class AuthMatcherByMethodAndUrlImpl extends AbstractMethodUrlAuthMatcher {
   final bool Function(String method, String url) match;
 
   const AuthMatcherByMethodAndUrlImpl(this.match);

@@ -9,7 +9,7 @@ class AuthRestGeneralImpl implements AuthRest {
   final Dio dio;
 
   @override
-  final AuthMatcherBase refreshTokensMatcher;
+  final AuthMatcher refreshTokensMatcher;
 
   final Future<AuthRestToken> Function(Dio dio, String refresh) lambda;
 

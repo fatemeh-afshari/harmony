@@ -7,46 +7,87 @@ import 'impl/impl.dart';
 /// NOTE: do NOT throw in matchers
 ///
 /// note: [method] is always in upper case
-abstract class AuthMatcher implements AuthMatcherBase {
+abstract class AuthMatcher {
   /// provide regex or string to match exactly
+  ///
+  /// method will be upper case
+  ///
+  /// url will be all but queries
   const factory AuthMatcher.url(
     Pattern urlPattern,
   ) = AuthMatcherUrlImpl;
 
   /// provide regex or string to match exactly
+  ///
+  /// method will be upper case
+  ///
+  /// url will be all but queries
   const factory AuthMatcher.urls(
     Set<Pattern> urlPatterns,
   ) = AuthMatcherUrlsImpl;
 
   /// base url matching
+  ///
+  /// method will be upper case
+  ///
+  /// url will be all but queries
   const factory AuthMatcher.baseUrl(
     String baseUrl,
   ) = AuthMatcherBaseUrlImpl;
 
   /// base urls matching
+  ///
+  /// method will be upper case
+  ///
+  /// url will be all but queries
   const factory AuthMatcher.baseUrls(
     Set<String> baseUrls,
   ) = AuthMatcherBaseUrlsImpl;
 
   /// provide lambda for url
+  ///
+  /// method will be upper case
+  ///
+  /// url will be all but queries
   const factory AuthMatcher.byUrl(
     bool Function(String url) matchUrl,
   ) = AuthMatcherByUrlImpl;
 
   /// provide regex or string to match exactly
+  ///
+  /// method will be upper case
+  ///
+  /// url will be all but queries
   const factory AuthMatcher.method(
     Pattern methodPattern,
   ) = AuthMatcherMethodImpl;
 
   /// provide regex or string to match exactly
+  ///
+  /// method will be upper case
+  ///
+  /// url will be all but queries
   const factory AuthMatcher.methods(
     Set<Pattern> methodPatterns,
   ) = AuthMatcherMethodsImpl;
 
   /// provide lambda for method
+  ///
+  /// method will be upper case
+  ///
+  /// url will be all but queries
   const factory AuthMatcher.byMethod(
     bool Function(String method) matchMethod,
   ) = AuthMatcherByMethodImpl;
+
+  /// provide lambda for method and url
+  ///
+  /// method will be upper case
+  ///
+  /// url will be all but queries
+  const factory AuthMatcher.byMethodAndUrl(
+    bool Function(String method, String url) match,
+  ) = AuthMatcherByMethodAndUrlImpl;
 
   /// always match
   const factory AuthMatcher.all() = AuthMatcherAllImpl;
@@ -54,18 +95,8 @@ abstract class AuthMatcher implements AuthMatcherBase {
   /// never match
   const factory AuthMatcher.none() = AuthMatcherNoneImpl;
 
-  /// provide lambda for method and url
-  const factory AuthMatcher.byMethodAndUrl(
-    bool Function(String method, String url) match,
-  ) = AuthMatcherByMethodAndUrlImpl;
-
-  /// method will be upper case
-  ///
-  /// url will be all but queries
-  ///
-  /// you should use [matchesRequest] to match against
-  /// [RequestOptions].
-  bool matches(String method, String url);
+  /// check if matches request
+  bool matchesRequest(RequestOptions request);
 
   /// union
   AuthMatcher operator |(AuthMatcher other);
@@ -81,13 +112,4 @@ abstract class AuthMatcher implements AuthMatcherBase {
 
   /// negate
   AuthMatcher operator -();
-}
-
-/// base auth matcher
-///
-/// you should use this matcher only in very complex
-/// scenarios which [AuthMatcher] does not suffice.
-abstract class AuthMatcherBase {
-  /// check if matches request
-  bool matchesRequest(RequestOptions request);
 }
