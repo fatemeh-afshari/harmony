@@ -4,6 +4,8 @@ import 'package:harmony_auth/src/checker/checker.dart';
 
 class FakeRequestOptions extends Fake implements RequestOptions {}
 
+class FakeResponse extends Fake implements Response<dynamic> {}
+
 class FakeObject extends Fake {}
 
 void main() {
@@ -159,6 +161,32 @@ void main() {
               statusCode: 20,
             ),
             type: DioErrorType.response,
+            error: FakeObject(),
+          )),
+          isFalse,
+        );
+      });
+    });
+
+    group('general', () {
+      test('isUnauthorizedError', () {
+        final checker = AuthChecker.general(
+          (e) => e.type == DioErrorType.response,
+        );
+        expect(
+          checker.isUnauthorizedError(DioError(
+            requestOptions: FakeRequestOptions(),
+            response: FakeResponse(),
+            type: DioErrorType.response,
+            error: FakeObject(),
+          )),
+          isTrue,
+        );
+        expect(
+          checker.isUnauthorizedError(DioError(
+            requestOptions: FakeRequestOptions(),
+            response: FakeResponse(),
+            type: DioErrorType.other,
             error: FakeObject(),
           )),
           isFalse,

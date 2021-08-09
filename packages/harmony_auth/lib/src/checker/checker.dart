@@ -63,6 +63,15 @@ abstract class AuthChecker {
     bool Function(int statusCode) statusCode,
   ) = AuthCheckerByStatusCodeImpl;
 
+  /// general checker
+  ///
+  /// you will provide a lambda which
+  /// will check dio errors and return
+  /// whether is an auth error or not.
+  const factory AuthChecker.general(
+    bool Function(DioError error) lambda,
+  ) = AuthCheckerGeneralImpl;
+
   /// check to see if error is from unauthorized call
   bool isUnauthorizedError(DioError error);
 }
