@@ -45,6 +45,7 @@ again.
 - create an auth matcher.
 - create an auth checker.
 - create an auth rest.
+- create an auth manipulator.
 - create and add interceptor.
 
 for example:
@@ -125,8 +126,10 @@ void init() {
   // or use accessOnly implementation if refresh request only
   //  responses with access token
   AuthRest.accessOnly(/* ... */);
-  // or subclass AuthRest by yourself.
-  //  if you decided to subclass [AuthRest] by your self,
+  // or subclass AuthRest by yourself or use AuthRest.general
+  //  for complex cases.
+  // if you decided to subclass [AuthRest] by your self
+  //  or using AuthRest.general,
   //  make sure that your refresh operation does not have any
   //  side effects and also please only throw [DioError]s from
   //  refresh method and if refresh token is invalid, throw dio error
@@ -135,6 +138,18 @@ void init() {
   //  you.
   // please check docs for further details
 
+  // manipulator:
+  final manipulator = AuthManipulator.standard();
+  // standard manipulator adds `authorization: Bearer accessToken`
+  //  to request header.
+  // there are several different implementations:
+  AuthManipulator.headerPrefix('key', 'prefix');
+  AuthManipulator.header(/*...*/);
+  AuthManipulator.headers(/*...*/);
+  AuthManipulator.general(/*...*/);
+  // and you can sub-class AuthManipulator by yourself or
+  // use AuthManipulator.general for complex cases.
+
   // interceptor:
   final interceptor = AuthInterceptor.standard(
     dio: dio,
@@ -142,6 +157,7 @@ void init() {
     matcher: matcher,
     checker: checker,
     rest: rest,
+    manipulator: manipuator,
   );
   // and add it to your dio
   dio.interceptors.add(interceptor);

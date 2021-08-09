@@ -1,7 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
 import '../matcher.dart';
-
 import 'abstract_matcher.dart';
 
 @internal
@@ -12,6 +12,6 @@ class SymmetricDifferenceAuthMatcher extends AbstractAuthMatcher {
   const SymmetricDifferenceAuthMatcher(this.m1, this.m2);
 
   @override
-  bool matches(String method, String url) =>
-      m1.matches(method, url) ^ m2.matches(method, url);
+  bool matchesRequest(RequestOptions request) =>
+      m1.matchesRequest(request) ^ m2.matchesRequest(request);
 }

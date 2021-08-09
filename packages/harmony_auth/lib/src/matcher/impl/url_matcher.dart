@@ -1,10 +1,10 @@
 import 'package:meta/meta.dart';
 
-import '../base/abstract_matcher.dart';
+import '../base/base.dart';
 
 /// provide regex or string to match exactly
 @internal
-class AuthMatcherUrlImpl extends AbstractAuthMatcher {
+class AuthMatcherUrlImpl extends AbstractMethodUrlAuthMatcher {
   final Pattern urlPattern;
 
   const AuthMatcherUrlImpl(this.urlPattern);

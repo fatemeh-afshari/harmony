@@ -2,8 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../checker/checker.dart';
 import '../matcher/matcher.dart';
-import 'impl/access_only.dart';
-import 'impl/standard.dart';
+import 'impl/impl.dart';
 
 /// handle token refresh api calls for harmony_auth.
 abstract class AuthRest {
@@ -34,6 +33,15 @@ abstract class AuthRest {
     required AuthChecker checker,
   }) = AuthRestAccessOnlyImpl;
 
+  /// general implementation.
+  ///
+  /// provide matcher and lambda to refresh tokens.
+  const factory AuthRest.general({
+    required Dio dio,
+    required AuthMatcher refreshTokensMatcher,
+    required Future<AuthRestToken> Function(Dio dio, String refresh) lambda,
+  }) = AuthRestGeneralImpl;
+
   /// note: should ONLY throw DioError.
   /// other error will be of [type] [DioErrorType.other]
   /// and they will have [error] of type [AuthException]
@@ -50,7 +58,7 @@ abstract class AuthRest {
   /// matcher to check to see if this call is to refresh tokens.
   ///
   /// note: this should match exactly only refresh request.
-  AuthMatcherBase get refreshTokensMatcher;
+  AuthMatcher get refreshTokensMatcher;
 }
 
 /// access and refresh token pair returned from auth rest refresh operation

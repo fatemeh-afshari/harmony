@@ -67,9 +67,8 @@ class AuthRestStandardImpl implements AuthRest {
   }
 
   @override
-  AuthMatcherBase get refreshTokensMatcher {
-    return AuthMatcher.url(refreshUrl) & AuthMatcher.method('POST');
-  }
+  AuthMatcher get refreshTokensMatcher =>
+      AuthMatcher.url(refreshUrl) & AuthMatcher.method('POST');
 
   void _log(String message) {
     Auth.log('harmony_auth rest.standard: $message');
