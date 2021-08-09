@@ -27,13 +27,14 @@ class AuthStorageWithStatusWrapper implements AuthStorage {
   /// this is optional.
   @internal
   Future<void> internalInitializeStatusStream() async {
-    _controller.add(await status);
+    _emit(await status);
   }
 
   @override
   Future<void> clear() async {
-    await storage.clear();
-    _controller.add(AuthStatus.loggedOut);
+    await storage.removeRefreshToken();
+    await storage.removeAccessToken();
+    _emit(AuthStatus.loggedOut);
   }
 
   @override
@@ -54,7 +55,7 @@ class AuthStorageWithStatusWrapper implements AuthStorage {
   @override
   Future<void> removeRefreshToken() async {
     await storage.removeRefreshToken();
-    _controller.add(AuthStatus.loggedOut);
+    _emit(AuthStatus.loggedOut);
   }
 
   @override
@@ -65,6 +66,10 @@ class AuthStorageWithStatusWrapper implements AuthStorage {
   @override
   Future<void> setRefreshToken(String refreshToken) async {
     await storage.setRefreshToken(refreshToken);
-    _controller.add(AuthStatus.loggedIn);
+    _emit(AuthStatus.loggedIn);
+  }
+
+  void _emit(AuthStatus status) {
+    _controller.add(status);
   }
 }
