@@ -22,12 +22,15 @@ void main() {
         expect(() => storage.statusStream, throwsA(anything));
       });
 
-      test('initializeStatusStreamOrNothing', () {
-        storage.initializeStatusStreamOrNothing();
+      test('initializeStatusStreamOrNothing', () async {
+        await storage.initializeStatusStreamOrNothing();
       });
 
       test('initializeStatusStream', () {
-        expect(() => storage.initializeStatusStream(), throwsA(anything));
+        expect(
+          () async => await storage.initializeStatusStream(),
+          throwsA(anything),
+        );
       });
     });
 
@@ -50,17 +53,17 @@ void main() {
         expect(storage.statusStream, isNotNull);
       });
 
-      test('initializeStatusStreamOrNothing', () {
+      test('initializeStatusStreamOrNothing', () async {
         expect(storage.statusStream, emits(AuthStatus.loggedOut));
-        storage.initializeStatusStreamOrNothing();
+        await storage.initializeStatusStreamOrNothing();
       });
 
-      test('initializeStatusStream', () {
+      test('initializeStatusStream', () async {
         expect(storage.statusStream, emits(AuthStatus.loggedOut));
-        storage.initializeStatusStream();
+        await storage.initializeStatusStream();
       });
 
-      test('status stream', () {
+      test('status stream', () async {
         expect(
           storage.statusStream,
           emitsInOrder(<AuthStatus>[
@@ -71,13 +74,14 @@ void main() {
             AuthStatus.loggedOut,
           ]),
         );
-        storage.initializeStatusStream();
-        storage.setRefreshToken('r1');
-        storage.removeRefreshToken();
-        storage.setRefreshToken('r2');
-        storage.clear();
-        storage.setAccessToken('a1');
-        storage.removeAccessToken();
+        await storage.initializeStatusStream();
+        await storage.setRefreshToken('r1');
+        await storage.removeRefreshToken();
+        await storage.setRefreshToken('r2');
+        await storage.clear();
+        await storage.setAccessToken('a1');
+        await storage.removeAccessToken();
+        await storage.getAccessToken();
       });
     });
   });
