@@ -45,6 +45,7 @@ again.
 - create an auth matcher.
 - create an auth checker.
 - create an auth rest.
+- create an auth manipulator.
 - create and add interceptor.
 
 for example:
@@ -135,6 +136,17 @@ void init() {
   //  you.
   // please check docs for further details
 
+  // manipulator:
+  final manipulator = AuthManipulator.standard();
+  // standard manipulator adds `authorization: Bearer accessToken`
+  //  to request header.
+  // there are several different implementations:
+  AuthManipulator.headerPrefix('key', 'prefix');
+  AuthManipulator.header(/*...*/);
+  AuthManipulator.headers(/*...*/);
+  AuthManipulator.general(/*...*/);
+  // and you can sub-class AuthManipulator by yourself.
+
   // interceptor:
   final interceptor = AuthInterceptor.standard(
     dio: dio,
@@ -142,6 +154,7 @@ void init() {
     matcher: matcher,
     checker: checker,
     rest: rest,
+    manipulator: manipuator,
   );
   // and add it to your dio
   dio.interceptors.add(interceptor);
