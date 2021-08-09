@@ -129,6 +129,28 @@ void main() {
       });
     });
 
+    group('implementation methodAndUrl', () {
+      test('with String', () {
+        final matcher = AuthMatcher.methodAndUrl('m', 'https://u');
+        expect(matcher.matchesRequest(compose('m', 'https://u')), isTrue);
+        expect(matcher.matchesRequest(compose('m', 'https://v')), isFalse);
+        expect(matcher.matchesRequest(compose('n', 'https://u')), isFalse);
+      });
+
+      test('with Regex', () {
+        final matcher = AuthMatcher.methodAndUrl(
+          RegExp('[mn]'),
+          RegExp('https://[uv]'),
+        );
+        expect(matcher.matchesRequest(compose('m', 'https://u')), isTrue);
+        expect(matcher.matchesRequest(compose('m', 'https://v')), isTrue);
+        expect(matcher.matchesRequest(compose('n', 'https://u')), isTrue);
+        expect(matcher.matchesRequest(compose('n', 'https://v')), isTrue);
+        expect(matcher.matchesRequest(compose('x', 'https://u')), isFalse);
+        expect(matcher.matchesRequest(compose('m', 'https://x')), isFalse);
+      });
+    });
+
     test('implementation byUrl', () {
       final matcher = AuthMatcher.byUrl((url) => url == 'https://u');
       expect(matcher.matchesRequest(compose('m', 'https://u')), isTrue);

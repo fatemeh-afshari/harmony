@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:meta/meta.dart';
 
 import '../manipulator.dart';
 
+@internal
 class AuthManipulatorHeadersImpl implements AuthManipulator {
   final Map<String, String> Function(String accessToken) headers;
 

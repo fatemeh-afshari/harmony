@@ -5,6 +5,7 @@ export 'base_urls_matcher.dart';
 export 'by_method_and_url_matcher.dart';
 export 'by_method_matcher.dart';
 export 'by_url_matcher.dart';
+export 'method_and_url_matcher.dart';
 export 'method_matcher.dart';
 export 'methods_matcher.dart';
 export 'none_matcher.dart';
