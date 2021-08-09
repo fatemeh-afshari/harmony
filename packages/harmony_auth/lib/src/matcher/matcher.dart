@@ -80,6 +80,18 @@ abstract class AuthMatcher {
     bool Function(String method) matchMethod,
   ) = AuthMatcherByMethodImpl;
 
+  /// method and url
+  ///
+  /// pattern or string
+  ///
+  /// method will be upper case
+  ///
+  /// url will be all but queries
+  const factory AuthMatcher.methodAndUrl(
+    Pattern methodPattern,
+    Pattern urlPattern,
+  ) = AuthMatcherMethodAndUrlImpl;
+
   /// provide lambda for method and url
   ///
   /// method will be upper case
@@ -94,6 +106,13 @@ abstract class AuthMatcher {
 
   /// never match
   const factory AuthMatcher.none() = AuthMatcherNoneImpl;
+
+  /// general matcher
+  ///
+  /// provide lambda to match
+  const factory AuthMatcher.general(
+    bool Function(RequestOptions request) lambda,
+  ) = AuthMatcherGeneralImpl;
 
   /// check if matches request
   bool matchesRequest(RequestOptions request);

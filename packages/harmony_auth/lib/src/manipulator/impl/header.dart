@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:meta/meta.dart';
 
 import '../manipulator.dart';
 
+@internal
 class AuthManipulatorHeaderImpl implements AuthManipulator {
   final String key;
   final String Function(String accessToken) value;
