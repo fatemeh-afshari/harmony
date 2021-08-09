@@ -78,6 +78,9 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
               ),
               true,
             );
+          } catch (_) {
+            _log('bad error type.');
+            throw AssertionError('bad error type.');
           }
         } else {
           _log('refresh token is NOT available, error');
@@ -125,6 +128,9 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
           handler.resolve(response);
         } on DioError catch (e) {
           handler.reject(e);
+        } catch (_) {
+          _log('bad error type.');
+          throw AssertionError('bad error type.');
         }
       }
     } else {
