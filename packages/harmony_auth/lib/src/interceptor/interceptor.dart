@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
 
 import '../checker/checker.dart';
+import '../manipulator/manipulator.dart';
 import '../matcher/matcher.dart';
 import '../rest/rest.dart';
 import '../storage/storage.dart';
 import 'impl/standard.dart';
+
 
 /// interceptor for harmony_auth module
 abstract class AuthInterceptor implements Interceptor {
@@ -15,5 +17,6 @@ abstract class AuthInterceptor implements Interceptor {
     required AuthMatcher matcher,
     required AuthChecker checker,
     required AuthRest rest,
+    required AuthManipulator manipulator,
   }) = AuthInterceptorStandardImpl;
 }

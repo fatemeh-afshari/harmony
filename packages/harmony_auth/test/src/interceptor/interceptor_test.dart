@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:harmony_auth/src/checker/checker.dart';
 import 'package:harmony_auth/src/exception/exception.dart';
 import 'package:harmony_auth/src/interceptor/interceptor.dart';
+import 'package:harmony_auth/src/manipulator/manipulator.dart';
 import 'package:harmony_auth/src/matcher/matcher.dart';
 import 'package:harmony_auth/src/rest/rest.dart';
 import 'package:harmony_auth/src/storage/storage.dart';
@@ -45,6 +46,7 @@ void main() {
               refreshUrl: refreshUrl,
               checker: AuthChecker.standard(),
             ),
+            manipulator: AuthManipulator.standard(),
           ));
         });
 
@@ -92,6 +94,7 @@ void main() {
               refreshUrl: refreshUrl,
               checker: AuthChecker.standard(),
             ),
+            manipulator: AuthManipulator.standard(),
           ));
         });
 
@@ -139,6 +142,7 @@ void main() {
               refreshUrl: refreshUrl,
               checker: AuthChecker.standard(),
             ),
+            manipulator: AuthManipulator.standard(),
           ));
         });
 

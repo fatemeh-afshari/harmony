@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 import '../../auth.dart';
 import '../../checker/checker.dart';
 import '../../exception/exception.dart';
+import '../../manipulator/manipulator.dart';
 import '../../matcher/matcher.dart';
 import '../../rest/rest.dart';
 import '../../storage/storage.dart';
@@ -20,6 +21,7 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
   final AuthMatcherBase matcher;
   final AuthChecker checker;
   final AuthRest rest;
+  final AuthManipulator manipulator;
 
   const AuthInterceptorStandardImpl({
     required this.dio,
@@ -27,6 +29,7 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
     required this.matcher,
     required this.checker,
     required this.rest,
+    required this.manipulator,
   });
 
   /// note: artificial DioErrors should NOT have response
@@ -40,7 +43,7 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
       final access1 = await storage.getAccessToken();
       if (access1 != null) {
         _log('access token is available, attempting to call ...');
-        request.headers['authorization'] = 'Bearer $access1';
+        manipulator.manipulate(request, access1);
         handler.next(request);
       } else {
         _log('access token is NOT available, checking refresh token ...');
@@ -54,7 +57,7 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
             final access2 = pair2.access;
             await storage.setRefreshToken(refresh2);
             await storage.setAccessToken(access2);
-            request.headers['authorization'] = 'Bearer $access2';
+            manipulator.manipulate(request, access2);
             handler.next(request);
           } on DioError catch (e) {
             // check to see if refresh token was invalid
