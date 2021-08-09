@@ -64,20 +64,23 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
             if (e.isAuthException) {
               _log('refresh token is not valid, error');
               await storage.removeRefreshToken();
+              handler.reject(
+                AuthException().toDioError(request),
+                true,
+              );
+            } else {
+              handler.reject(
+                DioError(
+                  requestOptions: request,
+                  // propagate type,
+                  type: e.type,
+                  response: null,
+                  // propagate error,
+                  error: e.error,
+                ),
+                true,
+              );
             }
-            handler.reject(
-              DioError(
-                requestOptions: request,
-                // propagate type,
-                // being 'other' on auth exception
-                type: e.type,
-                response: null,
-                // propagate error,
-                // being of type 'AuthException' on auth exception
-                error: e.error,
-              ),
-              true,
-            );
           } catch (_) {
             _log('bad error type.');
             throw AssertionError('bad error type.');
