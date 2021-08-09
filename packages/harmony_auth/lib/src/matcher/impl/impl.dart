@@ -1,5 +1,5 @@
 export 'all.dart';
-export 'all.dart';
+export 'general.dart';
 export 'base_url.dart';
 export 'base_urls.dart';
 export 'by_method_and_url.dart';

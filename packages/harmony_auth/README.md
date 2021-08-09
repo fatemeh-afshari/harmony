@@ -26,13 +26,17 @@ When logging in you should set access and refresh tokens to storage.
 
 When logging out you should clear storage.
 
-If you want to check logged in state use isLoggedIn extension method on storage.
+If you want to check logged in state use `status` extension method on storage.
+
+If you want a stream of login and logout events consider using `wrapWithStatus` and
+`statusStream` extension methods on storage.
 
 ## Errors
 
-The only type of error from harmony_auth is DioError with type of DioErrorType.other and error of type AuthException.
+The only type of error from harmony_auth is `DioError` with type of `DioErrorType.other` and error of
+type `AuthException`.
 
-You can use isAuthException, asAuthException and asAuthExceptionOrNull extension methods on DioError for convenience.
+You can use `isAuthException`, `asAuthException` and other extension methods on `DioError` for convenience.
 
 When auth exception occurs it means that no tokens are present and user is logged out. so you should make user log in
 again.
@@ -60,11 +64,11 @@ void init() {
 
   // storage:
   var storage = AuthStorage.standard();
-  // standard will be using shared preferences and is persisted
-  // or use in memory implementation
+  // standard will be using shared preferences and is persisted.
+  // or use in memory implementation.
   AuthStorage.inMemory();
-  // or subclass AuthStorage by yourself for other scenarios
-  // you should register storage with dependency injection
+  // or subclass AuthStorage by yourself for other scenarios.
+  // you should register storage with dependency injection.
 
   // you can get authentication status by using:
   // await storage.status;
@@ -72,7 +76,8 @@ void init() {
   // if you want to listen status changes stream:
   storage = storage.wrapWithStatus();
   // then you can use:
-  storage.statusStream;
+  final stream = storage.statusStream;
+  stream.listen(/*...*/);
   // or
   storage.statusStreamOrNull;
   // which will be null if storage is not wrapped.
@@ -99,10 +104,21 @@ void init() {
   AuthMatcher.all();
   // or match none of urls
   AuthMatcher.none();
-  // or check docs for other types of matchers
-  // you can almost match anything without the need for sub-classing AuthMatcher
-  // for very complex scenarios there is [AuthMatcherBase] class
-  //  which can be implemented to have request level control.
+  // or other matchers:
+  AuthMatcher.url(/*...*/);
+  AuthMatcher.urls(/*...*/);
+  AuthMatcher.baseUrl(/*...*/);
+  AuthMatcher.baseUrls(/*...*/);
+  AuthMatcher.method(/*...*/);
+  AuthMatcher.methods(/*...*/);
+  AuthMatcher.byUrl(/*...*/);
+  AuthMatcher.byMethod(/*...*/);
+  AuthMatcher.urlAndMethod(/*...*/);
+  AuthMatcher.byUrlAndMethod(/*...*/);
+  // or check docs for other types of matchers.
+  // you can almost match anything without the need for sub-classing AuthMatcher.
+  // for very complex scenarios you can use
+  //  AuthMatcher.general or sub-class AuthMatcher by yourself.
 
   // checker:
   final checker = AuthChecker.standard();
@@ -110,8 +126,10 @@ void init() {
   // there are other checkers based on status code
   AuthChecker.statusCode(401);
   AuthChecker.statusCodes({401, 402});
+  AuthChecker.byStatusCodes(/*...*/);
   // and ...
-  // you can subclass AuthChecker your self if you need better control.
+  // you can subclass AuthChecker your self if you need better control or
+  //  use AuthChecker.general.
   // also keep in mind that, non-matched requests are not
   //  checked for unauthorized responses.
   // note: you can use different checkers for interceptor and rest,
@@ -124,7 +142,7 @@ void init() {
     checker: checker,
   );
   // or use accessOnly implementation if refresh request only
-  //  responses with access token
+  //  responses with access token.
   AuthRest.accessOnly(/* ... */);
   // or subclass AuthRest by yourself or use AuthRest.general
   //  for complex cases.
@@ -136,7 +154,7 @@ void init() {
   //  with type of other and error of type AuthException. there
   //  is AuthException().toDioError( ... ) extension method to help
   //  you.
-  // please check docs for further details
+  // please check docs for further details.
 
   // manipulator:
   final manipulator = AuthManipulator.standard();

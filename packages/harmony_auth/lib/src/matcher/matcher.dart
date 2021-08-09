@@ -107,6 +107,13 @@ abstract class AuthMatcher {
   /// never match
   const factory AuthMatcher.none() = AuthMatcherNoneImpl;
 
+  /// general matcher
+  ///
+  /// provide lambda to match
+  const factory AuthMatcher.general(
+    bool Function(RequestOptions request) lambda,
+  ) = AuthMatcherGeneralImpl;
+
   /// check if matches request
   bool matchesRequest(RequestOptions request);
 

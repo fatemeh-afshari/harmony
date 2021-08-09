@@ -173,6 +173,14 @@ void main() {
       expect(matcher.matchesRequest(compose('n', 'https://v')), isFalse);
     });
 
+    test('implementation general', () {
+      final matcher = AuthMatcher.general(
+        (r) => r.method == 'm',
+      );
+      expect(matcher.matchesRequest(compose('m', 'https://u')), isTrue);
+      expect(matcher.matchesRequest(compose('n', 'https://u')), isFalse);
+    });
+
     group('operations', () {
       test('union', () {
         final matcher = AuthMatcher.method('m') | AuthMatcher.url('https://u');
