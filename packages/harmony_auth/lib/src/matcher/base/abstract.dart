@@ -1,11 +1,11 @@
 import 'package:meta/meta.dart';
 
 import '../matcher.dart';
-import 'difference_matcher.dart';
-import 'intersection_matcher.dart';
-import 'not_matcher.dart';
-import 'symmetric_difference_matcher.dart';
-import 'union_matcher.dart';
+import 'difference.dart';
+import 'intersection.dart';
+import 'not.dart';
+import 'symmetric_difference.dart';
+import 'union.dart';
 
 /// basic utilities for set operations
 @internal

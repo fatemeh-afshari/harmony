@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
 import '../matcher.dart';
-import 'abstract_matcher.dart';
+import 'abstract.dart';
 
 @internal
 class SymmetricDifferenceAuthMatcher extends AbstractAuthMatcher {

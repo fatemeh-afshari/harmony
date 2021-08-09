@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
 import '../../utils/uri_utils.dart';
-import 'abstract_matcher.dart';
+import 'abstract.dart';
 
 /// basic utilities for set operations
 @internal
