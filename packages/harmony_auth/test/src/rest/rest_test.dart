@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:harmony_auth/src/checker/checker.dart';
 import 'package:harmony_auth/src/exception/exception.dart';
+import 'package:harmony_auth/src/matcher/matcher.dart';
 import 'package:harmony_auth/src/rest/rest.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -427,6 +428,29 @@ void main() {
           )),
           isFalse,
         );
+      });
+    });
+
+    group('general', () {
+      test('test', () async {
+        final dio = Dio();
+        final matcher = AuthMatcher.all();
+        final rest = AuthRest.general(
+          dio: dio,
+          refreshTokensMatcher: matcher,
+          lambda: (d, r) async {
+            expect(d, equals(dio));
+            expect(r, equals('r1'));
+            return AuthRestToken(
+              access: 'a2',
+              refresh: 'r2',
+            );
+          },
+        );
+        expect(rest.refreshTokensMatcher, equals(matcher));
+        final token = await rest.refreshTokens('r1');
+        expect(token.refresh, equals('r2'));
+        expect(token.access, equals('a2'));
       });
     });
   });
