@@ -5,7 +5,7 @@ import 'impl/impl.dart';
 /// it will be backed by shared_preferences by default
 abstract class AuthStorage {
   /// persisted using shared preferences
-  const factory AuthStorage.standard() = AuthStorageStandardImpl;
+  const factory AuthStorage() = AuthStorageStandardImpl;
 
   /// in memory implementation
   factory AuthStorage.inMemory() = AuthStorageInMemoryImpl;

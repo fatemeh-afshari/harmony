@@ -13,7 +13,7 @@ abstract class AuthRest {
   /// note: most of the time the same checker used for
   /// interceptor will suffice. and also most of the time
   /// standard checkers will suffice.
-  const factory AuthRest.standard({
+  const factory AuthRest({
     required Dio dio,
     required String refreshUrl,
     required AuthChecker checker,

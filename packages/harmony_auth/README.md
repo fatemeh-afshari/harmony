@@ -63,7 +63,7 @@ void init() {
   Auth.logger = null;
 
   // storage:
-  var storage = AuthStorage.standard();
+  var storage = AuthStorage();
   // standard will be using shared preferences and is persisted.
   // or use in memory implementation.
   AuthStorage.inMemory();
@@ -126,7 +126,7 @@ void init() {
   //  AuthMatcher.general or sub-class AuthMatcher by yourself.
 
   // checker:
-  final checker = AuthChecker.standard();
+  final checker = AuthChecker();
   // this is to check which dio errors are because of unauthorized call.
   // there are other checkers based on status code
   AuthChecker.statusCode(401);
@@ -141,7 +141,7 @@ void init() {
   //  but it is not needed most of the time.
 
   // rest:
-  var rest = AuthRest.standard(
+  var rest = AuthRest(
     dio: dio,
     refreshUrl: 'https://base.com/api/user/token/refresh/',
     checker: checker,
@@ -170,7 +170,7 @@ void init() {
   rest = rest.wrapWithLock();
 
   // manipulator:
-  final manipulator = AuthManipulator.standard();
+  final manipulator = AuthManipulator();
   // standard manipulator adds `authorization: Bearer accessToken`
   //  to request header.
   // there are several different implementations:
@@ -182,7 +182,7 @@ void init() {
   // use AuthManipulator.general for complex cases.
 
   // interceptor:
-  final interceptor = AuthInterceptor.standard(
+  final interceptor = AuthInterceptor(
     dio: dio,
     storage: storage,
     matcher: matcher,

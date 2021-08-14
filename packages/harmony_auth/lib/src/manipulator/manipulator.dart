@@ -10,7 +10,7 @@ abstract class AuthManipulator {
   /// standard implementation
   ///
   /// using `authorization` as header key and `Bearer $token` as value
-  const factory AuthManipulator.standard() = AuthManipulatorStandardImpl;
+  const factory AuthManipulator() = AuthManipulatorStandardImpl;
 
   /// general implementation
   ///

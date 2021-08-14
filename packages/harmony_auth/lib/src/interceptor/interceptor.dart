@@ -10,7 +10,7 @@ import 'impl/standard.dart';
 /// interceptor for harmony_auth module
 abstract class AuthInterceptor implements Interceptor {
   /// standard implementation
-  const factory AuthInterceptor.standard({
+  const factory AuthInterceptor({
     required Dio dio,
     required AuthStorage storage,
     required AuthMatcher matcher,

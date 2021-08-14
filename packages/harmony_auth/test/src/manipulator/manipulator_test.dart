@@ -9,7 +9,7 @@ void main() {
     group('standard', () {
       test('basic', () {
         final request = RequestOptions(path: testUrl);
-        final manipulator = AuthManipulator.standard();
+        final manipulator = AuthManipulator();
         manipulator.manipulate(request, 'a1');
         expect(
           request.headers['authorization'],

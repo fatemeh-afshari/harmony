@@ -36,17 +36,17 @@ void main() {
           storage = AuthStorage.inMemory();
           dio = Dio();
           dio.httpClientAdapter = adapter;
-          dio.interceptors.add(AuthInterceptor.standard(
+          dio.interceptors.add(AuthInterceptor(
             dio: dio,
             storage: storage,
             matcher: AuthMatcher.all(),
-            checker: AuthChecker.standard(),
-            rest: AuthRest.standard(
+            checker: AuthChecker(),
+            rest: AuthRest(
               dio: dio,
               refreshUrl: refreshUrl,
-              checker: AuthChecker.standard(),
+              checker: AuthChecker(),
             ),
-            manipulator: AuthManipulator.standard(),
+            manipulator: AuthManipulator(),
           ));
         });
 
@@ -84,17 +84,17 @@ void main() {
           storage = AuthStorage.inMemory();
           dio = Dio();
           dio.httpClientAdapter = adapter;
-          dio.interceptors.add(AuthInterceptor.standard(
+          dio.interceptors.add(AuthInterceptor(
             dio: dio,
             storage: storage,
             matcher: AuthMatcher.none(),
-            checker: AuthChecker.standard(),
-            rest: AuthRest.standard(
+            checker: AuthChecker(),
+            rest: AuthRest(
               dio: dio,
               refreshUrl: refreshUrl,
-              checker: AuthChecker.standard(),
+              checker: AuthChecker(),
             ),
-            manipulator: AuthManipulator.standard(),
+            manipulator: AuthManipulator(),
           ));
         });
 
@@ -132,17 +132,17 @@ void main() {
           storage = AuthStorage.inMemory();
           dio = Dio();
           dio.httpClientAdapter = adapter;
-          dio.interceptors.add(AuthInterceptor.standard(
+          dio.interceptors.add(AuthInterceptor(
             dio: dio,
             storage: storage,
             matcher: AuthMatcher.all(),
-            checker: AuthChecker.standard(),
-            rest: AuthRest.standard(
+            checker: AuthChecker(),
+            rest: AuthRest(
               dio: dio,
               refreshUrl: refreshUrl,
-              checker: AuthChecker.standard(),
+              checker: AuthChecker(),
             ),
-            manipulator: AuthManipulator.standard(),
+            manipulator: AuthManipulator(),
           ));
         });
 

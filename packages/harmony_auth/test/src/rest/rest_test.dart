@@ -37,10 +37,10 @@ void main() {
           registerFallbackValue(FakeRequestOptions());
           adapter = MockAdapter();
           when(() => adapter.close()).thenAnswer((_) {});
-          rest = AuthRest.standard(
+          rest = AuthRest(
             dio: Dio()..httpClientAdapter = adapter,
             refreshUrl: refreshUrl,
-            checker: AuthChecker.standard(),
+            checker: AuthChecker(),
           );
         });
 
@@ -198,10 +198,10 @@ void main() {
       });
 
       test('getter refreshTokensMatcher', () {
-        final rest = AuthRest.standard(
+        final rest = AuthRest(
           dio: Dio(),
           refreshUrl: refreshUrl,
-          checker: AuthChecker.standard(),
+          checker: AuthChecker(),
         );
 
         final matcher = rest.refreshTokensMatcher;
@@ -241,7 +241,7 @@ void main() {
           rest = AuthRest.accessOnly(
             dio: Dio()..httpClientAdapter = adapter,
             refreshUrl: refreshUrl,
-            checker: AuthChecker.standard(),
+            checker: AuthChecker(),
           );
         });
 
@@ -402,7 +402,7 @@ void main() {
         final rest = AuthRest.accessOnly(
           dio: Dio(),
           refreshUrl: refreshUrl,
-          checker: AuthChecker.standard(),
+          checker: AuthChecker(),
         );
 
         final matcher = rest.refreshTokensMatcher;

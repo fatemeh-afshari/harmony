@@ -10,7 +10,7 @@ void main() {
 
         setUp(() {
           SharedPreferences.setMockInitialValues({});
-          storage = AuthStorage.standard();
+          storage = AuthStorage();
         });
 
         test('check initial data', () async {
