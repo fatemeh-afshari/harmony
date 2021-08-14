@@ -42,6 +42,11 @@ abstract class AuthRest {
     required Future<AuthRestToken> Function(Dio dio, String refresh) lambda,
   }) = AuthRestGeneralImpl;
 
+  /// wrap an AuthRest with lock
+  ///
+  /// It enables concurrency support for rest
+  factory AuthRest.withLock(AuthRest rest) = AuthRestWithLockImpl;
+
   /// note: should ONLY throw DioError.
   /// other error will be of [type] [DioErrorType.other]
   /// and they will have [error] of type [AuthException]
@@ -73,4 +78,12 @@ class AuthRestToken {
     required this.refresh,
     required this.access,
   });
+}
+
+/// extensions for applying concurrency to AuthRest
+extension AuthRestExt on AuthRest {
+  /// wrap an AuthRest with lock
+  ///
+  /// It enables concurrency support for rest
+  AuthRest wrapWithLock() => AuthRest.withLock(this);
 }

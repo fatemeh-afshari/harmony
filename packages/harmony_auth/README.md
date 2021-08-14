@@ -141,7 +141,7 @@ void init() {
   //  but it is not needed most of the time.
 
   // rest:
-  final rest = AuthRest.standard(
+  var rest = AuthRest.standard(
     dio: dio,
     refreshUrl: 'https://base.com/api/user/token/refresh/',
     checker: checker,
@@ -160,6 +160,14 @@ void init() {
   //  is AuthException().toDioError( ... ) extension method to help
   //  you.
   // please check docs for further details.
+
+  // if you have concurrent auth enabled calls
+  //  using these types of AuthRest would make
+  //  problems like calling refresh API several
+  //  times with the same refresh token and ...
+  // the workaround is to wrap your auth rest with
+  //  locks to add concurrency support:
+  rest = rest.wrapWithLock();
 
   // manipulator:
   final manipulator = AuthManipulator.standard();
