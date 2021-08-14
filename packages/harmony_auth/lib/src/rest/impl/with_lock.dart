@@ -29,7 +29,6 @@ class AuthRestWithLockImpl implements AuthRest {
       try {
         final value = await rest.refreshTokens(refresh);
         completer.complete(value);
-        return value;
       } on DioError catch (error) {
         completer.completeError(error);
         if (!error.isAuthException) {
@@ -39,10 +38,10 @@ class AuthRestWithLockImpl implements AuthRest {
           // case of network availability issues.
           cache[refresh] = null;
         }
-        rethrow;
       } catch (_) {
         throw AssertionError('bad error type.');
       }
+      return completer.future;
     }
   }
 
