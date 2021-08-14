@@ -21,12 +21,10 @@ extension AuthDioErrorExtensions on DioError {
 
 /// transform an [AuthException] to [DioError].
 extension AuthExceptionExtensions on AuthException {
-  DioError toDioError(RequestOptions request) {
-    return DioError(
-      requestOptions: request,
-      type: DioErrorType.other,
-      response: null,
-      error: this,
-    );
-  }
+  DioError toDioError(RequestOptions request) => DioError(
+        requestOptions: request,
+        type: DioErrorType.other,
+        response: null,
+        error: this,
+      );
 }
