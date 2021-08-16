@@ -8,6 +8,7 @@ export 'src/auth.dart';
 export 'src/checker/checker.dart';
 export 'src/exception/exception.dart';
 export 'src/interceptor/interceptor.dart';
+export 'src/manipulator/manipulator.dart';
 export 'src/matcher/matcher.dart';
 export 'src/rest/rest.dart';
 export 'src/storage/storage.dart';
