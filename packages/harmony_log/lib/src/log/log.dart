@@ -72,7 +72,7 @@ extension LogLevelsExt on Log {
     Object? extra,
   ]) {
     log(
-      level: LogLevel.error,
+      level: LogLevel.debug,
       message: message,
       error: error,
       stackTrace: stackTrace,

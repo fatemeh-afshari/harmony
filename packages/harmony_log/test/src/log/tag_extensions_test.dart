@@ -6,16 +6,13 @@ import 'package:mocktail/mocktail.dart';
 class MockLog extends Mock implements Log {}
 
 void main() {
-  group('Log.tagged', () {
+  group('LogTagExt', () {
     late MockLog base;
     late Log log;
 
     setUp(() {
       base = MockLog();
-      log = Log.tagged(
-        tag: 'TAG',
-        child: base,
-      );
+      log = base.withTag('TAG');
     });
 
     tearDown(() {
