@@ -1,5 +1,4 @@
 import 'package:harmony_log/src/level/level.dart';
-import 'package:uuid/uuid.dart';
 
 /// log event
 class LogEvent {
@@ -22,23 +21,4 @@ class LogEvent {
     required this.stackTrace,
     required this.extra,
   });
-
-  factory LogEvent.generate({
-    required String? tag,
-    required LogLevel level,
-    required String message,
-    required Object? error,
-    required StackTrace? stackTrace,
-    required Object? extra,
-  }) =>
-      LogEvent(
-        id: Uuid().v1(),
-        time: DateTime.now(),
-        tag: tag,
-        level: level,
-        message: message,
-        error: error,
-        stackTrace: stackTrace,
-        extra: extra,
-      );
 }
