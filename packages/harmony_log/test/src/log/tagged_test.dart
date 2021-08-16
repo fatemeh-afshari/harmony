@@ -40,6 +40,15 @@ void main() {
     });
 
     test('log', () {
+      registerFallbackValue(LogLevel.verbose);
+      registerFallbackValue('');
+      when(() => log.log(
+            level: any(named: 'level'),
+            message: any(named: 'message'),
+            error: any(named: 'error'),
+            stackTrace: any(named: 'stackTrace'),
+            extra: any(named: 'extra'),
+          )).thenThrow(TestFailure('mock failed'));
       final trace = StackTrace.empty;
       when(() => base.log(
             level: LogLevel.warning,
