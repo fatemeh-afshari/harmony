@@ -47,7 +47,7 @@ abstract class Log {
 }
 
 /// extension for abbreviated log methods
-extension LogLevelsExt on Log {
+extension LogLevelExt on Log {
   /// verbose
   void v(
     String message, [
