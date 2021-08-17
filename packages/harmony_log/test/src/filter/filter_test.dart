@@ -2,6 +2,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:harmony_log/src/event/event.dart';
 import 'package:harmony_log/src/filter/filter.dart';
 import 'package:harmony_log/src/level/level.dart';
+import 'package:mocktail/mocktail.dart';
+
+class FakeLogEvent extends Fake implements LogEvent {}
 
 void main() {
   group('LogFilter', () {
@@ -76,6 +79,16 @@ void main() {
         )),
         isFalse,
       );
+    });
+
+    test('all impl', () {
+      final filter = LogFilter.all();
+      expect(filter.shouldLog(FakeLogEvent()), isTrue);
+    });
+
+    test('none impl', () {
+      final filter = LogFilter.none();
+      expect(filter.shouldLog(FakeLogEvent()), isFalse);
     });
 
     group('set operations', () {
