@@ -125,6 +125,36 @@ void main() {
       );
     });
 
+    test('tag impl', () {
+      final filter = LogFilter.tag('tag');
+      expect(
+        filter.shouldLog(LogEvent(
+          id: 'id',
+          time: DateTime.now(),
+          tag: 'tag',
+          level: LogLevel.warning,
+          message: 'message',
+          error: 'error',
+          stackTrace: StackTrace.empty,
+          extra: 'extra',
+        )),
+        isTrue,
+      );
+      expect(
+        filter.shouldLog(LogEvent(
+          id: 'id',
+          time: DateTime.now(),
+          tag: 'other tag',
+          level: LogLevel.warning,
+          message: 'message',
+          error: 'error',
+          stackTrace: StackTrace.empty,
+          extra: 'extra',
+        )),
+        isFalse,
+      );
+    });
+
     test('all impl', () {
       expect(
         LogFilter.all().shouldLog(FakeLogEvent()),
