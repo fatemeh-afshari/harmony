@@ -1,5 +1,6 @@
 import 'package:harmony_log/src/event/event.dart';
 import 'package:harmony_log/src/filter/impl/all.dart';
+import 'package:harmony_log/src/filter/impl/by_tag.dart';
 import 'package:harmony_log/src/filter/impl/debug.dart';
 import 'package:harmony_log/src/filter/impl/exact_level.dart';
 import 'package:harmony_log/src/filter/impl/extra.dart';
@@ -38,6 +39,13 @@ abstract class LogFilter {
   const factory LogFilter.tag(
     String? tag,
   ) = LogFilterTagImpl;
+
+  /// byTag implementation
+  ///
+  /// accepts tags equal to [tag]
+  const factory LogFilter.byTag(
+    bool Function(String? tag) predicate,
+  ) = LogFilterByTagImpl;
 
   /// tag implementation
   ///
