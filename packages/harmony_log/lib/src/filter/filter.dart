@@ -2,6 +2,7 @@ import 'package:harmony_log/src/event/event.dart';
 import 'package:harmony_log/src/filter/impl/all.dart';
 import 'package:harmony_log/src/filter/impl/by_message.dart';
 import 'package:harmony_log/src/filter/impl/by_tag.dart';
+import 'package:harmony_log/src/filter/impl/by_error.dart';
 import 'package:harmony_log/src/filter/impl/debug.dart';
 import 'package:harmony_log/src/filter/impl/exact_level.dart';
 import 'package:harmony_log/src/filter/impl/extra.dart';
@@ -52,8 +53,15 @@ abstract class LogFilter {
   ///
   /// accepts messages matched using predicate
   const factory LogFilter.byMessage(
-    bool Function(String? tag) predicate,
+    bool Function(String? message) predicate,
   ) = LogFilterByMessageImpl;
+
+  /// byError implementation
+  ///
+  /// accepts errors matched using predicate
+  const factory LogFilter.byError(
+    bool Function(Object? error) predicate,
+  ) = LogFilterByErrorImpl;
 
   /// tag implementation
   ///
