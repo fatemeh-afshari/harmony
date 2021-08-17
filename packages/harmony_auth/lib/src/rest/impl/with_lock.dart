@@ -7,6 +7,7 @@ import '../../matcher/matcher.dart';
 import '../../utils/error_extensions.dart';
 import '../rest.dart';
 
+/// this is only applicable to standard refresh token
 @internal
 class AuthRestWithLockImpl implements AuthRest {
   // we don't expect to face a lot of unauthenticated

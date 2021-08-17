@@ -45,6 +45,9 @@ abstract class AuthRest {
   /// wrap an AuthRest with lock
   ///
   /// It enables concurrency support for rest
+  ///
+  /// NOTE: this is only applicable to standard refresh token.
+  /// So it can not be used with accessOnly type of rest.
   factory AuthRest.withLock(AuthRest rest) = AuthRestWithLockImpl;
 
   /// note: should ONLY throw DioError.

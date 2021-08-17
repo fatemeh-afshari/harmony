@@ -168,6 +168,8 @@ void init() {
   // the workaround is to wrap your auth rest with
   //  locks to add concurrency support:
   rest = rest.wrapWithLock();
+  // NOTE: this is only applicable to standard refresh token.
+  // So it can not be used with accessOnly type of rest.
 
   // manipulator:
   final manipulator = AuthManipulator();
