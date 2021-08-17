@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:harmony_log/src/event/event.dart';
 import 'package:harmony_log/src/filter/filter.dart';
@@ -89,6 +90,27 @@ void main() {
     test('none impl', () {
       final filter = LogFilter.none();
       expect(filter.shouldLog(FakeLogEvent()), isFalse);
+    });
+
+    test('debug impl', () {
+      expect(
+        LogFilter.debug().shouldLog(FakeLogEvent()),
+        equals(kDebugMode),
+      );
+    });
+
+    test('release impl', () {
+      expect(
+        LogFilter.release().shouldLog(FakeLogEvent()),
+        equals(kReleaseMode),
+      );
+    });
+
+    test('profile impl', () {
+      expect(
+        LogFilter.profile().shouldLog(FakeLogEvent()),
+        equals(kProfileMode),
+      );
     });
 
     group('set operations', () {
