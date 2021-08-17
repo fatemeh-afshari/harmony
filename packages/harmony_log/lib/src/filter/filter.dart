@@ -1,8 +1,9 @@
 import 'package:harmony_log/src/event/event.dart';
 import 'package:harmony_log/src/filter/impl/all.dart';
+import 'package:harmony_log/src/filter/impl/by_error.dart';
+import 'package:harmony_log/src/filter/impl/by_extra.dart';
 import 'package:harmony_log/src/filter/impl/by_message.dart';
 import 'package:harmony_log/src/filter/impl/by_tag.dart';
-import 'package:harmony_log/src/filter/impl/by_error.dart';
 import 'package:harmony_log/src/filter/impl/debug.dart';
 import 'package:harmony_log/src/filter/impl/exact_level.dart';
 import 'package:harmony_log/src/filter/impl/extra.dart';
@@ -69,6 +70,13 @@ abstract class LogFilter {
   const factory LogFilter.extra(
     String? extra,
   ) = LogFilterExtraImpl;
+
+  /// byExtra implementation
+  ///
+  /// accepts errors matched using predicate
+  const factory LogFilter.byExtra(
+    bool Function(Object? extra) predicate,
+  ) = LogFilterByExtraImpl;
 
   /// all implementation
   const factory LogFilter.all() = LogFilterAllImpl;
