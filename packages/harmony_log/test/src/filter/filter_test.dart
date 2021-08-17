@@ -35,6 +35,49 @@ void main() {
       );
     });
 
+    test('level impl', () {
+      final filter = LogFilter.level(LogLevel.warning);
+      expect(
+        filter.shouldLog(LogEvent(
+          id: 'id',
+          time: DateTime.now(),
+          tag: 'tag',
+          level: LogLevel.wtf,
+          message: 'message',
+          error: 'error',
+          stackTrace: StackTrace.empty,
+          extra: 'extra',
+        )),
+        isTrue,
+      );
+      expect(
+        filter.shouldLog(LogEvent(
+          id: 'id',
+          time: DateTime.now(),
+          tag: 'tag',
+          level: LogLevel.warning,
+          message: 'message',
+          error: 'error',
+          stackTrace: StackTrace.empty,
+          extra: 'extra',
+        )),
+        isTrue,
+      );
+      expect(
+        filter.shouldLog(LogEvent(
+          id: 'id',
+          time: DateTime.now(),
+          tag: 'tag',
+          level: LogLevel.verbose,
+          message: 'message',
+          error: 'error',
+          stackTrace: StackTrace.empty,
+          extra: 'extra',
+        )),
+        isFalse,
+      );
+    });
+
     group('set operations', () {
       LogFilter message(String message) => LogFilter.general(
             (e) => e.message == message,
