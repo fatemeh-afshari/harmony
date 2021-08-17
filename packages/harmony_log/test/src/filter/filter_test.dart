@@ -82,14 +82,61 @@ void main() {
       );
     });
 
+    test('exactLevel impl', () {
+      final filter = LogFilter.exactLevel(LogLevel.warning);
+      expect(
+        filter.shouldLog(LogEvent(
+          id: 'id',
+          time: DateTime.now(),
+          tag: 'tag',
+          level: LogLevel.wtf,
+          message: 'message',
+          error: 'error',
+          stackTrace: StackTrace.empty,
+          extra: 'extra',
+        )),
+        isFalse,
+      );
+      expect(
+        filter.shouldLog(LogEvent(
+          id: 'id',
+          time: DateTime.now(),
+          tag: 'tag',
+          level: LogLevel.warning,
+          message: 'message',
+          error: 'error',
+          stackTrace: StackTrace.empty,
+          extra: 'extra',
+        )),
+        isTrue,
+      );
+      expect(
+        filter.shouldLog(LogEvent(
+          id: 'id',
+          time: DateTime.now(),
+          tag: 'tag',
+          level: LogLevel.verbose,
+          message: 'message',
+          error: 'error',
+          stackTrace: StackTrace.empty,
+          extra: 'extra',
+        )),
+        isFalse,
+      );
+    });
+
     test('all impl', () {
-      final filter = LogFilter.all();
-      expect(filter.shouldLog(FakeLogEvent()), isTrue);
+      expect(
+        LogFilter.all().shouldLog(FakeLogEvent()),
+        isTrue,
+      );
     });
 
     test('none impl', () {
-      final filter = LogFilter.none();
-      expect(filter.shouldLog(FakeLogEvent()), isFalse);
+      expect(
+        LogFilter.none().shouldLog(FakeLogEvent()),
+        isFalse,
+      );
     });
 
     test('debug impl', () {

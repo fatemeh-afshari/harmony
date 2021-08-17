@@ -1,6 +1,7 @@
 import 'package:harmony_log/src/event/event.dart';
 import 'package:harmony_log/src/filter/impl/all.dart';
 import 'package:harmony_log/src/filter/impl/debug.dart';
+import 'package:harmony_log/src/filter/impl/exact_level.dart';
 import 'package:harmony_log/src/filter/impl/general.dart';
 import 'package:harmony_log/src/filter/impl/level.dart';
 import 'package:harmony_log/src/filter/impl/none.dart';
@@ -21,6 +22,13 @@ abstract class LogFilter {
   const factory LogFilter.level(
     LogLevel level,
   ) = LogFilterLevelImpl;
+
+  /// exactLevel implementation
+  ///
+  /// accepts levels only equal to [level]
+  const factory LogFilter.exactLevel(
+    LogLevel level,
+  ) = LogFilterExactLevelImpl;
 
   /// all implementation
   const factory LogFilter.all() = LogFilterAllImpl;
