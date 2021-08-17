@@ -215,6 +215,36 @@ void main() {
       );
     });
 
+    test('byMessage impl', () {
+      final filter = LogFilter.byMessage((m) => m == 'message');
+      expect(
+        filter.shouldLog(LogEvent(
+          id: 'id',
+          time: DateTime.now(),
+          tag: 'tag',
+          level: LogLevel.warning,
+          message: 'message',
+          error: 'error',
+          stackTrace: StackTrace.empty,
+          extra: 'extra',
+        )),
+        isTrue,
+      );
+      expect(
+        filter.shouldLog(LogEvent(
+          id: 'id',
+          time: DateTime.now(),
+          tag: 'tag',
+          level: LogLevel.warning,
+          message: 'other message',
+          error: 'error',
+          stackTrace: StackTrace.empty,
+          extra: 'extra',
+        )),
+        isFalse,
+      );
+    });
+
     test('all impl', () {
       expect(
         LogFilter.all().shouldLog(FakeLogEvent()),
