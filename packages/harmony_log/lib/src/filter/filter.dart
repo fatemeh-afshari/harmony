@@ -1,8 +1,11 @@
 import 'package:harmony_log/src/event/event.dart';
 import 'package:harmony_log/src/filter/impl/all.dart';
+import 'package:harmony_log/src/filter/impl/debug.dart';
 import 'package:harmony_log/src/filter/impl/general.dart';
 import 'package:harmony_log/src/filter/impl/level.dart';
 import 'package:harmony_log/src/filter/impl/none.dart';
+import 'package:harmony_log/src/filter/impl/profile.dart';
+import 'package:harmony_log/src/filter/impl/release.dart';
 import 'package:harmony_log/src/level/level.dart';
 
 /// log filter
@@ -19,11 +22,26 @@ abstract class LogFilter {
     LogLevel level,
   ) = LogFilterLevelImpl;
 
-  /// general implementation
+  /// all implementation
   const factory LogFilter.all() = LogFilterAllImpl;
 
-  /// general implementation
+  /// none implementation
   const factory LogFilter.none() = LogFilterNoneImpl;
+
+  /// debug implementation
+  ///
+  /// only on debug mode
+  const factory LogFilter.debug() = LogFilterDebugImpl;
+
+  /// release implementation
+  ///
+  /// only on release mode
+  const factory LogFilter.release() = LogFilterReleaseImpl;
+
+  /// profile implementation
+  ///
+  /// only on profile mode
+  const factory LogFilter.profile() = LogFilterProfileImpl;
 
   /// check if should log a specific log event
   bool shouldLog(LogEvent event);
