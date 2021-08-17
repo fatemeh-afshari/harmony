@@ -7,17 +7,13 @@ class LogStandardImpl extends AbstractLog {
   const LogStandardImpl() : super();
 
   @override
-  void init() {
-    // TODO: implement init
-  }
+  void init() {}
 
   @override
   void event(LogEvent event) {
-    // TODO: implement event
+    print(event.message);
   }
 
   @override
-  void close() {
-    // TODO: implement close
-  }
+  void close() {}
 }
