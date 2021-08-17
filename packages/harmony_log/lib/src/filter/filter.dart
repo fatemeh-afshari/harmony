@@ -2,6 +2,7 @@ import 'package:harmony_log/src/event/event.dart';
 import 'package:harmony_log/src/filter/impl/all.dart';
 import 'package:harmony_log/src/filter/impl/by_error.dart';
 import 'package:harmony_log/src/filter/impl/by_extra.dart';
+import 'package:harmony_log/src/filter/impl/by_level.dart';
 import 'package:harmony_log/src/filter/impl/by_message.dart';
 import 'package:harmony_log/src/filter/impl/by_tag.dart';
 import 'package:harmony_log/src/filter/impl/debug.dart';
@@ -28,6 +29,13 @@ abstract class LogFilter {
   const factory LogFilter.level(
     LogLevel level,
   ) = LogFilterLevelImpl;
+
+  /// level implementation
+  ///
+  /// accepts levels greater than or equal to [level]
+  const factory LogFilter.byLevel(
+    bool Function(LogLevel level) predicate,
+  ) = LogFilterByLevelImpl;
 
   /// exactLevel implementation
   ///

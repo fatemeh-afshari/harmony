@@ -305,6 +305,36 @@ void main() {
       );
     });
 
+    test('byLevel impl', () {
+      final filter = LogFilter.byLevel((l) => l == LogLevel.warning);
+      expect(
+        filter.shouldLog(LogEvent(
+          id: 'id',
+          time: DateTime.now(),
+          tag: 'tag',
+          level: LogLevel.warning,
+          message: 'message',
+          error: 'error',
+          stackTrace: StackTrace.empty,
+          extra: 'extra',
+        )),
+        isTrue,
+      );
+      expect(
+        filter.shouldLog(LogEvent(
+          id: 'id',
+          time: DateTime.now(),
+          tag: 'tag',
+          level: LogLevel.error,
+          message: 'message',
+          error: 'error',
+          stackTrace: StackTrace.empty,
+          extra: 'extra',
+        )),
+        isFalse,
+      );
+    });
+
     test('all impl', () {
       expect(
         LogFilter.all().shouldLog(FakeLogEvent()),
