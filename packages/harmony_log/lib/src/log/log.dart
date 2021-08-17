@@ -20,6 +20,8 @@ abstract class Log {
   /// logger can not be used before initialization
   ///
   /// all of tagged loggers also initialize
+  ///
+  /// this can complete asynchronously
   void init();
 
   /// get this logger's tag
@@ -30,6 +32,8 @@ abstract class Log {
   /// log
   ///
   /// use abbreviated methods like: [v], ..., [wtf]
+  ///
+  /// this can complete asynchronously
   void log({
     required LogLevel level,
     required String message,
@@ -43,10 +47,14 @@ abstract class Log {
   /// after closing you can not call log methods
   ///
   /// all of tagged loggers also closes
+  ///
+  /// this can complete asynchronously
   void close();
 }
 
 /// extension for abbreviated log methods
+///
+/// all of methods can complete asynchronously
 extension LogLevelExt on Log {
   /// verbose
   void v(
