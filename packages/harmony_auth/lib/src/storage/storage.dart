@@ -1,3 +1,4 @@
+import '../token/token.dart';
 import 'impl/impl.dart';
 
 /// harmony_auth storage for tokens
@@ -95,10 +96,4 @@ extension AuthStorageExt on AuthStorage {
   /// use [initializeStatusStream] extension function to push
   /// initial state on stream. this is optional.
   AuthStorage wrapWithStatus() => AuthStorage.wrapWithStatus(this);
-}
-
-/// status of auth storage
-enum AuthStatus {
-  loggedIn,
-  loggedOut,
 }

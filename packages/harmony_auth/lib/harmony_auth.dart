@@ -12,4 +12,5 @@ export 'src/manipulator/manipulator.dart';
 export 'src/matcher/matcher.dart';
 export 'src/rest/rest.dart';
 export 'src/storage/storage.dart';
+export 'src/token/token.dart';
 export 'src/utils/error_extensions.dart';

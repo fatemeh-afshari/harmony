@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:harmony_auth/src/storage/storage.dart';
+import 'package:harmony_auth/src/token/token.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {

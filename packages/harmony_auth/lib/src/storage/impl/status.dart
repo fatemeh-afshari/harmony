@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:meta/meta.dart';
 
+import '../../token/token.dart';
 import '../storage.dart';
 
 /// [AuthStorage] wrapper which provides
