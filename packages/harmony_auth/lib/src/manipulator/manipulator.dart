@@ -46,5 +46,6 @@ abstract class AuthManipulator {
     String valuePrefix,
   ) = AuthManipulatorHeaderPrefixedImpl;
 
+  /// manipulate request in-place with access token.
   void manipulate(RequestOptions request, String accessToken);
 }

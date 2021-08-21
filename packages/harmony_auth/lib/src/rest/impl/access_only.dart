@@ -5,7 +5,7 @@ import '../../auth.dart';
 import '../../checker/checker.dart';
 import '../../exception/exception.dart';
 import '../../matcher/matcher.dart';
-import '../../utils/error_extensions.dart';
+import '../../token/token.dart';
 import '../rest.dart';
 
 @internal
@@ -21,7 +21,7 @@ class AuthRestAccessOnlyImpl implements AuthRest {
   });
 
   @override
-  Future<AuthRestToken> refreshTokens(String refresh) async {
+  Future<AuthToken> refreshTokens(String refreshToken) async {
     _log('calling refresh token api');
     // build request for refresh request
     final request = Options(
@@ -34,7 +34,7 @@ class AuthRestAccessOnlyImpl implements AuthRest {
       dio.options,
       refreshUrl,
       data: {
-        'refresh': refresh,
+        'refresh': refreshToken,
       },
     );
     try {
@@ -42,9 +42,9 @@ class AuthRestAccessOnlyImpl implements AuthRest {
       _log('call was successful');
       try {
         final data = response.data as Map<String, dynamic>;
-        return AuthRestToken(
+        return AuthToken(
           // using the same refresh token:
-          refresh: refresh,
+          refresh: refreshToken,
           access: data['access'] as String,
         );
       } catch (_) {
@@ -54,13 +54,13 @@ class AuthRestAccessOnlyImpl implements AuthRest {
           requestOptions: request,
           type: DioErrorType.other,
           response: null,
-          error: AssertionError('failed to parse refresh tokens api response.'),
+          error: Exception('failed to parse refresh tokens api response.'),
         );
       }
     } on DioError catch (error) {
       if (checker.isUnauthorizedError(error)) {
         _log('call failed due to invalid refresh token');
-        throw AuthException().toDioError(request);
+        throw AuthException();
       } else {
         rethrow;
       }
@@ -68,9 +68,8 @@ class AuthRestAccessOnlyImpl implements AuthRest {
   }
 
   @override
-  AuthMatcher get refreshTokensMatcher {
-    return AuthMatcher.url(refreshUrl) & AuthMatcher.method('POST');
-  }
+  AuthMatcher get refreshTokensMatcher =>
+      AuthMatcher.methodAndUrl('POST', refreshUrl);
 
   void _log(String message) {
     Auth.log('harmony_auth rest.accessOnly: $message');

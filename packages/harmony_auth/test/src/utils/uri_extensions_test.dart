@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:harmony_auth/src/utils/uri_utils.dart';
+import 'package:harmony_auth/src/utils/uri_extensions.dart';
 
 void main() {
   group('AuthUriExtensions', () {

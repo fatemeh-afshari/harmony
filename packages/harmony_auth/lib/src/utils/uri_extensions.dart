@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 /// utilities to extract url from [Uri] to match
 /// against it.
 @internal
-extension AuthUriExtensions on Uri {
+extension AuthUriExt on Uri {
   /// note: output should NOT contain queries
   ///
   /// note: output should start with http(s)

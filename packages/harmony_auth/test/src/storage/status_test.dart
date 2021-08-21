@@ -1,6 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:harmony_auth/src/storage/storage.dart';
 import 'package:harmony_auth/src/token/token.dart';
+import 'package:mocktail/mocktail.dart';
+
+class FakeAuthToken extends Fake implements AuthToken {}
 
 void main() {
   group('AuthStorage+Status', () {
@@ -38,51 +41,96 @@ void main() {
     group('with status', () {
       late AuthStorage storage;
 
-      setUp(() {
-        storage = AuthStorage.inMemory().wrapWithStatus();
+      group('without initial token', () {
+        setUp(() {
+          storage = AuthStorage.inMemory().wrapWithStatus();
+        });
+
+        test('status', () async {
+          expect(await storage.status, equals(AuthStatus.loggedOut));
+        });
+
+        test('statusStreamOrNull', () {
+          expect(storage.statusStreamOrNull, isNotNull);
+        });
+
+        test('statusStream', () {
+          expect(storage.statusStream, isNotNull);
+        });
+
+        test('initializeStatusStreamOrNothing', () async {
+          expect(storage.statusStream, emits(AuthStatus.loggedOut));
+          await storage.initializeStatusStreamOrNothing();
+        });
+
+        test('initializeStatusStream', () async {
+          expect(storage.statusStream, emits(AuthStatus.loggedOut));
+          await storage.initializeStatusStream();
+        });
+
+        test('status stream', () async {
+          expect(
+            storage.statusStream,
+            emitsInOrder(<AuthStatus>[
+              AuthStatus.loggedOut,
+              AuthStatus.loggedIn,
+              AuthStatus.loggedOut,
+              AuthStatus.loggedIn,
+              AuthStatus.loggedOut,
+            ]),
+          );
+          await storage.initializeStatusStream();
+          await storage.set(FakeAuthToken());
+          await storage.remove();
+          await storage.set(FakeAuthToken());
+          await storage.remove();
+        });
       });
 
-      test('status', () async {
-        expect(await storage.status, equals(AuthStatus.loggedOut));
-      });
+      group('with initial token', () {
+        setUp(() {
+          storage = AuthStorage.inMemory();
+          storage.set(FakeAuthToken());
+          storage = storage.wrapWithStatus();
+        });
 
-      test('statusStreamOrNull', () {
-        expect(storage.statusStreamOrNull, isNotNull);
-      });
+        test('status', () async {
+          expect(await storage.status, equals(AuthStatus.loggedIn));
+        });
 
-      test('statusStream', () {
-        expect(storage.statusStream, isNotNull);
-      });
+        test('statusStreamOrNull', () {
+          expect(storage.statusStreamOrNull, isNotNull);
+        });
 
-      test('initializeStatusStreamOrNothing', () async {
-        expect(storage.statusStream, emits(AuthStatus.loggedOut));
-        await storage.initializeStatusStreamOrNothing();
-      });
+        test('statusStream', () {
+          expect(storage.statusStream, isNotNull);
+        });
 
-      test('initializeStatusStream', () async {
-        expect(storage.statusStream, emits(AuthStatus.loggedOut));
-        await storage.initializeStatusStream();
-      });
+        test('initializeStatusStreamOrNothing', () async {
+          expect(storage.statusStream, emits(AuthStatus.loggedIn));
+          await storage.initializeStatusStreamOrNothing();
+        });
 
-      test('status stream', () async {
-        expect(
-          storage.statusStream,
-          emitsInOrder(<AuthStatus>[
-            AuthStatus.loggedOut,
-            AuthStatus.loggedIn,
-            AuthStatus.loggedOut,
-            AuthStatus.loggedIn,
-            AuthStatus.loggedOut,
-          ]),
-        );
-        await storage.initializeStatusStream();
-        await storage.setRefreshToken('r1');
-        await storage.removeRefreshToken();
-        await storage.setRefreshToken('r2');
-        await storage.clear();
-        await storage.setAccessToken('a1');
-        await storage.removeAccessToken();
-        await storage.getAccessToken();
+        test('initializeStatusStream', () async {
+          expect(storage.statusStream, emits(AuthStatus.loggedIn));
+          await storage.initializeStatusStream();
+        });
+
+        test('status stream', () async {
+          expect(
+            storage.statusStream,
+            emitsInOrder(<AuthStatus>[
+              AuthStatus.loggedIn,
+              AuthStatus.loggedOut,
+              AuthStatus.loggedIn,
+              AuthStatus.loggedOut,
+            ]),
+          );
+          await storage.initializeStatusStream();
+          await storage.remove();
+          await storage.set(FakeAuthToken());
+          await storage.remove();
+        });
       });
     });
   });

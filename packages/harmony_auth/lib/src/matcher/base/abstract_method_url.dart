@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
-import '../../utils/uri_utils.dart';
+import '../../utils/uri_extensions.dart';
 import 'abstract.dart';
 
 /// basic utilities for set operations

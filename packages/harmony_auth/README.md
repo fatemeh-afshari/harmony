@@ -50,6 +50,7 @@ again.
 - create an auth checker.
 - create an auth rest.
 - create an auth manipulator.
+- create an auth refresh.
 - create and add interceptor.
 
 for example:
@@ -68,8 +69,11 @@ void init() {
   // or use in memory implementation.
   AuthStorage.inMemory();
   // or subclass AuthStorage by yourself for other scenarios.
-  // you should register storage with dependency injection.
 
+  // if you want to enable concurrency:
+  storage = storage.wrapWithLock();
+  // this way operations on storage can be concurrent.
+  
   // you can get authentication status by using:
   // await storage.status;
 
@@ -86,6 +90,9 @@ void init() {
   // and
   // await storage.initializeStatusStream();
 
+  // now you can register storage with dependency injection:
+  print(storage);
+  
   // dio:
   final dio = Dio();
   // you can apply all sorts of configurations to your dio
@@ -173,6 +180,14 @@ void init() {
   // and you can sub-class AuthManipulator by yourself or
   // use AuthManipulator.general for complex cases.
 
+  // refresh:
+  var refresh = AuthRefresh(
+    storage: storage,
+    rest: rest,
+  );
+  
+  // if you want to 
+  
   // interceptor:
   final interceptor = AuthInterceptor(
     dio: dio,
@@ -186,6 +201,7 @@ void init() {
   dio.interceptors.add(interceptor);
 
   // now you can register dio with dependency injection.
+  print(dio);
 }
 ```
 
@@ -199,28 +215,47 @@ import 'package:harmony_auth/harmony_auth.dart';
 import 'package:logger/logger.dart';
 
 void main() async {
+  // create and set logger:
   final logger = Logger(/*...*/);
   Auth.logger = logger;
-  final storage = AuthStorage().wrapWithStatus();
+
+  // create storage:
+  final storage = AuthStorage().wrapWithLock().wrapWithStatus();
+
+  // register with injection storage ...
+  print(storage);
+
+  // create dio:
   final dio = Dio(/*...*/);
+
+  // your base url:
+  const baseUrl = 'https://base/';
+
+  // create and set interceptor:
+  final checker = AuthChecker();
+  final rest = AuthRest(
+    dio: dio,
+    refreshUrl: '${baseUrl}user/token/refresh/',
+    checker: checker,
+  );
+  final refresh = AuthRefresh(
+    storage: storage,
+    rest: rest,
+  ).wrapWithLock();
+  final matcher = AuthMatcher.baseUrl(baseUrl);
+  final manipulator = AuthManipulator();
   final interceptor = AuthInterceptor(
     dio: dio,
     storage: storage,
-    matcher: AuthMatcher.baseUrl('https://base/'),
-    checker: AuthChecker(),
-    rest: AuthRest(
-      dio: dio,
-      refreshUrl: 'https://base/user/token/refresh/',
-      checker: AuthChecker(),
-    ),
-    manipulator: AuthManipulator(),
+    matcher: matcher,
+    checker: checker,
+    rest: rest,
+    manipulator: manipulator,
+    refresh: refresh,
   );
   dio.interceptors.add(interceptor);
 
-  // register with injection storage and dio ...
+  // register with injection dio ...
+  print(storage);
 }
 ```
-
-## TODO
-
-calls which response is not JSON.

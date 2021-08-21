@@ -3,16 +3,14 @@ import 'package:dio/dio.dart';
 import '../checker/checker.dart';
 import '../matcher/matcher.dart';
 import 'impl/impl.dart';
+import '../token/token.dart';
 
 /// handle token refresh api calls for harmony_auth.
 abstract class AuthRest {
   /// standard implementation.
   ///
-  /// after sending refresh, server returns refresh and access.
-  ///
-  /// note: most of the time the same checker used for
-  /// interceptor will suffice. and also most of the time
-  /// standard checkers will suffice.
+  /// after sending refresh, server returns
+  /// new refresh and new access tokens.
   const factory AuthRest({
     required Dio dio,
     required String refreshUrl,
@@ -21,12 +19,8 @@ abstract class AuthRest {
 
   /// accessOnly implementation.
   ///
-  /// after sending refresh, server returns only access token and
-  /// refresh token remains the same.
-  ///
-  /// note: most of the time the same checker used for
-  /// interceptor will suffice. and also most of the time
-  /// standard checkers will suffice.
+  /// after sending refresh, server returns only
+  /// new access token and refresh token remains the same.
   const factory AuthRest.accessOnly({
     required Dio dio,
     required String refreshUrl,
@@ -35,58 +29,27 @@ abstract class AuthRest {
 
   /// general implementation.
   ///
-  /// provide matcher and lambda to refresh tokens.
+  /// provide matcher against refresh calls
+  /// and a lambda to refresh tokens.
   const factory AuthRest.general({
     required Dio dio,
     required AuthMatcher refreshTokensMatcher,
-    required Future<AuthRestToken> Function(Dio dio, String refresh) lambda,
+    required Future<AuthToken> Function(Dio dio, String refresh) refresh,
   }) = AuthRestGeneralImpl;
 
-  /// wrap an AuthRest with lock
-  ///
-  /// It enables concurrency support for rest
-  ///
-  /// NOTE: this is only applicable to standard refresh token.
-  /// So it can not be used with accessOnly type of rest.
-  factory AuthRest.withLock(AuthRest rest) = AuthRestWithLockImpl;
-
-  /// note: should ONLY throw DioError.
-  /// other error will be of [type] [DioErrorType.other]
-  /// and they will have [error] of type [AuthException]
-  ///
-  /// You can convert [AuthException] to [DioError] using
-  /// `.toDioError(...)` extension function.
+  /// note: should ONLY throw [DioError] or [AuthException].
+  /// [AuthException] is for when refresh token is invalidated.
+  /// [DioError] is for other type of errors like when server is
+  /// down or a socket exception occurs.
   ///
   /// note: should NOT do anything other than making request,
   /// such as writing to storage ...
   ///
   /// note: this method should not have any side effects.
-  Future<AuthRestToken> refreshTokens(String refresh);
+  Future<AuthToken> refreshTokens(String refreshToken);
 
   /// matcher to check to see if this call is to refresh tokens.
   ///
   /// note: this should match exactly only refresh request.
   AuthMatcher get refreshTokensMatcher;
-}
-
-/// access and refresh token pair returned from auth rest refresh operation
-class AuthRestToken {
-  /// refresh token
-  final String refresh;
-
-  /// access token
-  final String access;
-
-  const AuthRestToken({
-    required this.refresh,
-    required this.access,
-  });
-}
-
-/// extensions for applying concurrency to AuthRest
-extension AuthRestExt on AuthRest {
-  /// wrap an AuthRest with lock
-  ///
-  /// It enables concurrency support for rest
-  AuthRest wrapWithLock() => AuthRest.withLock(this);
 }

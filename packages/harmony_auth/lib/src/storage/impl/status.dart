@@ -32,42 +32,18 @@ class AuthStorageWithStatusWrapper implements AuthStorage {
   }
 
   @override
-  Future<void> clear() async {
-    await storage.removeRefreshToken();
-    await storage.removeAccessToken();
-    _emit(AuthStatus.loggedOut);
-  }
+  Future<AuthToken?> get() async => await storage.get();
 
   @override
-  Future<String?> getAccessToken() async {
-    return await storage.getAccessToken();
-  }
-
-  @override
-  Future<String?> getRefreshToken() async {
-    return await storage.getRefreshToken();
-  }
-
-  @override
-  Future<void> removeAccessToken() async {
-    await storage.removeAccessToken();
-  }
-
-  @override
-  Future<void> removeRefreshToken() async {
-    await storage.removeRefreshToken();
-    _emit(AuthStatus.loggedOut);
-  }
-
-  @override
-  Future<void> setAccessToken(String accessToken) async {
-    await storage.setAccessToken(accessToken);
-  }
-
-  @override
-  Future<void> setRefreshToken(String refreshToken) async {
-    await storage.setRefreshToken(refreshToken);
+  Future<void> set(AuthToken token) async {
+    await storage.set(token);
     _emit(AuthStatus.loggedIn);
+  }
+
+  @override
+  Future<void> remove() async {
+    await storage.remove();
+    _emit(AuthStatus.loggedOut);
   }
 
   void _emit(AuthStatus status) {

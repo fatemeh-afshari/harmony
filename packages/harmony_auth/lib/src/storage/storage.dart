@@ -5,12 +5,16 @@ import 'impl/impl.dart';
 ///
 /// it will be backed by shared_preferences by default
 abstract class AuthStorage {
-  /// persisted using shared preferences
+  /// standard implementation
+  ///
+  ///persisted using shared preferences
   const factory AuthStorage() = AuthStorageStandardImpl;
 
-  /// in memory implementation
+  /// inMemory implementation
   factory AuthStorage.inMemory() = AuthStorageInMemoryImpl;
 
+  /// withStatus implementation
+  ///
   /// [AuthStorage] wrapper which provides
   /// authentication state changes ...
   ///
@@ -19,29 +23,36 @@ abstract class AuthStorage {
   ///
   /// use [initializeStatusStream] extension function to push
   /// initial state on stream. this is optional.
+  ///
+  /// it should be wrapped first with lock then status.
   factory AuthStorage.wrapWithStatus(AuthStorage storage) =
       AuthStorageWithStatusWrapper;
 
-  Future<String?> getAccessToken();
+  /// withLock implementation
+  ///
+  /// wrap an AuthStorage with lock to enable concurrency support.
+  ///
+  /// NOTE: standard (or maybe custom) implementations only
+  /// need to be wrapped with lock.
+  ///
+  /// it should be wrapped first with lock then status.
+  factory AuthStorage.wrapWithLock(AuthStorage storage) =
+      AuthStorageWithLockImpl;
 
-  Future<void> setAccessToken(String accessToken);
+  /// get token
+  Future<AuthToken?> get();
 
-  Future<void> removeAccessToken();
+  /// set token
+  Future<void> set(AuthToken token);
 
-  Future<String?> getRefreshToken();
-
-  Future<void> setRefreshToken(String refreshToken);
-
-  Future<void> removeRefreshToken();
-
-  Future<void> clear();
+  /// remove token
+  Future<void> remove();
 }
 
 /// extension for checking login state
-extension AuthStorageExt on AuthStorage {
-  Future<AuthStatus> get status async => await getRefreshToken() != null
-      ? AuthStatus.loggedIn
-      : AuthStatus.loggedOut;
+extension AuthStorageStatusExt on AuthStorage {
+  Future<AuthStatus> get status async =>
+      await get() != null ? AuthStatus.loggedIn : AuthStatus.loggedOut;
 
   /// if this storage is an storage wrapped with status,
   /// by using [AuthStorageWithStatusWrapper] then return
@@ -95,5 +106,18 @@ extension AuthStorageExt on AuthStorage {
   ///
   /// use [initializeStatusStream] extension function to push
   /// initial state on stream. this is optional.
+  ///
+  /// it should be wrapped first with lock then status.
   AuthStorage wrapWithStatus() => AuthStorage.wrapWithStatus(this);
+}
+
+/// extensions for adding concurrency support to [AuthStorage]
+extension AuthStorageLockExt on AuthStorage {
+  /// wrap an AuthStorage with lock to enable concurrency support.
+  ///
+  /// NOTE: standard (or maybe custom) implementations only
+  /// need to be wrapped with lock.
+  ///
+  /// it should be wrapped first with lock then status.
+  AuthStorage wrapWithLock() => AuthStorage.wrapWithLock(this);
 }
