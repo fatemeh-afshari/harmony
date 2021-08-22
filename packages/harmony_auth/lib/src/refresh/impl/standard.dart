@@ -5,6 +5,7 @@ import 'package:meta/meta.dart';
 import '../../auth.dart';
 import '../../rest/rest.dart';
 import '../../storage/storage.dart';
+import '../../token/token.dart';
 import '../refresh.dart';
 
 @internal
@@ -42,6 +43,15 @@ class AuthRefreshStandardImpl implements AuthRefresh {
       throw AuthException();
     }
   }
+
+  @override
+  Future<AuthToken?> get() => storage.get();
+
+  @override
+  Future<void> remove() => storage.remove();
+
+  @override
+  Future<void> set(AuthToken token) => storage.set(token);
 
   void _log(String message) {
     Auth.log('harmony_auth refresh.standard: $message');
