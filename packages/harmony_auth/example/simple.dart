@@ -16,7 +16,7 @@ void init() async {
       refreshUrl: refreshUrl,
       checker: AuthChecker(),
     ),
-  ).wrapWithLock();
+  ).locked();
   final interceptor = AuthInterceptor(
     dio: dio,
     matcher: AuthMatcher.baseUrl(baseUrl),

@@ -1,3 +1,3 @@
+export 'debounce.dart';
+export 'locked.dart';
 export 'standard.dart';
-export 'with_debounce.dart';
-export 'with_lock.dart';

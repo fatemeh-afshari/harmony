@@ -7,11 +7,11 @@ import '../../token/token.dart';
 import '../repository.dart';
 
 @internal
-class AuthRepositoryWithDebounceImpl implements AuthRepository {
+class AuthRepositoryDebounceImpl implements AuthRepository {
   final AuthRepository base;
   final Duration duration;
 
-  AuthRepositoryWithDebounceImpl(
+  AuthRepositoryDebounceImpl(
     this.base, {
     required this.duration,
   });

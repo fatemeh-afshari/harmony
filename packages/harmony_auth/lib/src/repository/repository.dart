@@ -18,25 +18,25 @@ abstract class AuthRepository implements AuthRepositorySubset {
     required AuthRest rest,
   }) = AuthRepositoryStandardImpl;
 
-  /// withLock implementation
+  /// locked implementation
   ///
   /// wrap an AuthRepository with lock to enable concurrency support.
   ///
   /// it should be wrapped first with lock then debounce.
-  factory AuthRepository.wrapWithLock(
+  factory AuthRepository.locked(
     AuthRepository base,
-  ) = AuthRepositoryWithLockImpl;
+  ) = AuthRepositoryLockedImpl;
 
-  /// withDebounce implementation
+  /// debounce implementation
   ///
   /// wrap an AuthRepository with debouncing to disallow too many
   /// token refresh calls in a timed window.
   ///
   /// it should be wrapped first with lock then debounce.
-  factory AuthRepository.wrapWithDebounce(
+  factory AuthRepository.debounce(
     AuthRepository base, {
     required Duration duration,
-  }) = AuthRepositoryWithDebounceImpl;
+  }) = AuthRepositoryDebounceImpl;
 
   /// refresh and store tokens.
   ///
@@ -66,7 +66,7 @@ extension AuthRepositoryLockExt on AuthRepository {
   /// wrap an AuthRepository with lock to enable concurrency support.
   ///
   /// it should be wrapped first with lock then debounce.
-  AuthRepository wrapWithLock() => AuthRepository.wrapWithLock(this);
+  AuthRepository locked() => AuthRepository.locked(this);
 }
 
 /// extensions to add debouncing support to [AuthRepository].
@@ -75,8 +75,7 @@ extension AuthRepositoryDebounceExt on AuthRepository {
   /// token refresh calls in a timed window.
   ///
   /// it should be wrapped first with lock then debounce.
-  AuthRepository wrapWithDebounce(Duration duration) =>
-      AuthRepository.wrapWithDebounce(
+  AuthRepository debounce(Duration duration) => AuthRepository.debounce(
         this,
         duration: duration,
       );

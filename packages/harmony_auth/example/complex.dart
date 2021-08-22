@@ -154,7 +154,7 @@ void init() async {
   // this is used to guard against rest and storage calls.
 
   // if you want to add concurrency support to repository:
-  repository = repository.wrapWithLock();
+  repository = repository.locked();
 
   // interceptor:
   final interceptor = AuthInterceptor(

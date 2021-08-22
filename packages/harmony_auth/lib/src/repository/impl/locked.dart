@@ -7,10 +7,10 @@ import '../../token/token.dart';
 import '../repository.dart';
 
 @internal
-class AuthRepositoryWithLockImpl implements AuthRepository {
+class AuthRepositoryLockedImpl implements AuthRepository {
   final AuthRepository base;
 
-  AuthRepositoryWithLockImpl(this.base);
+  AuthRepositoryLockedImpl(this.base);
 
   Completer<void>? _completer;
 
