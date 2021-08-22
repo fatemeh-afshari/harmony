@@ -18,7 +18,7 @@ class AuthStorageStandardImpl implements AuthStorage {
   }
 
   @override
-  Future<AuthToken?> geToken() async {
+  Future<AuthToken?> getToken() async {
     final prefs = await _preferences();
     final refresh = prefs.getString(_keyRefreshToken);
     final access = prefs.getString(_keyAccessToken);

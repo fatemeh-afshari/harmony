@@ -15,13 +15,13 @@ class AuthStorageLockedImpl implements AuthStorage {
   Completer<void>? _completer;
 
   @override
-  Future<AuthToken?> geToken() async {
+  Future<AuthToken?> getToken() async {
     while (_completer != null) {
       await _completer!.future;
     }
     _completer = Completer<void>();
     try {
-      return await base.geToken();
+      return await base.getToken();
     } finally {
       _completer!.complete();
       _completer = null;

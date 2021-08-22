@@ -10,6 +10,17 @@ class AuthToken {
     required this.refresh,
     required this.access,
   });
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AuthToken &&
+          runtimeType == other.runtimeType &&
+          refresh == other.refresh &&
+          access == other.access;
+
+  @override
+  int get hashCode => refresh.hashCode ^ access.hashCode;
 }
 
 /// harmony_auth status of auth storage

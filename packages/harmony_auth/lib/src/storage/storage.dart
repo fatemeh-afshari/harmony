@@ -38,7 +38,7 @@ abstract class AuthStorage {
   factory AuthStorage.locked(AuthStorage base) = AuthStorageLockedImpl;
 
   /// get token
-  Future<AuthToken?> geToken();
+  Future<AuthToken?> getToken();
 
   /// set token
   Future<void> setTokens(AuthToken token);
@@ -50,7 +50,7 @@ abstract class AuthStorage {
 /// extension for checking login state
 extension AuthStorageStatusExt on AuthStorage {
   Future<AuthStatus> get status async =>
-      await geToken() != null ? AuthStatus.loggedIn : AuthStatus.loggedOut;
+      await getToken() != null ? AuthStatus.loggedIn : AuthStatus.loggedOut;
 
   /// if this storage is an storage wrapped with status,
   /// by using [AuthStorageStreamingImpl] then return
@@ -64,7 +64,7 @@ extension AuthStorageStatusExt on AuthStorage {
 
   /// if this storage is an storage wrapped with status,
   /// by using [AuthStorageStreamingImpl] then return
-  /// status stream otherwise throw assertion error;
+  /// status stream otherwise throw assertion error.
   Stream<AuthStatus> get statusStream {
     final storage = this;
     return storage is AuthStorageStreamingImpl

@@ -12,7 +12,7 @@ class AuthStorageInMemoryImpl implements AuthStorage {
   AuthStorageInMemoryImpl();
 
   @override
-  Future<AuthToken?> geToken() async => memory;
+  Future<AuthToken?> getToken() async => memory;
 
   @override
   Future<void> removeTokens() async {

@@ -1,63 +1,75 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:harmony_auth/src/storage/storage.dart';
 import 'package:harmony_auth/src/token/token.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class FakeAuthToken extends Fake implements AuthToken {}
-
 void main() {
+  final example = AuthToken(refresh: 'r1', access: 'a1');
+
   group('AuthStorage', () {
+    late AuthStorage storage;
+
     group('standard', () {
-      group('initialize with mocked empty storage', () {
-        late AuthStorage storage;
+      setUp(() {
+        SharedPreferences.setMockInitialValues({});
+        storage = AuthStorage();
+      });
 
-        setUp(() {
-          SharedPreferences.setMockInitialValues({});
-          storage = AuthStorage();
+      group('initially empty', () {
+        group('AuthStorageExt', () {
+          group('isLoggedIn', () {
+            test('loggedOut', () async {
+              expect(await storage.status, equals(AuthStatus.loggedOut));
+            });
+
+            test('loggedIn', () async {
+              await storage.setTokens(example);
+              expect(await storage.status, equals(AuthStatus.loggedIn));
+            });
+          });
         });
 
-        test('check initial data', () async {
-          expect(await storage.geToken(), isNull);
+        test('get initial token', () async {
+          expect(await storage.getToken(), isNull);
         });
 
-        test('check token', () async {
-          final token = FakeAuthToken();
-          await storage.setTokens(token);
-          expect(await storage.geToken(), equals(token));
+        test('set, get and remove token', () async {
+          await storage.setTokens(example);
+          expect(await storage.getToken(), equals(example));
           await storage.removeTokens();
-          expect(await storage.geToken(), isNull);
+          expect(await storage.getToken(), isNull);
         });
       });
     });
 
     group('inMemory', () {
-      group('AuthStorageExt', () {
-        test('isLoggedIn', () async {
-          final storage = AuthStorage.inMemory();
-          expect(await storage.status, equals(AuthStatus.loggedOut));
-          await storage.setTokens(FakeAuthToken());
-          expect(await storage.status, equals(AuthStatus.loggedIn));
-        });
+      setUp(() {
+        storage = AuthStorage.inMemory();
       });
 
-      group('initialize with empty storage', () {
-        late AuthStorage storage;
+      group('initially empty', () {
+        group('AuthStorageExt', () {
+          group('isLoggedIn', () {
+            test('loggedOut', () async {
+              expect(await storage.status, equals(AuthStatus.loggedOut));
+            });
 
-        setUp(() {
-          storage = AuthStorage.inMemory();
+            test('loggedIn', () async {
+              await storage.setTokens(example);
+              expect(await storage.status, equals(AuthStatus.loggedIn));
+            });
+          });
         });
 
-        test('check initial data', () async {
-          expect(await storage.geToken(), isNull);
+        test('get initial token', () async {
+          expect(await storage.getToken(), isNull);
         });
 
-        test('check token', () async {
-          final token = FakeAuthToken();
-          await storage.setTokens(token);
-          expect(await storage.geToken(), equals(token));
+        test('set, get and remove token', () async {
+          await storage.setTokens(example);
+          expect(await storage.getToken(), equals(example));
           await storage.removeTokens();
-          expect(await storage.geToken(), isNull);
+          expect(await storage.getToken(), isNull);
         });
       });
     });

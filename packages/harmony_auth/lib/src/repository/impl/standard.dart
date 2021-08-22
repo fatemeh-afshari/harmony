@@ -22,7 +22,7 @@ class AuthRepositoryStandardImpl implements AuthRepository {
   @override
   Future<void> refreshTokens() async {
     _log('refresh, checking if token is available ...');
-    final token1 = await storage.geToken();
+    final token1 = await storage.getToken();
     if (token1 != null) {
       _log('token is available, attempting to call rest ...');
       try {
@@ -49,7 +49,7 @@ class AuthRepositoryStandardImpl implements AuthRepository {
   AuthMatcher get refreshTokensMatcher => rest.refreshTokensMatcher;
 
   @override
-  Future<AuthToken?> getToken() => storage.geToken();
+  Future<AuthToken?> getToken() => storage.getToken();
 
   @override
   Future<void> removeToken() => storage.removeTokens();

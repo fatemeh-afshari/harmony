@@ -32,7 +32,7 @@ class AuthStorageStreamingImpl implements AuthStorage {
   }
 
   @override
-  Future<AuthToken?> geToken() async => await base.geToken();
+  Future<AuthToken?> getToken() async => await base.getToken();
 
   @override
   Future<void> setTokens(AuthToken token) async {

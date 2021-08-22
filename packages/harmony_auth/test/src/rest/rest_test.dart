@@ -105,20 +105,13 @@ void main() {
 
             expect(
               () async => await rest.refreshTokens('r1'),
-              throwsA(
-                predicate(
-                  (DioError e) =>
-                      e.type == DioErrorType.other &&
-                      e.error is AuthException &&
-                      e.requestOptions.path == refreshUrl,
-                ),
-              ),
+              throwsA(isA<AuthException>()),
             );
           },
         );
 
         test(
-          'when has bad response then should error with AssertionError',
+          'when has bad response then should error with Exception',
           () async {
             when(() => adapter.fetch(
                   any(
@@ -154,7 +147,9 @@ void main() {
               throwsA(
                 predicate(
                   (DioError e) =>
-                      e.type == DioErrorType.other && e.error is AssertionError,
+                      e.type == DioErrorType.other &&
+                      e.error is Exception &&
+                      e.requestOptions.path == refreshUrl,
                 ),
               ),
             );
@@ -306,14 +301,7 @@ void main() {
 
             expect(
               () async => await rest.refreshTokens('r1'),
-              throwsA(
-                predicate(
-                  (DioError e) =>
-                      e.type == DioErrorType.other &&
-                      e.error is AuthException &&
-                      e.requestOptions.path == refreshUrl,
-                ),
-              ),
+              throwsA(isA<AuthException>()),
             );
           },
         );
@@ -355,7 +343,9 @@ void main() {
               throwsA(
                 predicate(
                   (DioError e) =>
-                      e.type == DioErrorType.other && e.error is AssertionError,
+                      e.type == DioErrorType.other &&
+                      e.error is Exception &&
+                      e.requestOptions.path == refreshUrl,
                 ),
               ),
             );
