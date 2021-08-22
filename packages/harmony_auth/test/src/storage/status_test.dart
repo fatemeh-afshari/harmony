@@ -43,7 +43,7 @@ void main() {
 
       group('without initial token', () {
         setUp(() {
-          storage = AuthStorage.inMemory().wrapWithStatus();
+          storage = AuthStorage.inMemory().streaming();
         });
 
         test('status', () async {
@@ -91,7 +91,7 @@ void main() {
         setUp(() {
           storage = AuthStorage.inMemory();
           storage.setTokens(FakeAuthToken());
-          storage = storage.wrapWithStatus();
+          storage = storage.streaming();
         });
 
         test('status', () async {

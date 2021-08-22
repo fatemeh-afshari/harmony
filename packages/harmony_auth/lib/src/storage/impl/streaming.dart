@@ -13,10 +13,10 @@ import '../storage.dart';
 /// use [internalInitializeStatusStream] to push initial state on stream.
 /// this is optional.
 @internal
-class AuthStorageWithStatusWrapper implements AuthStorage {
-  final AuthStorage storage;
+class AuthStorageStreamingImpl implements AuthStorage {
+  final AuthStorage base;
 
-  AuthStorageWithStatusWrapper(this.storage);
+  AuthStorageStreamingImpl(this.base);
 
   final _controller = StreamController<AuthStatus>();
 
@@ -32,17 +32,17 @@ class AuthStorageWithStatusWrapper implements AuthStorage {
   }
 
   @override
-  Future<AuthToken?> geToken() async => await storage.geToken();
+  Future<AuthToken?> geToken() async => await base.geToken();
 
   @override
   Future<void> setTokens(AuthToken token) async {
-    await storage.setTokens(token);
+    await base.setTokens(token);
     _emit(AuthStatus.loggedIn);
   }
 
   @override
   Future<void> removeTokens() async {
-    await storage.removeTokens();
+    await base.removeTokens();
     _emit(AuthStatus.loggedOut);
   }
 

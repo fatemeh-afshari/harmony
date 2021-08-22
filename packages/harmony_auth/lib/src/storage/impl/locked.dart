@@ -6,10 +6,10 @@ import 'package:meta/meta.dart';
 import '../storage.dart';
 
 @internal
-class AuthStorageWithLockImpl implements AuthStorage {
-  final AuthStorage storage;
+class AuthStorageLockedImpl implements AuthStorage {
+  final AuthStorage base;
 
-  AuthStorageWithLockImpl(this.storage);
+  AuthStorageLockedImpl(this.base);
 
   /// no errors are permitted
   Completer<void>? _completer;
@@ -21,7 +21,7 @@ class AuthStorageWithLockImpl implements AuthStorage {
     }
     _completer = Completer<void>();
     try {
-      return await storage.geToken();
+      return await base.geToken();
     } finally {
       _completer!.complete();
       _completer = null;
@@ -35,7 +35,7 @@ class AuthStorageWithLockImpl implements AuthStorage {
     }
     _completer = Completer<void>();
     try {
-      await storage.removeTokens();
+      await base.removeTokens();
     } finally {
       _completer!.complete();
       _completer = null;
@@ -49,7 +49,7 @@ class AuthStorageWithLockImpl implements AuthStorage {
     }
     _completer = Completer<void>();
     try {
-      await storage.setTokens(token);
+      await base.setTokens(token);
     } finally {
       _completer!.complete();
       _completer = null;

@@ -25,10 +25,9 @@ abstract class AuthStorage {
   /// initial state on stream. this is optional.
   ///
   /// it should be wrapped first with lock then status.
-  factory AuthStorage.wrapWithStatus(AuthStorage storage) =
-      AuthStorageWithStatusWrapper;
+  factory AuthStorage.streaming(AuthStorage base) = AuthStorageStreamingImpl;
 
-  /// withLock implementation
+  /// locked implementation
   ///
   /// wrap an AuthStorage with lock to enable concurrency support.
   ///
@@ -36,8 +35,7 @@ abstract class AuthStorage {
   /// need to be wrapped with lock.
   ///
   /// it should be wrapped first with lock then status.
-  factory AuthStorage.wrapWithLock(AuthStorage storage) =
-      AuthStorageWithLockImpl;
+  factory AuthStorage.locked(AuthStorage base) = AuthStorageLockedImpl;
 
   /// get token
   Future<AuthToken?> geToken();
@@ -55,43 +53,43 @@ extension AuthStorageStatusExt on AuthStorage {
       await geToken() != null ? AuthStatus.loggedIn : AuthStatus.loggedOut;
 
   /// if this storage is an storage wrapped with status,
-  /// by using [AuthStorageWithStatusWrapper] then return
+  /// by using [AuthStorageStreamingImpl] then return
   /// status stream otherwise return null.
   Stream<AuthStatus>? get statusStreamOrNull {
     final storage = this;
-    return storage is AuthStorageWithStatusWrapper
+    return storage is AuthStorageStreamingImpl
         ? storage.internalStatusStream
         : null;
   }
 
   /// if this storage is an storage wrapped with status,
-  /// by using [AuthStorageWithStatusWrapper] then return
+  /// by using [AuthStorageStreamingImpl] then return
   /// status stream otherwise throw assertion error;
   Stream<AuthStatus> get statusStream {
     final storage = this;
-    return storage is AuthStorageWithStatusWrapper
+    return storage is AuthStorageStreamingImpl
         ? storage.internalStatusStream
         : throw AssertionError();
   }
 
   /// if this storage is an storage wrapped with status,
-  /// by using [AuthStorageWithStatusWrapper] initialize
+  /// by using [AuthStorageStreamingImpl] initialize
   /// status stream by pushing initial state on stream,
   /// otherwise do nothing.
   Future<void> initializeStatusStreamOrNothing() async {
     final storage = this;
-    if (storage is AuthStorageWithStatusWrapper) {
+    if (storage is AuthStorageStreamingImpl) {
       await storage.internalInitializeStatusStream();
     }
   }
 
   /// if this storage is an storage wrapped with status,
-  /// by using [AuthStorageWithStatusWrapper] initialize
+  /// by using [AuthStorageStreamingImpl] initialize
   /// status stream by pushing initial state on stream,
   /// otherwise throw assertion error.
   Future<void> initializeStatusStream() async {
     final storage = this;
-    if (storage is AuthStorageWithStatusWrapper) {
+    if (storage is AuthStorageStreamingImpl) {
       await storage.internalInitializeStatusStream();
     } else {
       throw AssertionError();
@@ -108,7 +106,7 @@ extension AuthStorageStatusExt on AuthStorage {
   /// initial state on stream. this is optional.
   ///
   /// it should be wrapped first with lock then status.
-  AuthStorage wrapWithStatus() => AuthStorage.wrapWithStatus(this);
+  AuthStorage streaming() => AuthStorage.streaming(this);
 }
 
 /// extensions for adding concurrency support to [AuthStorage]
@@ -119,5 +117,5 @@ extension AuthStorageLockExt on AuthStorage {
   /// need to be wrapped with lock.
   ///
   /// it should be wrapped first with lock then status.
-  AuthStorage wrapWithLock() => AuthStorage.wrapWithLock(this);
+  AuthStorage locked() => AuthStorage.locked(this);
 }

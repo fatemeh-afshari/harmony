@@ -10,7 +10,7 @@ void init() async {
 
   final dio = Dio(/*...*/);
   final repository = AuthRepository(
-    storage: AuthStorage().wrapWithLock().wrapWithStatus(),
+    storage: AuthStorage().locked().streaming(),
     rest: AuthRest(
       dio: dio,
       refreshUrl: refreshUrl,

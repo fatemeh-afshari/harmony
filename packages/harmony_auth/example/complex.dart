@@ -21,14 +21,14 @@ void init() async {
   // or subclass AuthStorage by yourself for other scenarios.
 
   // if you want to enable concurrency:
-  storage = storage.wrapWithLock();
+  storage = storage.locked();
   // this way operations on storage can be concurrent.
 
   // you can get authentication status by using:
   await storage.status;
 
   // if you want to listen status changes stream:
-  storage = storage.wrapWithStatus();
+  storage = storage.streaming();
   // then you can use:
   final stream = storage.statusStream;
   stream.listen(print);
