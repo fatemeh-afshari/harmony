@@ -153,6 +153,9 @@ void init() async {
   );
   // this is used to guard against rest and storage calls.
 
+  // if you want to debounce refresh calls:
+  repository = repository.debounce(Duration(minutes: 1));
+
   // if you want to add concurrency support to repository:
   repository = repository.locked();
 
