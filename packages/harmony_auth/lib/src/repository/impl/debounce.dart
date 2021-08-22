@@ -16,30 +16,33 @@ class AuthRepositoryDebounceImpl implements AuthRepository {
     required this.duration,
   });
 
+  /// last successful attempt to refresh token
+  DateTime? _last;
+
   @override
   Future<void> refreshTokens() async {
-    // todo
-    throw 0;
+    if (_last == null || DateTime.now().difference(_last!) > duration) {
+      _last = null;
+      await base.refreshTokens();
+      _last = DateTime.now();
+    }
   }
 
   @override
   AuthMatcher get refreshTokensMatcher => base.refreshTokensMatcher;
 
   @override
-  Future<AuthToken?> getToken() async {
-    // todo
-    throw 0;
-  }
+  Future<AuthToken?> getToken() => base.getToken();
 
   @override
   Future<void> removeToken() async {
-    // todo
-    throw 0;
+    _last = null;
+    await base.removeToken();
   }
 
   @override
   Future<void> setToken(AuthToken token) async {
-    // todo
-    throw 0;
+    _last = null;
+    await base.setToken(token);
   }
 }
