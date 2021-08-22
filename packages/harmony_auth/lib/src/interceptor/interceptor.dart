@@ -3,9 +3,7 @@ import 'package:dio/dio.dart';
 import '../checker/checker.dart';
 import '../manipulator/manipulator.dart';
 import '../matcher/matcher.dart';
-import '../refresh/refresh.dart';
-import '../rest/rest.dart';
-import '../storage/storage.dart';
+import '../repository/repository.dart';
 import 'impl/impl.dart';
 
 /// interceptor for harmony_auth module
@@ -25,11 +23,9 @@ abstract class AuthInterceptor implements Interceptor {
   /// standard implementation
   const factory AuthInterceptor({
     required Dio dio,
-    required AuthStorage storage,
     required AuthMatcher matcher,
     required AuthChecker checker,
-    required AuthRest rest,
     required AuthManipulator manipulator,
-    required AuthRefresh refresh,
+    required AuthRepository repository,
   }) = AuthInterceptorStandardImpl;
 }

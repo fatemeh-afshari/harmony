@@ -42,10 +42,9 @@ abstract class AuthRest {
   /// [DioError] is for other type of errors like when server is
   /// down or a socket exception occurs.
   ///
-  /// note: should NOT do anything other than making request,
-  /// such as writing to storage ...
-  ///
   /// note: this method should not have any side effects.
+  /// should NOT do anything other than making request,
+  /// such as writing to storage ...
   Future<AuthToken> refreshTokens(String refreshToken);
 
   /// matcher to check to see if this call is to refresh tokens.

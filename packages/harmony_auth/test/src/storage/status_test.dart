@@ -80,17 +80,17 @@ void main() {
             ]),
           );
           await storage.initializeStatusStream();
-          await storage.set(FakeAuthToken());
-          await storage.remove();
-          await storage.set(FakeAuthToken());
-          await storage.remove();
+          await storage.setTokens(FakeAuthToken());
+          await storage.removeTokens();
+          await storage.setTokens(FakeAuthToken());
+          await storage.removeTokens();
         });
       });
 
       group('with initial token', () {
         setUp(() {
           storage = AuthStorage.inMemory();
-          storage.set(FakeAuthToken());
+          storage.setTokens(FakeAuthToken());
           storage = storage.wrapWithStatus();
         });
 
@@ -127,9 +127,9 @@ void main() {
             ]),
           );
           await storage.initializeStatusStream();
-          await storage.remove();
-          await storage.set(FakeAuthToken());
-          await storage.remove();
+          await storage.removeTokens();
+          await storage.setTokens(FakeAuthToken());
+          await storage.removeTokens();
         });
       });
     });

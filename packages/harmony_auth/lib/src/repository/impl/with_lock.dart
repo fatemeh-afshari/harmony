@@ -2,25 +2,26 @@ import 'dart:async';
 
 import 'package:meta/meta.dart';
 
+import '../../matcher/matcher.dart';
 import '../../token/token.dart';
-import '../refresh.dart';
+import '../repository.dart';
 
 @internal
-class AuthRefreshWithLockImpl implements AuthRefresh {
-  final AuthRefresh base;
+class AuthRepositoryWithLockImpl implements AuthRepository {
+  final AuthRepository base;
 
-  AuthRefreshWithLockImpl(this.base);
+  AuthRepositoryWithLockImpl(this.base);
 
   Completer<void>? _completer;
 
   @override
-  Future<void> refresh() async {
+  Future<void> refreshTokens() async {
     while (_completer != null) {
       await _completer!.future;
     }
     _completer = Completer();
     try {
-      await base.refresh();
+      await base.refreshTokens();
     } finally {
       _completer!.complete();
       _completer = null;
@@ -28,13 +29,16 @@ class AuthRefreshWithLockImpl implements AuthRefresh {
   }
 
   @override
-  Future<AuthToken?> get() async {
+  AuthMatcher get refreshTokensMatcher => base.refreshTokensMatcher;
+
+  @override
+  Future<AuthToken?> getToken() async {
     while (_completer != null) {
       await _completer!.future;
     }
     _completer = Completer();
     try {
-      return await base.get();
+      return await base.getToken();
     } finally {
       _completer!.complete();
       _completer = null;
@@ -42,13 +46,13 @@ class AuthRefreshWithLockImpl implements AuthRefresh {
   }
 
   @override
-  Future<void> remove() async {
+  Future<void> removeToken() async {
     while (_completer != null) {
       await _completer!.future;
     }
     _completer = Completer();
     try {
-      await base.remove();
+      await base.removeToken();
     } finally {
       _completer!.complete();
       _completer = null;
@@ -56,13 +60,13 @@ class AuthRefreshWithLockImpl implements AuthRefresh {
   }
 
   @override
-  Future<void> set(AuthToken token) async {
+  Future<void> setToken(AuthToken token) async {
     while (_completer != null) {
       await _completer!.future;
     }
     _completer = Completer();
     try {
-      await base.set(token);
+      await base.setToken(token);
     } finally {
       _completer!.complete();
       _completer = null;

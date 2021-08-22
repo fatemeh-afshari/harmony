@@ -40,19 +40,19 @@ abstract class AuthStorage {
       AuthStorageWithLockImpl;
 
   /// get token
-  Future<AuthToken?> get();
+  Future<AuthToken?> geToken();
 
   /// set token
-  Future<void> set(AuthToken token);
+  Future<void> setTokens(AuthToken token);
 
   /// remove token
-  Future<void> remove();
+  Future<void> removeTokens();
 }
 
 /// extension for checking login state
 extension AuthStorageStatusExt on AuthStorage {
   Future<AuthStatus> get status async =>
-      await get() != null ? AuthStatus.loggedIn : AuthStatus.loggedOut;
+      await geToken() != null ? AuthStatus.loggedIn : AuthStatus.loggedOut;
 
   /// if this storage is an storage wrapped with status,
   /// by using [AuthStorageWithStatusWrapper] then return

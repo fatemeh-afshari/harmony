@@ -32,17 +32,17 @@ class AuthStorageWithStatusWrapper implements AuthStorage {
   }
 
   @override
-  Future<AuthToken?> get() async => await storage.get();
+  Future<AuthToken?> geToken() async => await storage.geToken();
 
   @override
-  Future<void> set(AuthToken token) async {
-    await storage.set(token);
+  Future<void> setTokens(AuthToken token) async {
+    await storage.setTokens(token);
     _emit(AuthStatus.loggedIn);
   }
 
   @override
-  Future<void> remove() async {
-    await storage.remove();
+  Future<void> removeTokens() async {
+    await storage.removeTokens();
     _emit(AuthStatus.loggedOut);
   }
 

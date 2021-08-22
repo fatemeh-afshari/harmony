@@ -18,7 +18,7 @@ class AuthStorageStandardImpl implements AuthStorage {
   }
 
   @override
-  Future<AuthToken?> get() async {
+  Future<AuthToken?> geToken() async {
     final prefs = await _preferences();
     final refresh = prefs.getString(_keyRefreshToken);
     final access = prefs.getString(_keyAccessToken);
@@ -32,13 +32,13 @@ class AuthStorageStandardImpl implements AuthStorage {
     } else {
       // inconsistency !?
       // should not happen !
-      await remove();
+      await removeTokens();
       return null;
     }
   }
 
   @override
-  Future<void> set(AuthToken token) async {
+  Future<void> setTokens(AuthToken token) async {
     _log('set');
     final prefs = await _preferences();
     await prefs.setStringAndAssert(_keyRefreshToken, token.refresh);
@@ -46,7 +46,7 @@ class AuthStorageStandardImpl implements AuthStorage {
   }
 
   @override
-  Future<void> remove() async {
+  Future<void> removeTokens() async {
     _log('remove');
     final prefs = await _preferences();
     await prefs.removeAndAssert(_keyRefreshToken);

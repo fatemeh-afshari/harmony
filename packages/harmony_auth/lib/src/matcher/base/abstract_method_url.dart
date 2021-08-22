@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 import '../../utils/uri_extensions.dart';
 import 'abstract.dart';
 
-/// basic utilities for set operations
+/// basic utilities extracting method and url
 @internal
 abstract class AbstractMethodUrlAuthMatcher extends AbstractAuthMatcher {
   const AbstractMethodUrlAuthMatcher();

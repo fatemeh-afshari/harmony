@@ -18,15 +18,15 @@ void main() {
         });
 
         test('check initial data', () async {
-          expect(await storage.get(), isNull);
+          expect(await storage.geToken(), isNull);
         });
 
         test('check token', () async {
           final token = FakeAuthToken();
-          await storage.set(token);
-          expect(await storage.get(), equals(token));
-          await storage.remove();
-          expect(await storage.get(), isNull);
+          await storage.setTokens(token);
+          expect(await storage.geToken(), equals(token));
+          await storage.removeTokens();
+          expect(await storage.geToken(), isNull);
         });
       });
     });
@@ -36,7 +36,7 @@ void main() {
         test('isLoggedIn', () async {
           final storage = AuthStorage.inMemory();
           expect(await storage.status, equals(AuthStatus.loggedOut));
-          await storage.set(FakeAuthToken());
+          await storage.setTokens(FakeAuthToken());
           expect(await storage.status, equals(AuthStatus.loggedIn));
         });
       });
@@ -49,15 +49,15 @@ void main() {
         });
 
         test('check initial data', () async {
-          expect(await storage.get(), isNull);
+          expect(await storage.geToken(), isNull);
         });
 
         test('check token', () async {
           final token = FakeAuthToken();
-          await storage.set(token);
-          expect(await storage.get(), equals(token));
-          await storage.remove();
-          expect(await storage.get(), isNull);
+          await storage.setTokens(token);
+          expect(await storage.geToken(), equals(token));
+          await storage.removeTokens();
+          expect(await storage.geToken(), isNull);
         });
       });
     });

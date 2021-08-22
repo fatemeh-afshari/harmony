@@ -6,9 +6,7 @@ import '../../checker/checker.dart';
 import '../../exception/exception.dart';
 import '../../manipulator/manipulator.dart';
 import '../../matcher/matcher.dart';
-import '../../refresh/refresh.dart';
-import '../../rest/rest.dart';
-import '../../storage/storage.dart';
+import '../../repository/subset.dart';
 import '../../utils/error_extensions.dart';
 import '../interceptor.dart';
 
@@ -16,21 +14,17 @@ import '../interceptor.dart';
 @internal
 class AuthInterceptorStandardImpl implements AuthInterceptor {
   final Dio dio;
-  final AuthStorage storage;
   final AuthMatcher matcher;
   final AuthChecker checker;
-  final AuthRest rest;
   final AuthManipulator manipulator;
-  final AuthRefresh refresh;
+  final AuthRepositorySubset repository;
 
   const AuthInterceptorStandardImpl({
     required this.dio,
-    required this.storage,
     required this.matcher,
     required this.checker,
-    required this.rest,
     required this.manipulator,
-    required this.refresh,
+    required this.repository,
   });
 
   @override
@@ -40,7 +34,7 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
   ) async {
     if (_shouldHandle(request)) {
       _log('request needs handling, checking token ...');
-      final token = await storage.get();
+      final token = await repository.getToken();
       if (token != null) {
         _log('token is available, attempting to call ...');
         manipulator.manipulate(request, token.access);
@@ -86,7 +80,7 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
       } else {
         _log('request is NOT retried, attempting to refresh tokens ...');
         try {
-          await refresh.refresh();
+          await repository.refreshTokens();
         } on DioError catch (e) {
           handler.reject(
             DioError(
@@ -127,7 +121,7 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
   /// note: should not handle refresh api calls as well as
   /// not matcher calls
   bool _shouldHandle(RequestOptions request) =>
-      !rest.refreshTokensMatcher.matchesRequest(request) &&
+      !repository.refreshTokensMatcher.matchesRequest(request) &&
       matcher.matchesRequest(request);
 
   void _log(String message) {

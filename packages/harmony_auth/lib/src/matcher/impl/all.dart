@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 
 import '../base/base.dart';
 
-/// always match
+
 @internal
 class AuthMatcherAllImpl extends AbstractAuthMatcher {
   const AuthMatcherAllImpl();

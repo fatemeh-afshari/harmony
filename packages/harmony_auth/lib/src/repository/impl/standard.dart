@@ -1,35 +1,36 @@
 import 'package:dio/dio.dart';
-import 'package:harmony_auth/harmony_auth.dart';
 import 'package:meta/meta.dart';
 
 import '../../auth.dart';
+import '../../exception/exception.dart';
+import '../../matcher/matcher.dart';
 import '../../rest/rest.dart';
 import '../../storage/storage.dart';
 import '../../token/token.dart';
-import '../refresh.dart';
+import '../repository.dart';
 
 @internal
-class AuthRefreshStandardImpl implements AuthRefresh {
+class AuthRepositoryStandardImpl implements AuthRepository {
   final AuthStorage storage;
   final AuthRest rest;
 
-  const AuthRefreshStandardImpl({
+  const AuthRepositoryStandardImpl({
     required this.storage,
     required this.rest,
   });
 
   @override
-  Future<void> refresh() async {
+  Future<void> refreshTokens() async {
     _log('refresh, checking if token is available ...');
-    final token1 = await storage.get();
+    final token1 = await storage.geToken();
     if (token1 != null) {
       _log('token is available, attempting to call rest ...');
       try {
         final token2 = await rest.refreshTokens(token1.refresh);
-        await storage.set(token2);
+        await storage.setTokens(token2);
       } on AuthException catch (_) {
         _log('rest call finished, refresh token is not valid, error');
-        await storage.remove();
+        await storage.removeTokens();
         throw AuthException();
       } on DioError catch (_) {
         _log('rest call finished with network error, error');
@@ -45,13 +46,16 @@ class AuthRefreshStandardImpl implements AuthRefresh {
   }
 
   @override
-  Future<AuthToken?> get() => storage.get();
+  AuthMatcher get refreshTokensMatcher => rest.refreshTokensMatcher;
 
   @override
-  Future<void> remove() => storage.remove();
+  Future<AuthToken?> getToken() => storage.geToken();
 
   @override
-  Future<void> set(AuthToken token) => storage.set(token);
+  Future<void> removeToken() => storage.removeTokens();
+
+  @override
+  Future<void> setToken(AuthToken token) => storage.setTokens(token);
 
   void _log(String message) {
     Auth.log('harmony_auth refresh.standard: $message');
