@@ -151,6 +151,15 @@ void main() {
       });
     });
 
+    test('implementation methodAndBaseUrl', () {
+      final matcher = AuthMatcher.methodAndBaseUrl('m', 'https://u');
+      expect(matcher.matchesRequest(compose('m', 'https://u')), isTrue);
+      expect(matcher.matchesRequest(compose('m', 'https://u/v')), isTrue);
+      expect(matcher.matchesRequest(compose('m', 'https://v')), isFalse);
+      expect(matcher.matchesRequest(compose('n', 'https://u')), isFalse);
+      expect(matcher.matchesRequest(compose('n', 'https://u/v')), isFalse);
+    });
+
     test('implementation byUrl', () {
       final matcher = AuthMatcher.byUrl((url) => url == 'https://u');
       expect(matcher.matchesRequest(compose('m', 'https://u')), isTrue);
