@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:harmony_auth/src/matcher/matcher.dart';
 import 'package:harmony_auth/src/repository/impl/impl.dart';
@@ -11,10 +12,14 @@ class MockAuthRest extends Mock implements AuthRest {}
 
 class FakeAuthMatcher extends Fake implements AuthMatcher {}
 
-const refreshUrl = 'https://refresh';
+class FakeRequestOptions extends Fake implements RequestOptions {}
 
 const token1 = AuthToken(refresh: 'r1', access: 'a1');
 const token2 = AuthToken(refresh: 'r2', access: 'a2');
+
+class OtherError implements Exception {}
+
+class RestError implements AuthRestException {}
 
 void main() {
   group('AuthRepositoryException', () {
@@ -75,7 +80,65 @@ void main() {
         expect(repository.refreshTokensMatcher, equals(m));
       });
 
-      group('refreshTokens', () {});
+      group('refreshTokens', () {
+        test('without token', () {
+          expect(
+            () async => await repository.refreshTokens(),
+            throwsA(isA<AuthRepositoryExceptionStandardImpl>()),
+          );
+        });
+
+        group('with token', () {
+          setUp(() async {
+            await storage.setToken(token1);
+          });
+
+          test('success', () async {
+            when(() => rest.refreshTokens(token1.refresh))
+                .thenAnswer((_) async => token2);
+            await repository.refreshTokens();
+            expect(await storage.getToken(), equals(token2));
+          });
+
+          test('fail auth', () {
+            when(() => rest.refreshTokens(token1.refresh))
+                .thenAnswer((_) async => throw RestError());
+            expect(
+              () async {
+                try {
+                  await repository.refreshTokens();
+                } finally {
+                  expect(await storage.getToken(), isNull);
+                }
+              },
+              throwsA(isA<AuthRepositoryExceptionStandardImpl>()),
+            );
+          });
+
+          test('fail other', () {
+            when(() => rest.refreshTokens(token1.refresh))
+                .thenAnswer((_) async => throw DioError(
+                      requestOptions: FakeRequestOptions(),
+                      error: OtherError(),
+                    ));
+            expect(
+              () async {
+                try {
+                  await repository.refreshTokens();
+                } finally {
+                  expect(await storage.getToken(), equals(token1));
+                }
+              },
+              throwsA(allOf(
+                isA<DioError>(),
+                predicate(
+                  (DioError e) => e.error is OtherError,
+                ),
+              )),
+            );
+          });
+        });
+      });
     });
   });
 }

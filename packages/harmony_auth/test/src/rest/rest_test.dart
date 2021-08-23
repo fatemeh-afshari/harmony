@@ -18,7 +18,7 @@ class MockAdapter extends Mock implements HttpClientAdapter {}
 
 class FakeRequestOptions extends Fake implements RequestOptions {}
 
-class OtherError {}
+class OtherError implements Exception {}
 
 void main() {
   group('AuthRest', () {
