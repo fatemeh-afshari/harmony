@@ -53,10 +53,13 @@ abstract class AuthRest {
   AuthMatcher get refreshTokensMatcher;
 }
 
-/// harmony_auth storage exception
+/// harmony_auth rest exception
 ///
-/// this will happen in rare cases when
-/// a non-recoverable error occurs.
+/// when making refresh tokens rest call:
+/// should ONLY throw [DioError] or [AuthRestException].
+/// [AuthRestException] is for when refresh token is invalidated.
+/// [DioError] is for other type of errors like when server is
+/// down or a socket exception occurs.
 abstract class AuthRestException implements Exception {
   /// ONLY FOR EXTERNAL USE
   const factory AuthRestException() = AuthRestExceptionExternalImpl;

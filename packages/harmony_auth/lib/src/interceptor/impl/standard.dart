@@ -6,7 +6,7 @@ import '../../checker/checker.dart';
 import '../../exception/exception.dart';
 import '../../manipulator/manipulator.dart';
 import '../../matcher/matcher.dart';
-import '../../repository/subset.dart';
+import '../../repository/repository.dart';
 import '../../utils/error_extensions.dart';
 import '../interceptor.dart';
 
@@ -90,7 +90,7 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
               error: e.error,
             ),
           );
-        } on AuthException catch (_) {
+        } on AuthRepositoryException catch (_) {
           handler.reject(
             AuthException().toDioError(request),
           );

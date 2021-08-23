@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
 import '../../auth.dart';
-import '../../exception/exception.dart';
 import '../../matcher/matcher.dart';
 import '../../rest/rest.dart';
 import '../../storage/storage.dart';
@@ -31,7 +30,7 @@ class AuthRepositoryStandardImpl implements AuthRepository {
       } on AuthRestException catch (_) {
         _log('rest call finished, refresh token is not valid, error');
         await storage.removeTokens();
-        throw AuthException();
+        throw AuthRepositoryStandardExceptionImpl();
       } on DioError catch (_) {
         _log('rest call finished with network error, error');
         rethrow;
@@ -41,7 +40,7 @@ class AuthRepositoryStandardImpl implements AuthRepository {
       }
     } else {
       _log('no token available, error');
-      throw AuthException();
+      throw AuthRepositoryStandardExceptionImpl();
     }
   }
 
@@ -60,4 +59,12 @@ class AuthRepositoryStandardImpl implements AuthRepository {
   void _log(String message) {
     Auth.log('harmony_auth refresh.standard: $message');
   }
+}
+
+@internal
+class AuthRepositoryStandardExceptionImpl implements Exception {
+  const AuthRepositoryStandardExceptionImpl();
+
+  @override
+  String toString() => 'AuthRepositoryException.standard';
 }

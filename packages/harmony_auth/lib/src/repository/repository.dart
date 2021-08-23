@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:meta/meta.dart';
 
+import '../matcher/matcher.dart';
 import '../rest/rest.dart';
 import '../storage/storage.dart';
 import '../token/token.dart';
 import 'impl/impl.dart';
-import 'subset.dart';
 
 /// harmony_auth refresh.
 ///
@@ -42,7 +43,9 @@ abstract class AuthRepository implements AuthRepositorySubset {
   ///
   /// either throw [DioError] on errors related to rest.
   /// it could be a network problem.
-  /// or throw [AuthException] if there is no token.
+  /// or throw [AuthRepositoryException] if there is no token,
+  /// or after the refresh call token is found
+  /// to be invalid and be removed.
   @override
   Future<void> refreshTokens();
 
@@ -79,4 +82,26 @@ extension AuthRepositoryDebounceExt on AuthRepository {
         this,
         duration: duration,
       );
+}
+
+/// harmony_auth repository exception
+///
+/// this will happen when we have no tokens,
+/// or after the refresh call token is found
+/// to be invalid and be removed.
+abstract class AuthRepositoryException implements Exception {}
+
+/// subset [AuthRepository] to avoid usage of
+/// external methods internally.
+@internal
+abstract class AuthRepositorySubset {
+  /// refer to [AuthRepository]
+  Future<void> refreshTokens();
+
+  /// matcher to check to see if this call is from refresh tokens.
+  @internal
+  AuthMatcher get refreshTokensMatcher;
+
+  /// refer to [AuthRepository]
+  Future<AuthToken?> getToken();
 }
