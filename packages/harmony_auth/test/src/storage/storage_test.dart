@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:harmony_auth/src/storage/impl/impl.dart';
 import 'package:harmony_auth/src/storage/storage.dart';
 import 'package:harmony_auth/src/token/token.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -97,15 +98,6 @@ void main() {
         storage = AuthStorage().locked();
       });
 
-      group('AuthStorageLockedExt', () {
-        test('locked', () {
-          final s = AuthStorage();
-          final s1 = AuthStorage().locked();
-          final s2 = AuthStorage.locked(s);
-          expect(s1.runtimeType, equals(s2.runtimeType));
-        });
-      });
-
       group('initially empty', () {
         group('AuthStorageExt', () {
           group('isLoggedIn', () {
@@ -192,6 +184,174 @@ void main() {
         });
 
         // todo could not test storage exception ...
+      });
+    });
+
+    group('inMemory+streaming', () {
+      final example = AuthToken(refresh: 'r1', access: 'a1');
+
+      group('without status', () {
+        late AuthStorage storage;
+
+        setUp(() {
+          storage = AuthStorage.inMemory();
+        });
+
+        test('status', () async {
+          expect(await storage.status, equals(AuthStatus.loggedOut));
+        });
+
+        test('statusStreamOrNull', () {
+          expect(storage.statusStreamOrNull, isNull);
+        });
+
+        test('statusStream', () {
+          expect(() => storage.statusStream, throwsA(anything));
+        });
+
+        test('initializeStatusStreamOrNothing', () async {
+          await storage.initializeStatusStreamOrNothing();
+        });
+
+        test('initializeStatusStream', () {
+          expect(
+            () async => await storage.initializeStatusStream(),
+            throwsA(anything),
+          );
+        });
+      });
+
+      group('with status', () {
+        late AuthStorage storage;
+
+        group('without initial token', () {
+          setUp(() {
+            storage = AuthStorage.inMemory().streaming();
+          });
+
+          test('status', () async {
+            expect(await storage.status, equals(AuthStatus.loggedOut));
+          });
+
+          test('statusStreamOrNull', () {
+            expect(storage.statusStreamOrNull, isNotNull);
+          });
+
+          test('statusStream', () {
+            expect(storage.statusStream, isNotNull);
+          });
+
+          test('initializeStatusStreamOrNothing', () async {
+            expect(storage.statusStream, emits(AuthStatus.loggedOut));
+            await storage.initializeStatusStreamOrNothing();
+          });
+
+          test('initializeStatusStream', () async {
+            expect(storage.statusStream, emits(AuthStatus.loggedOut));
+            await storage.initializeStatusStream();
+          });
+
+          test('status stream', () async {
+            expect(
+              storage.statusStream,
+              emitsInOrder(<AuthStatus>[
+                AuthStatus.loggedOut,
+                AuthStatus.loggedIn,
+                AuthStatus.loggedOut,
+                AuthStatus.loggedIn,
+                AuthStatus.loggedOut,
+              ]),
+            );
+            await storage.initializeStatusStream();
+            await storage.setTokens(example);
+            await storage.removeTokens();
+            await storage.setTokens(example);
+            await storage.removeTokens();
+          });
+        });
+
+        group('with initial token', () {
+          setUp(() {
+            storage = AuthStorage.inMemory();
+            storage.setTokens(example);
+            storage = storage.streaming();
+          });
+
+          test('status', () async {
+            expect(await storage.status, equals(AuthStatus.loggedIn));
+          });
+
+          test('statusStreamOrNull', () {
+            expect(storage.statusStreamOrNull, isNotNull);
+          });
+
+          test('statusStream', () {
+            expect(storage.statusStream, isNotNull);
+          });
+
+          test('initializeStatusStreamOrNothing', () async {
+            expect(storage.statusStream, emits(AuthStatus.loggedIn));
+            await storage.initializeStatusStreamOrNothing();
+          });
+
+          test('initializeStatusStream', () async {
+            expect(storage.statusStream, emits(AuthStatus.loggedIn));
+            await storage.initializeStatusStream();
+          });
+
+          test('status stream', () async {
+            expect(
+              storage.statusStream,
+              emitsInOrder(<AuthStatus>[
+                AuthStatus.loggedIn,
+                AuthStatus.loggedOut,
+                AuthStatus.loggedIn,
+                AuthStatus.loggedOut,
+              ]),
+            );
+            await storage.initializeStatusStream();
+            await storage.removeTokens();
+            await storage.setTokens(example);
+            await storage.removeTokens();
+          });
+        });
+      });
+    });
+  });
+
+  group('AuthStorageLockedExt+instantiation', () {
+    test('locked', () {
+      final s = AuthStorage();
+      final s1 = s.locked();
+      final s2 = AuthStorage.locked(s);
+      expect(s1.runtimeType, equals(s2.runtimeType));
+      final s1c = s1 as AuthStorageLockedImpl;
+      final s2c = s2 as AuthStorageLockedImpl;
+      expect(s1c.base, equals(s2c.base));
+    });
+  });
+
+  group('AuthStorageStreamingExt+instantiation', () {
+    test('streaming', () {
+      final s = AuthStorage();
+      final s1 = s.streaming();
+      final s2 = AuthStorage.streaming(s);
+      expect(s1.runtimeType, equals(s2.runtimeType));
+      final s1c = s1 as AuthStorageStreamingImpl;
+      final s2c = s2 as AuthStorageStreamingImpl;
+      expect(s1c.base, equals(s2c.base));
+    });
+  });
+
+  group('AuthStorageException', () {
+    group('standard', () {
+      test('instantiation', () {
+        final e = AuthStorageStandardExceptionImpl();
+        expect(e, isA<AuthStorageException>());
+        expect(
+          e.toString(),
+          stringContainsInOrder(['AuthStorageException', 'standard']),
+        );
       });
     });
   });

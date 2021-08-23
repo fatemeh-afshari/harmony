@@ -54,7 +54,7 @@ class AuthStorageStandardImpl implements AuthStorage {
     try {
       return await SharedPreferences.getInstance();
     } catch (_) {
-      throw AuthStorageStandardException();
+      throw AuthStorageStandardExceptionImpl();
     }
   }
 
@@ -76,7 +76,7 @@ class AuthStorageStandardImpl implements AuthStorage {
     try {
       if (!await prefs.setString(key, value)) throw Exception();
     } catch (_) {
-      throw AuthStorageStandardException();
+      throw AuthStorageStandardExceptionImpl();
     }
   }
 
@@ -86,14 +86,14 @@ class AuthStorageStandardImpl implements AuthStorage {
     try {
       if (!await prefs.remove(key)) throw Exception();
     } catch (_) {
-      throw AuthStorageStandardException();
+      throw AuthStorageStandardExceptionImpl();
     }
   }
 }
 
 /// AuthStorage standard exception
 @internal
-class AuthStorageStandardException implements AuthStorageException {
+class AuthStorageStandardExceptionImpl implements AuthStorageException {
   @override
   String toString() => 'AuthStorageException.standard';
 }
