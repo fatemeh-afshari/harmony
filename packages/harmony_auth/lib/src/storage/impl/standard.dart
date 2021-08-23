@@ -13,15 +13,10 @@ class AuthStorageStandardImpl implements AuthStorage {
 
   const AuthStorageStandardImpl();
 
-  Future<SharedPreferences> _preferences() async {
-    return await SharedPreferences.getInstance();
-  }
-
   @override
   Future<AuthToken?> getToken() async {
-    final prefs = await _preferences();
-    final refresh = prefs.getString(_keyRefreshToken);
-    final access = prefs.getString(_keyAccessToken);
+    final refresh = await _getStringAndAssert(_keyRefreshToken);
+    final access = await _getStringAndAssert(_keyAccessToken);
     if (refresh != null && access != null) {
       return AuthToken(
         refresh: refresh,
@@ -30,8 +25,7 @@ class AuthStorageStandardImpl implements AuthStorage {
     } else if (refresh == null && access == null) {
       return null;
     } else {
-      // inconsistency !?
-      // should not happen !
+      // inconsistency
       await removeTokens();
       return null;
     }
@@ -40,38 +34,66 @@ class AuthStorageStandardImpl implements AuthStorage {
   @override
   Future<void> setTokens(AuthToken token) async {
     _log('set');
-    final prefs = await _preferences();
-    await prefs.setStringAndAssert(_keyRefreshToken, token.refresh);
-    await prefs.setStringAndAssert(_keyAccessToken, token.access);
+    await _setStringAndAssert(_keyRefreshToken, token.refresh);
+    await _setStringAndAssert(_keyAccessToken, token.access);
   }
 
   @override
   Future<void> removeTokens() async {
     _log('remove');
-    final prefs = await _preferences();
-    await prefs.removeAndAssert(_keyRefreshToken);
-    await prefs.removeAndAssert(_keyAccessToken);
+    await _removeAndAssert(_keyRefreshToken);
+    await _removeAndAssert(_keyAccessToken);
   }
 
   void _log(String message) {
     Auth.log('harmony_auth storage.persisted: $message');
   }
-}
 
-/// extensions to check if operation completes normally
-@internal
-extension SharedPreferencesAssertionExt on SharedPreferences {
-  /// remove and assert
-  Future<void> removeAndAssert(String key) async {
-    if (!await remove(key)) {
-      throw AssertionError();
+  /// instance
+  Future<SharedPreferences> get _prefs async {
+    try {
+      return await SharedPreferences.getInstance();
+    } catch (_) {
+      throw AuthStorageStandardException();
+    }
+  }
+
+  /// get string and assert
+  Future<String?> _getStringAndAssert(String key) async {
+    final prefs = await _prefs;
+    try {
+      return prefs.getString(key);
+    } catch (_) {
+      // try to remove inconsistency
+      await _removeAndAssert(key);
+      return null;
     }
   }
 
   /// set string and assert
-  Future<void> setStringAndAssert(String key, String value) async {
-    if (!await setString(key, value)) {
-      throw AssertionError();
+  Future<void> _setStringAndAssert(String key, String value) async {
+    final prefs = await _prefs;
+    try {
+      if (!await prefs.setString(key, value)) throw Exception();
+    } catch (_) {
+      throw AuthStorageStandardException();
     }
   }
+
+  /// remove and assert
+  Future<void> _removeAndAssert(String key) async {
+    final prefs = await _prefs;
+    try {
+      if (!await prefs.remove(key)) throw Exception();
+    } catch (_) {
+      throw AuthStorageStandardException();
+    }
+  }
+}
+
+/// AuthStorage standard exception
+@internal
+class AuthStorageStandardException implements AuthStorageException {
+  @override
+  String toString() => 'AuthStorageException.standard';
 }

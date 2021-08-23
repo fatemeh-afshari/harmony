@@ -119,3 +119,9 @@ extension AuthStorageLockedExt on AuthStorage {
   /// it should be wrapped first with lock then status.
   AuthStorage locked() => AuthStorage.locked(this);
 }
+
+/// harmony_auth storage exception
+///
+/// this will happen in rare cases when
+/// a non-recoverable error occurs.
+abstract class AuthStorageException implements Exception {}
