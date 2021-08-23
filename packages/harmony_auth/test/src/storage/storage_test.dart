@@ -319,7 +319,7 @@ void main() {
     });
   });
 
-  group('AuthStorageLockedExt+instantiation', () {
+  group('AuthStorageLockedExt', () {
     test('locked', () {
       final s = AuthStorage();
       final s1 = s.locked();
@@ -331,7 +331,7 @@ void main() {
     });
   });
 
-  group('AuthStorageStreamingExt+instantiation', () {
+  group('AuthStorageStreamingExt', () {
     test('streaming', () {
       final s = AuthStorage();
       final s1 = s.streaming();
