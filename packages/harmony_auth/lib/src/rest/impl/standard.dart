@@ -3,7 +3,6 @@ import 'package:meta/meta.dart';
 
 import '../../auth.dart';
 import '../../checker/checker.dart';
-import '../../exception/exception.dart';
 import '../../matcher/matcher.dart';
 import '../../token/token.dart';
 import '../rest.dart';
@@ -59,7 +58,7 @@ class AuthRestStandardImpl implements AuthRest {
     } on DioError catch (error) {
       if (checker.isUnauthorizedError(error)) {
         _log('call failed due to invalid refresh token');
-        throw AuthException();
+        throw AuthRestExceptionStandardImpl();
       } else {
         rethrow;
       }
@@ -73,4 +72,12 @@ class AuthRestStandardImpl implements AuthRest {
   void _log(String message) {
     Auth.log('harmony_auth rest.standard: $message');
   }
+}
+
+@internal
+class AuthRestExceptionStandardImpl implements AuthRestException {
+  const AuthRestExceptionStandardImpl();
+
+  @override
+  String toString() => 'AuthRestException.standard';
 }

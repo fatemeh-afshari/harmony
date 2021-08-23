@@ -37,8 +37,8 @@ abstract class AuthRest {
     required Future<AuthToken> Function(Dio dio, String refresh) refresh,
   }) = AuthRestGeneralImpl;
 
-  /// note: should ONLY throw [DioError] or [AuthException].
-  /// [AuthException] is for when refresh token is invalidated.
+  /// note: should ONLY throw [DioError] or [AuthRestException].
+  /// [AuthRestException] is for when refresh token is invalidated.
   /// [DioError] is for other type of errors like when server is
   /// down or a socket exception occurs.
   ///
@@ -51,4 +51,13 @@ abstract class AuthRest {
   ///
   /// note: this should match exactly only refresh request.
   AuthMatcher get refreshTokensMatcher;
+}
+
+/// harmony_auth storage exception
+///
+/// this will happen in rare cases when
+/// a non-recoverable error occurs.
+abstract class AuthRestException implements Exception {
+  /// ONLY FOR EXTERNAL USE
+  const factory AuthRestException() = AuthRestExceptionExternalImpl;
 }

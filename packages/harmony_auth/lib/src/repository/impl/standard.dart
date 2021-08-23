@@ -28,7 +28,7 @@ class AuthRepositoryStandardImpl implements AuthRepository {
       try {
         final token2 = await rest.refreshTokens(token1.refresh);
         await storage.setTokens(token2);
-      } on AuthException catch (_) {
+      } on AuthRestException catch (_) {
         _log('rest call finished, refresh token is not valid, error');
         await storage.removeTokens();
         throw AuthException();

@@ -126,7 +126,7 @@ void init() async {
   // if you decided to subclass [AuthRest] by your self
   //  or using AuthRest.general,
   //  make sure that your refresh operation does not have any
-  //  side effects and also please only throw [AuthException]
+  //  side effects and also please only throw [AuthRestException]
   //  when token is invalidated and for other types of
   //  errors (like socket exception) only throw [DioError]s.
   // please check docs for further details.
