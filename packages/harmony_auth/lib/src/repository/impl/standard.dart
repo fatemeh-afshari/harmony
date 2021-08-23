@@ -31,7 +31,7 @@ class AuthRepositoryStandardImpl implements AuthRepository {
         } on AuthRestException {
           _log('rest call finished, refresh token is not valid, error');
           await storage.removeToken();
-          throw AuthRepositoryStandardExceptionImpl();
+          throw AuthRepositoryExceptionStandardImpl();
         } on DioError {
           _log('rest call finished with network error, error');
           rethrow;
@@ -43,7 +43,7 @@ class AuthRepositoryStandardImpl implements AuthRepository {
         }
       } else {
         _log('no token available, error');
-        throw AuthRepositoryStandardExceptionImpl();
+        throw AuthRepositoryExceptionStandardImpl();
       }
     } on AuthStorageException {
       _log('storage problem occurred, error');
@@ -69,8 +69,8 @@ class AuthRepositoryStandardImpl implements AuthRepository {
 }
 
 @internal
-class AuthRepositoryStandardExceptionImpl implements Exception {
-  const AuthRepositoryStandardExceptionImpl();
+class AuthRepositoryExceptionStandardImpl implements AuthRepositoryException {
+  const AuthRepositoryExceptionStandardImpl();
 
   @override
   String toString() => 'AuthRepositoryException.standard';

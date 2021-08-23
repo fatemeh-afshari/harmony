@@ -445,6 +445,8 @@ void main() {
         final e = AuthRestException();
         expect(e, isA<AuthRestException>());
         expect(e.toString(), stringContainsInOrder(['AuthRestException']));
+        final e2 = AuthRestExceptionExternalImpl();
+        expect(e.runtimeType, equals(e2.runtimeType));
       });
     });
 
