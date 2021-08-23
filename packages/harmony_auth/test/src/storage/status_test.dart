@@ -6,7 +6,7 @@ import 'package:mocktail/mocktail.dart';
 class FakeAuthToken extends Fake implements AuthToken {}
 
 void main() {
-  group('AuthStorage+Status', () {
+  group('AuthStorage+streaming', () {
     group('without status', () {
       late AuthStorage storage;
 

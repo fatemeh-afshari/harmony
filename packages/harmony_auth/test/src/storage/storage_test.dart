@@ -42,9 +42,109 @@ void main() {
       });
     });
 
+    group('standard+inconsistency', () {
+      group('with only refresh token', () {
+        setUp(() {
+          SharedPreferences.setMockInitialValues({
+            'harmony_auth_storage_access_token': 'r1',
+          });
+          storage = AuthStorage();
+        });
+
+        test('when having inconsistency then remove and return null', () async {
+          expect(await storage.getToken(), isNull);
+          final prefs = await SharedPreferences.getInstance();
+          expect(prefs.getString('harmony_auth_storage_access_token'), isNull);
+        });
+      });
+    });
+
     group('inMemory', () {
       setUp(() {
         storage = AuthStorage.inMemory();
+      });
+
+      group('initially empty', () {
+        group('AuthStorageExt', () {
+          group('isLoggedIn', () {
+            test('loggedOut', () async {
+              expect(await storage.status, equals(AuthStatus.loggedOut));
+            });
+
+            test('loggedIn', () async {
+              await storage.setTokens(example);
+              expect(await storage.status, equals(AuthStatus.loggedIn));
+            });
+          });
+        });
+
+        test('get initial token', () async {
+          expect(await storage.getToken(), isNull);
+        });
+
+        test('set, get and remove token', () async {
+          await storage.setTokens(example);
+          expect(await storage.getToken(), equals(example));
+          await storage.removeTokens();
+          expect(await storage.getToken(), isNull);
+        });
+      });
+    });
+
+    group('standard+locked', () {
+      setUp(() {
+        SharedPreferences.setMockInitialValues({});
+        storage = AuthStorage().locked();
+      });
+
+      group('AuthStorageLockedExt', () {
+        test('locked', () {
+          final s = AuthStorage();
+          final s1 = AuthStorage().locked();
+          final s2 = AuthStorage.locked(s);
+          expect(s1.runtimeType, equals(s2.runtimeType));
+        });
+      });
+
+      group('initially empty', () {
+        group('AuthStorageExt', () {
+          group('isLoggedIn', () {
+            test('loggedOut', () async {
+              expect(await storage.status, equals(AuthStatus.loggedOut));
+            });
+
+            test('loggedIn', () async {
+              await storage.setTokens(example);
+              expect(await storage.status, equals(AuthStatus.loggedIn));
+            });
+          });
+        });
+
+        test('get initial token', () async {
+          expect(await storage.getToken(), isNull);
+        });
+
+        test('set, get and remove token', () async {
+          await storage.setTokens(example);
+          expect(await storage.getToken(), equals(example));
+          await storage.removeTokens();
+          expect(await storage.getToken(), isNull);
+        });
+      });
+    });
+
+    group('inMemory+locked', () {
+      setUp(() {
+        storage = AuthStorage.inMemory().locked();
+      });
+
+      group('AuthStorageLockedExt', () {
+        test('locked', () {
+          final s = AuthStorage();
+          final s1 = AuthStorage().locked();
+          final s2 = AuthStorage.locked(s);
+          expect(s1.runtimeType, equals(s2.runtimeType));
+        });
       });
 
       group('initially empty', () {

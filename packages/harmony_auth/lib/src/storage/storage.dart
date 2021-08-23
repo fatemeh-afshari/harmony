@@ -48,7 +48,7 @@ abstract class AuthStorage {
 }
 
 /// extension for checking login state
-extension AuthStorageStatusExt on AuthStorage {
+extension AuthStorageStreamingExt on AuthStorage {
   Future<AuthStatus> get status async =>
       await getToken() != null ? AuthStatus.loggedIn : AuthStatus.loggedOut;
 
@@ -110,7 +110,7 @@ extension AuthStorageStatusExt on AuthStorage {
 }
 
 /// extensions for adding concurrency support to [AuthStorage]
-extension AuthStorageLockExt on AuthStorage {
+extension AuthStorageLockedExt on AuthStorage {
   /// wrap an AuthStorage with lock to enable concurrency support.
   ///
   /// NOTE: standard (or maybe custom) implementations only
