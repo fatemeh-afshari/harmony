@@ -183,7 +183,7 @@ void main() {
           expect(prefs.getString('harmony_auth_storage_refresh_token'), isNull);
         });
 
-        // todo could not test storage exception ...
+        // todo storage exception not tested ...
       });
     });
 

@@ -7,6 +7,7 @@ import '../../manipulator/manipulator.dart';
 import '../../matcher/matcher.dart';
 import '../../repository/repository.dart';
 import '../interceptor.dart';
+import '../../storage/storage.dart';
 
 /// interceptor for [Dio] to handle auth
 @internal
@@ -31,14 +32,23 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
     RequestInterceptorHandler handler,
   ) async {
     if (_shouldHandle(request)) {
-      _log('request needs handling, checking token ...');
-      final token = await repository.getToken();
-      if (token != null) {
-        _log('token is available, attempting to call ...');
-        manipulator.manipulate(request, token.access);
-        handler.next(request);
-      } else {
-        _log('token is not available, error');
+      try {
+        _log('request needs handling, checking token ...');
+        final token = await repository.getToken();
+        if (token != null) {
+          _log('token is available, attempting to call ...');
+          manipulator.manipulate(request, token.access);
+          handler.next(request);
+        } else {
+          _log('token is not available, error');
+          handler.reject(
+            AuthExceptionStandardImpl().toDioError(request),
+            true,
+          );
+        }
+      } on AuthStorageException {
+        _log('storage exception occurred, error');
+        // todo: what to do ?
         handler.reject(
           AuthExceptionStandardImpl().toDioError(request),
           true,
@@ -88,7 +98,16 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
               error: e.error,
             ),
           );
+          return;
         } on AuthRepositoryException {
+          _log('could not refresh tokens, error');
+          handler.reject(
+            AuthExceptionStandardImpl().toDioError(request),
+          );
+          return;
+        } on AuthStorageException {
+          _log('storage exception occurred, error');
+          // todo: what to do ?
           handler.reject(
             AuthExceptionStandardImpl().toDioError(request),
           );
@@ -97,7 +116,9 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
           handler.reject(
             e.toDioError(request),
           );
+          return;
         }
+        _log('refreshed tokens successfully, trying to retry ...');
         try {
           request.setOnRetry();
           final response = await dio.fetch<dynamic>(request);
