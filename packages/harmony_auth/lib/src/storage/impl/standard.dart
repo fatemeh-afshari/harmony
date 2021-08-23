@@ -26,20 +26,20 @@ class AuthStorageStandardImpl implements AuthStorage {
       return null;
     } else {
       // inconsistency
-      await removeTokens();
+      await removeToken();
       return null;
     }
   }
 
   @override
-  Future<void> setTokens(AuthToken token) async {
+  Future<void> setToken(AuthToken token) async {
     _log('set');
     await _setStringAndAssert(_keyRefreshToken, token.refresh);
     await _setStringAndAssert(_keyAccessToken, token.access);
   }
 
   @override
-  Future<void> removeTokens() async {
+  Future<void> removeToken() async {
     _log('remove');
     await _removeAndAssert(_keyRefreshToken);
     await _removeAndAssert(_keyAccessToken);
@@ -53,7 +53,7 @@ class AuthStorageStandardImpl implements AuthStorage {
   Future<SharedPreferences> get _prefs async {
     try {
       return await SharedPreferences.getInstance();
-    } catch (_) {
+    } on Object {
       throw AuthStorageStandardExceptionImpl();
     }
   }
@@ -63,7 +63,7 @@ class AuthStorageStandardImpl implements AuthStorage {
     final prefs = await _prefs;
     try {
       return prefs.getString(key);
-    } catch (_) {
+    } on Object {
       // try to remove inconsistency
       await _removeAndAssert(key);
       return null;
@@ -75,7 +75,7 @@ class AuthStorageStandardImpl implements AuthStorage {
     final prefs = await _prefs;
     try {
       if (!await prefs.setString(key, value)) throw Exception();
-    } catch (_) {
+    } on Object {
       throw AuthStorageStandardExceptionImpl();
     }
   }
@@ -85,7 +85,7 @@ class AuthStorageStandardImpl implements AuthStorage {
     final prefs = await _prefs;
     try {
       if (!await prefs.remove(key)) throw Exception();
-    } catch (_) {
+    } on Object {
       throw AuthStorageStandardExceptionImpl();
     }
   }

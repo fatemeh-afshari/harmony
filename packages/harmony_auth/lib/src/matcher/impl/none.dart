@@ -3,7 +3,6 @@ import 'package:meta/meta.dart';
 
 import '../base/base.dart';
 
-
 @internal
 class AuthMatcherNoneImpl extends AbstractAuthMatcher {
   const AuthMatcherNoneImpl();

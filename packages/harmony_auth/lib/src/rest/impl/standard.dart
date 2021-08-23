@@ -45,7 +45,7 @@ class AuthRestStandardImpl implements AuthRest {
           refresh: data['refresh'] as String,
           access: data['access'] as String,
         );
-      } catch (_) {
+      } on Object {
         // should not happen, but handling loosely ...
         _log('failed to parse response');
         throw DioError(

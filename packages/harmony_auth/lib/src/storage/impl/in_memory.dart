@@ -15,13 +15,13 @@ class AuthStorageInMemoryImpl implements AuthStorage {
   Future<AuthToken?> getToken() async => memory;
 
   @override
-  Future<void> removeTokens() async {
+  Future<void> removeToken() async {
     memory = null;
     _log('remove');
   }
 
   @override
-  Future<void> setTokens(AuthToken token) async {
+  Future<void> setToken(AuthToken token) async {
     _log('set');
     memory = token;
   }

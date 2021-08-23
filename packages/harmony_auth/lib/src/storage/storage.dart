@@ -38,13 +38,28 @@ abstract class AuthStorage {
   factory AuthStorage.locked(AuthStorage base) = AuthStorageLockedImpl;
 
   /// get token
+  ///
+  /// it can throw [AuthStorageException] on
+  /// non-recoverable errors.
+  ///
+  /// it will clear database on inconsistencies.
   Future<AuthToken?> getToken();
 
   /// set token
-  Future<void> setTokens(AuthToken token);
+  ///
+  /// it can throw [AuthStorageException] on
+  /// non-recoverable errors.
+  ///
+  /// it will clear database on inconsistencies.
+  Future<void> setToken(AuthToken token);
 
   /// remove token
-  Future<void> removeTokens();
+  ///
+  /// it can throw [AuthStorageException] on
+  /// non-recoverable errors.
+  ///
+  /// it will clear database on inconsistencies.
+  Future<void> removeToken();
 }
 
 /// extension for checking login state

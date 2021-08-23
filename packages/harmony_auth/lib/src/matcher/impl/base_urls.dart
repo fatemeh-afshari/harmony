@@ -2,7 +2,6 @@ import 'package:meta/meta.dart';
 
 import '../base/base.dart';
 
-
 @internal
 class AuthMatcherBaseUrlsImpl extends AbstractMethodUrlAuthMatcher {
   final Set<String> baseUrls;

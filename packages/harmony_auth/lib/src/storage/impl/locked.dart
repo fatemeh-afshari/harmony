@@ -29,13 +29,13 @@ class AuthStorageLockedImpl implements AuthStorage {
   }
 
   @override
-  Future<void> removeTokens() async {
+  Future<void> removeToken() async {
     while (_completer != null) {
       await _completer!.future;
     }
     _completer = Completer<void>();
     try {
-      await base.removeTokens();
+      await base.removeToken();
     } finally {
       _completer!.complete();
       _completer = null;
@@ -43,13 +43,13 @@ class AuthStorageLockedImpl implements AuthStorage {
   }
 
   @override
-  Future<void> setTokens(AuthToken token) async {
+  Future<void> setToken(AuthToken token) async {
     while (_completer != null) {
       await _completer!.future;
     }
     _completer = Completer<void>();
     try {
-      await base.setTokens(token);
+      await base.setToken(token);
     } finally {
       _completer!.complete();
       _completer = null;

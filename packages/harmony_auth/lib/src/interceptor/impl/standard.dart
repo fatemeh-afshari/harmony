@@ -90,11 +90,11 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
               error: e.error,
             ),
           );
-        } on AuthRepositoryException catch (_) {
+        } on AuthRepositoryException {
           handler.reject(
             AuthException().toDioError(request),
           );
-        } catch (e) {
+        } on Object catch (e) {
           // should not happen but handling loosely ...
           handler.reject(
             e.toDioError(request),
@@ -106,7 +106,7 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
           handler.resolve(response);
         } on DioError catch (e) {
           handler.reject(e);
-        } catch (e) {
+        } on Object catch (e) {
           // should not happen but handling loosely ...
           handler.reject(
             e.toDioError(request),

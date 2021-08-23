@@ -24,7 +24,7 @@ void main() {
             });
 
             test('loggedIn', () async {
-              await storage.setTokens(example);
+              await storage.setToken(example);
               expect(await storage.status, equals(AuthStatus.loggedIn));
             });
           });
@@ -35,9 +35,9 @@ void main() {
         });
 
         test('set, get and remove token', () async {
-          await storage.setTokens(example);
+          await storage.setToken(example);
           expect(await storage.getToken(), equals(example));
-          await storage.removeTokens();
+          await storage.removeToken();
           expect(await storage.getToken(), isNull);
         });
       });
@@ -73,7 +73,7 @@ void main() {
             });
 
             test('loggedIn', () async {
-              await storage.setTokens(example);
+              await storage.setToken(example);
               expect(await storage.status, equals(AuthStatus.loggedIn));
             });
           });
@@ -84,9 +84,9 @@ void main() {
         });
 
         test('set, get and remove token', () async {
-          await storage.setTokens(example);
+          await storage.setToken(example);
           expect(await storage.getToken(), equals(example));
-          await storage.removeTokens();
+          await storage.removeToken();
           expect(await storage.getToken(), isNull);
         });
       });
@@ -106,7 +106,7 @@ void main() {
             });
 
             test('loggedIn', () async {
-              await storage.setTokens(example);
+              await storage.setToken(example);
               expect(await storage.status, equals(AuthStatus.loggedIn));
             });
           });
@@ -117,9 +117,9 @@ void main() {
         });
 
         test('set, get and remove token', () async {
-          await storage.setTokens(example);
+          await storage.setToken(example);
           expect(await storage.getToken(), equals(example));
-          await storage.removeTokens();
+          await storage.removeToken();
           expect(await storage.getToken(), isNull);
         });
       });
@@ -147,7 +147,7 @@ void main() {
             });
 
             test('loggedIn', () async {
-              await storage.setTokens(example);
+              await storage.setToken(example);
               expect(await storage.status, equals(AuthStatus.loggedIn));
             });
           });
@@ -158,9 +158,9 @@ void main() {
         });
 
         test('set, get and remove token', () async {
-          await storage.setTokens(example);
+          await storage.setToken(example);
           expect(await storage.getToken(), equals(example));
-          await storage.removeTokens();
+          await storage.removeToken();
           expect(await storage.getToken(), isNull);
         });
       });
@@ -263,17 +263,17 @@ void main() {
               ]),
             );
             await storage.initializeStatusStream();
-            await storage.setTokens(example);
-            await storage.removeTokens();
-            await storage.setTokens(example);
-            await storage.removeTokens();
+            await storage.setToken(example);
+            await storage.removeToken();
+            await storage.setToken(example);
+            await storage.removeToken();
           });
         });
 
         group('with initial token', () {
           setUp(() {
             storage = AuthStorage.inMemory();
-            storage.setTokens(example);
+            storage.setToken(example);
             storage = storage.streaming();
           });
 
@@ -310,9 +310,9 @@ void main() {
               ]),
             );
             await storage.initializeStatusStream();
-            await storage.removeTokens();
-            await storage.setTokens(example);
-            await storage.removeTokens();
+            await storage.removeToken();
+            await storage.setToken(example);
+            await storage.removeToken();
           });
         });
       });

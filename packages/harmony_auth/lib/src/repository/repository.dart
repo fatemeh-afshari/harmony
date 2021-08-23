@@ -46,21 +46,33 @@ abstract class AuthRepository implements AuthRepositorySubset {
   /// or throw [AuthRepositoryException] if there is no token,
   /// or after the refresh call token is found
   /// to be invalid and be removed.
+  ///
+  /// it can throw [AuthStorageException] on
+  /// non-recoverable storage errors.
   @override
   Future<void> refreshTokens();
 
   /// get token
+  ///
+  /// it can throw [AuthStorageException] on
+  /// non-recoverable storage errors.
   @override
   Future<AuthToken?> getToken();
 
   /// set token
   ///
   /// ONLY FOR EXTERNAL USE
+  ///
+  /// it can throw [AuthStorageException] on
+  /// non-recoverable storage errors.
   Future<void> setToken(AuthToken token);
 
   /// remove token
   ///
   /// ONLY FOR EXTERNAL USE
+  ///
+  /// it can throw [AuthStorageException] on
+  /// non-recoverable storage errors.
   Future<void> removeToken();
 }
 

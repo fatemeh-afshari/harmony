@@ -2,7 +2,6 @@ import 'package:meta/meta.dart';
 
 import '../base/base.dart';
 
-
 @internal
 class AuthMatcherByMethodImpl extends AbstractMethodUrlAuthMatcher {
   final bool Function(String method) matchMethod;
