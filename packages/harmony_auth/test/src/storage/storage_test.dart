@@ -173,5 +173,26 @@ void main() {
         });
       });
     });
+
+    group('standard+exception', () {
+      group('given bad type then get', () {
+        setUp(() {
+          SharedPreferences.setMockInitialValues({
+            'harmony_auth_storage_access_token': 12,
+            'harmony_auth_storage_refresh_token': 10,
+          });
+          storage = AuthStorage();
+        });
+
+        test('should remove and return null', () async {
+          expect(await storage.getToken(), isNull);
+          final prefs = await SharedPreferences.getInstance();
+          expect(prefs.getString('harmony_auth_storage_access_token'), isNull);
+          expect(prefs.getString('harmony_auth_storage_refresh_token'), isNull);
+        });
+
+        // todo could not test storage exception ...
+      });
+    });
   });
 }
