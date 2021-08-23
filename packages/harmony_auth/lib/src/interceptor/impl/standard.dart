@@ -3,11 +3,9 @@ import 'package:meta/meta.dart';
 
 import '../../auth.dart';
 import '../../checker/checker.dart';
-import '../../exception/exception.dart';
 import '../../manipulator/manipulator.dart';
 import '../../matcher/matcher.dart';
 import '../../repository/repository.dart';
-import '../../utils/error_extensions.dart';
 import '../interceptor.dart';
 
 /// interceptor for [Dio] to handle auth
@@ -17,7 +15,7 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
   final AuthMatcher matcher;
   final AuthChecker checker;
   final AuthManipulator manipulator;
-  final AuthRepositorySubset repository;
+  final AuthRepositoryInternalSubset repository;
 
   const AuthInterceptorStandardImpl({
     required this.dio,
@@ -42,7 +40,7 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
       } else {
         _log('token is not available, error');
         handler.reject(
-          AuthException().toDioError(request),
+          AuthExceptionStandardImpl().toDioError(request),
           true,
         );
       }
@@ -92,7 +90,7 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
           );
         } on AuthRepositoryException {
           handler.reject(
-            AuthException().toDioError(request),
+            AuthExceptionStandardImpl().toDioError(request),
           );
         } on Object catch (e) {
           // should not happen but handling loosely ...
@@ -136,8 +134,31 @@ extension RequestOptionsRetryExt on RequestOptions {
   static const _value = Object();
 
   /// set retry flag to true
+  @internal
   void setOnRetry() => extra[_key] = _value;
 
   /// check if retry flag is available
+  @internal
   bool isOnRetry() => extra[_key] == _value;
+}
+
+@internal
+class AuthExceptionStandardImpl implements AuthException {
+  const AuthExceptionStandardImpl();
+
+  @override
+  String toString() => 'AuthException.standard';
+}
+
+///extensions to transform an [Object] to [DioError].
+@internal
+extension AuthErrorExt on Object {
+  /// transform an [Object] to [DioError].
+  @internal
+  DioError toDioError(RequestOptions request) => DioError(
+        requestOptions: request,
+        type: DioErrorType.other,
+        response: null,
+        error: this,
+      );
 }

@@ -1,13 +1,27 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:harmony_auth/src/exception/exception.dart';
-import 'package:harmony_auth/src/utils/dio_error_extensions.dart';
+import 'package:harmony_auth/src/interceptor/impl/impl.dart';
+import 'package:harmony_auth/src/interceptor/interceptor.dart';
+import 'package:mocktail/mocktail.dart';
 
 class FakeRequestOptions extends Fake implements RequestOptions {}
 
 class FakeResponse extends Fake implements Response<dynamic> {}
 
 void main() {
+  group('AuthException', () {
+    group('standard', () {
+      test('initialization', () {
+        final e = AuthExceptionStandardImpl();
+        expect(e, isA<AuthException>());
+        expect(
+          e.toString(),
+          stringContainsInOrder(['AuthException', 'standard']),
+        );
+      });
+    });
+  });
+
   group('AuthDioErrorExtensions', () {
     test('isAuthException', () {
       expect(
@@ -15,7 +29,7 @@ void main() {
           requestOptions: FakeRequestOptions(),
           response: FakeResponse(),
           type: DioErrorType.other,
-          error: AuthException(),
+          error: AuthExceptionStandardImpl(),
         ).isAuthException,
         isTrue,
       );
@@ -24,7 +38,7 @@ void main() {
           requestOptions: FakeRequestOptions(),
           response: FakeResponse(),
           type: DioErrorType.response,
-          error: AuthException(),
+          error: AuthExceptionStandardImpl(),
         ).isAuthException,
         isFalse,
       );

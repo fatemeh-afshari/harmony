@@ -1,11 +1,25 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:harmony_auth/src/matcher/base/base.dart';
 import 'package:harmony_auth/src/matcher/matcher.dart';
 
 RequestOptions compose(String method, String url) =>
     RequestOptions(path: url, method: method);
 
 void main() {
+  group('AuthUriExtensions', () {
+    test('url', () {
+      expect(
+        Uri.parse('https://test').url,
+        equals('https://test'),
+      );
+      expect(
+        Uri.parse('https://test?key=value').url,
+        equals('https://test'),
+      );
+    });
+  });
+
   group('AuthMatcher', () {
     test('method matchesRequest', () {
       final matcher = AuthMatcher.url('https://test');

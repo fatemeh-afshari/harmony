@@ -6,12 +6,10 @@ library harmony_auth;
 
 export 'src/auth.dart';
 export 'src/checker/checker.dart';
-export 'src/exception/exception.dart';
 export 'src/interceptor/interceptor.dart';
 export 'src/manipulator/manipulator.dart';
 export 'src/matcher/matcher.dart';
-export 'src/repository/repository.dart';
+export 'src/repository/repository.dart' hide AuthRepositoryInternalSubset;
 export 'src/rest/rest.dart';
 export 'src/storage/storage.dart';
 export 'src/token/token.dart';
-export 'src/utils/dio_error_extensions.dart';

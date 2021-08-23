@@ -12,7 +12,7 @@ import 'impl/impl.dart';
 /// this is a wrapper around rest and storage.
 ///
 /// it should perform operations in a `atomic` way.
-abstract class AuthRepository implements AuthRepositorySubset {
+abstract class AuthRepository implements AuthRepositoryInternalSubset {
   /// standard implementation
   const factory AuthRepository({
     required AuthStorage storage,
@@ -106,7 +106,7 @@ abstract class AuthRepositoryException implements Exception {}
 /// subset [AuthRepository] to avoid usage of
 /// external methods internally.
 @internal
-abstract class AuthRepositorySubset {
+abstract class AuthRepositoryInternalSubset {
   /// refer to [AuthRepository]
   Future<void> refreshTokens();
 

@@ -29,3 +29,31 @@ abstract class AuthInterceptor implements Interceptor {
     required AuthRepository repository,
   }) = AuthInterceptorStandardImpl;
 }
+
+/// harmony_auth interceptor exception.
+///
+/// If [AuthExceptions] happens [DioError] will have
+/// [type] of [DioErrorType.other] and [error] of type
+/// [AuthException].
+///
+/// You can use [isAuthException] extension function on
+/// [DioError] to check if error is from auth exception.
+///
+/// When you get [AuthException], it means that
+/// you should reauthenticate the current user and
+/// no token is available.
+///
+/// [AuthException] is also used in [AuthRest] and [AuthRepository]
+/// to indicate refresh errors due to invalid refresh tokens.
+abstract class AuthException implements Exception {}
+
+/// extension methods to check if [DioError] was from
+/// [AuthException] and extract the error.
+///
+/// If [AuthExceptions] happens [DioError] will have
+/// [type] of [DioErrorType.other] and [error] of type
+/// [AuthException].
+extension AuthDioErrorExt on DioError {
+  bool get isAuthException =>
+      type == DioErrorType.other && error is AuthException;
+}
