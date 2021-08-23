@@ -4,8 +4,8 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:harmony_auth/src/checker/checker.dart';
-import 'package:harmony_auth/src/exception/exception.dart';
 import 'package:harmony_auth/src/matcher/matcher.dart';
+import 'package:harmony_auth/src/rest/impl/impl.dart';
 import 'package:harmony_auth/src/rest/rest.dart';
 import 'package:harmony_auth/src/token/token.dart';
 import 'package:mocktail/mocktail.dart';
@@ -105,7 +105,7 @@ void main() {
 
             expect(
               () async => await rest.refreshTokens('r1'),
-              throwsA(isA<AuthException>()),
+              throwsA(isA<AuthRestExceptionStandardImpl>()),
             );
           },
         );
@@ -301,7 +301,7 @@ void main() {
 
             expect(
               () async => await rest.refreshTokens('r1'),
-              throwsA(isA<AuthException>()),
+              throwsA(isA<AuthRestExceptionAccessOnlyImpl>()),
             );
           },
         );
@@ -435,6 +435,38 @@ void main() {
         final token = await rest.refreshTokens('r1');
         expect(token.refresh, equals('r2'));
         expect(token.access, equals('a2'));
+      });
+    });
+  });
+
+  group('AuthRestException', () {
+    group('external', () {
+      test('instantiation', () {
+        final e = AuthRestException();
+        expect(e, isA<AuthRestException>());
+        expect(e.toString(), stringContainsInOrder(['AuthRestException']));
+      });
+    });
+
+    group('standard', () {
+      test('instantiation', () {
+        final e = AuthRestExceptionStandardImpl();
+        expect(e, isA<AuthRestException>());
+        expect(
+          e.toString(),
+          stringContainsInOrder(['AuthRestException', 'standard']),
+        );
+      });
+    });
+
+    group('accessOnly', () {
+      test('instantiation', () {
+        final e = AuthRestExceptionAccessOnlyImpl();
+        expect(e, isA<AuthRestException>());
+        expect(
+          e.toString(),
+          stringContainsInOrder(['AuthRestException', 'accessOnly']),
+        );
       });
     });
   });
