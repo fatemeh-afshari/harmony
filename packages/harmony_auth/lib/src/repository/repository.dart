@@ -55,6 +55,33 @@ abstract class AuthRepository implements AuthRepositoryInternalSubset {
   /// it can throw [AuthStorageException] on
   /// non-recoverable storage errors.
   Future<void> removeToken();
+
+  /// check status by checking if token is available or not.
+  ///
+  /// this is available if you add [streaming]
+  /// functionality to storage.
+  /// otherwise unimplemented error is thrown.
+  Future<AuthStatus> get status;
+
+  /// status stream
+  ///
+  /// it will provide only changes in status.
+  /// if you want to get initial state in stream use
+  /// [initializeStatusStream].
+  ///
+  /// this is available if you add [streaming]
+  /// functionality to storage.
+  /// otherwise unimplemented error is thrown.
+  Stream<AuthStatus> get statusStream;
+
+  /// initialize status stream
+  ///
+  /// it will emit current state in stream.
+  ///
+  /// this is available if you add [streaming]
+  /// functionality to storage.
+  /// otherwise unimplemented error is thrown.
+  Future<void> initializeStatusStream();
 }
 
 /// harmony_auth extensions to add

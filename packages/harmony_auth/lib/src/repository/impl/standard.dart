@@ -66,6 +66,17 @@ class AuthRepositoryStandardImpl implements AuthRepository {
   void _log(String message) {
     Auth.log('harmony_auth refresh.standard: $message');
   }
+
+  @override
+  Future<AuthStatus> get status async => await storage.status;
+
+  @override
+  Stream<AuthStatus> get statusStream => storage.statusStream;
+
+  @override
+  Future<void> initializeStatusStream() async {
+    await storage.initializeStatusStream();
+  }
 }
 
 @internal

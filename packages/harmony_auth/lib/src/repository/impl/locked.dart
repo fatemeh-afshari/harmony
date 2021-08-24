@@ -72,4 +72,35 @@ class AuthRepositoryLockedImpl implements AuthRepository {
       _completer = null;
     }
   }
+
+  @override
+  Future<AuthStatus> get status async {
+    while (_completer != null) {
+      await _completer!.future;
+    }
+    _completer = Completer();
+    try {
+      return await base.status;
+    } finally {
+      _completer!.complete();
+      _completer = null;
+    }
+  }
+
+  @override
+  Stream<AuthStatus> get statusStream => base.statusStream;
+
+  @override
+  Future<void> initializeStatusStream() async {
+    while (_completer != null) {
+      await _completer!.future;
+    }
+    _completer = Completer();
+    try {
+      await base.initializeStatusStream();
+    } finally {
+      _completer!.complete();
+      _completer = null;
+    }
+  }
 }
