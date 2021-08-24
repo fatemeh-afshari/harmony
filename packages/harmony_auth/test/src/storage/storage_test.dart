@@ -218,7 +218,7 @@ void main() {
       });
     });
 
-    group('inMemory+locked check locking mechanism', () {
+    group('inMemory+locked concurrency', () {
       // todo: not tested yet ...
     });
 

@@ -411,7 +411,7 @@ void main() {
     });
   });
 
-  group('AuthRepository (streaming related)', () {
+  group('AuthRepository (streaming)', () {
     late AuthRepository repository;
     late AuthStorage storage;
 
@@ -651,5 +651,13 @@ void main() {
         );
       });
     });
+  });
+
+  group('AuthRepository (concurrency)', () {
+    // todo: not tested yet ...
+  });
+
+  group('AuthRepository (debounce)', () {
+    // todo: not tested yet ...
   });
 }
