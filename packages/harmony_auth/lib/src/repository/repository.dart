@@ -7,37 +7,18 @@ import '../storage/storage.dart';
 import '../token/token.dart';
 import 'impl/impl.dart';
 
-/// harmony_auth refresh.
+/// harmony_auth repository.
 ///
 /// this is a wrapper around rest and storage.
 ///
-/// it should perform operations in a `atomic` way.
+/// it should perform operations in a `atomic` way. but without
+/// adding [locked] functionality we can not guarantee it.
 abstract class AuthRepository implements AuthRepositoryInternalSubset {
   /// standard implementation
   const factory AuthRepository({
     required AuthStorage storage,
     required AuthRest rest,
   }) = AuthRepositoryStandardImpl;
-
-  /// locked implementation
-  ///
-  /// wrap an AuthRepository with lock to enable concurrency support.
-  ///
-  /// it should be wrapped first with lock then debounce.
-  factory AuthRepository.locked(
-    AuthRepository base,
-  ) = AuthRepositoryLockedImpl;
-
-  /// debounce implementation
-  ///
-  /// wrap an AuthRepository with debouncing to disallow too many
-  /// token refresh calls in a timed window.
-  ///
-  /// it should be wrapped first with lock then debounce.
-  factory AuthRepository.debounce(
-    AuthRepository base, {
-    required Duration duration,
-  }) = AuthRepositoryDebounceImpl;
 
   /// refresh and store tokens.
   ///
@@ -76,21 +57,27 @@ abstract class AuthRepository implements AuthRepositoryInternalSubset {
   Future<void> removeToken();
 }
 
-/// extensions to add concurrency support to [AuthRepository].
+/// harmony_auth extensions to add
+/// concurrency support to [AuthRepository].
 extension AuthRepositoryLockExt on AuthRepository {
+  /// locked implementation
+  ///
   /// wrap an AuthRepository with lock to enable concurrency support.
   ///
   /// it should be wrapped first with lock then debounce.
-  AuthRepository locked() => AuthRepository.locked(this);
+  AuthRepository locked() => AuthRepositoryLockedImpl(this);
 }
 
-/// extensions to add debouncing support to [AuthRepository].
+/// harmony_auth extensions to add
+/// debouncing support to [AuthRepository].
 extension AuthRepositoryDebounceExt on AuthRepository {
+  /// debounce implementation
+  ///
   /// wrap an AuthRepository with debouncing to disallow too many
   /// token refresh calls in a timed window.
   ///
   /// it should be wrapped first with lock then debounce.
-  AuthRepository debounce(Duration duration) => AuthRepository.debounce(
+  AuthRepository debounce(Duration duration) => AuthRepositoryDebounceImpl(
         this,
         duration: duration,
       );
@@ -103,7 +90,7 @@ extension AuthRepositoryDebounceExt on AuthRepository {
 /// to be invalid and be removed.
 abstract class AuthRepositoryException implements Exception {}
 
-/// subset [AuthRepository] to avoid usage of
+/// harmony_auth subset of [AuthRepository] to avoid usage of
 /// external methods internally.
 @internal
 abstract class AuthRepositoryInternalSubset {

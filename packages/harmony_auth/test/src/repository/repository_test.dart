@@ -320,36 +320,4 @@ void main() {
       });
     });
   });
-
-  group('AuthRepositoryLockedExt', () {
-    test('locked', () {
-      final s = AuthRepository(
-        storage: FakeAuthStorage(),
-        rest: FakeAuthRest(),
-      );
-      final s1 = s.locked();
-      final s2 = AuthRepository.locked(s);
-      expect(s1.runtimeType, equals(s2.runtimeType));
-      final s1c = s1 as AuthRepositoryLockedImpl;
-      final s2c = s2 as AuthRepositoryLockedImpl;
-      expect(s1c.base, equals(s2c.base));
-    });
-  });
-
-  group('AuthRepositoryDebounceExt', () {
-    test('debounce', () {
-      final s = AuthRepository(
-        storage: FakeAuthStorage(),
-        rest: FakeAuthRest(),
-      );
-      final d = Duration(minutes: 1);
-      final s1 = s.debounce(d);
-      final s2 = AuthRepository.debounce(s, duration: d);
-      expect(s1.runtimeType, equals(s2.runtimeType));
-      final s1c = s1 as AuthRepositoryDebounceImpl;
-      final s2c = s2 as AuthRepositoryDebounceImpl;
-      expect(s1c.base, equals(s2c.base));
-      expect(s1c.duration, equals(s2c.duration));
-    });
-  });
 }
