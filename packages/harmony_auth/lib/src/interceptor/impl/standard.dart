@@ -6,8 +6,8 @@ import '../../checker/checker.dart';
 import '../../manipulator/manipulator.dart';
 import '../../matcher/matcher.dart';
 import '../../repository/repository.dart';
-import '../interceptor.dart';
 import '../../storage/storage.dart';
+import '../interceptor.dart';
 
 /// interceptor for [Dio] to handle auth
 @internal
@@ -37,7 +37,7 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
         final token = await repository.getToken();
         if (token != null) {
           _log('token is available, attempting to call ...');
-          manipulator.manipulate(request, token.access);
+          manipulator.manipulate(request, token);
           handler.next(request);
         } else {
           _log('token is not available, error');

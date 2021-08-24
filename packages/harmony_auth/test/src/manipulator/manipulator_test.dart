@@ -1,8 +1,11 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:harmony_auth/src/manipulator/manipulator.dart';
+import 'package:harmony_auth/src/token/token.dart';
 
 const testUrl = 'https://test';
+
+final token1 = AuthToken(refresh: 'r1', access: 'a1');
 
 void main() {
   group('AuthManipulator', () {
@@ -10,7 +13,7 @@ void main() {
       test('basic', () {
         final request = RequestOptions(path: testUrl);
         final manipulator = AuthManipulator();
-        manipulator.manipulate(request, 'a1');
+        manipulator.manipulate(request, token1);
         expect(
           request.headers['authorization'],
           equals('Bearer a1'),
@@ -24,7 +27,7 @@ void main() {
         final manipulator = AuthManipulator.general((request, _) {
           request.headers['a'] = 'b';
         });
-        manipulator.manipulate(request, 'a1');
+        manipulator.manipulate(request, token1);
         expect(
           request.headers['a'],
           equals('b'),
@@ -35,11 +38,11 @@ void main() {
     group('headers', () {
       test('basic', () {
         final request = RequestOptions(path: testUrl);
-        final manipulator = AuthManipulator.headers((access) => {
+        final manipulator = AuthManipulator.headers((token) => {
               'a': 'b',
-              'b': access,
+              'b': token.access,
             });
-        manipulator.manipulate(request, 'a1');
+        manipulator.manipulate(request, token1);
         expect(
           request.headers['a'],
           equals('b'),
@@ -56,9 +59,9 @@ void main() {
         final request = RequestOptions(path: testUrl);
         final manipulator = AuthManipulator.header(
           'a',
-          (access) => access * 2,
+          (token) => token.access * 2,
         );
-        manipulator.manipulate(request, 'a1');
+        manipulator.manipulate(request, token1);
         expect(
           request.headers['a'],
           equals('a1a1'),
@@ -73,7 +76,7 @@ void main() {
           'a',
           'A',
         );
-        manipulator.manipulate(request, 'a1');
+        manipulator.manipulate(request, token1);
         expect(
           request.headers['a'],
           equals('Aa1'),

@@ -133,10 +133,10 @@ void init() async {
   //  to request header.
   // there are several different implementations:
   AuthManipulator.headerPrefixed('authorization', 'Bearer ');
-  AuthManipulator.header('authorization', (access) => 'Bearer $access');
-  AuthManipulator.headers((access) => {
-        'authorization': 'Bearer $access',
-        'token': access,
+  AuthManipulator.header('authorization', (token) => 'Bearer ${token.access}');
+  AuthManipulator.headers((token) => {
+        'authorization': 'Bearer ${token.access}',
+        'token': token.access,
       });
   AuthManipulator.general((request, access) => throw 'implement this');
   // and you can sub-class AuthManipulator by yourself or

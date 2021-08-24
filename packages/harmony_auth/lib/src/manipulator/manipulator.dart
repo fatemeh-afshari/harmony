@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 
+import '../token/token.dart';
 import 'impl/impl.dart';
 
 /// harmony_auth manipulation applied on a request
@@ -16,14 +17,14 @@ abstract class AuthManipulator {
   ///
   /// do whatever using a lambda
   const factory AuthManipulator.general(
-    void Function(RequestOptions request, String accessToken) lambda,
+    void Function(RequestOptions request, AuthToken token) lambda,
   ) = AuthManipulatorGeneralImpl;
 
   /// headers implementation
   ///
   /// add headers by using access token
   const factory AuthManipulator.headers(
-    Map<String, String> Function(String accessToken) headers,
+    Map<String, String> Function(AuthToken token) headers,
   ) = AuthManipulatorHeadersImpl;
 
   /// header implementation
@@ -31,7 +32,7 @@ abstract class AuthManipulator {
   /// add one header by using access token
   const factory AuthManipulator.header(
     String key,
-    String Function(String accessToken) value,
+    String Function(AuthToken token) value,
   ) = AuthManipulatorHeaderImpl;
 
   /// headerPrefixed implementation
@@ -47,5 +48,5 @@ abstract class AuthManipulator {
   ) = AuthManipulatorHeaderPrefixedImpl;
 
   /// manipulate request in-place with access token.
-  void manipulate(RequestOptions request, String accessToken);
+  void manipulate(RequestOptions request, AuthToken token);
 }
