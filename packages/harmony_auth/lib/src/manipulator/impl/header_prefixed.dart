@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
+import '../../token/token.dart';
 import '../manipulator.dart';
 
 @internal
@@ -11,7 +12,7 @@ class AuthManipulatorHeaderPrefixedImpl implements AuthManipulator {
   const AuthManipulatorHeaderPrefixedImpl(this.key, this.valuePrefix);
 
   @override
-  void manipulate(RequestOptions request, String accessToken) {
-    request.headers[key] = '$valuePrefix$accessToken';
+  void manipulate(RequestOptions request, AuthToken token) {
+    request.headers[key] = '$valuePrefix${token.access}';
   }
 }

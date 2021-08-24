@@ -3,7 +3,6 @@ import 'package:meta/meta.dart';
 
 import '../base/base.dart';
 
-/// never match
 @internal
 class AuthMatcherNoneImpl extends AbstractAuthMatcher {
   const AuthMatcherNoneImpl();

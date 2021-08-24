@@ -2,7 +2,6 @@ import 'package:meta/meta.dart';
 
 import '../base/base.dart';
 
-/// provide regex or string to match exactly
 @internal
 class AuthMatcherMethodsImpl extends AbstractMethodUrlAuthMatcher {
   final Set<Pattern> methodPatterns;

@@ -1,54 +1,41 @@
 import 'package:meta/meta.dart';
 
 import '../../auth.dart';
+import '../../token/token.dart';
 import '../storage.dart';
 
 /// auth storage in memory implementation
 @internal
 class AuthStorageInMemoryImpl implements AuthStorage {
-  String? access;
-  String? refresh;
+  AuthToken? memory;
 
   AuthStorageInMemoryImpl();
 
   @override
-  Future<String?> getAccessToken() async => access;
+  Future<AuthToken?> getToken() async => memory;
 
   @override
-  Future<String?> getRefreshToken() async => refresh;
-
-  @override
-  Future<void> removeAccessToken() async {
-    _log('removeAccessToken');
-    access = null;
+  Future<void> removeToken() async {
+    memory = null;
+    _log('remove');
   }
 
   @override
-  Future<void> removeRefreshToken() async {
-    _log('removeRefreshToken');
-    refresh = null;
-  }
-
-  @override
-  Future<void> setAccessToken(String accessToken) async {
-    _log('setAccessToken');
-    access = accessToken;
-  }
-
-  @override
-  Future<void> setRefreshToken(String refreshToken) async {
-    _log('setRefreshToken');
-    refresh = refreshToken;
-  }
-
-  @override
-  Future<void> clear() async {
-    _log('clear');
-    access = null;
-    refresh = null;
+  Future<void> setToken(AuthToken token) async {
+    _log('set');
+    memory = token;
   }
 
   void _log(String message) {
     Auth.log('harmony_auth storage.inMemory: $message');
   }
+
+  @override
+  Future<AuthStatus> get status async => throw UnimplementedError();
+
+  @override
+  Stream<AuthStatus> get statusStream => throw UnimplementedError();
+
+  @override
+  Future<void> initializeStatusStream() async => throw UnimplementedError();
 }
