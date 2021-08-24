@@ -232,10 +232,6 @@ void main() {
           expect(await storage.status, equals(AuthStatus.loggedOut));
         });
 
-        test('statusStream', () {
-          expect(storage.statusStream, isNotNull);
-        });
-
         test('initializeStatusStream', () async {
           expect(storage.statusStream, emits(AuthStatus.loggedOut));
           await storage.initializeStatusStream();
@@ -271,10 +267,6 @@ void main() {
           expect(await storage.status, equals(AuthStatus.loggedIn));
         });
 
-        test('statusStream', () {
-          expect(storage.statusStream, isNotNull);
-        });
-
         test('initializeStatusStream', () async {
           expect(storage.statusStream, emits(AuthStatus.loggedIn));
           await storage.initializeStatusStream();
@@ -306,10 +298,6 @@ void main() {
 
         test('status', () async {
           expect(await storage.status, equals(AuthStatus.loggedOut));
-        });
-
-        test('statusStream', () {
-          expect(storage.statusStream, isNotNull);
         });
 
         test('initializeStatusStream', () async {
@@ -345,10 +333,6 @@ void main() {
 
         test('status', () async {
           expect(await storage.status, equals(AuthStatus.loggedIn));
-        });
-
-        test('statusStream', () {
-          expect(storage.statusStream, isNotNull);
         });
 
         test('initializeStatusStream', () async {

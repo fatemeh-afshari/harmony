@@ -50,7 +50,7 @@ class AuthRepositoryDebounceImpl implements AuthRepository {
   Future<AuthStatus> get status async => await base.status;
 
   @override
-  Stream<AuthStatus> get statusStream => throw UnimplementedError();
+  Stream<AuthStatus> get statusStream => base.statusStream;
 
   @override
   Future<void> initializeStatusStream() async {
