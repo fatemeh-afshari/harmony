@@ -10,8 +10,8 @@ import 'package:harmony_auth/src/rest/rest.dart';
 import 'package:harmony_auth/src/token/token.dart';
 import 'package:mocktail/mocktail.dart';
 
-const keyRetry = 'harmony_auth_is_retry';
 const testUrl = 'https://test';
+
 const refreshUrl = 'https://refresh';
 
 class MockAdapter extends Mock implements HttpClientAdapter {}

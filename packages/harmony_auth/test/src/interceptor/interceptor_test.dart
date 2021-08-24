@@ -4,9 +4,19 @@ import 'package:harmony_auth/src/interceptor/impl/impl.dart';
 import 'package:harmony_auth/src/interceptor/interceptor.dart';
 import 'package:mocktail/mocktail.dart';
 
+const keyRetry = 'harmony_auth_is_retry';
+
+const testUrl = 'https://test';
+
+const refreshUrl = 'https://refresh';
+
 class FakeRequestOptions extends Fake implements RequestOptions {}
 
 class FakeResponse extends Fake implements Response<dynamic> {}
+
+class OtherError implements Exception {}
+
+class MockAdapter extends Mock implements HttpClientAdapter {}
 
 void main() {
   group('AuthException', () {
