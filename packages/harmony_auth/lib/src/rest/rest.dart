@@ -34,7 +34,7 @@ abstract class AuthRest {
   const factory AuthRest.general({
     required Dio dio,
     required AuthMatcher refreshTokensMatcher,
-    required Future<AuthToken> Function(Dio dio, String refresh) refresh,
+    required Future<AuthToken> Function(Dio dio, AuthToken token) refresh,
   }) = AuthRestGeneralImpl;
 
   /// note: should ONLY throw [DioError] or [AuthRestException].
@@ -45,7 +45,7 @@ abstract class AuthRest {
   /// note: this method should not have any side effects.
   /// should NOT do anything other than making request,
   /// such as writing to storage ...
-  Future<AuthToken> refreshTokens(String refreshToken);
+  Future<AuthToken> refreshTokens(AuthToken token);
 
   /// matcher to check to see if this call is to refresh tokens.
   ///

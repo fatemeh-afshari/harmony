@@ -26,7 +26,7 @@ class AuthRepositoryStandardImpl implements AuthRepository {
       if (token1 != null) {
         _log('token is available, attempting to call rest ...');
         try {
-          final token2 = await rest.refreshTokens(token1.refresh);
+          final token2 = await rest.refreshTokens(token1);
           await storage.setToken(token2);
         } on AuthRestException {
           _log('rest call finished, refresh token is not valid, error');

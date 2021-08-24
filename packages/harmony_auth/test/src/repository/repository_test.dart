@@ -96,14 +96,14 @@ void main() {
           });
 
           test('success', () async {
-            when(() => rest.refreshTokens(token1.refresh))
+            when(() => rest.refreshTokens(token1))
                 .thenAnswer((_) async => token2);
             await repository.refreshTokens();
             expect(await storage.getToken(), equals(token2));
           });
 
           test('fail auth', () {
-            when(() => rest.refreshTokens(token1.refresh))
+            when(() => rest.refreshTokens(token1))
                 .thenAnswer((_) async => throw RestError());
             expect(
               () async {
@@ -118,7 +118,7 @@ void main() {
           });
 
           test('fail other', () {
-            when(() => rest.refreshTokens(token1.refresh))
+            when(() => rest.refreshTokens(token1))
                 .thenAnswer((_) async => throw DioError(
                       requestOptions: FakeRequestOptions(),
                       error: OtherError(),
@@ -185,14 +185,14 @@ void main() {
           });
 
           test('success', () async {
-            when(() => rest.refreshTokens(token1.refresh))
+            when(() => rest.refreshTokens(token1))
                 .thenAnswer((_) async => token2);
             await repository.refreshTokens();
             expect(await storage.getToken(), equals(token2));
           });
 
           test('fail auth', () {
-            when(() => rest.refreshTokens(token1.refresh))
+            when(() => rest.refreshTokens(token1))
                 .thenAnswer((_) async => throw RestError());
             expect(
               () async {
@@ -207,7 +207,7 @@ void main() {
           });
 
           test('fail other', () {
-            when(() => rest.refreshTokens(token1.refresh))
+            when(() => rest.refreshTokens(token1))
                 .thenAnswer((_) async => throw DioError(
                       requestOptions: FakeRequestOptions(),
                       error: OtherError(),
@@ -274,14 +274,14 @@ void main() {
           });
 
           test('success', () async {
-            when(() => rest.refreshTokens(token1.refresh))
+            when(() => rest.refreshTokens(token1))
                 .thenAnswer((_) async => token2);
             await repository.refreshTokens();
             expect(await storage.getToken(), equals(token2));
           });
 
           test('fail auth', () {
-            when(() => rest.refreshTokens(token1.refresh))
+            when(() => rest.refreshTokens(token1))
                 .thenAnswer((_) async => throw RestError());
             expect(
               () async {
@@ -296,7 +296,7 @@ void main() {
           });
 
           test('fail other', () {
-            when(() => rest.refreshTokens(token1.refresh))
+            when(() => rest.refreshTokens(token1))
                 .thenAnswer((_) async => throw DioError(
                       requestOptions: FakeRequestOptions(),
                       error: OtherError(),
@@ -363,14 +363,14 @@ void main() {
           });
 
           test('success', () async {
-            when(() => rest.refreshTokens(token1.refresh))
+            when(() => rest.refreshTokens(token1))
                 .thenAnswer((_) async => token2);
             await repository.refreshTokens();
             expect(await storage.getToken(), equals(token2));
           });
 
           test('fail auth', () {
-            when(() => rest.refreshTokens(token1.refresh))
+            when(() => rest.refreshTokens(token1))
                 .thenAnswer((_) async => throw RestError());
             expect(
               () async {
@@ -385,7 +385,7 @@ void main() {
           });
 
           test('fail other', () {
-            when(() => rest.refreshTokens(token1.refresh))
+            when(() => rest.refreshTokens(token1))
                 .thenAnswer((_) async => throw DioError(
                       requestOptions: FakeRequestOptions(),
                       error: OtherError(),

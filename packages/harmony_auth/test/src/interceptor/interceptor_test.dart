@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:harmony_auth/src/interceptor/impl/impl.dart';
 import 'package:harmony_auth/src/interceptor/interceptor.dart';
+import 'package:harmony_auth/src/token/token.dart';
 import 'package:mocktail/mocktail.dart';
 
 const keyRetry = 'harmony_auth_is_retry';
@@ -9,6 +10,8 @@ const keyRetry = 'harmony_auth_is_retry';
 const testUrl = 'https://test';
 
 const refreshUrl = 'https://refresh';
+
+final token1 = AuthToken(refresh: 'r1', access: 'a1');
 
 class FakeRequestOptions extends Fake implements RequestOptions {}
 

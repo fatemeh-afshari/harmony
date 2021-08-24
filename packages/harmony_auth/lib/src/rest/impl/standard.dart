@@ -20,7 +20,7 @@ class AuthRestStandardImpl implements AuthRest {
   });
 
   @override
-  Future<AuthToken> refreshTokens(String refreshToken) async {
+  Future<AuthToken> refreshTokens(AuthToken token) async {
     _log('calling refresh token api');
     // build request for refresh request
     final request = Options(
@@ -33,7 +33,7 @@ class AuthRestStandardImpl implements AuthRest {
       dio.options,
       refreshUrl,
       data: {
-        'refresh': refreshToken,
+        'refresh': token.refresh,
       },
     );
     try {

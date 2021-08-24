@@ -12,7 +12,7 @@ class AuthRestGeneralImpl implements AuthRest {
   @override
   final AuthMatcher refreshTokensMatcher;
 
-  final Future<AuthToken> Function(Dio dio, String refresh) refresh;
+  final Future<AuthToken> Function(Dio dio, AuthToken token) refresh;
 
   const AuthRestGeneralImpl({
     required this.dio,
@@ -21,6 +21,5 @@ class AuthRestGeneralImpl implements AuthRest {
   });
 
   @override
-  Future<AuthToken> refreshTokens(String refreshToken) =>
-      refresh(dio, refreshToken);
+  Future<AuthToken> refreshTokens(AuthToken token) => refresh(dio, token);
 }

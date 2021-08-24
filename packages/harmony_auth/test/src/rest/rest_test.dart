@@ -14,6 +14,8 @@ const testUrl = 'https://test';
 
 const refreshUrl = 'https://refresh';
 
+final token1 = AuthToken(refresh: 'r1', access: 'a1');
+
 class MockAdapter extends Mock implements HttpClientAdapter {}
 
 class FakeRequestOptions extends Fake implements RequestOptions {}
@@ -71,7 +73,7 @@ void main() {
                   },
                 ));
 
-            final pair = await rest.refreshTokens('r1');
+            final pair = await rest.refreshTokens(token1);
             expect(pair.refresh, equals('r2'));
             expect(pair.access, equals('a2'));
           },
@@ -104,7 +106,7 @@ void main() {
                 ));
 
             expect(
-              () async => await rest.refreshTokens('r1'),
+              () async => await rest.refreshTokens(token1),
               throwsA(isA<AuthRestExceptionStandardImpl>()),
             );
           },
@@ -143,7 +145,7 @@ void main() {
                 ));
 
             expect(
-              () async => await rest.refreshTokens('r1'),
+              () async => await rest.refreshTokens(token1),
               throwsA(
                 predicate(
                   (DioError e) =>
@@ -176,7 +178,7 @@ void main() {
                 )).thenAnswer((_) async => throw OtherError());
 
             expect(
-              () async => await rest.refreshTokens('r1'),
+              () async => await rest.refreshTokens(token1),
               throwsA(
                 predicate((DioError e) =>
                     e.type == DioErrorType.other && e.error is OtherError),
@@ -267,7 +269,7 @@ void main() {
                   },
                 ));
 
-            final pair = await rest.refreshTokens('r1');
+            final pair = await rest.refreshTokens(token1);
             expect(pair.refresh, equals('r1'));
             expect(pair.access, equals('a2'));
           },
@@ -300,7 +302,7 @@ void main() {
                 ));
 
             expect(
-              () async => await rest.refreshTokens('r1'),
+              () async => await rest.refreshTokens(token1),
               throwsA(isA<AuthRestExceptionAccessOnlyImpl>()),
             );
           },
@@ -339,7 +341,7 @@ void main() {
                 ));
 
             expect(
-              () async => await rest.refreshTokens('r1'),
+              () async => await rest.refreshTokens(token1),
               throwsA(
                 predicate(
                   (DioError e) =>
@@ -372,7 +374,7 @@ void main() {
                 )).thenAnswer((_) async => throw OtherError());
 
             expect(
-              () async => await rest.refreshTokens('r1'),
+              () async => await rest.refreshTokens(token1),
               throwsA(
                 predicate((DioError e) =>
                     e.type == DioErrorType.other && e.error is OtherError),
@@ -424,7 +426,7 @@ void main() {
           refreshTokensMatcher: matcher,
           refresh: (d, r) async {
             expect(d, equals(dio));
-            expect(r, equals('r1'));
+            expect(r, equals(token1));
             return AuthToken(
               access: 'a2',
               refresh: 'r2',
@@ -432,7 +434,7 @@ void main() {
           },
         );
         expect(rest.refreshTokensMatcher, equals(matcher));
-        final token = await rest.refreshTokens('r1');
+        final token = await rest.refreshTokens(token1);
         expect(token.refresh, equals('r2'));
         expect(token.access, equals('a2'));
       });
