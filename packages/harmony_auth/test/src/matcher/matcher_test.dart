@@ -165,13 +165,30 @@ void main() {
       });
     });
 
-    test('implementation methodAndBaseUrl', () {
-      final matcher = AuthMatcher.methodAndBaseUrl('m', 'https://u');
-      expect(matcher.matchesRequest(compose('m', 'https://u')), isTrue);
-      expect(matcher.matchesRequest(compose('m', 'https://u/v')), isTrue);
-      expect(matcher.matchesRequest(compose('m', 'https://v')), isFalse);
-      expect(matcher.matchesRequest(compose('n', 'https://u')), isFalse);
-      expect(matcher.matchesRequest(compose('n', 'https://u/v')), isFalse);
+    group('implementation methodAndBaseUrl', () {
+      test('String', () {
+        final matcher = AuthMatcher.methodAndBaseUrl('m', 'https://u');
+        expect(matcher.matchesRequest(compose('m', 'https://u')), isTrue);
+        expect(matcher.matchesRequest(compose('m', 'https://u/v')), isTrue);
+        expect(matcher.matchesRequest(compose('m', 'https://v')), isFalse);
+        expect(matcher.matchesRequest(compose('n', 'https://u')), isFalse);
+        expect(matcher.matchesRequest(compose('n', 'https://u/v')), isFalse);
+      });
+
+      test('Pattern', () {
+        final matcher = AuthMatcher.methodAndBaseUrl(
+          RegExp('[mn]'),
+          'https://u',
+        );
+        expect(matcher.matchesRequest(compose('m', 'https://u')), isTrue);
+        expect(matcher.matchesRequest(compose('n', 'https://u')), isTrue);
+        expect(matcher.matchesRequest(compose('m', 'https://u/v')), isTrue);
+        expect(matcher.matchesRequest(compose('n', 'https://u/v')), isTrue);
+        expect(matcher.matchesRequest(compose('m', 'https://v')), isFalse);
+        expect(matcher.matchesRequest(compose('n', 'https://v')), isFalse);
+        expect(matcher.matchesRequest(compose('x', 'https://u')), isFalse);
+        expect(matcher.matchesRequest(compose('x', 'https://u/v')), isFalse);
+      });
     });
 
     test('implementation byUrl', () {
