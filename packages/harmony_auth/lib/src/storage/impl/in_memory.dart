@@ -29,4 +29,13 @@ class AuthStorageInMemoryImpl implements AuthStorage {
   void _log(String message) {
     Auth.log('harmony_auth storage.inMemory: $message');
   }
+
+  @override
+  Future<AuthStatus> get status async => throw UnimplementedError();
+
+  @override
+  Stream<AuthStatus> get statusStream => throw UnimplementedError();
+
+  @override
+  Future<void> initializeStatusStream() async => throw UnimplementedError();
 }

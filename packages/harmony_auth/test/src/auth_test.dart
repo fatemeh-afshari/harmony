@@ -11,7 +11,7 @@ void main() {
       Auth.logger = null;
     });
 
-    test('field logger', () {
+    test('logger', () {
       expect(Auth.logger, isNull);
       final logger = MockLogger();
       Auth.logger = logger;
@@ -20,7 +20,7 @@ void main() {
       expect(Auth.logger, isNull);
     });
 
-    group('method log', () {
+    group('log', () {
       test('with logger', () {
         final logger = MockLogger();
         when(() => logger.i(any<dynamic>(), any<dynamic>(), any()))

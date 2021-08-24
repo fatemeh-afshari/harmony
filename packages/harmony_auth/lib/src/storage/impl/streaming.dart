@@ -20,17 +20,6 @@ class AuthStorageStreamingImpl implements AuthStorage {
 
   final _controller = StreamController<AuthStatus>();
 
-  /// stream of states
-  @internal
-  Stream<AuthStatus> get internalStatusStream => _controller.stream;
-
-  /// push initial state on stream.
-  /// this is optional.
-  @internal
-  Future<void> internalInitializeStatusStream() async {
-    _emit(await status);
-  }
-
   @override
   Future<AuthToken?> getToken() async => await base.getToken();
 
@@ -44,6 +33,18 @@ class AuthStorageStreamingImpl implements AuthStorage {
   Future<void> removeToken() async {
     await base.removeToken();
     _emit(AuthStatus.loggedOut);
+  }
+
+  @override
+  Future<AuthStatus> get status async =>
+      await getToken() != null ? AuthStatus.loggedIn : AuthStatus.loggedOut;
+
+  @override
+  Stream<AuthStatus> get statusStream => _controller.stream;
+
+  @override
+  Future<void> initializeStatusStream() async {
+    _emit(await status);
   }
 
   void _emit(AuthStatus status) {

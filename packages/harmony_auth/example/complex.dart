@@ -20,25 +20,21 @@ void init() async {
   AuthStorage.inMemory();
   // or subclass AuthStorage by yourself for other scenarios.
 
+  // if you want to get status or listen status changes:
+  storage = storage.streaming();
+  // then you can get authentication status by using
+  await storage.status;
+  // or get status stream by using
+  final stream = storage.statusStream;
+  stream.listen(print);
+  // and initialize status stream by
+  await storage.initializeStatusStream();
+  // if you don't add streaming functionality and use
+  // status functions then unimplemented error is thrown.
+
   // if you want to enable concurrency:
   storage = storage.locked();
   // this way operations on storage can be concurrent.
-
-  // you can get authentication status by using:
-  await storage.status;
-
-  // if you want to listen status changes stream:
-  storage = storage.streaming();
-  // then you can use:
-  final stream = storage.statusStream;
-  stream.listen(print);
-  // or
-  storage.statusStreamOrNull;
-  // which will be null if storage is not wrapped.
-  // and you can initialize stream by initial value if needed.
-  await storage.initializeStatusStreamOrNothing();
-  // and
-  await storage.initializeStatusStream();
 
   // now you can register storage with dependency injection:
   print(storage);

@@ -89,6 +89,15 @@ class AuthStorageStandardImpl implements AuthStorage {
       throw AuthStorageStandardExceptionImpl();
     }
   }
+
+  @override
+  Future<AuthStatus> get status async => throw UnimplementedError();
+
+  @override
+  Stream<AuthStatus> get statusStream => throw UnimplementedError();
+
+  @override
+  Future<void> initializeStatusStream() async => throw UnimplementedError();
 }
 
 /// AuthStorage standard exception
