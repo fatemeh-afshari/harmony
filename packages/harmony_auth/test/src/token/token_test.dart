@@ -30,5 +30,16 @@ void main() {
       expect(token2.hashCode, equals(token1.hashCode));
       expect(token3.hashCode, isNot(equals(token1.hashCode)));
     });
+
+    test('toString', () {
+      final token1 = AuthToken(refresh: 'r1', access: 'a1');
+      expect(
+        token1.toString(),
+        allOf(
+          stringContainsInOrder(['refresh', 'r1']),
+          stringContainsInOrder(['access', 'a1']),
+        ),
+      );
+    });
   });
 }

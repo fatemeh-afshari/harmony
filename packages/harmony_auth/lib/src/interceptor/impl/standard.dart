@@ -152,7 +152,9 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
 @internal
 extension AuthRequestOptionsRetryExt on RequestOptions {
   static const _key = 'harmony_auth_retry';
-  static const _value = Object();
+
+  /// should not be const for security reasons ... :D
+  static final _value = Object();
 
   /// set retry flag to true
   @internal
@@ -160,7 +162,7 @@ extension AuthRequestOptionsRetryExt on RequestOptions {
 
   /// check if retry flag is available
   @internal
-  bool isOnRetry() => extra[_key] == _value;
+  bool isOnRetry() => identical(extra[_key], _value);
 }
 
 @internal

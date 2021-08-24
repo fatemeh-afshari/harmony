@@ -21,6 +21,9 @@ class AuthToken {
 
   @override
   int get hashCode => refresh.hashCode ^ access.hashCode;
+
+  @override
+  String toString() => 'AuthToken{refresh: $refresh, access: $access}';
 }
 
 /// harmony_auth status of auth storage
