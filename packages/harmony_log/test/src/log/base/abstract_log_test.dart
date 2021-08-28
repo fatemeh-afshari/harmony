@@ -32,7 +32,7 @@ void main() {
   group('Log', () {
     group('AbstractLog', () {
       group('log', () {
-        late MockAbstractLog base;
+        late AbstractLog base;
         late Log log;
 
         setUp(() {

@@ -9,7 +9,7 @@ class MockLog extends Mock implements Log {}
 void main() {
   group('Log', () {
     group('LogLevelExt', () {
-      late MockLog log;
+      late Log log;
 
       setUp(() {
         log = MockLog();

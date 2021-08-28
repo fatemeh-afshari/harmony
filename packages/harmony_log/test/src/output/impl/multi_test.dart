@@ -9,45 +9,62 @@ class MockLogOutput extends Mock implements LogOutput {}
 
 void main() {
   group('LogOutput', () {
-    group('multi', (){
+    group('multi', () {
       group('empty', () {
+        late LogOutput output;
 
-      });
-    });
-    group('with two', () {
-      late MockLogOutput mock1;
-      late MockLogOutput mock2;
-      late LogOutput output;
+        setUp(() {
+          output = LogOutput.multi([]);
+        });
 
-      setUp(() {
-        mock1 = MockLogOutput();
-        mock2 = MockLogOutput();
-        output = LogOutput.multi([mock1, mock2]);
-      });
+        test('init', () {
+          output.init();
+        });
 
-      tearDown(() {
-        verifyNoMoreInteractions(mock1);
-        verifyNoMoreInteractions(mock2);
-        resetMocktailState();
-      });
+        test('write', () {
+          output.write(FakeLogEvent());
+        });
 
-      test('init', () {
-        output.init();
-        verify(() => mock1.init()).called(1);
-        verify(() => mock2.init()).called(1);
+        test('close', () {
+          output.close();
+        });
       });
 
-      test('write', () {
-        final event = FakeLogEvent();
-        output.write(event);
-        verify(() => mock1.write(event)).called(1);
-        verify(() => mock2.write(event)).called(1);
-      });
+      group('with two', () {
+        late LogOutput child1;
+        late LogOutput child2;
+        late LogOutput output;
 
-      test('close', () {
-        output.close();
-        verify(() => mock1.close()).called(1);
-        verify(() => mock2.close()).called(1);
+        setUp(() {
+          child1 = MockLogOutput();
+          child2 = MockLogOutput();
+          output = LogOutput.multi([child1, child2]);
+        });
+
+        tearDown(() {
+          verifyNoMoreInteractions(child1);
+          verifyNoMoreInteractions(child2);
+          resetMocktailState();
+        });
+
+        test('init', () {
+          output.init();
+          verify(() => child1.init()).called(1);
+          verify(() => child2.init()).called(1);
+        });
+
+        test('write', () {
+          final event = FakeLogEvent();
+          output.write(event);
+          verify(() => child1.write(event)).called(1);
+          verify(() => child2.write(event)).called(1);
+        });
+
+        test('close', () {
+          output.close();
+          verify(() => child1.close()).called(1);
+          verify(() => child2.close()).called(1);
+        });
       });
     });
   });

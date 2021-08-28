@@ -11,7 +11,7 @@ class FakeLogEvent extends Fake implements LogEvent {}
 void main() {
   group('Log', () {
     group('tagged', () {
-      late MockLog base;
+      late Log base;
       late Log log;
 
       setUp(() {
@@ -64,7 +64,7 @@ void main() {
     });
 
     group('LogTagExt', () {
-      late MockLog base;
+      late Log base;
       late Log log;
 
       setUp(() {

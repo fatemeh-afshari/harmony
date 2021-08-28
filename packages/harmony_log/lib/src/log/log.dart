@@ -1,18 +1,18 @@
 import 'package:harmony_log/src/event/event.dart';
 import 'package:harmony_log/src/level/level.dart';
-import 'package:harmony_log/src/log/impl/noop.dart';
 import 'package:harmony_log/src/log/impl/standard.dart';
 import 'package:harmony_log/src/log/impl/tagged.dart';
 
 /// Log class
 ///
 /// logger has null tag by default
+///
+/// [Log] class is responsible for managing tags,
+/// adding time and id info to events, and redirecting
+/// events to outputs.
 abstract class Log {
   /// standard logger
   const factory Log() = LogStandardImpl;
-
-  /// noop logger
-  const factory Log.noop() = LogNoopImpl;
 
   /// tagged logger
   ///
