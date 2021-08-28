@@ -6,17 +6,6 @@ import 'package:harmony_log/src/log/log.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:uuid/uuid.dart';
 
-class ImplTag extends AbstractLog {
-  @override
-  void close() {}
-
-  @override
-  void write(LogEvent event) {}
-
-  @override
-  void init() {}
-}
-
 class ImplLog extends AbstractLog {
   final AbstractLog base;
 
@@ -82,11 +71,6 @@ void main() {
             ),
           ).called(1);
         });
-      });
-
-      test('tag', () {
-        final log = ImplTag();
-        expect(log.tag, isNull);
       });
     });
   });
