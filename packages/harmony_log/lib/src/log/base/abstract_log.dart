@@ -5,12 +5,10 @@ import 'package:meta/meta.dart';
 import 'package:uuid/uuid.dart';
 
 @internal
-abstract class AbstractLog implements DefaultTagLog {
+abstract class AbstractLog extends DefaultTagLog {
   const AbstractLog();
 
-  @override
-  String? get tag => null;
-
+  /// todo better implementation for id and time ?
   @override
   void log({
     required LogLevel level,
