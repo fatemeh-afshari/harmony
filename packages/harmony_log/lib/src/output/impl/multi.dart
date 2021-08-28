@@ -1,21 +1,29 @@
 import 'package:harmony_log/src/event/event.dart';
 import 'package:harmony_log/src/output/output.dart';
 
-class OutputMultiImpl implements LogOutput {
-  const OutputMultiImpl();
+class LogOutputMultiImpl implements LogOutput {
+  final List<LogOutput> outputs;
 
-  @override
-  void close() {
-    // TODO: implement close
-  }
+  const LogOutputMultiImpl(this.outputs);
 
   @override
   void init() {
-    // TODO: implement init
+    for (final output in outputs) {
+      output.init();
+    }
   }
 
   @override
   void write(LogEvent event) {
-    // TODO: implement write
+    for (final output in outputs) {
+      output.write(event);
+    }
+  }
+
+  @override
+  void close() {
+    for (final output in outputs) {
+      output.close();
+    }
   }
 }
