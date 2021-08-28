@@ -14,7 +14,7 @@ void main() {
         late LogOutput output;
 
         setUp(() {
-          output = LogOutput.multi([]);
+          output = LogOutput.multi(children: []);
         });
 
         test('init', () {
@@ -38,7 +38,7 @@ void main() {
         setUp(() {
           child1 = MockLogOutput();
           child2 = MockLogOutput();
-          output = LogOutput.multi([child1, child2]);
+          output = LogOutput.multi(children: [child1, child2]);
         });
 
         tearDown(() {

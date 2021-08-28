@@ -15,7 +15,7 @@ void main() {
 
       setUp(() {
         child = MockLogOutput();
-        output = LogOutput.redirect(child);
+        output = LogOutput.redirect(child: child);
       });
 
       tearDown(() {

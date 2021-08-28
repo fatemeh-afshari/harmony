@@ -4,7 +4,7 @@ import 'package:harmony_log/src/output/output.dart';
 class LogOutputMultiImpl implements LogOutput {
   final List<LogOutput> children;
 
-  const LogOutputMultiImpl(this.children);
+  const LogOutputMultiImpl({required this.children});
 
   @override
   void init() {

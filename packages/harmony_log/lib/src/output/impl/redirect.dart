@@ -4,7 +4,7 @@ import 'package:harmony_log/src/output/output.dart';
 class LogOutputRedirectImpl implements LogOutput {
   final LogOutput child;
 
-  const LogOutputRedirectImpl(this.child);
+  const LogOutputRedirectImpl({required this.child});
 
   @override
   void init() {

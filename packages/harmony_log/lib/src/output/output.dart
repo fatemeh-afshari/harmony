@@ -9,10 +9,14 @@ abstract class LogOutput {
   const factory LogOutput.noop() = LogOutputNoopImpl;
 
   /// multi implementation
-  const factory LogOutput.multi(List<LogOutput> children) = LogOutputMultiImpl;
+  const factory LogOutput.multi({
+    required List<LogOutput> children,
+  }) = LogOutputMultiImpl;
 
   /// redirect implementation
-  const factory LogOutput.redirect(LogOutput child) = LogOutputRedirectImpl;
+  const factory LogOutput.redirect({
+    required LogOutput child,
+  }) = LogOutputRedirectImpl;
 
   /// initialized output
   ///
