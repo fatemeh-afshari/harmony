@@ -1,4 +1,6 @@
 import 'package:harmony_log/src/event/event.dart';
+import 'package:harmony_log/src/filter/filter.dart';
+import 'package:harmony_log/src/output/impl/filtered.dart';
 import 'package:harmony_log/src/output/impl/multi.dart';
 import 'package:harmony_log/src/output/impl/noop.dart';
 import 'package:harmony_log/src/output/impl/redirect.dart';
@@ -17,6 +19,12 @@ abstract class LogOutput {
   const factory LogOutput.redirect({
     required LogOutput child,
   }) = LogOutputRedirectImpl;
+
+  /// redirect implementation
+  const factory LogOutput.filtered({
+    required LogFilter filter,
+    required LogOutput child,
+  }) = LogOutputFilteredImpl;
 
   /// initialized output
   ///

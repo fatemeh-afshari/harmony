@@ -13,17 +13,19 @@ class LogOutputFilteredImpl implements LogOutput {
   });
 
   @override
-  void close() {
-    // nothing
-  }
-
-  @override
   void init() {
-    // nothing
+    child.init();
   }
 
   @override
   void write(LogEvent event) {
-    // nothing
+    if (filter.shouldLog(event)) {
+      child.write(event);
+    }
+  }
+
+  @override
+  void close() {
+    child.close();
   }
 }
