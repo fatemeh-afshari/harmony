@@ -23,8 +23,8 @@ void main() {
       test('log', () {
         final trace = StackTrace.empty;
         log.log(
-          level: LogLevel.warning,
-          message: 'message',
+          LogLevel.warning,
+          'message',
           error: 'error',
           stackTrace: trace,
           extra: 'extra',

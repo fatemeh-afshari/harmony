@@ -14,11 +14,11 @@ class LogEvent {
   const LogEvent({
     required this.id,
     required this.time,
-    required this.tag,
+    this.tag,
     required this.level,
     required this.message,
-    required this.error,
-    required this.stackTrace,
-    required this.extra,
+    this.error,
+    this.stackTrace,
+    this.extra,
   });
 }

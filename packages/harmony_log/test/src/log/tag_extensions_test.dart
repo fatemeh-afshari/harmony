@@ -13,7 +13,7 @@ void main() {
 
       setUp(() {
         base = MockLog();
-        log = base.withTag('TAG');
+        log = base.tagged('TAG');
       });
 
       tearDown(() {
@@ -40,15 +40,15 @@ void main() {
       test('log', () {
         final trace = StackTrace.empty;
         log.log(
-          level: LogLevel.warning,
-          message: 'message',
+          LogLevel.warning,
+          'message',
           error: 'error',
           stackTrace: trace,
           extra: 'extra',
         );
         verify(() => base.log(
-              level: LogLevel.warning,
-              message: 'message',
+              LogLevel.warning,
+              'message',
               error: 'error',
               stackTrace: trace,
               extra: 'extra',

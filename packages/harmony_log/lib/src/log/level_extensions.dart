@@ -7,14 +7,14 @@ import 'package:harmony_log/src/log/log.dart';
 extension LogLevelExt on Log {
   /// verbose
   void v(
-    String message, [
+    String message, {
     Object? error,
     StackTrace? stackTrace,
     Object? extra,
-  ]) =>
+  }) =>
       log(
-        level: LogLevel.verbose,
-        message: message,
+        LogLevel.verbose,
+        message,
         error: error,
         stackTrace: stackTrace,
         extra: extra,
@@ -22,14 +22,14 @@ extension LogLevelExt on Log {
 
   /// debug
   void d(
-    String message, [
+    String message, {
     Object? error,
     StackTrace? stackTrace,
     Object? extra,
-  ]) =>
+  }) =>
       log(
-        level: LogLevel.debug,
-        message: message,
+        LogLevel.debug,
+        message,
         error: error,
         stackTrace: stackTrace,
         extra: extra,
@@ -37,14 +37,14 @@ extension LogLevelExt on Log {
 
   /// info
   void i(
-    String message, [
+    String message, {
     Object? error,
     StackTrace? stackTrace,
     Object? extra,
-  ]) =>
+  }) =>
       log(
-        level: LogLevel.info,
-        message: message,
+        LogLevel.info,
+        message,
         error: error,
         stackTrace: stackTrace,
         extra: extra,
@@ -52,14 +52,14 @@ extension LogLevelExt on Log {
 
   /// warning
   void w(
-    String message, [
+    String message, {
     Object? error,
     StackTrace? stackTrace,
     Object? extra,
-  ]) =>
+  }) =>
       log(
-        level: LogLevel.warning,
-        message: message,
+        LogLevel.warning,
+        message,
         error: error,
         stackTrace: stackTrace,
         extra: extra,
@@ -67,14 +67,14 @@ extension LogLevelExt on Log {
 
   /// error
   void e(
-    String message, [
+    String message, {
     Object? error,
     StackTrace? stackTrace,
     Object? extra,
-  ]) =>
+  }) =>
       log(
-        level: LogLevel.error,
-        message: message,
+        LogLevel.error,
+        message,
         error: error,
         stackTrace: stackTrace,
         extra: extra,
@@ -83,14 +83,14 @@ extension LogLevelExt on Log {
   /// wtf
   /// (what a terrible failure)
   void wtf(
-    String message, [
+    String message, {
     Object? error,
     StackTrace? stackTrace,
     Object? extra,
-  ]) =>
+  }) =>
       log(
-        level: LogLevel.wtf,
-        message: message,
+        LogLevel.wtf,
+        message,
         error: error,
         stackTrace: stackTrace,
         extra: extra,

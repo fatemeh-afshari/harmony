@@ -10,12 +10,12 @@ abstract class AbstractLog extends DefaultTagLog {
 
   /// todo better implementation for id and time ?
   @override
-  void log({
-    required LogLevel level,
-    required String message,
-    required Object? error,
-    required StackTrace? stackTrace,
-    required Object? extra,
+  void log(
+    LogLevel level,
+    String message, {
+    Object? error,
+    StackTrace? stackTrace,
+    Object? extra,
   }) {
     write(LogEvent(
       id: Uuid().v1(),

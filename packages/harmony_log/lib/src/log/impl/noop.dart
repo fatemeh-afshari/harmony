@@ -18,12 +18,12 @@ class LogNoopImpl extends DefaultTagLog {
   }
 
   @override
-  void log({
-    required LogLevel level,
-    required String message,
-    required Object? error,
-    required StackTrace? stackTrace,
-    required Object? extra,
+  void log(
+    LogLevel level,
+    String message, {
+    Object? error,
+    StackTrace? stackTrace,
+    Object? extra,
   }) {
     // noop
   }

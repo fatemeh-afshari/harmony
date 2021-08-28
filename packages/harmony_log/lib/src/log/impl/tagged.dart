@@ -22,16 +22,16 @@ class LogTaggedImpl implements Log {
   void write(LogEvent event) => child.write(event);
 
   @override
-  void log({
-    required LogLevel level,
-    required String message,
-    required Object? error,
-    required StackTrace? stackTrace,
-    required Object? extra,
+  void log(
+    LogLevel level,
+    String message, {
+    Object? error,
+    StackTrace? stackTrace,
+    Object? extra,
   }) =>
       child.log(
-        level: level,
-        message: message,
+        level,
+        message,
         error: error,
         stackTrace: stackTrace,
         extra: extra,

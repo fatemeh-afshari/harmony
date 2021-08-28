@@ -48,8 +48,8 @@ void main() {
         test('log', () {
           final trace = StackTrace.empty;
           log.log(
-            level: LogLevel.wtf,
-            message: 'message',
+            LogLevel.wtf,
+            'message',
             error: 'error',
             stackTrace: trace,
             extra: 'extra',

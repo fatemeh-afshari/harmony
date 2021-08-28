@@ -55,12 +55,12 @@ abstract class Log {
   /// use abbreviated methods like: [v], ..., [wtf]
   ///
   /// this can complete asynchronously
-  void log({
-    required LogLevel level,
-    required String message,
-    required Object? error,
-    required StackTrace? stackTrace,
-    required Object? extra,
+  void log(
+    LogLevel level,
+    String message, {
+    Object? error,
+    StackTrace? stackTrace,
+    Object? extra,
   });
 
   /// close
@@ -83,7 +83,7 @@ extension LogTagExt on Log {
   ///
   /// all of the new logger method calls will redirect
   /// to base logger.
-  Log withTag(String? tag) => Log.tagged(
+  Log tagged(String? tag) => Log.tagged(
         tag: tag,
         child: this,
       );
