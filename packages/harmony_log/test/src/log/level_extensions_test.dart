@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:harmony_log/src/level/level.dart';
+import 'package:harmony_log/src/log/level_extensions.dart';
 import 'package:harmony_log/src/log/log.dart';
 import 'package:mocktail/mocktail.dart';
 

@@ -32,6 +32,8 @@ abstract class Log {
   /// all of tagged loggers also initialize
   ///
   /// this can complete asynchronously
+  ///
+  /// this will call output init method
   void init();
 
   /// get this logger's tag
@@ -39,9 +41,13 @@ abstract class Log {
   /// logger has null tag by default
   String? get tag;
 
-  /// log events
+  /// write events
   ///
-  /// should be implemented by sub-classes
+  /// this will call output write method
+  ///
+  /// this should be used only for redirecting one
+  /// [Log] to another. Users should not call this
+  /// method as it may cause inconsistencies ...
   void write(LogEvent event);
 
   /// log
@@ -64,103 +70,9 @@ abstract class Log {
   /// all of tagged loggers also closes
   ///
   /// this can complete asynchronously
+  ///
+  /// this will call output close method
   void close();
-}
-
-/// extension for abbreviated log methods
-///
-/// all of methods can complete asynchronously
-extension LogLevelExt on Log {
-  /// verbose
-  void v(
-    String message, [
-    Object? error,
-    StackTrace? stackTrace,
-    Object? extra,
-  ]) =>
-      log(
-        level: LogLevel.verbose,
-        message: message,
-        error: error,
-        stackTrace: stackTrace,
-        extra: extra,
-      );
-
-  /// debug
-  void d(
-    String message, [
-    Object? error,
-    StackTrace? stackTrace,
-    Object? extra,
-  ]) =>
-      log(
-        level: LogLevel.debug,
-        message: message,
-        error: error,
-        stackTrace: stackTrace,
-        extra: extra,
-      );
-
-  /// info
-  void i(
-    String message, [
-    Object? error,
-    StackTrace? stackTrace,
-    Object? extra,
-  ]) =>
-      log(
-        level: LogLevel.info,
-        message: message,
-        error: error,
-        stackTrace: stackTrace,
-        extra: extra,
-      );
-
-  /// warning
-  void w(
-    String message, [
-    Object? error,
-    StackTrace? stackTrace,
-    Object? extra,
-  ]) =>
-      log(
-        level: LogLevel.warning,
-        message: message,
-        error: error,
-        stackTrace: stackTrace,
-        extra: extra,
-      );
-
-  /// error
-  void e(
-    String message, [
-    Object? error,
-    StackTrace? stackTrace,
-    Object? extra,
-  ]) =>
-      log(
-        level: LogLevel.error,
-        message: message,
-        error: error,
-        stackTrace: stackTrace,
-        extra: extra,
-      );
-
-  /// wtf
-  /// (what a terrible failure)
-  void wtf(
-    String message, [
-    Object? error,
-    StackTrace? stackTrace,
-    Object? extra,
-  ]) =>
-      log(
-        level: LogLevel.wtf,
-        message: message,
-        error: error,
-        stackTrace: stackTrace,
-        extra: extra,
-      );
 }
 
 /// extension to add tag to a logger
