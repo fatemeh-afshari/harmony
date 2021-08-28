@@ -1,3 +1,4 @@
+import 'package:harmony_log/src/event/event.dart';
 import 'package:harmony_log/src/level/level.dart';
 import 'package:harmony_log/src/log/log.dart';
 import 'package:meta/meta.dart';
@@ -15,14 +16,10 @@ class LogTaggedImpl implements Log {
   });
 
   @override
-  void init() {
-    child.init();
-  }
+  void init() => child.init();
 
   @override
-  void close() {
-    child.close();
-  }
+  void write(LogEvent event) => child.write(event);
 
   @override
   void log({
@@ -31,13 +28,15 @@ class LogTaggedImpl implements Log {
     required Object? error,
     required StackTrace? stackTrace,
     required Object? extra,
-  }) {
-    child.log(
-      level: level,
-      message: message,
-      error: error,
-      stackTrace: stackTrace,
-      extra: extra,
-    );
-  }
+  }) =>
+      child.log(
+        level: level,
+        message: message,
+        error: error,
+        stackTrace: stackTrace,
+        extra: extra,
+      );
+
+  @override
+  void close() => child.close();
 }

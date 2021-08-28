@@ -11,11 +11,6 @@ abstract class AbstractLog implements Log {
   @override
   String? get tag => null;
 
-  /// log events
-  ///
-  /// should be implemented by sub-classes
-  void event(LogEvent event);
-
   @override
   void log({
     required LogLevel level,
@@ -24,7 +19,7 @@ abstract class AbstractLog implements Log {
     required StackTrace? stackTrace,
     required Object? extra,
   }) {
-    event(LogEvent(
+    write(LogEvent(
       id: Uuid().v1(),
       time: DateTime.now(),
       tag: tag,

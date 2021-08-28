@@ -10,7 +10,7 @@ class LogStandardImpl extends AbstractLog {
   void init() {}
 
   @override
-  void event(LogEvent event) {
+  void write(LogEvent event) {
     print(event.message);
   }
 

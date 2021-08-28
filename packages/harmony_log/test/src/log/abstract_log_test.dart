@@ -11,7 +11,7 @@ class ImplTag extends AbstractLog {
   void close() {}
 
   @override
-  void event(LogEvent event) {}
+  void write(LogEvent event) {}
 
   @override
   void init() {}
@@ -29,7 +29,7 @@ class ImplLog extends AbstractLog {
   void init() {}
 
   @override
-  void event(LogEvent event) => base.event(event);
+  void write(LogEvent event) => base.write(event);
 
   @override
   void close() {}
@@ -66,7 +66,7 @@ void main() {
             extra: 'extra',
           );
           verify(
-            () => base.event(
+            () => base.write(
               any(
                 that: predicate(
                   (LogEvent e) =>

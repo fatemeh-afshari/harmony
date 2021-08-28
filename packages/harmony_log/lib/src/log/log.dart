@@ -1,3 +1,4 @@
+import 'package:harmony_log/src/event/event.dart';
 import 'package:harmony_log/src/level/level.dart';
 import 'package:harmony_log/src/log/impl/standard.dart';
 import 'package:harmony_log/src/log/impl/tagged.dart';
@@ -10,6 +11,11 @@ abstract class Log {
   const factory Log() = LogStandardImpl;
 
   /// tagged logger
+  ///
+  /// create a new logger based on this logger with a new tag.
+  ///
+  /// all of the new logger method calls will redirect
+  /// to base logger.
   const factory Log.tagged({
     required String? tag,
     required Log child,
@@ -28,6 +34,11 @@ abstract class Log {
   ///
   /// logger has null tag by default
   String? get tag;
+
+  /// log events
+  ///
+  /// should be implemented by sub-classes
+  void write(LogEvent event);
 
   /// log
   ///
@@ -62,15 +73,14 @@ extension LogLevelExt on Log {
     Object? error,
     StackTrace? stackTrace,
     Object? extra,
-  ]) {
-    log(
-      level: LogLevel.verbose,
-      message: message,
-      error: error,
-      stackTrace: stackTrace,
-      extra: extra,
-    );
-  }
+  ]) =>
+      log(
+        level: LogLevel.verbose,
+        message: message,
+        error: error,
+        stackTrace: stackTrace,
+        extra: extra,
+      );
 
   /// debug
   void d(
@@ -78,15 +88,14 @@ extension LogLevelExt on Log {
     Object? error,
     StackTrace? stackTrace,
     Object? extra,
-  ]) {
-    log(
-      level: LogLevel.debug,
-      message: message,
-      error: error,
-      stackTrace: stackTrace,
-      extra: extra,
-    );
-  }
+  ]) =>
+      log(
+        level: LogLevel.debug,
+        message: message,
+        error: error,
+        stackTrace: stackTrace,
+        extra: extra,
+      );
 
   /// info
   void i(
@@ -94,15 +103,14 @@ extension LogLevelExt on Log {
     Object? error,
     StackTrace? stackTrace,
     Object? extra,
-  ]) {
-    log(
-      level: LogLevel.info,
-      message: message,
-      error: error,
-      stackTrace: stackTrace,
-      extra: extra,
-    );
-  }
+  ]) =>
+      log(
+        level: LogLevel.info,
+        message: message,
+        error: error,
+        stackTrace: stackTrace,
+        extra: extra,
+      );
 
   /// warning
   void w(
@@ -110,15 +118,14 @@ extension LogLevelExt on Log {
     Object? error,
     StackTrace? stackTrace,
     Object? extra,
-  ]) {
-    log(
-      level: LogLevel.warning,
-      message: message,
-      error: error,
-      stackTrace: stackTrace,
-      extra: extra,
-    );
-  }
+  ]) =>
+      log(
+        level: LogLevel.warning,
+        message: message,
+        error: error,
+        stackTrace: stackTrace,
+        extra: extra,
+      );
 
   /// error
   void e(
@@ -126,15 +133,14 @@ extension LogLevelExt on Log {
     Object? error,
     StackTrace? stackTrace,
     Object? extra,
-  ]) {
-    log(
-      level: LogLevel.error,
-      message: message,
-      error: error,
-      stackTrace: stackTrace,
-      extra: extra,
-    );
-  }
+  ]) =>
+      log(
+        level: LogLevel.error,
+        message: message,
+        error: error,
+        stackTrace: stackTrace,
+        extra: extra,
+      );
 
   /// wtf
   /// (what a terrible failure)
@@ -143,20 +149,24 @@ extension LogLevelExt on Log {
     Object? error,
     StackTrace? stackTrace,
     Object? extra,
-  ]) {
-    log(
-      level: LogLevel.wtf,
-      message: message,
-      error: error,
-      stackTrace: stackTrace,
-      extra: extra,
-    );
-  }
+  ]) =>
+      log(
+        level: LogLevel.wtf,
+        message: message,
+        error: error,
+        stackTrace: stackTrace,
+        extra: extra,
+      );
 }
 
 /// extension to add tag to a logger
 extension LogTagExt on Log {
-  /// create a new logger based on this logger with a new tag
+  /// tagged logger
+  ///
+  /// create a new logger based on this logger with a new tag.
+  ///
+  /// all of the new logger method calls will redirect
+  /// to base logger.
   Log withTag(String? tag) => Log.tagged(
         tag: tag,
         child: this,
