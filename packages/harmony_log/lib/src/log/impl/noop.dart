@@ -2,14 +2,20 @@ import 'package:harmony_log/src/event/event.dart';
 import 'package:harmony_log/src/level/level.dart';
 import 'package:harmony_log/src/log/base/default_tag_log.dart';
 import 'package:meta/meta.dart';
-import 'package:uuid/uuid.dart';
 
 @internal
-abstract class AbstractLog implements DefaultTagLog {
-  const AbstractLog();
+class LogNoopImpl extends DefaultTagLog {
+  const LogNoopImpl();
 
   @override
-  String? get tag => null;
+  void init() {
+    // noop
+  }
+
+  @override
+  void write(LogEvent event) {
+    // noop
+  }
 
   @override
   void log({
@@ -19,15 +25,11 @@ abstract class AbstractLog implements DefaultTagLog {
     required StackTrace? stackTrace,
     required Object? extra,
   }) {
-    write(LogEvent(
-      id: Uuid().v1(),
-      time: DateTime.now(),
-      tag: tag,
-      level: level,
-      message: message,
-      error: error,
-      stackTrace: stackTrace,
-      extra: extra,
-    ));
+    // noop
+  }
+
+  @override
+  void close() {
+    // noop
   }
 }

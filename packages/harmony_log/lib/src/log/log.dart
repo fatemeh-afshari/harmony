@@ -1,5 +1,6 @@
 import 'package:harmony_log/src/event/event.dart';
 import 'package:harmony_log/src/level/level.dart';
+import 'package:harmony_log/src/log/impl/noop.dart';
 import 'package:harmony_log/src/log/impl/standard.dart';
 import 'package:harmony_log/src/log/impl/tagged.dart';
 
@@ -9,6 +10,9 @@ import 'package:harmony_log/src/log/impl/tagged.dart';
 abstract class Log {
   /// standard logger
   const factory Log() = LogStandardImpl;
+
+  /// noop logger
+  const factory Log.noop() = LogNoopImpl;
 
   /// tagged logger
   ///
