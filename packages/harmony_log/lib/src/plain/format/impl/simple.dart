@@ -24,5 +24,5 @@ class LogPlainFormatSimpleImpl implements LogPlainFormat {
   }
 
   String _level(LogLevel level) =>
-      level.toString().substring('LogEvent'.length);
+      level.toString().substring('LogEvent.'.length);
 }
