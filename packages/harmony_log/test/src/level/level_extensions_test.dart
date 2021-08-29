@@ -3,7 +3,7 @@ import 'package:harmony_log/src/level/level.dart';
 
 void main() {
   group('LogLevel', () {
-    group('LogLevelExt', () {
+    group('LogLevelComparisonExt', () {
       const small = LogLevel.verbose;
       const big = LogLevel.wtf;
 

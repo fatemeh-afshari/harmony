@@ -4,7 +4,7 @@ import 'package:harmony_log/src/log/log.dart';
 /// extension for abbreviated log methods
 ///
 /// all of methods can complete asynchronously
-extension LogLevelExt on Log {
+extension LogLevelShortcutsExt on Log {
   /// verbose
   void v(
     String message, {

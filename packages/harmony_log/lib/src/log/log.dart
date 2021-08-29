@@ -2,6 +2,7 @@ import 'package:harmony_log/src/event/event.dart';
 import 'package:harmony_log/src/level/level.dart';
 import 'package:harmony_log/src/log/impl/standard.dart';
 import 'package:harmony_log/src/log/impl/tagged.dart';
+import 'package:harmony_log/src/output/output.dart';
 
 /// Log class
 ///
@@ -12,7 +13,9 @@ import 'package:harmony_log/src/log/impl/tagged.dart';
 /// events to outputs.
 abstract class Log {
   /// standard logger
-  const factory Log() = LogStandardImpl;
+  const factory Log({
+    required LogOutput output,
+  }) = LogStandardImpl;
 
   /// tagged logger
   ///

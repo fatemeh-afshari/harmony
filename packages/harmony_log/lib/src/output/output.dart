@@ -1,9 +1,13 @@
 import 'package:harmony_log/src/event/event.dart';
 import 'package:harmony_log/src/filter/filter.dart';
+import 'package:harmony_log/src/output/impl/custom.dart';
 import 'package:harmony_log/src/output/impl/filtered.dart';
 import 'package:harmony_log/src/output/impl/multi.dart';
 import 'package:harmony_log/src/output/impl/noop.dart';
+import 'package:harmony_log/src/output/impl/plain.dart';
 import 'package:harmony_log/src/output/impl/redirect.dart';
+import 'package:harmony_log/src/plain/format/format.dart';
+import 'package:harmony_log/src/plain/output/output.dart';
 
 /// log output
 abstract class LogOutput {
@@ -25,6 +29,18 @@ abstract class LogOutput {
     required LogFilter filter,
     required LogOutput child,
   }) = LogOutputFilteredImpl;
+
+  /// redirect implementation
+  const factory LogOutput.custom({
+    void Function()? init,
+    void Function(LogEvent event)? write,
+    void Function()? close,
+  }) = LogOutputCustomImpl;
+
+  const factory LogOutput.plain({
+    required LogPlainFormat format,
+    required LogPlainOutput child,
+  }) = LogOutputPlainImpl;
 
   /// initialized output
   ///
