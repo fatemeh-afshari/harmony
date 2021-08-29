@@ -8,7 +8,7 @@ class LogPlainFormatSimpleImpl implements LogPlainFormat {
   Iterable<String> format(LogEvent event) sync* {
     yield event.level.toString().substring('LogLevel.'.length) +
         ' ' +
-        (event.tag ?? '') +
+        (event.tag ?? 'DEFAULT') +
         ' ' +
         event.message;
   }
