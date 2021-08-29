@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:harmony_log/harmony_log.dart';
 import 'package:harmony_log/src/event/event.dart';
 import 'package:harmony_log/src/log/log.dart';
+import 'package:harmony_log/src/output/output.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockLogOutput extends Mock implements LogOutput {}

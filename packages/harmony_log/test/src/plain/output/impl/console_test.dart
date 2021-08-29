@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:harmony_log/harmony_log.dart';
+import 'package:harmony_log/src/plain/output/output.dart';
 
 void main() {
   group('LogPlainOutput', () {

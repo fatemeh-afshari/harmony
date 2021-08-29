@@ -3,7 +3,7 @@ import 'package:harmony_log/src/level/level.dart';
 import 'package:harmony_log/src/plain/format/format.dart';
 
 class LogPlainFormatSimpleImpl implements LogPlainFormat {
-  static const prefix = 'HARMONY';
+  static const prefix = 'HARMONY_LOG';
 
   const LogPlainFormatSimpleImpl();
 
@@ -24,5 +24,5 @@ class LogPlainFormatSimpleImpl implements LogPlainFormat {
   }
 
   String _level(LogLevel level) =>
-      level.toString().substring('LogEvent.'.length);
+      level.toString().substring('LogEvent.'.length).toUpperCase();
 }

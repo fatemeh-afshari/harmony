@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:harmony_log/harmony_log.dart';
 import 'package:harmony_log/src/event/event.dart';
 import 'package:harmony_log/src/output/output.dart';
 import 'package:harmony_log/src/plain/format/format.dart';
+import 'package:harmony_log/src/plain/output/output.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockLogPlainFormat extends Mock implements LogPlainFormat {}
