@@ -16,16 +16,16 @@ class LogOutputPlainImpl implements LogOutput {
 
   @override
   void init() {
-    throw 0;
+    child.init();
   }
 
   @override
   void write(LogEvent event) {
-    throw 0;
+    child.write(format.format(event));
   }
 
   @override
   void close() {
-    throw 0;
+    child.close();
   }
 }
