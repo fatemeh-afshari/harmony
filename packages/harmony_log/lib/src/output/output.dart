@@ -21,6 +21,7 @@ abstract class LogOutput {
 
   /// redirect implementation
   const factory LogOutput.redirect({
+    bool enabled,
     required LogOutput child,
   }) = LogOutputRedirectImpl;
 

@@ -10,33 +10,71 @@ class MockLogOutput extends Mock implements LogOutput {}
 void main() {
   group('LogOutput', () {
     group('redirect', () {
-      late LogOutput child;
-      late LogOutput output;
+      group('enabled', () {
+        late LogOutput child;
+        late LogOutput output;
 
-      setUp(() {
-        child = MockLogOutput();
-        output = LogOutput.redirect(child: child);
+        setUp(() {
+          child = MockLogOutput();
+          output = LogOutput.redirect(
+            child: child,
+          );
+        });
+
+        tearDown(() {
+          verifyNoMoreInteractions(child);
+          resetMocktailState();
+        });
+
+        test('init', () {
+          output.init();
+          verify(() => child.init()).called(1);
+        });
+
+        test('write', () {
+          final event = FakeLogEvent();
+          output.write(event);
+          verify(() => child.write(event)).called(1);
+        });
+
+        test('close', () {
+          output.close();
+          verify(() => child.close()).called(1);
+        });
       });
 
-      tearDown(() {
-        verifyNoMoreInteractions(child);
-        resetMocktailState();
-      });
+      group('not enabled', () {
+        late LogOutput child;
+        late LogOutput output;
 
-      test('init', () {
-        output.init();
-        verify(() => child.init()).called(1);
-      });
+        setUp(() {
+          child = MockLogOutput();
+          output = LogOutput.redirect(
+            enabled: false,
+            child: child,
+          );
+        });
 
-      test('write', () {
-        final event = FakeLogEvent();
-        output.write(event);
-        verify(() => child.write(event)).called(1);
-      });
+        tearDown(() {
+          verifyNoMoreInteractions(child);
+          resetMocktailState();
+        });
 
-      test('close', () {
-        output.close();
-        verify(() => child.close()).called(1);
+        test('init', () {
+          output.init();
+          verifyNever(() => child.init());
+        });
+
+        test('write', () {
+          final event = FakeLogEvent();
+          output.write(event);
+          verifyNever(() => child.write(event));
+        });
+
+        test('close', () {
+          output.close();
+          verifyNever(() => child.close());
+        });
       });
     });
   });

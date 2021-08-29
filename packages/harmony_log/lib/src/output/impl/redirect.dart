@@ -4,22 +4,33 @@ import 'package:meta/meta.dart';
 
 @internal
 class LogOutputRedirectImpl implements LogOutput {
+  final bool enabled;
+
   final LogOutput child;
 
-  const LogOutputRedirectImpl({required this.child});
+  const LogOutputRedirectImpl({
+    this.enabled = true,
+    required this.child,
+  });
 
   @override
   void init() {
-    child.init();
+    if (enabled) {
+      child.init();
+    }
   }
 
   @override
   void write(LogEvent event) {
-    child.write(event);
+    if (enabled) {
+      child.write(event);
+    }
   }
 
   @override
   void close() {
-    child.close();
+    if (enabled) {
+      child.close();
+    }
   }
 }
