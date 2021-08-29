@@ -15,6 +15,7 @@ void main() {
         late LogOutput output;
 
         setUp(() {
+          registerFallbackValue(FakeLogEvent());
           child = MockLogOutput();
           output = LogOutput.redirect(
             child: child,
@@ -66,9 +67,8 @@ void main() {
         });
 
         test('write', () {
-          final event = FakeLogEvent();
-          output.write(event);
-          verifyNever(() => child.write(event));
+          output.write(FakeLogEvent());
+          verifyNever(() => child.write(any()));
         });
 
         test('close', () {
