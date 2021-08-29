@@ -4,9 +4,7 @@ class LogPlainOutputConsoleImpl implements LogPlainOutput {
   const LogPlainOutputConsoleImpl();
 
   @override
-  void init() {
-    print('init');
-  }
+  void init() {}
 
   @override
   void write(Iterable<String> list) {
@@ -16,7 +14,5 @@ class LogPlainOutputConsoleImpl implements LogPlainOutput {
   }
 
   @override
-  void close() {
-    print('close');
-  }
+  void close() {}
 }

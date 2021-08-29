@@ -13,16 +13,16 @@ class LogStandardImpl extends AbstractLog {
 
   @override
   void init() {
-    throw 0;
+    output.init();
   }
 
   @override
   void write(LogEvent event) {
-    throw 0;
+    output.write(event);
   }
 
   @override
   void close() {
-    throw 0;
+    output.close();
   }
 }

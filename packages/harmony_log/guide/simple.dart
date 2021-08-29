@@ -9,7 +9,10 @@ void main() {
       ),
     ),
   );
-
   log.i('hello, there!');
   log.e('bad code!', error: AssertionError());
+
+  // don't forget:
+  log.init();
+  log.close();
 }

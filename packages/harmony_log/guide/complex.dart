@@ -72,4 +72,8 @@ void main() {
     ]),
   );
   log4.w('warning!');
+
+  // don't forget:
+  log1.init();
+  log1.close();
 }
