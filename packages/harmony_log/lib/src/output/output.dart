@@ -6,6 +6,9 @@ import 'package:harmony_log/src/output/impl/multi.dart';
 import 'package:harmony_log/src/output/impl/noop.dart';
 import 'package:harmony_log/src/output/impl/plain.dart';
 import 'package:harmony_log/src/output/impl/redirect.dart';
+import 'package:harmony_log/src/output/impl/redirect_on_debug.dart';
+import 'package:harmony_log/src/output/impl/redirect_on_profile.dart';
+import 'package:harmony_log/src/output/impl/redirect_on_release.dart';
 import 'package:harmony_log/src/plain/format/format.dart';
 import 'package:harmony_log/src/plain/output/output.dart';
 
@@ -24,6 +27,21 @@ abstract class LogOutput {
     bool enabled,
     required LogOutput child,
   }) = LogOutputRedirectImpl;
+
+  /// redirectOnProfile implementation
+  const factory LogOutput.redirectOnProfile({
+    required LogOutput child,
+  }) = LogOutputRedirectOnProfileImpl;
+
+  /// redirectOnDebug implementation
+  const factory LogOutput.redirectOnDebug({
+    required LogOutput child,
+  }) = LogOutputRedirectOnDebugImpl;
+
+  /// redirectOnRelease implementation
+  const factory LogOutput.redirectOnRelease({
+    required LogOutput child,
+  }) = LogOutputRedirectOnReleaseImpl;
 
   /// redirect implementation
   const factory LogOutput.filtered({

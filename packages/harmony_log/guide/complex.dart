@@ -1,7 +1,7 @@
 import 'package:harmony_log/harmony_log.dart';
 
 void main() {
-  final log = Log(
+  final log1 = Log(
     output: LogOutput.multi(children: [
       LogOutput.filtered(
         filter: LogFilter.release() & LogFilter.exactLevel(LogLevel.error),
@@ -26,19 +26,50 @@ void main() {
       ),
     ]),
   );
+  log1.i('hello, there!');
+  log1.log(LogLevel.verbose, 'hi');
+  log1.log(LogLevel.wtf, 'hi');
+  log1.e('bad code!', error: AssertionError(), extra: 'extra');
 
-  log.i('hello, there!');
-  log.log(LogLevel.verbose, 'hi');
-  log.log(LogLevel.wtf, 'hi');
-  log.e('bad code!', error: AssertionError(), extra: 'extra');
-
-  final logForOther = log.tagged('OTHER');
-  print(logForOther.tag); // => OTHER
-  logForOther.i('starting other');
+  final log2 = log1.tagged('OTHER');
+  print(log2.tag); // => OTHER
+  log2.i('starting other');
 
   // noop logger
-  final noopLogger = Log(
+  final log3 = Log(
     output: LogOutput.noop(),
   );
-  noopLogger.i('nothing will happen');
+  log3.i('nothing will happen');
+
+  // better approach for debug and release filter
+  final log4 = Log(
+    output: LogOutput.multi(children: [
+      LogOutput.redirectOnRelease(
+        child: LogOutput.filtered(
+          filter: LogFilter.exactLevel(LogLevel.error),
+          child: LogOutput.custom(
+            init: () {
+              print('initialize analytics');
+            },
+            write: (e) {
+              print('send to analytics: ${e.message}');
+            },
+            close: () {
+              print('close analytics');
+            },
+          ),
+        ),
+      ),
+      LogOutput.redirectOnDebug(
+        child: LogOutput.filtered(
+          filter: LogFilter.level(LogLevel.info),
+          child: LogOutput.plain(
+            format: LogPlainFormat.simple(),
+            child: LogPlainOutput.console(),
+          ),
+        ),
+      ),
+    ]),
+  );
+  log4.w('warning!');
 }
