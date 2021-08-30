@@ -124,6 +124,83 @@ void main() {
           fail('file not found');
         }
       });
+
+      test('given closed when write then throw', () {
+        final id = Uuid().v1();
+        final path = Directory.systemTemp.path;
+        final po = LogPlainOutput.file(
+          path: path,
+          prefix: 'prefix_${id}_',
+          postfix: '_postfix',
+          ext: '.txt',
+        );
+        po.init();
+        po.close();
+        expect(
+          () => po.write(['abc', 'def']),
+          throwsA(isA<StateError>()),
+        );
+      });
+
+      test('given closed when wait and write then throw', () async {
+        final id = Uuid().v1();
+        final path = Directory.systemTemp.path;
+        final po = LogPlainOutput.file(
+          path: path,
+          prefix: 'prefix_${id}_',
+          postfix: '_postfix',
+          ext: '.txt',
+        );
+        po.init();
+        po.close();
+        await Future<void>.delayed(Duration(milliseconds: 50));
+        expect(
+          () => po.write(['abc', 'def']),
+          throwsA(isA<StateError>()),
+        );
+      });
+
+      test('given initialized when init then not throw', () {
+        final id = Uuid().v1();
+        final path = Directory.systemTemp.path;
+        final po = LogPlainOutput.file(
+          path: path,
+          prefix: 'prefix_${id}_',
+          postfix: '_postfix',
+          ext: '.txt',
+        );
+        po.init();
+        po.init();
+      });
+
+      test('given closed when close then not throw', () {
+        final id = Uuid().v1();
+        final path = Directory.systemTemp.path;
+        final po = LogPlainOutput.file(
+          path: path,
+          prefix: 'prefix_${id}_',
+          postfix: '_postfix',
+          ext: '.txt',
+        );
+        po.init();
+        po.close();
+        po.close();
+      });
+
+      test('given closed when wait and close then not throw', () async {
+        final id = Uuid().v1();
+        final path = Directory.systemTemp.path;
+        final po = LogPlainOutput.file(
+          path: path,
+          prefix: 'prefix_${id}_',
+          postfix: '_postfix',
+          ext: '.txt',
+        );
+        po.init();
+        po.close();
+        await Future<void>.delayed(Duration(milliseconds: 50));
+        po.close();
+      });
     });
   });
 }
