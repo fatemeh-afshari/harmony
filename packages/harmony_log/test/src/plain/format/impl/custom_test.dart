@@ -10,11 +10,11 @@ void main() {
     group('custom', () {
       test('format', () {
         final e = FakeLogEvent();
-        final list = ['abc','def'];
+        final list = ['abc', 'def'];
         dynamic x;
         final format = LogPlainFormat.custom((event) {
-           x = event;
-           return list;
+          x = event;
+          return list;
         });
         expect(format.format(e), equals(list));
         expect(x, equals(e));

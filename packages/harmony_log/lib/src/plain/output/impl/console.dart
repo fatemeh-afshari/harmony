@@ -1,5 +1,7 @@
 import 'package:harmony_log/src/plain/output/output.dart';
+import 'package:meta/meta.dart';
 
+@internal
 class LogPlainOutputConsoleImpl implements LogPlainOutput {
   const LogPlainOutputConsoleImpl();
 

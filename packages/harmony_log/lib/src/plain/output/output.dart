@@ -1,5 +1,6 @@
 import 'package:harmony_log/src/plain/output/impl/console.dart';
 import 'package:harmony_log/src/plain/output/impl/custom.dart';
+import 'package:harmony_log/src/plain/output/impl/file.dart';
 import 'package:harmony_log/src/plain/output/impl/multi.dart';
 import 'package:harmony_log/src/plain/output/impl/noop.dart';
 import 'package:harmony_log/src/plain/output/impl/redirect.dart';
@@ -28,6 +29,13 @@ abstract class LogPlainOutput {
     bool enabled,
     required LogPlainOutput child,
   }) = LogPlainOutputRedirectImpl;
+
+  factory LogPlainOutput.file({
+    required String path,
+    String prefix,
+    String postfix,
+    String ext,
+  }) = LogPlainOutputFileImpl;
 
   void init();
 
