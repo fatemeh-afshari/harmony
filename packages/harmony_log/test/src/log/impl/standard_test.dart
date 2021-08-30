@@ -37,8 +37,8 @@ void main() {
       });
 
       test('close', () {
-        log.init();
-        verify(() => output.init()).called(1);
+        log.close();
+        verify(() => output.close()).called(1);
       });
     });
   });
