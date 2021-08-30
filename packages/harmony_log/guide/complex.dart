@@ -73,6 +73,18 @@ void main() {
   );
   log4.w('warning!');
 
+  final log5 = Log(
+    output: LogOutput.plain(
+      format: LogPlainFormat.custom(
+        (event) => [event.message],
+      ),
+      child: LogPlainOutput.custom(
+        write: (list) => list.forEach(print),
+      ),
+    ),
+  );
+  log5.wtf('what a terrible failure');
+
   // don't forget:
   log1.init();
   log1.close();
