@@ -9,6 +9,7 @@ enum _State {
   initialized,
   closeCommand,
   closed,
+  closeFailed,
 }
 
 /// The flush method does not sent any signals to the io system,
@@ -75,6 +76,8 @@ class LogPlainOutputFileImpl implements LogPlainOutput {
   void close() {
     if (_state == _State.initialized) {
       _state = _State.closeCommand;
+      final sink0 = _sink!;
+      sink0.writeln(logEnd);
       // without await:
       _close();
     }
@@ -83,9 +86,13 @@ class LogPlainOutputFileImpl implements LogPlainOutput {
   Future<void> _close() async {
     assert(_state == _State.closeCommand);
     final sink0 = _sink!;
-    sink0.writeln(logEnd);
-    await sink0.close();
-    _state = _State.closed;
+    // avoid throwing on error
+    try {
+      await sink0.close();
+      _state = _State.closed;
+    } catch (_) {
+      _state = _State.closeFailed;
+    }
     _sink = null;
   }
 }
