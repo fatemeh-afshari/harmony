@@ -21,6 +21,9 @@ class LogPlainFormatSimpleImpl implements LogPlainFormat {
   });
 
   @override
+  Iterable<String> start() => [];
+
+  @override
   Iterable<String> format(LogEvent event) => [_line(event)];
 
   String _line(LogEvent event) {
@@ -43,4 +46,7 @@ class LogPlainFormatSimpleImpl implements LogPlainFormat {
     }
     return s.toString();
   }
+
+  @override
+  Iterable<String> end() => [];
 }

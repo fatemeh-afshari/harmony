@@ -5,7 +5,19 @@ import 'package:harmony_log/src/plain/format/format.dart';
 
 void main() {
   group('LogPlainFormat', () {
-    group('json', () {
+    group('pretty', () {
+      test('start', () {
+        final formatter = LogPlainFormat.pretty();
+        final x = formatter.start();
+        expect(x, hasLength(0));
+      });
+
+      test('end', () {
+        final formatter = LogPlainFormat.pretty();
+        final x = formatter.end();
+        expect(x, hasLength(0));
+      });
+
       group('format', () {
         test('complete', () {
           final formatter = LogPlainFormat.pretty(prefix: 'PRE-');

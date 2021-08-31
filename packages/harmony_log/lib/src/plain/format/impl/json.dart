@@ -18,12 +18,14 @@ class LogPlainFormatJsonImpl implements LogPlainFormat {
 
   const LogPlainFormatJsonImpl();
 
-  Iterable<String> start(LogEvent event) => ['['];
+  @override
+  Iterable<String> start() => ['['];
 
   @override
   Iterable<String> format(LogEvent event) => [_format(event) + ','];
 
-  Iterable<String> end(LogEvent event) => [']'];
+  @override
+  Iterable<String> end() => [']'];
 
   String _format(LogEvent event) => json.encode({
         'id': event.id,

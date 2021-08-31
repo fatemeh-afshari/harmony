@@ -21,6 +21,9 @@ class LogPlainFormatPrettyImpl implements LogPlainFormat {
   });
 
   @override
+  Iterable<String> start() => [];
+
+  @override
   Iterable<String> format(LogEvent event) =>
       _format(event).toList().box(_prepend(event));
 
@@ -44,6 +47,9 @@ class LogPlainFormatPrettyImpl implements LogPlainFormat {
     final stackTrace = event.stackTrace;
     if (stackTrace != null) yield stackTrace.toString();
   }
+
+  @override
+  Iterable<String> end() => [];
 }
 
 @internal

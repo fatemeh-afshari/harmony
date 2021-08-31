@@ -76,7 +76,7 @@ void main() {
   final log5 = Log(
     output: LogOutput.plain(
       format: LogPlainFormat.custom(
-        (event) => [event.message],
+        format: (event) => [event.message],
       ),
       child: LogPlainOutput.custom(
         write: (list) => list.forEach(print),

@@ -19,9 +19,18 @@ abstract class LogPlainFormat {
   const factory LogPlainFormat.json() = LogPlainFormatJsonImpl;
 
   /// custom implementation
-  const factory LogPlainFormat.custom(
-    Iterable<String> Function(LogEvent event) format,
-  ) = LogPlainFormatCustomImpl;
+  const factory LogPlainFormat.custom({
+    Iterable<String> Function()? start,
+    required Iterable<String> Function(LogEvent event) format,
+    Iterable<String> Function()? end,
+  }) = LogPlainFormatCustomImpl;
 
+  /// start
+  Iterable<String> start();
+
+  /// format
   Iterable<String> format(LogEvent event);
+
+  /// end
+  Iterable<String> end();
 }

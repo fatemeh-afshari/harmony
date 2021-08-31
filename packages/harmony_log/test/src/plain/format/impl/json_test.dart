@@ -51,6 +51,20 @@ void main() {
               ));
         });
       });
+
+      test('start', () {
+        final formatter = LogPlainFormat.json();
+        final x = formatter.start();
+        expect(x, hasLength(1));
+        expect(x.first, equals('['));
+      });
+
+      test('end', () {
+        final formatter = LogPlainFormat.json();
+        final x = formatter.end();
+        expect(x, hasLength(1));
+        expect(x.first, equals(']'));
+      });
     });
   });
 }

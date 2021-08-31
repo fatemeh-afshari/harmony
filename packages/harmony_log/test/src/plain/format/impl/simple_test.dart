@@ -6,6 +6,18 @@ import 'package:harmony_log/src/plain/format/format.dart';
 void main() {
   group('LogPlainFormat', () {
     group('simple', () {
+      test('start', () {
+        final formatter = LogPlainFormat.simple();
+        final x = formatter.start();
+        expect(x, hasLength(0));
+      });
+
+      test('end', () {
+        final formatter = LogPlainFormat.simple();
+        final x = formatter.end();
+        expect(x, hasLength(0));
+      });
+
       group('format', () {
         test('basic', () {
           final format = LogPlainFormat.simple(
