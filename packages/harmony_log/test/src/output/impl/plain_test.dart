@@ -32,8 +32,14 @@ void main() {
       });
 
       test('init', () {
+        final x = ['a', 'b'];
+        when(() => pf.start()).thenReturn(x);
         output.init();
-        verify(() => po.init()).called(1);
+        verifyInOrder([
+          () => po.init(),
+          () => pf.start(),
+          () => po.write(x),
+        ]);
       });
 
       test('write', () {
@@ -41,13 +47,21 @@ void main() {
         final x = ['a', 'b'];
         when(() => pf.format(event)).thenReturn(x);
         output.write(event);
-        verify(() => pf.format(event)).called(1);
-        verify(() => po.write(x)).called(1);
+        verifyInOrder([
+          () => pf.format(event),
+          () => po.write(x),
+        ]);
       });
 
       test('close', () {
+        final x = ['a', 'b'];
+        when(() => pf.end()).thenReturn(x);
         output.close();
-        verify(() => po.close()).called(1);
+        verifyInOrder([
+          () => pf.end(),
+          () => po.write(x),
+          () => po.close(),
+        ]);
       });
     });
   });

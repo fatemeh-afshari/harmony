@@ -17,6 +17,7 @@ class LogOutputPlainImpl implements LogOutput {
   @override
   void init() {
     child.init();
+    child.write(format.start());
   }
 
   @override
@@ -26,6 +27,7 @@ class LogOutputPlainImpl implements LogOutput {
 
   @override
   void close() {
+    child.write(format.end());
     child.close();
   }
 }

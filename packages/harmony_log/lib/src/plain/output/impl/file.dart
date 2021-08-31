@@ -82,6 +82,8 @@ class LogPlainOutputFileImpl implements LogPlainOutput {
     final sink0 = _sink!;
     // avoid throwing on error
     try {
+      // todo: ?
+      await sink0.flush();
       await sink0.close();
       _state = _State.closed;
     } catch (_) {
