@@ -24,7 +24,7 @@ enum LogLevel {
 }
 
 /// operations on [LogLevel]
-extension LogLevelExt on LogLevel {
+extension LogLevelComparisonExt on LogLevel {
   int compareTo(LogLevel other) => index.compareTo(other.index);
 
   bool operator >=(LogLevel other) => index >= other.index;

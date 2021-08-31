@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:harmony_log/src/level/level.dart';
+import 'package:harmony_log/src/log/level_extensions.dart';
 import 'package:harmony_log/src/log/log.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -7,8 +8,8 @@ class MockLog extends Mock implements Log {}
 
 void main() {
   group('Log', () {
-    group('LogLevelExt', () {
-      late MockLog log;
+    group('LogLevelShortcutsExt', () {
+      late Log log;
 
       setUp(() {
         log = MockLog();
@@ -20,10 +21,10 @@ void main() {
 
       test('v', () {
         final trace = StackTrace.empty;
-        log.v('message', 'error', trace, 'extra');
+        log.v('message', error: 'error', stackTrace: trace, extra: 'extra');
         verify(() => log.log(
-              level: LogLevel.verbose,
-              message: 'message',
+              LogLevel.verbose,
+              'message',
               error: 'error',
               stackTrace: trace,
               extra: 'extra',
@@ -32,10 +33,10 @@ void main() {
 
       test('d', () {
         final trace = StackTrace.empty;
-        log.d('message', 'error', trace, 'extra');
+        log.d('message', error: 'error', stackTrace: trace, extra: 'extra');
         verify(() => log.log(
-              level: LogLevel.debug,
-              message: 'message',
+              LogLevel.debug,
+              'message',
               error: 'error',
               stackTrace: trace,
               extra: 'extra',
@@ -44,10 +45,10 @@ void main() {
 
       test('i', () {
         final trace = StackTrace.empty;
-        log.i('message', 'error', trace, 'extra');
+        log.i('message', error: 'error', stackTrace: trace, extra: 'extra');
         verify(() => log.log(
-              level: LogLevel.info,
-              message: 'message',
+              LogLevel.info,
+              'message',
               error: 'error',
               stackTrace: trace,
               extra: 'extra',
@@ -56,10 +57,10 @@ void main() {
 
       test('w', () {
         final trace = StackTrace.empty;
-        log.w('message', 'error', trace, 'extra');
+        log.w('message', error: 'error', stackTrace: trace, extra: 'extra');
         verify(() => log.log(
-              level: LogLevel.warning,
-              message: 'message',
+              LogLevel.warning,
+              'message',
               error: 'error',
               stackTrace: trace,
               extra: 'extra',
@@ -68,10 +69,10 @@ void main() {
 
       test('e', () {
         final trace = StackTrace.empty;
-        log.e('message', 'error', trace, 'extra');
+        log.e('message', error: 'error', stackTrace: trace, extra: 'extra');
         verify(() => log.log(
-              level: LogLevel.error,
-              message: 'message',
+              LogLevel.error,
+              'message',
               error: 'error',
               stackTrace: trace,
               extra: 'extra',
@@ -80,10 +81,10 @@ void main() {
 
       test('wtf', () {
         final trace = StackTrace.empty;
-        log.wtf('message', 'error', trace, 'extra');
+        log.wtf('message', error: 'error', stackTrace: trace, extra: 'extra');
         verify(() => log.log(
-              level: LogLevel.wtf,
-              message: 'message',
+              LogLevel.wtf,
+              'message',
               error: 'error',
               stackTrace: trace,
               extra: 'extra',
