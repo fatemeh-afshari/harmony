@@ -26,6 +26,7 @@ void main() {
       ),
     ]),
   );
+  log1.init();
   log1.i('hello, there!');
   log1.log(LogLevel.verbose, 'hi');
   log1.log(LogLevel.wtf, 'hi');
@@ -35,11 +36,15 @@ void main() {
   print(log2.tag); // => OTHER
   log2.i('starting other');
 
+  log1.close(); // will close also log2
+
   // noop logger
   final log3 = Log(
     output: LogOutput.noop(),
   );
+  log3.init();
   log3.i('nothing will happen');
+  log3.close();
 
   // better approach for debug and release filter
   final log4 = Log(
@@ -65,13 +70,20 @@ void main() {
           filter: LogFilter.level(LogLevel.info),
           child: LogOutput.plain(
             format: LogPlainFormat.simple(),
-            child: LogPlainOutput.console(),
+            child: LogPlainOutput.multi(
+              children: [
+                LogPlainOutput.console(),
+                LogPlainOutput.file(path: '/path/to/folder/'),
+              ],
+            ),
           ),
         ),
       ),
     ]),
   );
+  log4.init();
   log4.w('warning!');
+  log4.close();
 
   final log5 = Log(
     output: LogOutput.plain(
