@@ -4,7 +4,9 @@ import 'package:harmony_log/src/plain/format/impl/simple.dart';
 
 abstract class LogPlainFormat {
   /// simple implementation
-  const factory LogPlainFormat.simple() = LogPlainFormatSimpleImpl;
+  const factory LogPlainFormat.simple({
+    String prefix,
+  }) = LogPlainFormatSimpleImpl;
 
   /// custom implementation
   const factory LogPlainFormat.custom(

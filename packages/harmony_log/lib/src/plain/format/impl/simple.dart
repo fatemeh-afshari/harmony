@@ -3,26 +3,42 @@ import 'package:harmony_log/src/level/level.dart';
 import 'package:harmony_log/src/plain/format/format.dart';
 
 class LogPlainFormatSimpleImpl implements LogPlainFormat {
-  static const prefix = 'HARMONY_LOG';
+  static const _map = {
+    LogLevel.verbose: '[V]',
+    LogLevel.debug: '[D]',
+    LogLevel.info: '[I]',
+    LogLevel.warning: '[W]',
+    LogLevel.error: '[E]',
+    LogLevel.wtf: '[W]',
+  };
 
-  const LogPlainFormatSimpleImpl();
+  final String prefix;
+
+  const LogPlainFormatSimpleImpl({
+    this.prefix = 'LOG ',
+  });
 
   @override
-  Iterable<String> format(LogEvent event) sync* {
-    yield _line(event);
-  }
+  Iterable<String> format(LogEvent event) => [_line(event)];
 
   String _line(LogEvent event) {
     final s = StringBuffer();
-    if (prefix.isNotEmpty) s.write('$prefix ');
-    s.write('${_level(event.level)} ');
-    if (event.tag != null) s.write('${event.tag} ');
-    s.write('${event.message} ');
-    if (event.error != null) s.write('${event.error} ');
-    if (event.stackTrace != null) s.write('${event.stackTrace} ');
+    s.write(prefix);
+    s.write(event.time.toIso8601String());
+    final tag = event.tag;
+    if (tag != null) {
+      s.write(' ');
+      s.write(tag);
+    }
+    s.write(' ');
+    s.write(_map[event.level]!);
+    s.write(' ');
+    s.write(event.message);
+    final error = event.error;
+    if (error != null) {
+      s.write(' ERROR=');
+      s.write(error);
+    }
     return s.toString();
   }
-
-  String _level(LogLevel level) =>
-      level.toString().substring('LogEvent.'.length).toUpperCase();
 }
