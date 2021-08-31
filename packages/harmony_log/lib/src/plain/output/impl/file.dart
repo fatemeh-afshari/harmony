@@ -19,9 +19,6 @@ enum _State {
 /// and signals when this empty stream is completed.
 @internal
 class LogPlainOutputFileImpl implements LogPlainOutput {
-  static const logStart = 'HARMONY_LOG INITIALIZED';
-  static const logEnd = 'HARMONY_LOG CLOSED';
-
   final String path;
   final String prefix;
   final String postfix;
@@ -54,7 +51,6 @@ class LogPlainOutputFileImpl implements LogPlainOutput {
           ext;
       final file = File(filePath);
       final sink0 = file.openWrite();
-      sink0.writeln(logStart);
       _state = _State.initialized;
       _sink = sink0;
     }
@@ -76,8 +72,6 @@ class LogPlainOutputFileImpl implements LogPlainOutput {
   void close() {
     if (_state == _State.initialized) {
       _state = _State.closeCommand;
-      final sink0 = _sink!;
-      sink0.writeln(logEnd);
       // without await:
       _close();
     }

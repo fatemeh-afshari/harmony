@@ -38,16 +38,7 @@ void main() {
         final file = await find(path, 'prefix_${id}_', '_postfix', '.txt');
         if (file != null) {
           final list = await file.readAsLines();
-          expect(
-            list,
-            allOf(
-              containsAllInOrder(<String>[
-                'HARMONY_LOG INITIALIZED',
-                'HARMONY_LOG CLOSED',
-              ]),
-              hasLength(2),
-            ),
-          );
+          expect(list, hasLength(0));
         } else {
           fail('file not found');
         }
@@ -73,12 +64,10 @@ void main() {
             list,
             allOf(
               containsAllInOrder(<String>[
-                'HARMONY_LOG INITIALIZED',
                 'abc',
                 'def',
-                'HARMONY_LOG CLOSED',
               ]),
-              hasLength(4),
+              hasLength(2),
             ),
           );
         } else {
@@ -108,16 +97,14 @@ void main() {
             list,
             allOf(
               containsAllInOrder(<String>[
-                'HARMONY_LOG INITIALIZED',
                 'abc1',
                 'def1',
                 'abc2',
                 'def2',
                 'abc3',
                 'def3',
-                'HARMONY_LOG CLOSED',
               ]),
-              hasLength(8),
+              hasLength(6),
             ),
           );
         } else {
@@ -215,16 +202,7 @@ void main() {
         final file = await find(path, 'log_', id, '.log');
         if (file != null) {
           final list = await file.readAsLines();
-          expect(
-            list,
-            allOf(
-              containsAllInOrder(<String>[
-                'HARMONY_LOG INITIALIZED',
-                'HARMONY_LOG CLOSED',
-              ]),
-              hasLength(2),
-            ),
-          );
+          expect(list, hasLength(0));
         } else {
           fail('file not found');
         }
@@ -243,16 +221,7 @@ void main() {
         final file = await find(path, id, '', '.log');
         if (file != null) {
           final list = await file.readAsLines();
-          expect(
-            list,
-            allOf(
-              containsAllInOrder(<String>[
-                'HARMONY_LOG INITIALIZED',
-                'HARMONY_LOG CLOSED',
-              ]),
-              hasLength(2),
-            ),
-          );
+          expect(list, hasLength(0));
         } else {
           fail('file not found');
         }
