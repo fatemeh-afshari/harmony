@@ -1,9 +1,11 @@
 import 'package:harmony_log/src/event/event.dart';
 import 'package:harmony_log/src/level/level.dart';
 import 'package:harmony_log/src/plain/format/format.dart';
+import 'package:meta/meta.dart';
 
+@internal
 class LogPlainFormatSimpleImpl implements LogPlainFormat {
-  static const _map = {
+  static const _levels = {
     LogLevel.verbose: '[V]',
     LogLevel.debug: '[D]',
     LogLevel.info: '[I]',
@@ -31,7 +33,7 @@ class LogPlainFormatSimpleImpl implements LogPlainFormat {
       s.write(tag);
     }
     s.write(' ');
-    s.write(_map[event.level]!);
+    s.write(_levels[event.level]!);
     s.write(' ');
     s.write(event.message);
     final error = event.error;
