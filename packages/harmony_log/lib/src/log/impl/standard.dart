@@ -10,7 +10,7 @@ class LogStandardImpl implements Log {
   final LogOutput output;
 
   const LogStandardImpl({
-    this.tag,
+    this.tag = 'APP',
     required this.output,
   });
 

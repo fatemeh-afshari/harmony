@@ -116,7 +116,10 @@ void main() {
         setUp(() {
           registerFallbackValue(FakeLogEvent());
           output = MockLogOutput();
-          log = Log(output: output);
+          log = Log(
+            tag: null,
+            output: output,
+          );
         });
 
         tearDown(() {
