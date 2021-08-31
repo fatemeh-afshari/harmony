@@ -201,6 +201,62 @@ void main() {
         await Future<void>.delayed(Duration(milliseconds: 50));
         po.close();
       });
+
+      test('checking default arguments part 1', () async {
+        final id = Uuid().v1();
+        final path = Directory.systemTemp.path;
+        final po = LogPlainOutput.file(
+          path: path,
+          postfix: id,
+        );
+        po.init();
+        po.close();
+        await Future<void>.delayed(Duration(milliseconds: 50));
+        final file = await find(path, 'log_', id, '.log');
+        if (file != null) {
+          final list = await file.readAsLines();
+          expect(
+            list,
+            allOf(
+              containsAllInOrder(<String>[
+                'HARMONY_LOG INITIALIZED',
+                'HARMONY_LOG CLOSED',
+              ]),
+              hasLength(2),
+            ),
+          );
+        } else {
+          fail('file not found');
+        }
+      });
+
+      test('checking default arguments part 2', () async {
+        final id = Uuid().v1();
+        final path = Directory.systemTemp.path;
+        final po = LogPlainOutput.file(
+          path: path,
+          prefix: id,
+        );
+        po.init();
+        po.close();
+        await Future<void>.delayed(Duration(milliseconds: 50));
+        final file = await find(path, id, '', '.log');
+        if (file != null) {
+          final list = await file.readAsLines();
+          expect(
+            list,
+            allOf(
+              containsAllInOrder(<String>[
+                'HARMONY_LOG INITIALIZED',
+                'HARMONY_LOG CLOSED',
+              ]),
+              hasLength(2),
+            ),
+          );
+        } else {
+          fail('file not found');
+        }
+      });
     });
   });
 }
