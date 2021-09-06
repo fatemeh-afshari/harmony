@@ -14,11 +14,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  meta: ^1.3.0
+  meta: any
   uuid: any
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   mocktail: any
-  pedantic: ^1.11.0
+  pedantic: any
