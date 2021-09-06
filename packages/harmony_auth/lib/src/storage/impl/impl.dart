@@ -1,3 +1,4 @@
 export 'in_memory.dart';
-export 'persisted.dart';
-export 'status.dart';
+export 'locked.dart';
+export 'standard.dart';
+export 'streaming.dart';

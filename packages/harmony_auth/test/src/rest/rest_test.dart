@@ -1,32 +1,28 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:harmony_auth/src/checker/checker.dart';
-import 'package:harmony_auth/src/exception/exception.dart';
 import 'package:harmony_auth/src/matcher/matcher.dart';
+import 'package:harmony_auth/src/rest/impl/impl.dart';
 import 'package:harmony_auth/src/rest/rest.dart';
+import 'package:harmony_auth/src/token/token.dart';
 import 'package:mocktail/mocktail.dart';
 
-const keyRetry = 'harmony_auth_is_retry';
 const testUrl = 'https://test';
+
 const refreshUrl = 'https://refresh';
+
+final token1 = AuthToken(refresh: 'r1', access: 'a1');
 
 class MockAdapter extends Mock implements HttpClientAdapter {}
 
 class FakeRequestOptions extends Fake implements RequestOptions {}
 
-void main() {
-  group('AuthRestToken', () {
-    test('initialization', () {
-      final pair = AuthRestToken(refresh: 'r', access: 'a');
-      expect(pair.access, equals('a'));
-      expect(pair.refresh, equals('r'));
-    });
-  });
+class OtherError implements Exception {}
 
+void main() {
   group('AuthRest', () {
     group('standard', () {
       group('method refreshTokens', () {
@@ -37,10 +33,10 @@ void main() {
           registerFallbackValue(FakeRequestOptions());
           adapter = MockAdapter();
           when(() => adapter.close()).thenAnswer((_) {});
-          rest = AuthRest.standard(
+          rest = AuthRest(
             dio: Dio()..httpClientAdapter = adapter,
             refreshUrl: refreshUrl,
-            checker: AuthChecker.standard(),
+            checker: AuthChecker(),
           );
         });
 
@@ -77,7 +73,7 @@ void main() {
                   },
                 ));
 
-            final pair = await rest.refreshTokens('r1');
+            final pair = await rest.refreshTokens(token1);
             expect(pair.refresh, equals('r2'));
             expect(pair.access, equals('a2'));
           },
@@ -110,21 +106,14 @@ void main() {
                 ));
 
             expect(
-              () async => await rest.refreshTokens('r1'),
-              throwsA(
-                predicate(
-                  (DioError e) =>
-                      e.type == DioErrorType.other &&
-                      e.error is AuthException &&
-                      e.requestOptions.path == refreshUrl,
-                ),
-              ),
+              () async => await rest.refreshTokens(token1),
+              throwsA(isA<AuthRestExceptionStandardImpl>()),
             );
           },
         );
 
         test(
-          'when has bad response then should error with AssertionError',
+          'when has bad response then should error with Exception',
           () async {
             when(() => adapter.fetch(
                   any(
@@ -156,11 +145,13 @@ void main() {
                 ));
 
             expect(
-              () async => await rest.refreshTokens('r1'),
+              () async => await rest.refreshTokens(token1),
               throwsA(
                 predicate(
                   (DioError e) =>
-                      e.type == DioErrorType.other && e.error is AssertionError,
+                      e.type == DioErrorType.other &&
+                      e.error is Exception &&
+                      e.requestOptions.path == refreshUrl,
                 ),
               ),
             );
@@ -168,7 +159,7 @@ void main() {
         );
 
         test(
-          'when with network error then should error with SocketException',
+          'when with network error then should error with OtherError',
           () async {
             when(() => adapter.fetch(
                   any(
@@ -184,13 +175,13 @@ void main() {
                   ),
                   any(),
                   any(),
-                )).thenAnswer((_) async => throw SocketException('error'));
+                )).thenAnswer((_) async => throw OtherError());
 
             expect(
-              () async => await rest.refreshTokens('r1'),
+              () async => await rest.refreshTokens(token1),
               throwsA(
                 predicate((DioError e) =>
-                    e.type == DioErrorType.other && e.error is SocketException),
+                    e.type == DioErrorType.other && e.error is OtherError),
               ),
             );
           },
@@ -198,10 +189,10 @@ void main() {
       });
 
       test('getter refreshTokensMatcher', () {
-        final rest = AuthRest.standard(
+        final rest = AuthRest(
           dio: Dio(),
           refreshUrl: refreshUrl,
-          checker: AuthChecker.standard(),
+          checker: AuthChecker(),
         );
 
         final matcher = rest.refreshTokensMatcher;
@@ -241,7 +232,7 @@ void main() {
           rest = AuthRest.accessOnly(
             dio: Dio()..httpClientAdapter = adapter,
             refreshUrl: refreshUrl,
-            checker: AuthChecker.standard(),
+            checker: AuthChecker(),
           );
         });
 
@@ -278,7 +269,7 @@ void main() {
                   },
                 ));
 
-            final pair = await rest.refreshTokens('r1');
+            final pair = await rest.refreshTokens(token1);
             expect(pair.refresh, equals('r1'));
             expect(pair.access, equals('a2'));
           },
@@ -311,15 +302,8 @@ void main() {
                 ));
 
             expect(
-              () async => await rest.refreshTokens('r1'),
-              throwsA(
-                predicate(
-                  (DioError e) =>
-                      e.type == DioErrorType.other &&
-                      e.error is AuthException &&
-                      e.requestOptions.path == refreshUrl,
-                ),
-              ),
+              () async => await rest.refreshTokens(token1),
+              throwsA(isA<AuthRestExceptionAccessOnlyImpl>()),
             );
           },
         );
@@ -357,11 +341,13 @@ void main() {
                 ));
 
             expect(
-              () async => await rest.refreshTokens('r1'),
+              () async => await rest.refreshTokens(token1),
               throwsA(
                 predicate(
                   (DioError e) =>
-                      e.type == DioErrorType.other && e.error is AssertionError,
+                      e.type == DioErrorType.other &&
+                      e.error is Exception &&
+                      e.requestOptions.path == refreshUrl,
                 ),
               ),
             );
@@ -369,7 +355,7 @@ void main() {
         );
 
         test(
-          'when with network error then should error with SocketException',
+          'when with network error then should error with OtherError',
           () async {
             when(() => adapter.fetch(
                   any(
@@ -385,13 +371,13 @@ void main() {
                   ),
                   any(),
                   any(),
-                )).thenAnswer((_) async => throw SocketException('error'));
+                )).thenAnswer((_) async => throw OtherError());
 
             expect(
-              () async => await rest.refreshTokens('r1'),
+              () async => await rest.refreshTokens(token1),
               throwsA(
                 predicate((DioError e) =>
-                    e.type == DioErrorType.other && e.error is SocketException),
+                    e.type == DioErrorType.other && e.error is OtherError),
               ),
             );
           },
@@ -402,7 +388,7 @@ void main() {
         final rest = AuthRest.accessOnly(
           dio: Dio(),
           refreshUrl: refreshUrl,
-          checker: AuthChecker.standard(),
+          checker: AuthChecker(),
         );
 
         final matcher = rest.refreshTokensMatcher;
@@ -438,19 +424,53 @@ void main() {
         final rest = AuthRest.general(
           dio: dio,
           refreshTokensMatcher: matcher,
-          lambda: (d, r) async {
+          refresh: (d, r) async {
             expect(d, equals(dio));
-            expect(r, equals('r1'));
-            return AuthRestToken(
+            expect(r, equals(token1));
+            return AuthToken(
               access: 'a2',
               refresh: 'r2',
             );
           },
         );
         expect(rest.refreshTokensMatcher, equals(matcher));
-        final token = await rest.refreshTokens('r1');
+        final token = await rest.refreshTokens(token1);
         expect(token.refresh, equals('r2'));
         expect(token.access, equals('a2'));
+      });
+    });
+  });
+
+  group('AuthRestException', () {
+    group('external', () {
+      test('instantiation', () {
+        final e = AuthRestException();
+        expect(e, isA<AuthRestException>());
+        expect(e.toString(), stringContainsInOrder(['AuthRestException']));
+        final e2 = AuthRestExceptionExternalImpl();
+        expect(e.runtimeType, equals(e2.runtimeType));
+      });
+    });
+
+    group('standard', () {
+      test('instantiation', () {
+        final e = AuthRestExceptionStandardImpl();
+        expect(e, isA<AuthRestException>());
+        expect(
+          e.toString(),
+          stringContainsInOrder(['AuthRestException', 'standard']),
+        );
+      });
+    });
+
+    group('accessOnly', () {
+      test('instantiation', () {
+        final e = AuthRestExceptionAccessOnlyImpl();
+        expect(e, isA<AuthRestException>());
+        expect(
+          e.toString(),
+          stringContainsInOrder(['AuthRestException', 'accessOnly']),
+        );
       });
     });
   });

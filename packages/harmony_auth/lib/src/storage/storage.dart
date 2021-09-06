@@ -1,92 +1,74 @@
+import '../token/token.dart';
 import 'impl/impl.dart';
 
 /// harmony_auth storage for tokens
 ///
 /// it will be backed by shared_preferences by default
 abstract class AuthStorage {
-  /// persisted using shared preferences
-  const factory AuthStorage.standard() = AuthStorageStandardImpl;
+  /// standard implementation
+  ///
+  ///persisted using shared preferences
+  const factory AuthStorage() = AuthStorageStandardImpl;
 
-  /// in memory implementation
+  /// inMemory implementation
   factory AuthStorage.inMemory() = AuthStorageInMemoryImpl;
 
-  /// [AuthStorage] wrapper which provides
-  /// authentication state changes ...
+  /// get token
   ///
-  /// use [statusStream] or [statusStreamOrNull]
-  /// extension function for status stream.
+  /// it can throw [AuthStorageException] on
+  /// non-recoverable errors.
   ///
-  /// use [initializeStatusStream] extension function to push
-  /// initial state on stream. this is optional.
-  factory AuthStorage.wrapWithStatus(AuthStorage storage) =
-      AuthStorageWithStatusWrapper;
+  /// it will clear database on inconsistencies.
+  Future<AuthToken?> getToken();
 
-  Future<String?> getAccessToken();
+  /// set token
+  ///
+  /// it can throw [AuthStorageException] on
+  /// non-recoverable errors.
+  ///
+  /// it will clear database on inconsistencies.
+  Future<void> setToken(AuthToken token);
 
-  Future<void> setAccessToken(String accessToken);
+  /// remove token
+  ///
+  /// it can throw [AuthStorageException] on
+  /// non-recoverable errors.
+  ///
+  /// it will clear database on inconsistencies.
+  Future<void> removeToken();
 
-  Future<void> removeAccessToken();
+  /// check status by checking if token is available or not.
+  ///
+  /// this is available if you add [streaming] functionality.
+  /// otherwise unimplemented error is thrown.
+  Future<AuthStatus> get status;
 
-  Future<String?> getRefreshToken();
+  /// status stream
+  ///
+  /// it will provide only changes in status.
+  /// if you want to get initial state in stream use
+  /// [initializeStatusStream].
+  ///
+  /// this is available if you add [streaming] functionality.
+  /// otherwise unimplemented error is thrown.
+  Stream<AuthStatus> get statusStream;
 
-  Future<void> setRefreshToken(String refreshToken);
-
-  Future<void> removeRefreshToken();
-
-  Future<void> clear();
+  /// initialize status stream
+  ///
+  /// it will emit current state in stream.
+  ///
+  /// this is available if you add [streaming] functionality.
+  /// otherwise unimplemented error is thrown.
+  Future<void> initializeStatusStream();
 }
 
-/// extension for checking login state
-extension AuthStorageExt on AuthStorage {
-  Future<AuthStatus> get status async => await getRefreshToken() != null
-      ? AuthStatus.loggedIn
-      : AuthStatus.loggedOut;
-
-  /// if this storage is an storage wrapped with status,
-  /// by using [AuthStorageWithStatusWrapper] then return
-  /// status stream otherwise return null.
-  Stream<AuthStatus>? get statusStreamOrNull {
-    final storage = this;
-    return storage is AuthStorageWithStatusWrapper
-        ? storage.internalStatusStream
-        : null;
-  }
-
-  /// if this storage is an storage wrapped with status,
-  /// by using [AuthStorageWithStatusWrapper] then return
-  /// status stream otherwise throw assertion error;
-  Stream<AuthStatus> get statusStream {
-    final storage = this;
-    return storage is AuthStorageWithStatusWrapper
-        ? storage.internalStatusStream
-        : throw AssertionError();
-  }
-
-  /// if this storage is an storage wrapped with status,
-  /// by using [AuthStorageWithStatusWrapper] initialize
-  /// status stream by pushing initial state on stream,
-  /// otherwise do nothing.
-  Future<void> initializeStatusStreamOrNothing() async {
-    final storage = this;
-    if (storage is AuthStorageWithStatusWrapper) {
-      await storage.internalInitializeStatusStream();
-    }
-  }
-
-  /// if this storage is an storage wrapped with status,
-  /// by using [AuthStorageWithStatusWrapper] initialize
-  /// status stream by pushing initial state on stream,
-  /// otherwise throw assertion error.
-  Future<void> initializeStatusStream() async {
-    final storage = this;
-    if (storage is AuthStorageWithStatusWrapper) {
-      await storage.internalInitializeStatusStream();
-    } else {
-      throw AssertionError();
-    }
-  }
-
-  /// wrap this storage with status listener
+/// harmony_auth extensions for adding
+/// streaming support to [AuthStorage]
+extension AuthStorageStreamingExt on AuthStorage {
+  /// streaming implementation
+  ///
+  /// provide status getter.
+  /// and wrap this storage with status listener
   /// which provides authentication state changes ...
   ///
   /// use [statusStream] or [statusStreamOrNull]
@@ -94,11 +76,27 @@ extension AuthStorageExt on AuthStorage {
   ///
   /// use [initializeStatusStream] extension function to push
   /// initial state on stream. this is optional.
-  AuthStorage wrapWithStatus() => AuthStorage.wrapWithStatus(this);
+  ///
+  /// it should be wrapped first with lock then status.
+  AuthStorage streaming() => AuthStorageStreamingImpl(this);
 }
 
-/// status of auth storage
-enum AuthStatus {
-  loggedIn,
-  loggedOut,
+/// harmony_auth extensions for adding
+/// concurrency support to [AuthStorage]
+extension AuthStorageLockedExt on AuthStorage {
+  /// locked implementation
+  ///
+  /// wrap an AuthStorage with lock to enable concurrency support.
+  ///
+  /// NOTE: standard (or maybe custom) implementations only
+  /// need to be wrapped with lock.
+  ///
+  /// it should be wrapped first with lock then status.
+  AuthStorage locked() => AuthStorageLockedImpl(this);
 }
+
+/// harmony_auth storage exception
+///
+/// this will happen in rare cases when
+/// a non-recoverable error occurs.
+abstract class AuthStorageException implements Exception {}

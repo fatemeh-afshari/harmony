@@ -3,7 +3,6 @@ import 'package:meta/meta.dart';
 
 import '../base/base.dart';
 
-/// general match
 @internal
 class AuthMatcherGeneralImpl extends AbstractAuthMatcher {
   final bool Function(RequestOptions request) lambda;

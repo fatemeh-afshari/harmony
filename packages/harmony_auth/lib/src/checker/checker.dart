@@ -22,7 +22,7 @@ abstract class AuthChecker {
   /// note: it will ignore error type of other than [DioErrorType.response].
   ///
   /// note: it will ignore null status code.
-  const factory AuthChecker.standard() = AuthCheckerStandardImpl;
+  const factory AuthChecker() = AuthCheckerStandardImpl;
 
   /// statusCode checker
   ///

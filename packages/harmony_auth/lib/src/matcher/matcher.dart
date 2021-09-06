@@ -92,6 +92,18 @@ abstract class AuthMatcher {
     Pattern urlPattern,
   ) = AuthMatcherMethodAndUrlImpl;
 
+  /// method and base url
+  ///
+  /// pattern or string
+  ///
+  /// method will be upper case
+  ///
+  /// url will be all but queries
+  factory AuthMatcher.methodAndBaseUrl(
+    Pattern methodPattern,
+    String baseUrl,
+  ) = AuthMatcherMethodAndBaseUrlImpl;
+
   /// provide lambda for method and url
   ///
   /// method will be upper case

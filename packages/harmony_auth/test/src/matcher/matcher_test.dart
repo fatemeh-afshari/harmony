@@ -1,11 +1,25 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:harmony_auth/src/matcher/base/base.dart';
 import 'package:harmony_auth/src/matcher/matcher.dart';
 
 RequestOptions compose(String method, String url) =>
     RequestOptions(path: url, method: method);
 
 void main() {
+  group('AuthUriExtensions', () {
+    test('url', () {
+      expect(
+        Uri.parse('https://test').url,
+        equals('https://test'),
+      );
+      expect(
+        Uri.parse('https://test?key=value').url,
+        equals('https://test'),
+      );
+    });
+  });
+
   group('AuthMatcher', () {
     test('method matchesRequest', () {
       final matcher = AuthMatcher.url('https://test');
@@ -148,6 +162,32 @@ void main() {
         expect(matcher.matchesRequest(compose('n', 'https://v')), isTrue);
         expect(matcher.matchesRequest(compose('x', 'https://u')), isFalse);
         expect(matcher.matchesRequest(compose('m', 'https://x')), isFalse);
+      });
+    });
+
+    group('implementation methodAndBaseUrl', () {
+      test('String', () {
+        final matcher = AuthMatcher.methodAndBaseUrl('m', 'https://u');
+        expect(matcher.matchesRequest(compose('m', 'https://u')), isTrue);
+        expect(matcher.matchesRequest(compose('m', 'https://u/v')), isTrue);
+        expect(matcher.matchesRequest(compose('m', 'https://v')), isFalse);
+        expect(matcher.matchesRequest(compose('n', 'https://u')), isFalse);
+        expect(matcher.matchesRequest(compose('n', 'https://u/v')), isFalse);
+      });
+
+      test('Pattern', () {
+        final matcher = AuthMatcher.methodAndBaseUrl(
+          RegExp('[mn]'),
+          'https://u',
+        );
+        expect(matcher.matchesRequest(compose('m', 'https://u')), isTrue);
+        expect(matcher.matchesRequest(compose('n', 'https://u')), isTrue);
+        expect(matcher.matchesRequest(compose('m', 'https://u/v')), isTrue);
+        expect(matcher.matchesRequest(compose('n', 'https://u/v')), isTrue);
+        expect(matcher.matchesRequest(compose('m', 'https://v')), isFalse);
+        expect(matcher.matchesRequest(compose('n', 'https://v')), isFalse);
+        expect(matcher.matchesRequest(compose('x', 'https://u')), isFalse);
+        expect(matcher.matchesRequest(compose('x', 'https://u/v')), isFalse);
       });
     });
 

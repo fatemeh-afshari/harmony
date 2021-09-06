@@ -12,7 +12,7 @@ void main() {
   group('AuthChecker', () {
     group('standard', () {
       test('isUnauthorizedError', () {
-        final checker = AuthChecker.standard();
+        final checker = AuthChecker();
         expect(
           checker.isUnauthorizedError(DioError(
             requestOptions: FakeRequestOptions(),
