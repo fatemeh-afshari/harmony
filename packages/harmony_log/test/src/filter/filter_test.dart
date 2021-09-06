@@ -9,8 +9,8 @@ class FakeLogEvent extends Fake implements LogEvent {}
 
 void main() {
   group('LogFilter', () {
-    test('general impl', () {
-      final filter = LogFilter.general((e) => e.message == 'a');
+    test('custom impl', () {
+      final filter = LogFilter.custom((e) => e.message == 'a');
       expect(
         filter.shouldLog(LogEvent(
           id: 'id',
@@ -371,10 +371,10 @@ void main() {
     });
 
     group('set operations', () {
-      LogFilter message(String message) => LogFilter.general(
+      LogFilter message(String message) => LogFilter.custom(
             (e) => e.message == message,
           );
-      LogFilter tag(String tag) => LogFilter.general(
+      LogFilter tag(String tag) => LogFilter.custom(
             (e) => e.tag == tag,
           );
       LogEvent event(String message, String tag) => LogEvent(

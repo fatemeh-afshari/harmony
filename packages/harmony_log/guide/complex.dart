@@ -2,6 +2,7 @@ import 'package:harmony_log/harmony_log.dart';
 
 void main() {
   final log1 = Log(
+    id: LogId(),
     output: LogOutput.multi(children: [
       LogOutput.filtered(
         filter: LogFilter.release() & LogFilter.exactLevel(LogLevel.error),
@@ -40,6 +41,7 @@ void main() {
 
   // noop logger
   final log3 = Log(
+    id: LogId.constant('ID'),
     output: LogOutput.noop(),
   );
   log3.init();
@@ -48,6 +50,7 @@ void main() {
 
   // better approach for debug and release filter
   final log4 = Log(
+    id: LogId(),
     output: LogOutput.multi(children: [
       LogOutput.redirectOnRelease(
         child: LogOutput.filtered(
@@ -86,6 +89,7 @@ void main() {
   log4.close();
 
   final log5 = Log(
+    id: LogId.counter(start: 1000),
     output: LogOutput.plain(
       format: LogPlainFormat.custom(
         format: (event) => [event.message],

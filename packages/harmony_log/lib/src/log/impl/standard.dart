@@ -1,16 +1,19 @@
 import 'package:harmony_log/src/event/event.dart';
+import 'package:harmony_log/src/id/id.dart';
 import 'package:harmony_log/src/level/level.dart';
 import 'package:harmony_log/src/log/log.dart';
 import 'package:harmony_log/src/output/output.dart';
 import 'package:meta/meta.dart';
-import 'package:uuid/uuid.dart';
 
 @internal
 class LogStandardImpl implements Log {
   final LogOutput output;
 
+  final LogId id;
+
   const LogStandardImpl({
     this.tag = 'APP',
+    required this.id,
     required this.output,
   });
 
@@ -20,6 +23,7 @@ class LogStandardImpl implements Log {
   @override
   Log tagged(String? tag) => LogStandardImpl(
         tag: tag,
+        id: id,
         output: output,
       );
 
@@ -41,8 +45,8 @@ class LogStandardImpl implements Log {
     StackTrace? stackTrace,
     Object? extra,
   }) {
-    write(LogEvent(
-      id: Uuid().v1(),
+    final event = LogEvent(
+      id: id.generate(),
       time: DateTime.now(),
       tag: tag,
       level: level,
@@ -50,7 +54,8 @@ class LogStandardImpl implements Log {
       error: error,
       stackTrace: stackTrace,
       extra: extra,
-    ));
+    );
+    write(event);
   }
 
   @override

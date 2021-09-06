@@ -8,7 +8,7 @@ import 'package:harmony_log/src/filter/impl/by_tag.dart';
 import 'package:harmony_log/src/filter/impl/debug.dart';
 import 'package:harmony_log/src/filter/impl/exact_level.dart';
 import 'package:harmony_log/src/filter/impl/extra.dart';
-import 'package:harmony_log/src/filter/impl/general.dart';
+import 'package:harmony_log/src/filter/impl/custom.dart';
 import 'package:harmony_log/src/filter/impl/level.dart';
 import 'package:harmony_log/src/filter/impl/none.dart';
 import 'package:harmony_log/src/filter/impl/profile.dart';
@@ -18,10 +18,10 @@ import 'package:harmony_log/src/level/level.dart';
 
 /// log filter
 abstract class LogFilter {
-  /// general implementation
-  const factory LogFilter.general(
+  /// custom implementation
+  const factory LogFilter.custom(
     bool Function(LogEvent event) predicate,
-  ) = LogFilterGeneralImpl;
+  ) = LogFilterCustomImpl;
 
   /// level implementation
   ///
