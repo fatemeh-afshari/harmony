@@ -15,47 +15,66 @@ import 'package:harmony_log/src/plain/output/output.dart';
 /// log output
 abstract class LogOutput {
   /// noop implementation
+  ///
+  /// no operation
   const factory LogOutput.noop() = LogOutputNoopImpl;
 
   /// multi implementation
+  ///
+  /// redirect to multiple outputs
   const factory LogOutput.multi({
     required List<LogOutput> children,
   }) = LogOutputMultiImpl;
 
   /// redirect implementation
+  ///
+  /// redirect conditionally
   const factory LogOutput.redirect({
     bool enabled,
     required LogOutput child,
   }) = LogOutputRedirectImpl;
 
   /// redirectOnProfile implementation
+  ///
+  /// redirect conditionally on profile mode
   const factory LogOutput.redirectOnProfile({
     required LogOutput child,
   }) = LogOutputRedirectOnProfileImpl;
 
   /// redirectOnDebug implementation
+  ///
+  /// redirect conditionally on debug mode
   const factory LogOutput.redirectOnDebug({
     required LogOutput child,
   }) = LogOutputRedirectOnDebugImpl;
 
   /// redirectOnRelease implementation
+  ///
+  /// redirect conditionally on release mode
   const factory LogOutput.redirectOnRelease({
     required LogOutput child,
   }) = LogOutputRedirectOnReleaseImpl;
 
-  /// redirect implementation
+  /// filtered implementation
+  ///
+  /// filter and redirect events
   const factory LogOutput.filtered({
     required LogFilter filter,
     required LogOutput child,
   }) = LogOutputFilteredImpl;
 
-  /// redirect implementation
+  /// custom implementation
+  ///
+  /// custom logic
   const factory LogOutput.custom({
     void Function()? init,
     void Function(LogEvent event)? write,
     void Function()? close,
   }) = LogOutputCustomImpl;
 
+  /// plain implementation
+  ///
+  /// output as a list of string lines
   const factory LogOutput.plain({
     required LogPlainFormat format,
     required LogPlainOutput child,
