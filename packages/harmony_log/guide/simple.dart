@@ -2,6 +2,7 @@ import 'package:harmony_log/harmony_log.dart';
 
 void main() {
   final log = Log(
+    id: LogId(),
     output: LogOutput.redirectOnDebug(
       child: LogOutput.plain(
         format: LogPlainFormat.simple(),

@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:harmony_log/src/event/event.dart';
+import 'package:harmony_log/src/id/id.dart';
 import 'package:harmony_log/src/level/level.dart';
 import 'package:harmony_log/src/log/log.dart';
 import 'package:harmony_log/src/output/output.dart';
@@ -21,6 +22,7 @@ void main() {
           output = MockLogOutput();
           log = Log(
             tag: 'TAG',
+            id: LogId.constant('hello'),
             output: output,
           );
         });
@@ -66,7 +68,7 @@ void main() {
                   (LogEvent e) =>
                       e.tag == 'TAG' &&
                       e.time is DateTime &&
-                      e.id.isNotEmpty &&
+                      e.id == 'hello' &&
                       e.stackTrace == trace &&
                       e.extra == 'extra' &&
                       e.error == 'error' &&
@@ -95,7 +97,7 @@ void main() {
                     (LogEvent e) =>
                         e.tag == 'OTHER' &&
                         e.time is DateTime &&
-                        e.id.isNotEmpty &&
+                        e.id == 'hello' &&
                         e.stackTrace == trace &&
                         e.extra == 'extra' &&
                         e.error == 'error' &&
@@ -118,6 +120,7 @@ void main() {
           output = MockLogOutput();
           log = Log(
             tag: null,
+            id: LogId.constant('hello'),
             output: output,
           );
         });
@@ -147,7 +150,7 @@ void main() {
                   (LogEvent e) =>
                       e.tag == null &&
                       e.time is DateTime &&
-                      e.id.isNotEmpty &&
+                      e.id == 'hello' &&
                       e.stackTrace == trace &&
                       e.extra == 'extra' &&
                       e.error == 'error' &&
