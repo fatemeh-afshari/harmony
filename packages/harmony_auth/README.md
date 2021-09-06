@@ -53,6 +53,6 @@ again.
 - create an auth repository.
 - create and add interceptor.
 
-[Simple Example](example/simple.dart)
+[Simple Example](guide/simple.dart)
 
-[Complex Example](example/complex.dart)
+[Complex Example](guide/complex.dart)
