@@ -84,10 +84,15 @@ but it will happen only in very rare scenarios.
 First you need to create a dio object, and add whatever options you need to it. Only keep in mind that you should not
 change dio properties in a way that it treats unauthenticated errors as successful.
 
+```
+final dio = Dio();
+```
+
 Then if you want to get logs from harmony_auth. Create a logger and add whatever options you need to it. Add this logger
 to harmony_auth using:
 
 ```
+final logger = Logger();
 Auth.logger = logger;
 ```
 
@@ -144,6 +149,65 @@ tokens in less than one minutes.
 ```
 repository = repository.debounce(Duration(minutes: 1)).locked();
 ```
+
+Then you should create an auth matcher for interceptor. `AuthMatcher` is used to match against requests to check if it
+needs authentication. You should exactly match all requests that need authentication and don't match the ones that don't
+need authentication, or you will face issues. Auth matcher has lots of factories:
+`all` and `none` to match all and none of the requests. `url` and `urls` to match against urls which can be expressed
+also by regex. `baseUrl` and `baseUrls` to match against starting part of urls. `byUrl` to give you complete control on
+url. `method` and `methods` to match against methods which can be expressed also by regex. methods are always expressed
+in upper case format like `GET`. `byMethod` to give you complete control over method. `methodAndUrl`, `methodAndBaseUrl`
+and `byMethodAndUrl` like so. `general` to give you complete control over each request. All of matchers support standard
+set operations like `|`, `&`, `_` and `!`.
+
+```
+final matcher = AuthMatcher.baseUrl(baseUrl) - 
+  AuthMatcher.urls([
+    '$baseUrl/ignored/1',
+    '$baseUrl/ignored/2',
+  ]);
+```
+
+Then you should create an auth checker for interceptor. `AuthChecker` responsibility is to check DioErrors to see if it
+is related to unauthenticated or not. The standard one `AuthChecker` only checks if it is an error from response and its
+code is 401. There are other factories for auth checker like `stausCode`, `stausCodes` and `byStatusCode` to have
+complete control over status code. And `general` to have complete control over DioErrors.
+
+```
+final checker = AuthChecker();
+```
+
+Then you should create an auth manipulator for interceptor. `AuthMaipulator` responsibility is to manipulate dio
+requests in place by using the given auth token. The standard one `AuthManipulator()`
+adds `Authorization: Bearer $accessToken` to request headers. There are factories like `headers` to add multiple
+headers, `header` to add one header, `headerPrefixed` to add a header with value being access token prefixed with some
+given string. And `general` which gives you complete control.
+
+```
+final manipulator = AuthManipulator();
+```
+
+Then you need to create an interceptor which is done by using its standard factory `AuthInterceptor()`.
+
+```
+final interceptor = AuthInterceptor(
+  dio: dio,
+  matcher: matcher,
+  checker: checker,
+  manipulator: manipulator,
+  repository: repository,
+);
+```
+
+Then you need to add interceptor to dio interceptors:
+
+```
+dio.interceptors.add(interceptor);
+```
+
+Then you need to register dio and repository with dependency injection.
+
+**NOTE:** that you should use the same dio throughout the entire harmony_auth library.
 
 ## Complete Examples
 
