@@ -28,9 +28,10 @@ http library.
 harmony_auth has many working blocks, but the two most important ones are a repository `AuthRepositry` and a dio
 interceptor `AuthInterceptor`. Repository is where you save, edit, delete or refresh tokens. And it also exposes API to
 retrieve or monitor user authentication state. And interceptor is where we intercept each dio request and add token to
-header (or any other manipulation). It also will refresh tokens when an unauthenticated error is faced during
-interception. And finally if there is no way to authenticate user it will throw dio errors downstream to make library
-user to send the user to login page.
+header (or any other manipulation). It also will also refresh tokens and retry requests when an unauthenticated error is
+faced during interception. And finally if there is no way to authenticate user it will throw dio errors downstream to
+make library user to send the user to login page. In most cases when an error is sent downstream we have no token or
+token is removed, because of being invalid.
 
 You are mostly concerned about repository, as it is where you can manipulate tokens and get authentication state. The
 interceptor is not used directly by the user as it is added to dio interceptors. After creating all parts of auth system
@@ -40,8 +41,10 @@ There is an `AuthToken` type to represent tokens which contain access and refres
 auth token pair or none of them. There is no case where you have a partial token. When logging in you should set access
 and refresh tokens to repository and when logging out you should remove token from repository. Also if you have re-login
 user, or you got an new token by any means you should update token on repository. This is a rare case, but for example
-because of security reasons, you had needed to refresh token, you can call refresh on the repository. Most of the
-methods return Future, so they should be awaited. Make sure to read auth repository dart docs for any custom usage.
+because of security reasons, you had needed to refresh token, you can call refresh on the repository. When refresh is
+called on repository then it will refresh and replace token with new one, fail because of token being invalid which will
+remove token and throw exception and face network problems whcih will throw DioErrors. Most of the methods return
+Future, so they should be awaited. Make sure to read auth repository dart docs for any custom usage.
 
 To get user authentication status you should add `streaming` capability to your auth storage when adding it to auth
 repository. But after that you can access authentication status by using `status` getter on repository which will return
