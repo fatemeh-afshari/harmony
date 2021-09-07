@@ -51,27 +51,38 @@ an enum with two possible logged in and logged out values. You can also get stre
 changes by using `statusStream` getter. If you need to get an initial state on status stream use `initializeStatusStream`
 method on repository. If streaming capability is not added to storage these methods will throw errors when used.
 
-## Errors
+In usual usage harmony_auth by itself will not throw any errors.
+The only way errors is the usual way of errors being thrown when calling http methods on dio.
+For example when you call `get` on dio you might get a `DioError` error in your catch clause
+if you have used async/await or on your `catchErrors` method if you used Future without async/await.
+These DioError objects has many fields. Two are `error` and `type`. The type will indicate the type
+of error, for example `DioErrorType.response` will indicate a bad response code such as `500`.
+And the error will indicate the actual thrown error internally, for example error will be of type
+SocketException when facing network problems.
+harmony_auth through its interceptor will also throw some DioErrors.
+The most important one being when we face a not recoverable unauthenticated error. So no tokens
+are available (in most cases) and you should redirect user to login page. This `DioError` has
+type of `DioErrorType.other` and error of type `AuthException`.
+You can use `isAuthException` extension method on `DioError` for convenience.
+There is one other type of error which will originate from this library but it will hapen only
+in very rare scenarios.
 
-The only type of error from harmony_auth is `DioError` with type of `DioErrorType.other` and error of
-type `AuthException`.
+## Usage Steps
 
-You can use `isAuthException`, `asAuthException` and other extension methods on `DioError` for convenience.
-
-When auth exception occurs it means that no tokens are present and user is logged out. so you should make user log in
-again.
-
-## Usage
-
+- create a dio.
 - create and add a logger if needed.
 - create an auth storage.
-- create a dio.
-- create an auth matcher.
-- create an auth checker.
+- create an auth checker for rest.
 - create an auth rest.
-- create an auth manipulator.
-- create an auth repository.
-- create and add interceptor.
+- create an auth repository by using storage and rest.
+- create an auth matcher for interceptor.
+- create an auth checker for interceptor.
+- create an auth manipulator for interceptor.
+- create an interceptor by using repository, matched, checker and manipulator.
+- add interceptor to dio interceptors.
+- register repository and dio with dependency injection.
+
+## Complete Examples
 
 [Simple Example](guide/simple.dart)
 
