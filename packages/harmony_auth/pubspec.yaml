@@ -1,5 +1,5 @@
 name: harmony_auth
-description: Harmony Low-Level Authentication/Authorization Mechanism.
+description: Harmony Low-Level Authentication and Token Management Mechanism.
 version: 1.0.0
 homepage: https://github.com/6thsolution/harmony
 repository: https://github.com/6thsolution/harmony
