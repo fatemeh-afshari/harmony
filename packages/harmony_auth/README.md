@@ -19,7 +19,7 @@ import harmony_auth.
 import 'package:harmony_auth/harmony_auth.dart';
 ```
 
-## Usage
+## Introduction
 
 The responsibility of harmony_auth is to manage token in order to authenticate users when accessing server APIs. It also
 has ability to monitor or retrieve authentication status of the user. It is designed with the mindset of using `dio` as
@@ -43,7 +43,7 @@ and refresh tokens to repository and when logging out you should remove token fr
 user, or you got an new token by any means you should update token on repository. This is a rare case, but for example
 because of security reasons, you had needed to refresh token, you can call refresh on the repository. When refresh is
 called on repository then it will refresh and replace token with new one, fail because of token being invalid which will
-remove token and throw exception and face network problems whcih will throw DioErrors. Most of the methods return
+remove token and throw exception and face network problems which will throw DioErrors. Most of the methods return
 Future, so they should be awaited. Make sure to read auth repository dart docs for any custom usage.
 
 To get user authentication status you should add `streaming` capability to your auth storage when adding it to auth
@@ -64,7 +64,7 @@ This `DioError` has type of `DioErrorType.other` and error of type `AuthExceptio
 extension method on `DioError` for convenience. There is one other type of error which will originate from this library,
 but it will happen only in very rare scenarios.
 
-## Usage Steps
+## Usage Steps Summary
 
 - create a dio.
 - create and add a logger if needed.
@@ -78,6 +78,72 @@ but it will happen only in very rare scenarios.
 - create an interceptor by using repository, matched, checker and manipulator.
 - add interceptor to dio interceptors.
 - register repository and dio with dependency injection.
+
+## Usage Steps Details
+
+First you need to create a dio object, and add whatever options you need to it. Only keep in mind that you should not
+change dio properties in a way that it treats unauthenticated errors as successful.
+
+Then if you want to get logs from harmony_auth. Create a logger and add whatever options you need to it. Add this logger
+to harmony_auth using:
+
+```
+Auth.logger = logger;
+```
+
+Then you should create an auth storage. It can be done using `AuthStorage` factories. The standard one creates a
+shared_preferences based storage on android and ios and similar ones on other platforms. There is also an `inMemory`
+implementation which is an in memory storage.
+
+```
+final storage = AuthStorage();
+```
+
+If you need to access to authentication status or authentication status stream, add `streaming` capability to your
+storage. And If you do concurrent requests on dio, (and generally this is recommended), add `locked` capability to
+storage.
+
+```
+storage = storage.streaming().locked();
+```
+
+Then you need to creat an auth rest. It can be created using `AuthRest` factories. Its first responsibility is to get a
+token pair and do network request to refresh tokens and then return the new one. It can be successful which returns new
+token, fail because of invalid token which will throw an exception of type `AuthRestException` or fail because of other
+problems such as network problem which will throw exception of type `DioError`. It should not have any side effects. The
+other responsibility is to return an auth matcher to match against the refresh request, as we use the same dio
+throughout all of the harmony_auth parts. The standard implementation is when you send refresh token and get a new
+refresh and access token pair from server. The `accessOnly` implementation is when the refresh token is constant and
+only you get a new access token on refresh request. there is a `general` factory which you can use to create your custom
+rest. please check out dart docs for custom usage. You should provide an auth checker with standard and access only
+implementations which most of the times a simple `AuthChecker()` will suffice. Its responsibility is to check http
+results to see if is about token being invalid. The standard one checks if response code is 401.
+
+```
+final rest = AuthRest(
+  dio: dio,
+  refreshUrl: refreshUrl,
+  checker: AuthChecker(),
+);
+```
+
+Then you need to create an auth repository by passing storage and rest to it. It has a single standard factory.
+
+```
+final repository = AuthRepository(
+  storage: storage,
+  rest: rest,
+);
+```
+
+If you may have concurrent requests, (and generally this is recommended), add `locked`
+capability to your repository. And also consider adding `debounce` capability which will limit number of refresh
+requests in time. For example with 1 minute debouncing harmony_auth won't refresh tokens, if it has already refreshed
+tokens in less than one minutes.
+
+```
+repository = repository.debounce(Duration(minutes: 1)).locked();
+```
 
 ## Complete Examples
 
