@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
-import '../../auth.dart';
+import '../../config/config.dart';
 import '../../checker/checker.dart';
 import '../../matcher/matcher.dart';
 import '../../token/token.dart';
@@ -70,7 +70,7 @@ class AuthRestStandardImpl implements AuthRest {
       AuthMatcher.methodAndUrl('POST', refreshUrl);
 
   void _log(String message) {
-    Auth.log('harmony_auth rest.standard: $message');
+    AuthConfig.log('harmony_auth rest.standard: $message');
   }
 }
 

@@ -8,9 +8,9 @@ void init() async {
   // logger:
   // to add logger:
   final logger = Logger(/*...*/);
-  Auth.logger = logger;
+  AuthConfig.logger = logger;
   // to clear logger:
-  Auth.logger = null;
+  AuthConfig.logger = null;
 
   // storage:
   // standard storage, persisted using shared_preferences.

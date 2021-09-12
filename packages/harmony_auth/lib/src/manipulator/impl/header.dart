@@ -4,7 +4,6 @@ import 'package:meta/meta.dart';
 import '../../token/token.dart';
 import '../manipulator.dart';
 
-
 @internal
 class AuthManipulatorHeaderImpl implements AuthManipulator {
   final String key;

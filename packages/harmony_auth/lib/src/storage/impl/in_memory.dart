@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../auth.dart';
+import '../../config/config.dart';
 import '../../token/token.dart';
 import '../storage.dart';
 
@@ -27,7 +27,7 @@ class AuthStorageInMemoryImpl implements AuthStorage {
   }
 
   void _log(String message) {
-    Auth.log('harmony_auth storage.inMemory: $message');
+    AuthConfig.log('harmony_auth storage.inMemory: $message');
   }
 
   @override

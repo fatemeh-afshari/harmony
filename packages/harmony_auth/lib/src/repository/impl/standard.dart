@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
-import '../../auth.dart';
+import '../../config/config.dart';
 import '../../matcher/matcher.dart';
 import '../../rest/rest.dart';
 import '../../storage/storage.dart';
@@ -64,7 +64,7 @@ class AuthRepositoryStandardImpl implements AuthRepository {
   Future<void> setToken(AuthToken token) => storage.setToken(token);
 
   void _log(String message) {
-    Auth.log('harmony_auth refresh.standard: $message');
+    AuthConfig.log('harmony_auth refresh.standard: $message');
   }
 
   @override

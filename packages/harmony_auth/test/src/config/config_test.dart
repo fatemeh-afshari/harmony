@@ -1,23 +1,23 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:harmony_auth/src/auth.dart';
+import 'package:harmony_auth/src/config/config.dart';
 import 'package:logger/logger.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockLogger extends Mock implements Logger {}
 
 void main() {
-  group('Auth', () {
+  group('AuthConfig', () {
     tearDown(() {
-      Auth.logger = null;
+      AuthConfig.logger = null;
     });
 
     test('logger', () {
-      expect(Auth.logger, isNull);
+      expect(AuthConfig.logger, isNull);
       final logger = MockLogger();
-      Auth.logger = logger;
-      expect(identical(Auth.logger, logger), isTrue);
-      Auth.logger = null;
-      expect(Auth.logger, isNull);
+      AuthConfig.logger = logger;
+      expect(identical(AuthConfig.logger, logger), isTrue);
+      AuthConfig.logger = null;
+      expect(AuthConfig.logger, isNull);
     });
 
     group('log', () {
@@ -25,15 +25,15 @@ void main() {
         final logger = MockLogger();
         when(() => logger.i(any<dynamic>(), any<dynamic>(), any()))
             .thenAnswer((_) {});
-        Auth.logger = logger;
-        Auth.log('msg');
+        AuthConfig.logger = logger;
+        AuthConfig.log('msg');
         verify(() => logger.i('msg')).called(1);
-        Auth.logger = null;
+        AuthConfig.logger = null;
       });
 
       test('without logger', () {
-        expect(Auth.logger, isNull);
-        Auth.log('msg');
+        expect(AuthConfig.logger, isNull);
+        AuthConfig.log('msg');
         // nothing should happen
       });
     });

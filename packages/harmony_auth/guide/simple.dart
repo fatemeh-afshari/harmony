@@ -6,7 +6,7 @@ const baseUrl = 'https://base/';
 const refreshUrl = '${baseUrl}user/token/refresh/';
 
 void init() async {
-  Auth.logger = Logger(/*...*/);
+  AuthConfig.logger = Logger(/*...*/);
 
   final dio = Dio(/*...*/);
   final repository = AuthRepository(

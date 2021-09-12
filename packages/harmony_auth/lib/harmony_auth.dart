@@ -4,8 +4,8 @@
 /// with automatic token refresh.
 library harmony_auth;
 
-export 'src/auth.dart';
 export 'src/checker/checker.dart';
+export 'src/config/config.dart';
 export 'src/interceptor/interceptor.dart';
 export 'src/manipulator/manipulator.dart';
 export 'src/matcher/matcher.dart';

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
-import '../../auth.dart';
+import '../../config/config.dart';
 import '../../checker/checker.dart';
 import '../../manipulator/manipulator.dart';
 import '../../matcher/matcher.dart';
@@ -144,7 +144,7 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
       matcher.matchesRequest(request);
 
   void _log(String message) {
-    Auth.log('harmony_auth interceptor.standard: $message');
+    AuthConfig.log('harmony_auth interceptor.standard: $message');
   }
 }
 

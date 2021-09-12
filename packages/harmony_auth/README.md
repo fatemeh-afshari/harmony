@@ -93,7 +93,7 @@ to harmony_auth using:
 
 ```
 final logger = Logger();
-Auth.logger = logger;
+AuthConfig.logger = logger;
 ```
 
 Then you should create an auth storage. It can be done using `AuthStorage` factories. The standard one creates a

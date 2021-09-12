@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../auth.dart';
+import '../../config/config.dart';
 import '../../token/token.dart';
 import '../storage.dart';
 
@@ -46,7 +46,7 @@ class AuthStorageStandardImpl implements AuthStorage {
   }
 
   void _log(String message) {
-    Auth.log('harmony_auth storage.persisted: $message');
+    AuthConfig.log('harmony_auth storage.persisted: $message');
   }
 
   /// instance

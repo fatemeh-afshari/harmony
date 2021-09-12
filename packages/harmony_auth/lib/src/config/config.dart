@@ -1,8 +1,8 @@
 import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
 
-/// set logger for harmony_auth module
-abstract class Auth {
+/// global configurations for harmony_auth module
+abstract class AuthConfig {
   /// set logger for harmony_auth module
   static Logger? logger;
 
@@ -12,5 +12,5 @@ abstract class Auth {
     logger?.i(message);
   }
 
-  const Auth._internal();
+  const AuthConfig._internal();
 }
