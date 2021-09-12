@@ -14,6 +14,11 @@ echo NOTE harmony_auth
 call flutter pub get || exit 1
 popd || exit 1
 
+pushd harmony_fire || exit 1
+echo NOTE harmony_fire
+call flutter pub get || exit 1
+popd || exit 1
+
 pushd harmony_login || exit 1
 echo NOTE harmony_login
 call flutter pub get || exit 1

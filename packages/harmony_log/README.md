@@ -1,6 +1,6 @@
 # harmony_log
 
-Harmony Logging Module
+Harmony Logging Mechanism
 
 ## Installation
 

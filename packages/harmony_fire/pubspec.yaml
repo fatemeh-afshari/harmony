@@ -1,5 +1,5 @@
-name: harmony_login
-description: Harmony Login Mechanism.
+name: harmony_fire
+description: Harmony Firebase and Social Login Mechanism.
 homepage: https://github.com/6thsolution/harmony
 repository: https://github.com/6thsolution/harmony
 
@@ -16,6 +16,16 @@ dependencies:
   flutter:
     sdk: flutter
   meta: any
+  dio: ^4.0.0
+  logger: ^1.0.0
+  shared_preferences: ^2.0.0
+  uni_links: ^0.5.0
+  firebase_core: ^1.0.0
+  firebase_auth: ^3.0.0
+  google_sign_in: ^5.0.0
+  flutter_facebook_auth: ^3.0.0
+  sign_in_with_apple: ^3.0.0
+  crypto: ^3.0.0
 
 dev_dependencies:
   flutter_test:

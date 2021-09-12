@@ -1,6 +1,6 @@
 # harmony_auth
 
-Harmony Low-Level Authentication and Token Management Mechanism.
+Harmony Low-Level Authentication and Token Management Mechanism
 
 ## Installation
 

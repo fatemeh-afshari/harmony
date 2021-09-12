@@ -3,10 +3,6 @@ import 'dart:async';
 import '../provider/provider.dart';
 
 abstract class FireSigning {
-  Future<void> initialize();
-
-  bool get isAppleSignInAvailable;
-
   /// check to see if is signed in.
   bool isSignedIn();
 
@@ -14,11 +10,11 @@ abstract class FireSigning {
   Future<void> signOut();
 
   /// if is signed in, it will sign out first.
-  Future<FireSigningInfo> socialSignInUp(FireProvider provider);
+  Future<FireSigningInfo> signInUpSocial(FireProvider provider);
 
   /// if is already singed in anonymously it will not do any thing.
   /// if is of other kind it will sign out first.
-  Future<void> anonymousSignInUp();
+  Future<void> signInUpAnonymously();
 }
 
 /// signing info
@@ -36,4 +32,15 @@ class FireSigningInfo {
     required this.emailVerified,
     required this.displayName,
   });
+}
+
+/// anonymous signing info
+class FireAnonymousSigningInfo {
+  final String uid;
+
+  const FireAnonymousSigningInfo({
+    required this.uid,
+  });
+
+  String get provider => 'anonymous';
 }

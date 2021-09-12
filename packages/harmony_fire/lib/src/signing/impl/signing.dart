@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 
 import '../../exception/exception.dart';
-import '../../provider/impl/apple.dart';
 import '../../provider/provider.dart';
 import '../signing.dart';
 
@@ -18,16 +17,6 @@ class FireSigningImpl implements FireSigning {
   });
 
   final Logger logger;
-
-  late final bool _isAppleSignInAvailable;
-
-  @override
-  Future<void> initialize() async {
-    _isAppleSignInAvailable = await FireProviderAppleImpl.isAvailable;
-  }
-
-  @override
-  bool get isAppleSignInAvailable => _isAppleSignInAvailable;
 
   @override
   bool isSignedIn() {
@@ -55,7 +44,7 @@ class FireSigningImpl implements FireSigning {
   }
 
   @override
-  Future<FireSigningInfo> socialSignInUp(FireProvider provider) async {
+  Future<FireSigningInfo> signInUpSocial(FireProvider provider) async {
     _log('socialSignInUp');
     await signOut();
     if (kIsWeb) {
@@ -76,7 +65,7 @@ class FireSigningImpl implements FireSigning {
   }
 
   @override
-  Future<void> anonymousSignInUp() async {
+  Future<void> signInUpAnonymously() async {
     _log('anonymousSignInUp');
     try {
       await FirebaseAuth.instance.signInAnonymously();
@@ -108,18 +97,14 @@ class FireSigningImpl implements FireSigning {
   }
 
   FireSigningInfo _info(FireProviderExtra extra) {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      return FireSigningInfo(
-        provider: extra.provider,
-        uid: user.uid,
-        email: user.email!,
-        emailVerified: user.emailVerified,
-        displayName: extra.displayName ?? user.displayName,
-      );
-    } else {
-      throw AssertionError();
-    }
+    final user = FirebaseAuth.instance.currentUser!;
+    return FireSigningInfo(
+      provider: extra.provider,
+      uid: user.uid,
+      email: user.email!,
+      emailVerified: user.emailVerified,
+      displayName: extra.displayName ?? user.displayName,
+    );
   }
 
   void _log(String message) {

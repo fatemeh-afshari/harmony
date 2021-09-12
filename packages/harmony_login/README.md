@@ -1,3 +1,3 @@
 # harmony_login
 
-Login Plugin for Harmony
+Harmony Login Mechanism

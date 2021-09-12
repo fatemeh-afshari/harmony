@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:harmony_login/src/config.dart';
+import 'package:harmony_fire/src/config/config.dart';
 import 'package:logger/logger.dart';
 import 'package:mocktail/mocktail.dart';
 
