@@ -18,7 +18,9 @@ jobs:
         with:
           channel: 'stable'
       - name: flutter doctor
-        run: flutter doctor -v
+        run: |
+          flutter doctor --android-licenses
+          flutter doctor -v
       - name: harmony_log
         working-directory: packages/harmony_log
         run: |
