@@ -3,20 +3,16 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:flutter/foundation.dart';
-import 'package:logger/logger.dart';
 
+import '../../config/config.dart';
 import '../../exception/exception.dart';
 import '../../provider/provider.dart';
 import '../signing.dart';
 
-class FireSigningImpl implements FireSigning {
+class FireSigningStandardImpl implements FireSigning {
   static const _IS_UNDER_SANCTION = true;
 
-  FireSigningImpl({
-    required this.logger,
-  });
-
-  final Logger logger;
+  const FireSigningStandardImpl();
 
   @override
   bool isSignedIn() {
@@ -108,6 +104,6 @@ class FireSigningImpl implements FireSigning {
   }
 
   void _log(String message) {
-    logger.i('harmony_login fire signing: $message');
+    FireConfig.log('harmony_login fire signing: $message');
   }
 }

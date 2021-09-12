@@ -2,7 +2,7 @@ import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
 
 /// global configurations for harmony_login module
-abstract class LoginConfig {
+abstract class FireConfig {
   /// set logger for harmony_login module
   static Logger? logger;
 
@@ -12,5 +12,5 @@ abstract class LoginConfig {
     logger?.i(message);
   }
 
-  const LoginConfig._internal();
+  const FireConfig._internal();
 }

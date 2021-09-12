@@ -6,18 +6,18 @@ import 'package:mocktail/mocktail.dart';
 class MockLogger extends Mock implements Logger {}
 
 void main() {
-  group('LoginConfig', () {
+  group('FireConfig', () {
     tearDown(() {
-      LoginConfig.logger = null;
+      FireConfig.logger = null;
     });
 
     test('logger', () {
-      expect(LoginConfig.logger, isNull);
+      expect(FireConfig.logger, isNull);
       final logger = MockLogger();
-      LoginConfig.logger = logger;
-      expect(identical(LoginConfig.logger, logger), isTrue);
-      LoginConfig.logger = null;
-      expect(LoginConfig.logger, isNull);
+      FireConfig.logger = logger;
+      expect(identical(FireConfig.logger, logger), isTrue);
+      FireConfig.logger = null;
+      expect(FireConfig.logger, isNull);
     });
 
     group('log', () {
@@ -25,15 +25,15 @@ void main() {
         final logger = MockLogger();
         when(() => logger.i(any<dynamic>(), any<dynamic>(), any()))
             .thenAnswer((_) {});
-        LoginConfig.logger = logger;
-        LoginConfig.log('msg');
+        FireConfig.logger = logger;
+        FireConfig.log('msg');
         verify(() => logger.i('msg')).called(1);
-        LoginConfig.logger = null;
+        FireConfig.logger = null;
       });
 
       test('without logger', () {
-        expect(LoginConfig.logger, isNull);
-        LoginConfig.log('msg');
+        expect(FireConfig.logger, isNull);
+        FireConfig.log('msg');
         // nothing should happen
       });
     });

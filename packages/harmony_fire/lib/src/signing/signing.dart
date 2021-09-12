@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import '../provider/provider.dart';
+import 'impl/standard.dart';
 
 abstract class FireSigning {
+  const factory FireSigning() = FireSigningStandardImpl;
+
   /// check to see if is signed in.
   bool isSignedIn();
 
@@ -32,15 +35,4 @@ class FireSigningInfo {
     required this.emailVerified,
     required this.displayName,
   });
-}
-
-/// anonymous signing info
-class FireAnonymousSigningInfo {
-  final String uid;
-
-  const FireAnonymousSigningInfo({
-    required this.uid,
-  });
-
-  String get provider => 'anonymous';
 }
