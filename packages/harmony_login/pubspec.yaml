@@ -18,13 +18,12 @@ dependencies:
   meta: any
   dio: ^4.0.0
   logger: ^1.0.0
-  mocktail: ^0.1.4
   shared_preferences: ^2.0.0
   uni_links: ^0.5.0
-  firebase_core: ^1.4.0
+  firebase_core: ^1.0.0
   firebase_auth: ^3.0.0
   google_sign_in: ^5.0.0
-  flutter_facebook_auth: ^3.5.0
+  flutter_facebook_auth: ^3.0.0
   sign_in_with_apple: ^3.0.0
   crypto: ^3.0.0
 
@@ -32,3 +31,4 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   pedantic: any
+  mocktail: any

@@ -83,7 +83,9 @@ class FireProviderAppleImpl implements FireProvider {
     if (!kIsWeb) throw AssertionError();
 
     return FireProviderWeb(
-      provider: OAuthProvider('apple.com')..addScope('email')..addScope('name'),
+      provider: OAuthProvider('apple.com')
+        ..addScope('email')
+        ..addScope('name'),
       extra: FireProviderExtra(
         provider: _name,
       ),
