@@ -26,7 +26,7 @@ class FireProviderFacebookImpl implements FireProvider {
       var credential = FacebookAuthProvider.credential(accessToken.token);
       return FireProviderNative(
         credential: credential,
-        extra: FireProviderExtra(
+        info: FireProviderInfo(
           provider: _name,
         ),
       );
@@ -45,7 +45,7 @@ class FireProviderFacebookImpl implements FireProvider {
         ..setCustomParameters(<dynamic, dynamic>{
           'display': 'popup',
         }),
-      extra: FireProviderExtra(
+      info: FireProviderInfo(
         provider: _name,
       ),
     );

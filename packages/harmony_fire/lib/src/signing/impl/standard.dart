@@ -47,13 +47,13 @@ class FireSigningStandardImpl implements FireSigning {
       _log('socialSignInUp web');
       final web = await provider.web();
       await _signInUpWeb(web.provider);
-      return _info(web.extra);
+      return _info(web.info);
     } else {
       if (Platform.isAndroid || Platform.isIOS) {
         _log('socialSignInUp native');
         final native = await provider.native();
         await _signInUpNative(native.credential);
-        return _info(native.extra);
+        return _info(native.info);
       } else {
         throw AssertionError();
       }
@@ -92,7 +92,7 @@ class FireSigningStandardImpl implements FireSigning {
     }
   }
 
-  FireSigningInfo _info(FireProviderExtra extra) {
+  FireSigningInfo _info(FireProviderInfo extra) {
     final user = FirebaseAuth.instance.currentUser!;
     return FireSigningInfo(
       provider: extra.provider,

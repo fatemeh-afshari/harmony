@@ -71,7 +71,7 @@ class FireProviderAppleImpl implements FireProvider {
 
     return FireProviderNative(
       credential: credential,
-      extra: FireProviderExtra(
+      info: FireProviderInfo(
         provider: _name,
         displayName: displayName,
       ),
@@ -86,7 +86,7 @@ class FireProviderAppleImpl implements FireProvider {
       provider: OAuthProvider('apple.com')
         ..addScope('email')
         ..addScope('name'),
-      extra: FireProviderExtra(
+      info: FireProviderInfo(
         provider: _name,
       ),
     );

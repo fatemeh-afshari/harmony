@@ -6,11 +6,11 @@ import 'impl/facebook.dart';
 import 'impl/google.dart';
 
 /// extra information
-class FireProviderExtra {
+class FireProviderInfo {
   final String provider;
   final String? displayName;
 
-  const FireProviderExtra({
+  const FireProviderInfo({
     required this.provider,
     this.displayName,
   });
@@ -19,31 +19,34 @@ class FireProviderExtra {
 /// native with extra information
 class FireProviderNative {
   final AuthCredential credential;
-  final FireProviderExtra extra;
+  final FireProviderInfo info;
 
   const FireProviderNative({
     required this.credential,
-    required this.extra,
+    required this.info,
   });
 }
 
 /// web with extra information
 class FireProviderWeb {
   final AuthProvider provider;
-  final FireProviderExtra extra;
+  final FireProviderInfo info;
 
   const FireProviderWeb({
     required this.provider,
-    required this.extra,
+    required this.info,
   });
 }
 
 /// social providers
 abstract class FireProvider {
+  /// apple
   const factory FireProvider.apple() = FireProviderAppleImpl;
 
+  /// facebook
   const factory FireProvider.facebook() = FireProviderFacebookImpl;
 
+  /// google
   const factory FireProvider.google() = FireProviderGoogleImpl;
 
   /// native oauth login

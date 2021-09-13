@@ -30,7 +30,7 @@ class FireProviderGoogleImpl implements FireProvider {
       );
       return FireProviderNative(
         credential: credential,
-        extra: FireProviderExtra(
+        info: FireProviderInfo(
           provider: _name,
         ),
       );
@@ -45,7 +45,7 @@ class FireProviderGoogleImpl implements FireProvider {
 
     return FireProviderWeb(
       provider: GoogleAuthProvider(),
-      extra: FireProviderExtra(
+      info: FireProviderInfo(
         provider: _name,
       ),
     );
