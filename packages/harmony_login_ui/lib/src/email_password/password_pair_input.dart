@@ -5,9 +5,19 @@ class _PasswordPair {
   final String confirm;
   final bool isObscure;
 
-  const _PasswordPair(this.pass, this.confirm, this.isObscure);
+  const _PasswordPair({
+    required this.pass,
+    required this.confirm,
+    required this.isObscure,
+  });
 
-  const _PasswordPair.empty(bool isObscure) : this('', '', isObscure);
+  const _PasswordPair.empty({
+    required bool isObscure,
+  }) : this(
+          pass: '',
+          confirm: '',
+          isObscure: isObscure,
+        );
 
   @override
   String toString() => '_PasswordPair{pass: $pass, confirm: $confirm}';
@@ -36,7 +46,9 @@ class PasswordPairFromField extends FormField<_PasswordPair> {
             final pass = pair.pass;
             onSaved?.call(pass);
           },
-          initialValue: _PasswordPair.empty(showObscureIcon),
+          initialValue: _PasswordPair.empty(
+            isObscure: showObscureIcon,
+          ),
           builder: (field) {
             final error = field.errorText;
             final pair = field.value!;
@@ -44,6 +56,7 @@ class PasswordPairFromField extends FormField<_PasswordPair> {
             final confirm = pair.confirm;
             final isObscure = pair.isObscure;
             return Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 TextField(
                   keyboardType: TextInputType.visiblePassword,
@@ -54,9 +67,9 @@ class PasswordPairFromField extends FormField<_PasswordPair> {
                         ? GestureDetector(
                             onTap: () {
                               field.didChange(_PasswordPair(
-                                pass,
-                                confirm,
-                                !isObscure,
+                                pass: pass,
+                                confirm: confirm,
+                                isObscure: !isObscure,
                               ));
                             },
                             child: isObscure
@@ -69,8 +82,11 @@ class PasswordPairFromField extends FormField<_PasswordPair> {
                         : null,
                   ),
                   onChanged: (String value) {
-                    field.didChange(
-                        _PasswordPair(value.trim(), confirm, isObscure));
+                    field.didChange(_PasswordPair(
+                      pass: value.trim(),
+                      confirm: confirm,
+                      isObscure: isObscure,
+                    ));
                   },
                 ),
                 const SizedBox(height: 32),
@@ -84,8 +100,11 @@ class PasswordPairFromField extends FormField<_PasswordPair> {
                         : null,
                   ),
                   onChanged: (String value) {
-                    field.didChange(
-                        _PasswordPair(pass, value.trim(), isObscure));
+                    field.didChange(_PasswordPair(
+                      pass: pass,
+                      confirm: value.trim(),
+                      isObscure: isObscure,
+                    ));
                   },
                 ),
               ],
