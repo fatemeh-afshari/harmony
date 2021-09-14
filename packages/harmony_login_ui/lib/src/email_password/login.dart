@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harmony_auth/harmony_auth.dart';
 import 'package:harmony_login/harmony_login.dart';
-import 'package:harmony_login_ui/src/email_password/register.dart';
-import 'package:harmony_login_ui/src/email_password/reset_password.dart';
 
 class LoginUIEPLogin extends StatefulWidget {
   static const route = '/harmony_login_ui/email_password/login';
@@ -83,28 +81,28 @@ class _LoginUIEPLoginState extends State<LoginUIEPLogin> {
   }
 
   Future<void> _register() async {
-    setState(() => _loading = true);
-    final result = await Navigator.of(context).push(
-      MaterialPageRoute<Object?>(
-        builder: (context) => const LoginUIEPRegister(),
-      ),
-    );
-    if (result is String) {
-      Navigator.of(context).pop(result);
-    } else {
-      Navigator.of(context).pop();
-    }
-    setState(() => _loading = false);
+    // setState(() => _loading = true);
+    // final result = await Navigator.of(context).push(
+    //   MaterialPageRoute<Object?>(
+    //     builder: (context) => const LoginUIEPRegister(),
+    //   ),
+    // );
+    // if (result is String) {
+    //   Navigator.of(context).pop(result);
+    // } else {
+    //   Navigator.of(context).pop();
+    // }
+    // setState(() => _loading = false);
   }
 
   Future<void> _resetPassword() async {
-    setState(() => _loading = true);
-    await Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (context) => const LoginUIEPResetPassword(),
-      ),
-    );
-    setState(() => _loading = false);
+    // setState(() => _loading = true);
+    // await Navigator.of(context).push(
+    //   MaterialPageRoute<void>(
+    //     builder: (context) => const LoginUIEPResetPassword(),
+    //   ),
+    // );
+    // setState(() => _loading = false);
   }
 
   Future<void> _login() async {
