@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class LoginUIEPResetPassword extends StatefulWidget {
+  static const route = '/harmony_login_ui/email_password/reset_password';
+
   const LoginUIEPResetPassword({Key? key}) : super(key: key);
 
   @override

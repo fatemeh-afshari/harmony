@@ -12,7 +12,7 @@ class SocialLoginButton extends StatefulWidget {
   final LoginSystem loginSystem;
   final FireSigning fireSigning;
 
-  final void Function(String email, String? provider) onSuccess;
+  final void Function(String email, String? name) onSuccess;
 
   const SocialLoginButton.apple({
     Key? key,
@@ -110,8 +110,8 @@ class _SocialLoginButtonState extends State<SocialLoginButton> {
       try {
         final social = widget.loginSystem.social();
         final result = await social.login(
-          signingInfo.provider,
-          signingInfo.email,
+          provider: signingInfo.provider,
+          email: signingInfo.email,
         );
         await widget.authRepository.setToken(AuthToken(
           refresh: result.refresh,

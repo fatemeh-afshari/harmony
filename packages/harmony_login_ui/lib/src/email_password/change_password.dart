@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class LoginUIChangePassword extends StatefulWidget {
+  static const route = '/harmony_login_ui/email_password/change_password';
+
   const LoginUIChangePassword({
     Key? key,
   }) : super(key: key);

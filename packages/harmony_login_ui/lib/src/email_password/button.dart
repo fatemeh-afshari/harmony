@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:harmony_auth/harmony_auth.dart';
+import 'package:harmony_login/harmony_login.dart';
 import 'package:harmony_login_ui/src/email_password/login.dart';
 
 class EmailPasswordLoginButton extends StatefulWidget {
+  final AuthRepository authRepository;
+  final LoginSystem loginSystem;
+
+  final void Function(String email) onSuccess;
+
   const EmailPasswordLoginButton({
     Key? key,
+    required this.authRepository,
+    required this.loginSystem,
+    required this.onSuccess,
   }) : super(key: key);
 
   @override
@@ -29,11 +39,20 @@ class _EmailPasswordLoginButtonState extends State<EmailPasswordLoginButton> {
 
   Future<void> _onPressed() async {
     setState(() => _loading = true);
-    await Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (context) => const LoginUIEPLogin(),
+    final result = await Navigator.of(context).push(
+      MaterialPageRoute<Object?>(
+        settings: RouteSettings(
+          name: LoginUIEPLogin.route,
+        ),
+        builder: (context) => LoginUIEPLogin(
+          authRepository: widget.authRepository,
+          loginSystem: widget.loginSystem,
+        ),
       ),
     );
+    if (result is String) {
+      widget.onSuccess(result);
+    }
     setState(() => _loading = false);
   }
 }
