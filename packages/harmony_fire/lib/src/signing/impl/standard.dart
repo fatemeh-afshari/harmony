@@ -3,12 +3,14 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
 
 import '../../config/config.dart';
 import '../../exception/exception.dart';
 import '../../provider/provider.dart';
 import '../signing.dart';
 
+@internal
 class FireSigningStandardImpl implements FireSigning {
   static const _IS_UNDER_SANCTION = true;
 
