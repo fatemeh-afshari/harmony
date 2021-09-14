@@ -12,10 +12,10 @@ class LoginSocial {
   });
 
   /// login
-  Future<LoginResult> login(
-    String provider,
-    String email,
-  ) async {
+  Future<LoginResult> login({
+    required String provider,
+    required String email,
+  }) async {
     throw UnimplementedError();
   }
 }

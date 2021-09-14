@@ -12,7 +12,10 @@ class LoginEmailPassword {
   });
 
   /// login
-  Future<LoginResult> login(String email, String password) async {
+  Future<LoginResult> login({
+    required String email,
+    required String password,
+  }) async {
     final response = await dio.post<dynamic>(
       '${baseUrl}email_password_authentication/login/',
       data: {
@@ -29,17 +32,26 @@ class LoginEmailPassword {
   }
 
   /// register
-  Future<LoginResult> register(String email, String password) async {
+  Future<LoginResult> register({
+    required String email,
+    required String password,
+  }) async {
     throw UnimplementedError();
   }
 
   /// reset password
-  Future<LoginResult> resetPassword(String email, String password) async {
+  Future<LoginResult> resetPassword({
+    required String email,
+  }) async {
     throw UnimplementedError();
   }
 
   /// change password
-  Future<LoginResult> changePassword(String password) async {
+  Future<LoginResult> changePassword({
+    required String email,
+    required String oldPassword,
+    required String newPassword,
+  }) async {
     throw UnimplementedError();
   }
 }
