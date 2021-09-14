@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:harmony_login/src/email_password/email_password.dart';
+import 'package:harmony_login/src/social/social.dart';
 
 /// harmony_login login system
 class LoginSystem {
@@ -19,6 +20,17 @@ class LoginSystem {
         baseUrl: baseUrl,
         dio: dio,
       );
+
+  /// social
+  LoginSocial social() => LoginSocial(
+        baseUrl: baseUrl,
+        dio: dio,
+      );
+
+  /// logout
+  Future<void> logout() async {
+    throw UnimplementedError();
+  }
 
   /// this can be used to include/exclude urls on auth
   LoginUrls get urls => LoginUrls(

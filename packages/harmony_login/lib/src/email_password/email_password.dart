@@ -27,4 +27,19 @@ class LoginEmailPassword {
       access: result['password'] as String,
     );
   }
+
+  /// register
+  Future<LoginResult> register(String email, String password) async {
+    throw UnimplementedError();
+  }
+
+  /// reset password
+  Future<LoginResult> resetPassword(String email, String password) async {
+    throw UnimplementedError();
+  }
+
+  /// change password
+  Future<LoginResult> changePassword(String password) async {
+    throw UnimplementedError();
+  }
 }
