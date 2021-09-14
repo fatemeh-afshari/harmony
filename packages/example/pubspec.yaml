@@ -13,12 +13,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  harmony_log:
+    path: ../harmony_log/
   harmony_auth:
     path: ../harmony_auth/
   harmony_fire:
     path: ../harmony_fire/
   harmony_login:
     path: ../harmony_login/
+  harmony_login_ui:
+    path: ../harmony_login_ui/
 
 dev_dependencies:
   flutter_test:
