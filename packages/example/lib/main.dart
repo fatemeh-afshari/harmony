@@ -48,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(height: 32),
             LoginUIEmailPassword(),
             SizedBox(height: 32),
-            LoginUIGoogle(),
+            // LoginUIGoogle(),
             SizedBox(height: 32),
             LoginUIFacebook(),
             SizedBox(height: 32),
