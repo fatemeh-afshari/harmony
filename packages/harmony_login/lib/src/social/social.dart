@@ -15,7 +15,6 @@ class LoginSocial {
   Future<LoginResult> login(
     String provider,
     String email,
-    String password,
   ) async {
     throw UnimplementedError();
   }
