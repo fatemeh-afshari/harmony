@@ -3,7 +3,7 @@ import 'package:harmony_auth/harmony_auth.dart';
 import 'package:harmony_fire/harmony_fire.dart';
 import 'package:harmony_login/harmony_login.dart';
 
-class LoginUISocial extends StatefulWidget {
+class SocialLoginButton extends StatefulWidget {
   final String provider;
   final String title;
   final String icon;
@@ -14,7 +14,7 @@ class LoginUISocial extends StatefulWidget {
 
   final void Function(String email, String? provider) onSuccess;
 
-  const LoginUISocial.apple({
+  const SocialLoginButton.apple({
     Key? key,
     required AuthRepository authRepository,
     required LoginSystem loginSystem,
@@ -33,7 +33,7 @@ class LoginUISocial extends StatefulWidget {
           onSuccess: onSuccess,
         );
 
-  const LoginUISocial.facebook({
+  const SocialLoginButton.facebook({
     Key? key,
     required AuthRepository authRepository,
     required LoginSystem loginSystem,
@@ -52,7 +52,7 @@ class LoginUISocial extends StatefulWidget {
           onSuccess: onSuccess,
         );
 
-  const LoginUISocial.google({
+  const SocialLoginButton.google({
     Key? key,
     required AuthRepository authRepository,
     required LoginSystem loginSystem,
@@ -71,7 +71,7 @@ class LoginUISocial extends StatefulWidget {
           onSuccess: onSuccess,
         );
 
-  const LoginUISocial._internal({
+  const SocialLoginButton._internal({
     Key? key,
     required this.provider,
     required this.title,
@@ -83,10 +83,10 @@ class LoginUISocial extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _LoginUISocialState createState() => _LoginUISocialState();
+  _SocialLoginButtonState createState() => _SocialLoginButtonState();
 }
 
-class _LoginUISocialState extends State<LoginUISocial> {
+class _SocialLoginButtonState extends State<SocialLoginButton> {
   var _loading = false;
 
   @override
