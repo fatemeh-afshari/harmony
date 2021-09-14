@@ -44,3 +44,9 @@ jobs:
           flutter pub get
           flutter analyze
           flutter test
+      - name: harmony_login_ui
+        working-directory: packages/harmony_login_ui
+        run: |
+          flutter pub get
+          flutter analyze
+          flutter test

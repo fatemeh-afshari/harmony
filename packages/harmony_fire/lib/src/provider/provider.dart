@@ -49,6 +49,19 @@ abstract class FireProvider {
   /// google
   const factory FireProvider.google() = FireProviderGoogleImpl;
 
+  factory FireProvider.of(String provider) {
+    switch (provider) {
+      case 'apple':
+        return FireProvider.apple();
+      case 'facebook':
+        return FireProvider.facebook();
+      case 'google':
+        return FireProvider.google();
+      default:
+        throw UnimplementedError();
+    }
+  }
+
   /// native oauth login
   Future<FireProviderNative> native();
 

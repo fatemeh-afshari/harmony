@@ -24,4 +24,9 @@ echo NOTE harmony_login
 call flutter test || exit 1
 popd || exit 1
 
+pushd harmony_login_ui || exit 1
+echo NOTE harmony_login_ui
+call flutter test || exit 1
+popd || exit 1
+
 popd || exit 1

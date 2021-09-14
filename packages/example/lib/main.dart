@@ -1,7 +1,3 @@
-import 'package:example/backends/email_password.dart';
-import 'package:example/backends/social_apple.dart';
-import 'package:example/backends/social_facebook.dart';
-import 'package:example/backends/social_google.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -46,13 +42,13 @@ class _MyHomePageState extends State<MyHomePage> {
               child: FlutterLogo(),
             ),
             SizedBox(height: 32),
-            LoginUIEmailPassword(),
-            SizedBox(height: 32),
+            // LoginUIEmailPasswordButton(),
+            // SizedBox(height: 32),
             // LoginUIGoogle(),
-            SizedBox(height: 32),
-            LoginUIFacebook(),
-            SizedBox(height: 32),
-            LoginUIApple(),
+            // SizedBox(height: 32),
+            // LoginUIFacebookButton(),
+            // SizedBox(height: 32),
+            // LoginUIAppleButton(),
           ],
         ),
       ),
