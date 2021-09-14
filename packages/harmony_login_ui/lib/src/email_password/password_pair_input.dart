@@ -59,6 +59,7 @@ class PasswordPairFromField extends FormField<_PasswordPair> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextField(
+                  autofillHints: const ['password'],
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: isObscure,
                   decoration: InputDecoration(
@@ -91,10 +92,25 @@ class PasswordPairFromField extends FormField<_PasswordPair> {
                 ),
                 const SizedBox(height: 32),
                 TextField(
+                  autofillHints: const ['password'],
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: isObscure,
                   decoration: InputDecoration(
                     hintText: confirmHint,
+                    suffixIcon: showObscureIcon
+                        ? GestureDetector(
+                            onTap: () {
+                              field.didChange(_PasswordPair(
+                                pass: pass,
+                                confirm: confirm,
+                                isObscure: !isObscure,
+                              ));
+                            },
+                            child: isObscure
+                                ? const Icon(Icons.visibility)
+                                : const Icon(Icons.visibility_off),
+                          )
+                        : null,
                     errorText: (error != null && error == matchErrorMessage)
                         ? matchErrorMessage
                         : null,

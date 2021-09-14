@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harmony_auth/harmony_auth.dart';
 import 'package:harmony_login/harmony_login.dart';
+import 'package:harmony_login_ui/src/email_password/password_input.dart';
 
 class LoginUIEPLogin extends StatefulWidget {
   static const route = '/harmony_login_ui/email_password/login';
@@ -47,12 +48,8 @@ class _LoginUIEPLoginState extends State<LoginUIEPLogin> {
                   onSaved: (value) => _email = value,
                 ),
                 const SizedBox(height: 32),
-                TextFormField(
-                  autofillHints: const ['password'],
-                  keyboardType: TextInputType.visiblePassword,
-                  decoration: const InputDecoration(
-                    hintText: 'Password',
-                  ),
+                PasswordFromField(
+                  passwordHint: 'Password',
                   onSaved: (value) => _password = value,
                 ),
                 const SizedBox(height: 32),

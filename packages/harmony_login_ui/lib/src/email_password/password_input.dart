@@ -48,6 +48,7 @@ class PasswordFromField extends FormField<_Password> {
             final pass = pair.pass;
             final isObscure = pair.isObscure;
             return TextField(
+              autofillHints: const ['password'],
               keyboardType: TextInputType.visiblePassword,
               obscureText: isObscure,
               decoration: InputDecoration(
