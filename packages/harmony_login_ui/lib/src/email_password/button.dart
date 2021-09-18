@@ -8,7 +8,11 @@ class EmailPasswordLoginButton extends StatefulWidget {
   final AuthRepository authRepository;
   final LoginSystem loginSystem;
 
-  final void Function(String email) onSuccess;
+  final void Function(
+    String provider,
+    String email,
+    bool isRegistered,
+  ) onSuccess;
 
   const EmailPasswordLoginButton({
     Key? key,
@@ -44,16 +48,21 @@ class _EmailPasswordLoginButtonState extends State<EmailPasswordLoginButton> {
     final result = await Navigator.of(context).push(
       MaterialPageRoute<Object?>(
         settings: RouteSettings(
-          name: LoginUIEPLogin.route,
+          name: LoginUIEmailPasswordLogin.route,
         ),
-        builder: (context) => LoginUIEPLogin(
+        builder: (context) => LoginUIEmailPasswordLogin(
           authRepository: widget.authRepository,
           loginSystem: widget.loginSystem,
         ),
       ),
     );
-    if (result is String) {
-      widget.onSuccess(result);
+    if (result is Map<String, dynamic>) {
+      assert(result['loggedIn'] == true);
+      widget.onSuccess(
+        'email_password',
+        result['email'] as String,
+        result['registered'] as bool,
+      );
     }
     setState(() => _loading = false);
   }

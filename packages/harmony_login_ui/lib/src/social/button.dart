@@ -13,14 +13,23 @@ class SocialLoginButton extends StatefulWidget {
   final LoginSystem loginSystem;
   final FireSigning fireSigning;
 
-  final void Function(String email, String? displayName) onSuccess;
+  final void Function(
+    String provider,
+    String email,
+    String? displayName,
+  ) onSuccess;
 
   const SocialLoginButton.apple({
     Key? key,
     required AuthRepository authRepository,
     required LoginSystem loginSystem,
     required FireSigning fireSigning,
-    required void Function(String email, String? displayName) onSuccess,
+    required void Function(
+      String provider,
+      String email,
+      String? displayName,
+    )
+        onSuccess,
   }) : this._internal(
           key: key,
           provider: 'apple',
@@ -37,7 +46,12 @@ class SocialLoginButton extends StatefulWidget {
     required AuthRepository authRepository,
     required LoginSystem loginSystem,
     required FireSigning fireSigning,
-    required void Function(String email, String? displayName) onSuccess,
+    required void Function(
+      String provider,
+      String email,
+      String? displayName,
+    )
+        onSuccess,
   }) : this._internal(
           key: key,
           provider: 'facebook',
@@ -54,7 +68,12 @@ class SocialLoginButton extends StatefulWidget {
     required AuthRepository authRepository,
     required LoginSystem loginSystem,
     required FireSigning fireSigning,
-    required void Function(String email, String? displayName) onSuccess,
+    required void Function(
+      String provider,
+      String email,
+      String? displayName,
+    )
+        onSuccess,
   }) : this._internal(
           key: key,
           provider: 'google',
@@ -113,7 +132,11 @@ class _SocialLoginButtonState extends State<SocialLoginButton> {
           refresh: result.refresh,
           access: result.access,
         ));
-        widget.onSuccess(signingInfo.email, signingInfo.displayName);
+        widget.onSuccess(
+          'social_${signingInfo.provider}',
+          signingInfo.email,
+          signingInfo.displayName,
+        );
       } catch (_) {
         try {
           await widget.fireSigning.signOut();

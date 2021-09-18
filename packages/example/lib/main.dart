@@ -47,9 +47,11 @@ class _MyHomePageState extends State<MyHomePage> {
             EmailPasswordLoginButton(
               authRepository: const MockAuthRepository(),
               loginSystem: const MockLoginSystem(),
-              onSuccess: (String email) {
+              onSuccess: (String provider, String email, bool registered) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('email: $email'),
+                  content: Text(
+                    'provider: $provider, email: $email, registered: $registered',
+                  ),
                 ));
               },
             ),
@@ -58,9 +60,11 @@ class _MyHomePageState extends State<MyHomePage> {
               authRepository: const MockAuthRepository(),
               loginSystem: const MockLoginSystem(),
               fireSigning: const MockFireSigning(),
-              onSuccess: (email, displayName) {
+              onSuccess: (provider, email, displayName) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('email: $email, name: $displayName'),
+                  content: Text(
+                    'provider: $provider, email: $email, name: $displayName',
+                  ),
                 ));
               },
             ),
@@ -69,9 +73,11 @@ class _MyHomePageState extends State<MyHomePage> {
               authRepository: const MockAuthRepository(),
               loginSystem: const MockLoginSystem(),
               fireSigning: const MockFireSigning(),
-              onSuccess: (email, displayName) {
+              onSuccess: (provider, email, displayName) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('email: $email, name: $displayName'),
+                  content: Text(
+                    'provider: $provider, email: $email, name: $displayName',
+                  ),
                 ));
               },
             ),
@@ -80,9 +86,11 @@ class _MyHomePageState extends State<MyHomePage> {
               authRepository: const MockAuthRepository(),
               loginSystem: const MockLoginSystem(),
               fireSigning: const MockFireSigning(),
-              onSuccess: (email, displayName) {
+              onSuccess: (provider, email, displayName) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('email: $email, name: $displayName'),
+                  content: Text(
+                    'provider: $provider, email: $email, name: $displayName',
+                  ),
                 ));
               },
             ),

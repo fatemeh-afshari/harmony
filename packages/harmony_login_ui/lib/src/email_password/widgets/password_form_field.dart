@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
 
 class _Password {
-  final String pass;
+  final String password;
   final bool isObscure;
 
   const _Password({
-    required this.pass,
+    required this.password,
     required this.isObscure,
   });
 
   const _Password.empty({
     required bool isObscure,
   }) : this(
-          pass: '',
+          password: '',
           isObscure: isObscure,
         );
-
-  @override
-  String toString() => '_Password{pass: $pass}';
 }
 
 class PasswordFromField extends FormField<_Password> {
@@ -31,21 +28,21 @@ class PasswordFromField extends FormField<_Password> {
 
   PasswordFromField({
     Key? key,
-    String? Function(String pass)? validator = _validator,
-    void Function(String pass)? onSaved,
+    String? Function(String password)? validator = _validator,
+    void Function(String password)? onSaved,
     String? passwordHint = 'Password',
     bool showObscureIcon = true,
   }) : super(
           key: key,
           validator: (_Password? value) {
             final pair = value!;
-            final pass = pair.pass;
-            return validator?.call(pass);
+            final password = pair.password;
+            return validator?.call(password);
           },
           onSaved: (_Password? value) {
             final pair = value!;
-            final pass = pair.pass;
-            onSaved?.call(pass);
+            final password = pair.password;
+            onSaved?.call(password);
           },
           initialValue: _Password.empty(
             isObscure: showObscureIcon,
@@ -53,7 +50,7 @@ class PasswordFromField extends FormField<_Password> {
           builder: (field) {
             final error = field.errorText;
             final pair = field.value!;
-            final pass = pair.pass;
+            final password = pair.password;
             final isObscure = pair.isObscure;
             return TextField(
               autofillHints: const ['password'],
@@ -65,7 +62,7 @@ class PasswordFromField extends FormField<_Password> {
                     ? GestureDetector(
                         onTap: () {
                           field.didChange(_Password(
-                            pass: pass,
+                            password: password,
                             isObscure: !isObscure,
                           ));
                         },
@@ -78,7 +75,7 @@ class PasswordFromField extends FormField<_Password> {
               ),
               onChanged: (String value) {
                 field.didChange(_Password(
-                  pass: value.trim(),
+                  password: value.trim(),
                   isObscure: isObscure,
                 ));
               },

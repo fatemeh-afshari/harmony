@@ -1,15 +1,15 @@
 // import 'package:flutter/material.dart';
 //
-// class LoginUIEPResetPassword extends StatefulWidget {
+// class LoginUIEmailPasswordResetPassword extends StatefulWidget {
 //   static const route = '/harmony_login_ui/email_password/reset_password';
 //
-//   const LoginUIEPResetPassword({Key? key}) : super(key: key);
+//   const LoginUIEmailPasswordResetPassword({Key? key}) : super(key: key);
 //
 //   @override
-//   _LoginUIEPResetPasswordState createState() => _LoginUIEPResetPasswordState();
+//   _LoginUIEmailPasswordResetPasswordState createState() => _LoginUIEmailPasswordResetPasswordState();
 // }
 //
-// class _LoginUIEPResetPasswordState extends State<LoginUIEPResetPassword> {
+// class _LoginUIEmailPasswordResetPasswordState extends State<LoginUIEmailPasswordResetPassword> {
 //   var _loading = false;
 //
 //   @override

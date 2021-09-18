@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class _PasswordPair {
-  final String pass;
+  final String password;
   final String confirm;
   final bool isObscure;
 
   const _PasswordPair({
-    required this.pass,
+    required this.password,
     required this.confirm,
     required this.isObscure,
   });
@@ -14,13 +14,10 @@ class _PasswordPair {
   const _PasswordPair.empty({
     required bool isObscure,
   }) : this(
-          pass: '',
+          password: '',
           confirm: '',
           isObscure: isObscure,
         );
-
-  @override
-  String toString() => '_PasswordPair{pass: $pass, confirm: $confirm}';
 }
 
 class PasswordPairFromField extends FormField<_PasswordPair> {
@@ -34,8 +31,8 @@ class PasswordPairFromField extends FormField<_PasswordPair> {
 
   PasswordPairFromField({
     Key? key,
-    String? Function(String pass)? validator = _validator,
-    void Function(String pass)? onSaved,
+    String? Function(String password)? validator = _validator,
+    void Function(String password)? onSaved,
     String? passwordHint = 'Password',
     String? confirmHint = 'Confirm Password',
     String? matchErrorMessage = 'Passwords do not match',
@@ -44,15 +41,15 @@ class PasswordPairFromField extends FormField<_PasswordPair> {
           key: key,
           validator: (_PasswordPair? value) {
             final pair = value!;
-            final pass = pair.pass;
+            final password = pair.password;
             final confirm = pair.confirm;
-            final base = validator?.call(pass);
-            return base ?? (pass == confirm ? null : matchErrorMessage);
+            final base = validator?.call(password);
+            return base ?? (password == confirm ? null : matchErrorMessage);
           },
           onSaved: (_PasswordPair? value) {
             final pair = value!;
-            final pass = pair.pass;
-            onSaved?.call(pass);
+            final password = pair.password;
+            onSaved?.call(password);
           },
           initialValue: _PasswordPair.empty(
             isObscure: showObscureIcon,
@@ -60,7 +57,7 @@ class PasswordPairFromField extends FormField<_PasswordPair> {
           builder: (field) {
             final error = field.errorText;
             final pair = field.value!;
-            final pass = pair.pass;
+            final password = pair.password;
             final confirm = pair.confirm;
             final isObscure = pair.isObscure;
             return Column(
@@ -76,7 +73,7 @@ class PasswordPairFromField extends FormField<_PasswordPair> {
                         ? GestureDetector(
                             onTap: () {
                               field.didChange(_PasswordPair(
-                                pass: pass,
+                                password: password,
                                 confirm: confirm,
                                 isObscure: !isObscure,
                               ));
@@ -92,7 +89,7 @@ class PasswordPairFromField extends FormField<_PasswordPair> {
                   ),
                   onChanged: (String value) {
                     field.didChange(_PasswordPair(
-                      pass: value.trim(),
+                      password: value.trim(),
                       confirm: confirm,
                       isObscure: isObscure,
                     ));
@@ -109,7 +106,7 @@ class PasswordPairFromField extends FormField<_PasswordPair> {
                         ? GestureDetector(
                             onTap: () {
                               field.didChange(_PasswordPair(
-                                pass: pass,
+                                password: password,
                                 confirm: confirm,
                                 isObscure: !isObscure,
                               ));
@@ -125,7 +122,7 @@ class PasswordPairFromField extends FormField<_PasswordPair> {
                   ),
                   onChanged: (String value) {
                     field.didChange(_PasswordPair(
-                      pass: pass,
+                      password: password,
                       confirm: value.trim(),
                       isObscure: isObscure,
                     ));
