@@ -50,16 +50,21 @@ class _LoginUIEPLoginState extends State<LoginUIEPLogin> {
                   onSaved: (value) => _password = value,
                 ),
                 const SizedBox(height: 32),
+                Row(
+                  children: [
+                    const Spacer(),
+                    LoginUILoadingTextButton(
+                      title: 'Reset Password',
+                      onPressed: _loading ? null : _resetPassword,
+                    ),
+                  ],
+                ),
+                const Spacer(),
                 LoginUILoadingTextButton(
                   title: 'Register',
                   onPressed: _loading ? null : _register,
                 ),
-                const SizedBox(height: 32),
-                LoginUILoadingTextButton(
-                  title: 'Reset Password',
-                  onPressed: _loading ? null : _resetPassword,
-                ),
-                const Spacer(),
+                const SizedBox(height: 16),
                 LoginUILoadingElevatedButton(
                   title: 'Login',
                   loading: _loading,
