@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harmony_auth/harmony_auth.dart';
 import 'package:harmony_fire/harmony_fire.dart';
 import 'package:harmony_login/harmony_login.dart';
+import 'package:harmony_login_ui/src/email_password/widgets/loading_elevated_icon_button.dart';
 
 class SocialLoginButton extends StatefulWidget {
   final String provider;
@@ -85,14 +86,15 @@ class _SocialLoginButtonState extends State<SocialLoginButton> {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton.icon(
-      onPressed: _loading ? null : _onPressed,
-      label: Text(widget.title),
+    return LoginUILoadingElevatedIconButton(
+      title: widget.title,
       icon: Image(
         image: AssetImage(widget.icon),
         width: 32,
         height: 32,
       ),
+      loading: _loading,
+      onPressed: _onPressed,
     );
   }
 

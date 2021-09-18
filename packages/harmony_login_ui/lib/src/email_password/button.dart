@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harmony_auth/harmony_auth.dart';
 import 'package:harmony_login/harmony_login.dart';
 import 'package:harmony_login_ui/src/email_password/login.dart';
+import 'package:harmony_login_ui/src/email_password/widgets/loading_elevated_icon_button.dart';
 
 class EmailPasswordLoginButton extends StatefulWidget {
   final AuthRepository authRepository;
@@ -26,14 +27,15 @@ class _EmailPasswordLoginButtonState extends State<EmailPasswordLoginButton> {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton.icon(
-      onPressed: _loading ? null : _onPressed,
-      label: const Text('Login With Email'),
+    return LoginUILoadingElevatedIconButton(
+      onPressed: _onPressed,
+      title: 'Login With Email',
       icon: const Image(
         image: AssetImage('asset/image/email.png'),
         width: 32,
         height: 32,
       ),
+      loading: _loading,
     );
   }
 

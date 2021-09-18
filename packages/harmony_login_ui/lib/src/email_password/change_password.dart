@@ -52,7 +52,7 @@
 //                 ElevatedButton(
 //                   onPressed: _loading ? null : _changePassword,
 //                   child: _loading
-//                       ? const CircularProgressIndicator()
+//                       ? const LinearProgressIndicator()
 //                       : const Text('Change Password'),
 //                 ),
 //               ],

@@ -24,13 +24,21 @@ class _PasswordPair {
 }
 
 class PasswordPairFromField extends FormField<_PasswordPair> {
+  static String? _validator(String password) {
+    if (password.length >= 4) {
+      return null;
+    } else {
+      return 'Password is invalid';
+    }
+  }
+
   PasswordPairFromField({
     Key? key,
-    String? Function(String pass)? validator,
+    String? Function(String pass)? validator = _validator,
     void Function(String pass)? onSaved,
-    String? passwordHint,
-    String? confirmHint,
-    String? matchErrorMessage,
+    String? passwordHint = 'Password',
+    String? confirmHint = 'Confirm Password',
+    String? matchErrorMessage = 'Passwords do not match',
     bool showObscureIcon = true,
   }) : super(
           key: key,

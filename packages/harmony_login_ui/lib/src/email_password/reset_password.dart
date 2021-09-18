@@ -34,7 +34,7 @@
 //                 ElevatedButton(
 //                   onPressed: _loading ? null : _resetPassword,
 //                   child: _loading
-//                       ? const CircularProgressIndicator()
+//                       ? const LinearProgressIndicator()
 //                       : const Text('Reset Password'),
 //                 ),
 //               ],

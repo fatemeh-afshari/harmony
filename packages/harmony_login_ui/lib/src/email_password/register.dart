@@ -50,7 +50,7 @@
 //                 ElevatedButton(
 //                   onPressed: _loading ? null : _register,
 //                   child: _loading
-//                       ? const CircularProgressIndicator()
+//                       ? const LinearProgressIndicator()
 //                       : const Text('Register'),
 //                 ),
 //               ],

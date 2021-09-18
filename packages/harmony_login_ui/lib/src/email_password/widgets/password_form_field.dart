@@ -21,11 +21,19 @@ class _Password {
 }
 
 class PasswordFromField extends FormField<_Password> {
+  static String? _validator(String password) {
+    if (password.length >= 4) {
+      return null;
+    } else {
+      return 'Password is invalid';
+    }
+  }
+
   PasswordFromField({
     Key? key,
-    String? Function(String pass)? validator,
+    String? Function(String pass)? validator = _validator,
     void Function(String pass)? onSaved,
-    String? passwordHint,
+    String? passwordHint = 'Password',
     bool showObscureIcon = true,
   }) : super(
           key: key,

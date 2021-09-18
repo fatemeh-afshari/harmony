@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:harmony_auth/harmony_auth.dart';
 import 'package:harmony_login/harmony_login.dart';
-import 'package:harmony_login_ui/src/email_password/password_input.dart';
+import 'package:harmony_login_ui/src/email_password/widgets/email_form_field.dart';
+import 'package:harmony_login_ui/src/email_password/widgets/loading_elevated_button.dart';
+import 'package:harmony_login_ui/src/email_password/widgets/loading_text_button.dart';
+import 'package:harmony_login_ui/src/email_password/widgets/password_form_field.dart';
 
 class LoginUIEPLogin extends StatefulWidget {
   static const route = '/harmony_login_ui/email_password/login';
@@ -39,36 +42,29 @@ class _LoginUIEPLoginState extends State<LoginUIEPLogin> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                TextFormField(
-                  autofillHints: const ['email'],
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(
-                    hintText: 'Email',
-                  ),
+                EmailFromField(
                   onSaved: (value) => _email = value,
                 ),
                 const SizedBox(height: 32),
                 PasswordFromField(
-                  passwordHint: 'Password',
                   onSaved: (value) => _password = value,
                 ),
                 const SizedBox(height: 32),
-                TextButton(
+                LoginUILoadingTextButton(
+                  title: 'Register',
                   onPressed: _loading ? null : _register,
-                  child: const Text('Register'),
                 ),
                 const SizedBox(height: 32),
-                TextButton(
+                LoginUILoadingTextButton(
+                  title: 'Reset Password',
                   onPressed: _loading ? null : _resetPassword,
-                  child: const Text('Reset Password'),
                 ),
                 const Spacer(),
-                ElevatedButton(
-                  onPressed: _loading ? null : _login,
-                  child: _loading
-                      ? const CircularProgressIndicator()
-                      : const Text('Login'),
-                ),
+                LoginUILoadingElevatedButton(
+                  title: 'Login',
+                  loading: _loading,
+                  onPressed: _login,
+                )
               ],
             ),
           ),
