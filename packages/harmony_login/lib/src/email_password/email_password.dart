@@ -48,7 +48,6 @@ class LoginEmailPassword {
 
   /// change password
   Future<void> changePassword({
-    required String email,
     required String oldPassword,
     required String newPassword,
   }) async {

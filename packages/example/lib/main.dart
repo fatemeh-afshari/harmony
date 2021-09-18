@@ -153,8 +153,14 @@ class LoggedInPage extends StatelessWidget {
               ),
               const SizedBox(height: 32),
               if (provider == 'email_password')
-                const Center(
-                  child: Text('Change Password'),
+                ChangePasswordButton(
+                  authRepository: const MockAuthRepository(),
+                  loginSystem: const MockLoginSystem(),
+                  onSuccess: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Password Changed')),
+                    );
+                  },
                 ),
               const Spacer(),
               LogoutButton(

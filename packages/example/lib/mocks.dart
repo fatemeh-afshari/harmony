@@ -55,7 +55,6 @@ class MockLoginEmailPassword implements LoginEmailPassword {
 
   @override
   Future<void> changePassword({
-    required String email,
     required String oldPassword,
     required String newPassword,
   }) async {

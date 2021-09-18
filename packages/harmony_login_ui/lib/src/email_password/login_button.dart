@@ -32,7 +32,6 @@ class _EmailPasswordLoginButtonState extends State<EmailPasswordLoginButton> {
   @override
   Widget build(BuildContext context) {
     return LoginUILoadingElevatedIconButton(
-      onPressed: _onPressed,
       title: 'Login With Email',
       icon: const Image(
         image: AssetImage('asset/image/email.png'),
@@ -40,6 +39,7 @@ class _EmailPasswordLoginButtonState extends State<EmailPasswordLoginButton> {
         height: 32,
       ),
       loading: _loading,
+      onPressed: _onPressed,
     );
   }
 
