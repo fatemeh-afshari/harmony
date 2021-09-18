@@ -157,8 +157,14 @@ class LoggedInPage extends StatelessWidget {
                   child: Text('Change Password'),
                 ),
               const Spacer(),
-              const Center(
-                child: Text('Logout'),
+              LogoutButton(
+                authRepository: const MockAuthRepository(),
+                loginSystem: const MockLoginSystem(),
+                onSuccess: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Logged Out')),
+                  );
+                },
               ),
             ],
           ),
