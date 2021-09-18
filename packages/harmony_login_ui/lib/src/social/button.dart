@@ -12,16 +12,14 @@ class SocialLoginButton extends StatefulWidget {
   final LoginSystem loginSystem;
   final FireSigning fireSigning;
 
-  final void Function(String email, String? name) onSuccess;
+  final void Function(String email, String? displayName) onSuccess;
 
   const SocialLoginButton.apple({
     Key? key,
     required AuthRepository authRepository,
     required LoginSystem loginSystem,
     required FireSigning fireSigning,
-    required void Function(String email, String? provider) onSuccess,
-    required void Function() onCancelled,
-    required void Function(Object error) onError,
+    required void Function(String email, String? displayName) onSuccess,
   }) : this._internal(
           key: key,
           provider: 'apple',
@@ -38,9 +36,7 @@ class SocialLoginButton extends StatefulWidget {
     required AuthRepository authRepository,
     required LoginSystem loginSystem,
     required FireSigning fireSigning,
-    required void Function(String email, String? provider) onSuccess,
-    required void Function() onCancelled,
-    required void Function(Object error) onError,
+    required void Function(String email, String? displayName) onSuccess,
   }) : this._internal(
           key: key,
           provider: 'facebook',
@@ -57,9 +53,7 @@ class SocialLoginButton extends StatefulWidget {
     required AuthRepository authRepository,
     required LoginSystem loginSystem,
     required FireSigning fireSigning,
-    required void Function(String email, String? provider) onSuccess,
-    required void Function() onCancelled,
-    required void Function(Object error) onError,
+    required void Function(String email, String? displayName) onSuccess,
   }) : this._internal(
           key: key,
           provider: 'google',
