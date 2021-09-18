@@ -16,6 +16,7 @@ dependencies:
   flutter:
     sdk: flutter
   meta: any
+  flutter_svg: any
   harmony_auth:
     path: ../harmony_auth/
   harmony_fire:

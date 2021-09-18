@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harmony_auth/harmony_auth.dart';
 import 'package:harmony_login/harmony_login.dart';
 import 'package:harmony_login_ui/src/email_password/login.dart';
@@ -33,10 +34,10 @@ class _EmailPasswordLoginButtonState extends State<EmailPasswordLoginButton> {
   Widget build(BuildContext context) {
     return LoginUILoadingElevatedIconButton(
       title: 'Login With Email',
-      icon: const Image(
-        image: AssetImage('asset/image/email.png'),
-        width: 32,
-        height: 32,
+      icon: SvgPicture.asset(
+        'asset/image/email.svg',
+        width: 24,
+        height: 24,
       ),
       loading: _loading,
       onPressed: _onPressed,

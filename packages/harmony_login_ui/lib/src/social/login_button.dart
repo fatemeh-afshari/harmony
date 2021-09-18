@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harmony_auth/harmony_auth.dart';
 import 'package:harmony_fire/harmony_fire.dart';
 import 'package:harmony_login/harmony_login.dart';
@@ -34,7 +35,7 @@ class SocialLoginButton extends StatefulWidget {
           key: key,
           provider: 'apple',
           title: 'Login with Apple',
-          icon: 'asset/image/apple.png',
+          icon: 'asset/image/apple.svg',
           authRepository: authRepository,
           loginSystem: loginSystem,
           fireSigning: fireSigning,
@@ -56,7 +57,7 @@ class SocialLoginButton extends StatefulWidget {
           key: key,
           provider: 'facebook',
           title: 'Login with Facebook',
-          icon: 'asset/image/facebook.png',
+          icon: 'asset/image/facebook.svg',
           authRepository: authRepository,
           loginSystem: loginSystem,
           fireSigning: fireSigning,
@@ -78,7 +79,7 @@ class SocialLoginButton extends StatefulWidget {
           key: key,
           provider: 'google',
           title: 'Login with Google',
-          icon: 'asset/image/google.png',
+          icon: 'asset/image/google.svg',
           authRepository: authRepository,
           loginSystem: loginSystem,
           fireSigning: fireSigning,
@@ -107,10 +108,10 @@ class _SocialLoginButtonState extends State<SocialLoginButton> {
   Widget build(BuildContext context) {
     return LoginUILoadingElevatedIconButton(
       title: widget.title,
-      icon: Image(
-        image: AssetImage(widget.icon),
-        width: 32,
-        height: 32,
+      icon: SvgPicture.asset(
+        widget.icon,
+        width: 24,
+        height: 24,
       ),
       loading: _loading,
       onPressed: _onPressed,
