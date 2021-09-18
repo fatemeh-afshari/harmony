@@ -17,6 +17,11 @@ class MockLoginSystem extends Fake implements LoginSystem {
 
   @override
   LoginSocial social() => const MockLoginSocial();
+
+  @override
+  Future<void> logout() async {
+    await Future<void>.delayed(const Duration(seconds: 1));
+  }
 }
 
 class MockLoginEmailPassword implements LoginEmailPassword {

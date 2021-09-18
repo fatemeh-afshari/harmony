@@ -164,6 +164,7 @@ class LoggedInPage extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Logged Out')),
                   );
+                  Navigator.of(context).pop();
                 },
               ),
             ],

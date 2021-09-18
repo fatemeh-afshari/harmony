@@ -38,6 +38,7 @@ class _LogoutButtonState extends State<LogoutButton> {
     try {
       await widget.loginSystem.logout();
       await widget.authRepository.removeToken();
+      widget.onSuccess();
     } catch (_) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('A problem occurred')),
