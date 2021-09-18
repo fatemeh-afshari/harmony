@@ -34,67 +34,134 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Expanded(
-              child: FlutterLogo(),
-            ),
-            const SizedBox(height: 32),
-            EmailPasswordLoginButton(
-              authRepository: const MockAuthRepository(),
-              loginSystem: const MockLoginSystem(),
-              onSuccess: (String provider, String email, bool registered) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(
-                    'provider: $provider, email: $email, registered: $registered',
-                  ),
-                ));
-              },
-            ),
-            const SizedBox(height: 32),
-            SocialLoginButton.google(
-              authRepository: const MockAuthRepository(),
-              loginSystem: const MockLoginSystem(),
-              fireSigning: const MockFireSigning(),
-              onSuccess: (provider, email, displayName) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(
-                    'provider: $provider, email: $email, name: $displayName',
-                  ),
-                ));
-              },
-            ),
-            const SizedBox(height: 32),
-            SocialLoginButton.facebook(
-              authRepository: const MockAuthRepository(),
-              loginSystem: const MockLoginSystem(),
-              fireSigning: const MockFireSigning(),
-              onSuccess: (provider, email, displayName) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(
-                    'provider: $provider, email: $email, name: $displayName',
-                  ),
-                ));
-              },
-            ),
-            const SizedBox(height: 32),
-            SocialLoginButton.apple(
-              authRepository: const MockAuthRepository(),
-              loginSystem: const MockLoginSystem(),
-              fireSigning: const MockFireSigning(),
-              onSuccess: (provider, email, displayName) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(
-                    'provider: $provider, email: $email, name: $displayName',
-                  ),
-                ));
-              },
-            ),
-          ],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(32),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Expanded(
+                child: FlutterLogo(),
+              ),
+              const SizedBox(height: 32),
+              EmailPasswordLoginButton(
+                authRepository: const MockAuthRepository(),
+                loginSystem: const MockLoginSystem(),
+                onSuccess: (String provider, String email, bool isRegistered) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => LoggedInPage(
+                      provider: provider,
+                      email: email,
+                      isRegistered: isRegistered,
+                    ),
+                  ));
+                },
+              ),
+              const SizedBox(height: 32),
+              SocialLoginButton.google(
+                authRepository: const MockAuthRepository(),
+                loginSystem: const MockLoginSystem(),
+                fireSigning: const MockFireSigning(),
+                onSuccess: (provider, email, displayName) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => LoggedInPage(
+                      provider: provider,
+                      email: email,
+                      displayName: displayName,
+                    ),
+                  ));
+                },
+              ),
+              const SizedBox(height: 32),
+              SocialLoginButton.facebook(
+                authRepository: const MockAuthRepository(),
+                loginSystem: const MockLoginSystem(),
+                fireSigning: const MockFireSigning(),
+                onSuccess: (provider, email, displayName) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => LoggedInPage(
+                      provider: provider,
+                      email: email,
+                      displayName: displayName,
+                    ),
+                  ));
+                },
+              ),
+              const SizedBox(height: 32),
+              SocialLoginButton.apple(
+                authRepository: const MockAuthRepository(),
+                loginSystem: const MockLoginSystem(),
+                fireSigning: const MockFireSigning(),
+                onSuccess: (provider, email, displayName) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => LoggedInPage(
+                      provider: provider,
+                      email: email,
+                      displayName: displayName,
+                    ),
+                  ));
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class LoggedInPage extends StatelessWidget {
+  final String provider;
+  final String email;
+  final String? displayName;
+  final bool? isRegistered;
+
+  const LoggedInPage({
+    Key? key,
+    required this.provider,
+    required this.email,
+    this.displayName,
+    this.isRegistered,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(32),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Center(
+                child: Text('provider: $provider'),
+              ),
+              const SizedBox(height: 32),
+              Center(
+                child: Text('email: $email'),
+              ),
+              const SizedBox(height: 32),
+              Center(
+                child: Text('displayName: $displayName'),
+              ),
+              const SizedBox(height: 32),
+              Center(
+                child: Text('isRegistered: $isRegistered'),
+              ),
+              const SizedBox(height: 32),
+              if (provider == 'email_password')
+                const Center(
+                  child: Text('Change Password'),
+                ),
+              const Spacer(),
+              const Center(
+                child: Text('Logout'),
+              ),
+            ],
+          ),
         ),
       ),
     );
