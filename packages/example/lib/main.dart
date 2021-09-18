@@ -1,4 +1,6 @@
+import 'package:example/mocks.dart';
 import 'package:flutter/material.dart';
+import 'package:harmony_login_ui/harmony_login_ui.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,9 +39,52 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: const [
-            Expanded(
+          children: [
+            const Expanded(
               child: FlutterLogo(),
+            ),
+            const SizedBox(height: 32),
+            EmailPasswordLoginButton(
+              authRepository: const MockAuthRepository(),
+              loginSystem: const MockLoginSystem(),
+              onSuccess: (String email) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('email: $email'),
+                ));
+              },
+            ),
+            const SizedBox(height: 32),
+            SocialLoginButton.google(
+              authRepository: const MockAuthRepository(),
+              loginSystem: const MockLoginSystem(),
+              fireSigning: const MockFireSigning(),
+              onSuccess: (email, displayName) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('email: $email, name: $displayName'),
+                ));
+              },
+            ),
+            const SizedBox(height: 32),
+            SocialLoginButton.facebook(
+              authRepository: const MockAuthRepository(),
+              loginSystem: const MockLoginSystem(),
+              fireSigning: const MockFireSigning(),
+              onSuccess: (email, displayName) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('email: $email, name: $displayName'),
+                ));
+              },
+            ),
+            const SizedBox(height: 32),
+            SocialLoginButton.apple(
+              authRepository: const MockAuthRepository(),
+              loginSystem: const MockLoginSystem(),
+              fireSigning: const MockFireSigning(),
+              onSuccess: (email, displayName) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('email: $email, name: $displayName'),
+                ));
+              },
             ),
           ],
         ),

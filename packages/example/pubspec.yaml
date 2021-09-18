@@ -13,6 +13,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  dio: any
   harmony_log:
     path: ../harmony_log/
   harmony_auth:
