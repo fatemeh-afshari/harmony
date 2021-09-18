@@ -1,4 +1,4 @@
 library harmony_login;
 
-export 'src/email_password/button.dart';
-export 'src/social/button.dart';
+export 'src/email_password/login_button.dart';
+export 'src/social/login_button.dart';

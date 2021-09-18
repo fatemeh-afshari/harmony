@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harmony_auth/harmony_auth.dart';
 import 'package:harmony_login/harmony_login.dart';
 import 'package:harmony_login_ui/src/email_password/register.dart';
+import 'package:harmony_login_ui/src/email_password/reset_password.dart';
 import 'package:harmony_login_ui/src/email_password/widgets/email_form_field.dart';
 import 'package:harmony_login_ui/src/email_password/widgets/loading_elevated_button.dart';
 import 'package:harmony_login_ui/src/email_password/widgets/loading_text_button.dart';
@@ -86,6 +87,9 @@ class _LoginUIEmailPasswordLoginState extends State<LoginUIEmailPasswordLogin> {
     setState(() => _loading = true);
     final result = await Navigator.of(context).push(
       MaterialPageRoute<Object?>(
+        settings: RouteSettings(
+          name: LoginUIEmailPasswordRegister.route,
+        ),
         builder: (context) => LoginUIEmailPasswordRegister(
           loginSystem: widget.loginSystem,
           authRepository: widget.authRepository,
@@ -97,13 +101,20 @@ class _LoginUIEmailPasswordLoginState extends State<LoginUIEmailPasswordLogin> {
   }
 
   Future<void> _resetPassword() async {
-    // setState(() => _loading = true);
-    // await Navigator.of(context).push(
-    //   MaterialPageRoute<void>(
-    //     builder: (context) => const LoginUIEmailPasswordResetPassword(),
-    //   ),
-    // );
-    // setState(() => _loading = false);
+    setState(() => _loading = true);
+    final result = await Navigator.of(context).push(
+      MaterialPageRoute<Object?>(
+        settings: RouteSettings(
+          name: LoginUIEmailPasswordResetPassword.route,
+        ),
+        builder: (context) => LoginUIEmailPasswordResetPassword(
+          loginSystem: widget.loginSystem,
+          authRepository: widget.authRepository,
+        ),
+      ),
+    );
+    Navigator.of(context).pop(result);
+    setState(() => _loading = false);
   }
 
   Future<void> _login() async {
