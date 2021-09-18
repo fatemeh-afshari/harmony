@@ -40,14 +40,14 @@ class LoginEmailPassword {
   }
 
   /// reset password
-  Future<LoginResult> resetPassword({
+  Future<void> resetPassword({
     required String email,
   }) async {
     throw UnimplementedError();
   }
 
   /// change password
-  Future<LoginResult> changePassword({
+  Future<void> changePassword({
     required String email,
     required String oldPassword,
     required String newPassword,
