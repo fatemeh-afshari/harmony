@@ -10,7 +10,8 @@ import '../provider.dart';
 
 /// google provider
 class FireProviderGoogleImpl implements FireProvider {
-  static const _name = 'google';
+  @override
+  final name = 'google';
 
   const FireProviderGoogleImpl();
 
@@ -31,7 +32,7 @@ class FireProviderGoogleImpl implements FireProvider {
       return FireProviderNative(
         credential: credential,
         info: FireProviderInfo(
-          provider: _name,
+          provider: name,
         ),
       );
     } else {
@@ -46,7 +47,7 @@ class FireProviderGoogleImpl implements FireProvider {
     return FireProviderWeb(
       provider: GoogleAuthProvider(),
       info: FireProviderInfo(
-        provider: _name,
+        provider: name,
       ),
     );
   }

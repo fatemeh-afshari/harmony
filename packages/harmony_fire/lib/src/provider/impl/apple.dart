@@ -13,7 +13,8 @@ import '../provider.dart';
 
 /// apple provider
 class FireProviderAppleImpl implements FireProvider {
-  static const _name = 'apple';
+  @override
+  final name = 'apple';
 
   const FireProviderAppleImpl();
 
@@ -72,7 +73,7 @@ class FireProviderAppleImpl implements FireProvider {
     return FireProviderNative(
       credential: credential,
       info: FireProviderInfo(
-        provider: _name,
+        provider: name,
         displayName: displayName,
       ),
     );
@@ -83,11 +84,9 @@ class FireProviderAppleImpl implements FireProvider {
     if (!kIsWeb) throw AssertionError();
 
     return FireProviderWeb(
-      provider: OAuthProvider('apple.com')
-        ..addScope('email')
-        ..addScope('name'),
+      provider: OAuthProvider('apple.com')..addScope('email')..addScope('name'),
       info: FireProviderInfo(
-        provider: _name,
+        provider: name,
       ),
     );
   }

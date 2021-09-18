@@ -10,7 +10,8 @@ import '../provider.dart';
 
 /// facebook provider
 class FireProviderFacebookImpl implements FireProvider {
-  static const _name = 'facebook';
+  @override
+  final name = 'facebook';
 
   const FireProviderFacebookImpl();
 
@@ -27,7 +28,7 @@ class FireProviderFacebookImpl implements FireProvider {
       return FireProviderNative(
         credential: credential,
         info: FireProviderInfo(
-          provider: _name,
+          provider: name,
         ),
       );
     } else {
@@ -46,7 +47,7 @@ class FireProviderFacebookImpl implements FireProvider {
           'display': 'popup',
         }),
       info: FireProviderInfo(
-        provider: _name,
+        provider: name,
       ),
     );
   }

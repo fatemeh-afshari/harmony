@@ -62,6 +62,9 @@ abstract class FireProvider {
     }
   }
 
+  /// provider name
+  String get name;
+
   /// native oauth login
   Future<FireProviderNative> native();
 
