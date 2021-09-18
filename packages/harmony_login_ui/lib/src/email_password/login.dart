@@ -96,7 +96,9 @@ class _LoginUIEmailPasswordLoginState extends State<LoginUIEmailPasswordLogin> {
         ),
       ),
     );
-    Navigator.of(context).pop(result);
+    if (result is Map<String, dynamic>) {
+      Navigator.of(context).pop(result);
+    }
     setState(() => _loading = false);
   }
 
@@ -113,7 +115,9 @@ class _LoginUIEmailPasswordLoginState extends State<LoginUIEmailPasswordLogin> {
         ),
       ),
     );
-    Navigator.of(context).pop(result);
+    if (result is Map<String, dynamic>) {
+      Navigator.of(context).pop(result);
+    }
     setState(() => _loading = false);
   }
 
