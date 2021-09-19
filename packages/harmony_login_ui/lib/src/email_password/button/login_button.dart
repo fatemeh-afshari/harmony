@@ -35,7 +35,7 @@ class _EmailPasswordLoginButtonState extends State<EmailPasswordLoginButton> {
     return LoginUILoadingElevatedIconButton(
       title: 'Login With Email',
       icon: SvgPicture.asset(
-        'asset/image/email.svg',
+        'asset/image/harmony_login_ui_email.svg',
         width: 24,
         height: 24,
       ),

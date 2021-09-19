@@ -33,7 +33,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - asset/image/email.svg
-    - asset/image/google.svg
-    - asset/image/apple.svg
-    - asset/image/facebook.svg
+    - asset/image/harmony_login_ui_apple.svg
+    - asset/image/harmony_login_ui_email.svg
+    - asset/image/harmony_login_ui_facebook.svg
+    - asset/image/harmony_login_ui_google.svg
