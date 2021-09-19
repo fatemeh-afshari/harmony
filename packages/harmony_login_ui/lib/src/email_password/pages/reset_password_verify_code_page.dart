@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:harmony_auth/harmony_auth.dart';
 import 'package:harmony_login/harmony_login.dart';
-import 'package:harmony_login_ui/src/email_password/pages/new_password_page.dart';
+import 'package:harmony_login_ui/src/email_password/pages/reset_password_new_password_page.dart';
 import 'package:harmony_login_ui/src/widgets/code_form_field.dart';
 import 'package:harmony_login_ui/src/widgets/loading_elevated_button.dart';
 
-class LoginUIEmailPasswordVerifyCode extends StatefulWidget {
-  static const route = '/harmony_login_ui/email_password/verify_code';
+class LoginUIEmailPasswordResetPasswordVerifyCode extends StatefulWidget {
+  static const route =
+      '/harmony_login_ui/email_password/login/reset_password/verify_code/';
 
   final AuthRepository authRepository;
   final LoginSystem loginSystem;
   final String email;
 
-  const LoginUIEmailPasswordVerifyCode({
+  const LoginUIEmailPasswordResetPasswordVerifyCode({
     Key? key,
     required this.authRepository,
     required this.loginSystem,
@@ -20,12 +21,12 @@ class LoginUIEmailPasswordVerifyCode extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _LoginUIEmailPasswordVerifyCodeState createState() =>
-      _LoginUIEmailPasswordVerifyCodeState();
+  _LoginUIEmailPasswordResetPasswordVerifyCodeState createState() =>
+      _LoginUIEmailPasswordResetPasswordVerifyCodeState();
 }
 
-class _LoginUIEmailPasswordVerifyCodeState
-    extends State<LoginUIEmailPasswordVerifyCode> {
+class _LoginUIEmailPasswordResetPasswordVerifyCodeState
+    extends State<LoginUIEmailPasswordResetPasswordVerifyCode> {
   final _formKey = GlobalKey<FormState>();
 
   var _loading = false;
@@ -79,9 +80,9 @@ class _LoginUIEmailPasswordVerifyCodeState
         final result = await Navigator.of(context).push(
           MaterialPageRoute<Object?>(
             settings: const RouteSettings(
-              name: LoginUIEmailPasswordNewPassword.route,
+              name: LoginUIEmailPasswordResetPasswordNewPassword.route,
             ),
-            builder: (context) => LoginUIEmailPasswordNewPassword(
+            builder: (context) => LoginUIEmailPasswordResetPasswordNewPassword(
               loginSystem: widget.loginSystem,
               authRepository: widget.authRepository,
               email: widget.email,

@@ -6,7 +6,7 @@ import 'package:harmony_login_ui/src/widgets/password_form_field.dart';
 import 'package:harmony_login_ui/src/widgets/password_pair_form_field.dart';
 
 class LoginUIEmailPasswordChangePassword extends StatefulWidget {
-  static const route = '/harmony_login_ui/email_password/change_password';
+  static const route = '/harmony_login_ui/email_password/change_password/';
 
   final AuthRepository authRepository;
   final LoginSystem loginSystem;

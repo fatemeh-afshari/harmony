@@ -6,7 +6,7 @@ import 'package:harmony_login_ui/src/widgets/loading_elevated_button.dart';
 import 'package:harmony_login_ui/src/widgets/password_pair_form_field.dart';
 
 class LoginUIEmailPasswordRegister extends StatefulWidget {
-  static const route = '/harmony_login_ui/email_password/register';
+  static const route = '/harmony_login_ui/email_password/login/register/';
 
   final AuthRepository authRepository;
   final LoginSystem loginSystem;

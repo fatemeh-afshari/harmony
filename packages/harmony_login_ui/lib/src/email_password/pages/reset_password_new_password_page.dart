@@ -4,15 +4,16 @@ import 'package:harmony_login/harmony_login.dart';
 import 'package:harmony_login_ui/src/widgets/loading_elevated_button.dart';
 import 'package:harmony_login_ui/src/widgets/password_pair_form_field.dart';
 
-class LoginUIEmailPasswordNewPassword extends StatefulWidget {
-  static const route = '/harmony_login_ui/email_password/new_password';
+class LoginUIEmailPasswordResetPasswordNewPassword extends StatefulWidget {
+  static const route =
+      '/harmony_login_ui/email_password/login/reset_password/new_password/';
 
   final AuthRepository authRepository;
   final LoginSystem loginSystem;
   final String email;
   final String code;
 
-  const LoginUIEmailPasswordNewPassword({
+  const LoginUIEmailPasswordResetPasswordNewPassword({
     Key? key,
     required this.authRepository,
     required this.loginSystem,
@@ -21,12 +22,12 @@ class LoginUIEmailPasswordNewPassword extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _LoginUIEmailPasswordNewPasswordState createState() =>
-      _LoginUIEmailPasswordNewPasswordState();
+  _LoginUIEmailPasswordResetPasswordNewPasswordState createState() =>
+      _LoginUIEmailPasswordResetPasswordNewPasswordState();
 }
 
-class _LoginUIEmailPasswordNewPasswordState
-    extends State<LoginUIEmailPasswordNewPassword> {
+class _LoginUIEmailPasswordResetPasswordNewPasswordState
+    extends State<LoginUIEmailPasswordResetPasswordNewPassword> {
   final _formKey = GlobalKey<FormState>();
 
   var _loading = false;

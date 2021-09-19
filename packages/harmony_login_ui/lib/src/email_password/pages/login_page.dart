@@ -9,7 +9,7 @@ import 'package:harmony_login_ui/src/widgets/loading_text_button.dart';
 import 'package:harmony_login_ui/src/widgets/password_form_field.dart';
 
 class LoginUIEmailPasswordLogin extends StatefulWidget {
-  static const route = '/harmony_login_ui/email_password/login';
+  static const route = '/harmony_login_ui/email_password/login/';
 
   final AuthRepository authRepository;
   final LoginSystem loginSystem;

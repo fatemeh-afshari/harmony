@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:harmony_auth/harmony_auth.dart';
 import 'package:harmony_login/harmony_login.dart';
-import 'package:harmony_login_ui/src/email_password/pages/verify_code_page.dart';
+import 'package:harmony_login_ui/src/email_password/pages/reset_password_verify_code_page.dart';
 import 'package:harmony_login_ui/src/widgets/email_form_field.dart';
 import 'package:harmony_login_ui/src/widgets/loading_elevated_button.dart';
 
 class LoginUIEmailPasswordResetPassword extends StatefulWidget {
-  static const route = '/harmony_login_ui/email_password/reset_password';
+  static const route = '/harmony_login_ui/email_password/login/reset_password/';
 
   final AuthRepository authRepository;
   final LoginSystem loginSystem;
@@ -71,9 +71,9 @@ class _LoginUIEmailPasswordResetPasswordState
         final result = await Navigator.of(context).push(
           MaterialPageRoute<Object?>(
             settings: const RouteSettings(
-              name: LoginUIEmailPasswordVerifyCode.route,
+              name: LoginUIEmailPasswordResetPasswordVerifyCode.route,
             ),
-            builder: (context) => LoginUIEmailPasswordVerifyCode(
+            builder: (context) => LoginUIEmailPasswordResetPasswordVerifyCode(
               loginSystem: widget.loginSystem,
               authRepository: widget.authRepository,
               email: email,
