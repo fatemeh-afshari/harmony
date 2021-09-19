@@ -110,6 +110,7 @@ class _SocialLoginButtonState extends State<SocialLoginButton> {
       title: widget.title,
       icon: SvgPicture.asset(
         widget.icon,
+        package: 'harmony_login_ui',
         width: 24,
         height: 24,
       ),
