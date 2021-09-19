@@ -1,35 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:harmony_auth/harmony_auth.dart';
 import 'package:harmony_login/harmony_login.dart';
-import 'package:harmony_login_ui/src/email_password/widgets/loading_elevated_button.dart';
-import 'package:harmony_login_ui/src/email_password/widgets/password_form_field.dart';
-import 'package:harmony_login_ui/src/email_password/widgets/password_pair_form_field.dart';
+import 'package:harmony_login_ui/src/widgets/email_form_field.dart';
+import 'package:harmony_login_ui/src/widgets/loading_elevated_button.dart';
 
-class LoginUIEmailPasswordChangePassword extends StatefulWidget {
-  static const route = '/harmony_login_ui/email_password/change_password';
+class LoginUIEmailPasswordResetPassword extends StatefulWidget {
+  static const route = '/harmony_login_ui/email_password/reset_password';
 
   final AuthRepository authRepository;
   final LoginSystem loginSystem;
 
-  const LoginUIEmailPasswordChangePassword({
+  const LoginUIEmailPasswordResetPassword({
     Key? key,
     required this.authRepository,
     required this.loginSystem,
   }) : super(key: key);
 
   @override
-  _LoginUIEmailPasswordChangePasswordState createState() =>
-      _LoginUIEmailPasswordChangePasswordState();
+  _LoginUIEmailPasswordResetPasswordState createState() =>
+      _LoginUIEmailPasswordResetPasswordState();
 }
 
-class _LoginUIEmailPasswordChangePasswordState
-    extends State<LoginUIEmailPasswordChangePassword> {
+class _LoginUIEmailPasswordResetPasswordState
+    extends State<LoginUIEmailPasswordResetPassword> {
   final _formKey = GlobalKey<FormState>();
 
   var _loading = false;
 
-  String? _oldPassword;
-  String? _newPassword;
+  String? _email;
 
   @override
   Widget build(BuildContext context) {
@@ -43,19 +41,12 @@ class _LoginUIEmailPasswordChangePasswordState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                PasswordFromField(
-                  passwordHint: 'Old Password',
-                  onSaved: (value) => _oldPassword = value,
-                ),
-                const SizedBox(height: 32),
-                PasswordPairFromField(
-                  passwordHint: 'New Password',
-                  confirmHint: 'Confirm New Password',
-                  onSaved: (value) => _newPassword = value,
+                EmailFromField(
+                  onSaved: (value) => _email = value,
                 ),
                 const Spacer(),
                 LoginUILoadingElevatedButton(
-                  title: 'Login',
+                  title: 'Reset Password',
                   loading: _loading,
                   onPressed: _login,
                 )
@@ -73,13 +64,14 @@ class _LoginUIEmailPasswordChangePasswordState
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         final emailPassword = widget.loginSystem.emailPassword();
-        await emailPassword.changePassword(
-          oldPassword: _oldPassword!,
-          newPassword: _newPassword!,
+        await emailPassword.resetPassword(
+          email: _email!,
         );
-        Navigator.of(context).pop(<String, dynamic>{
-          'passwordChanged': true,
-        });
+        // todo
+        await Future<void>.delayed(Duration(seconds: 1));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('TODO')),
+        );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Form has problems')),

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harmony_auth/harmony_auth.dart';
 import 'package:harmony_login/harmony_login.dart';
-import 'package:harmony_login_ui/src/email_password/login.dart';
-import 'package:harmony_login_ui/src/email_password/widgets/loading_elevated_icon_button.dart';
+import 'package:harmony_login_ui/src/email_password/pages/login_page.dart';
+import 'package:harmony_login_ui/src/widgets/loading_elevated_icon_button.dart';
 
 class EmailPasswordLoginButton extends StatefulWidget {
   final AuthRepository authRepository;

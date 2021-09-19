@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harmony_auth/harmony_auth.dart';
 import 'package:harmony_login/harmony_login.dart';
-import 'package:harmony_login_ui/src/email_password/widgets/loading_text_button.dart';
+import 'package:harmony_login_ui/src/widgets/loading_text_button.dart';
 
 class LogoutButton extends StatefulWidget {
   final AuthRepository authRepository;

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:harmony_auth/harmony_auth.dart';
 import 'package:harmony_login/harmony_login.dart';
-import 'package:harmony_login_ui/src/email_password/register.dart';
-import 'package:harmony_login_ui/src/email_password/reset_password.dart';
-import 'package:harmony_login_ui/src/email_password/widgets/email_form_field.dart';
-import 'package:harmony_login_ui/src/email_password/widgets/loading_elevated_button.dart';
-import 'package:harmony_login_ui/src/email_password/widgets/loading_text_button.dart';
-import 'package:harmony_login_ui/src/email_password/widgets/password_form_field.dart';
+import 'package:harmony_login_ui/src/email_password/pages/register_page.dart';
+import 'package:harmony_login_ui/src/email_password/pages/reset_password_page.dart';
+import 'package:harmony_login_ui/src/widgets/email_form_field.dart';
+import 'package:harmony_login_ui/src/widgets/loading_elevated_button.dart';
+import 'package:harmony_login_ui/src/widgets/loading_text_button.dart';
+import 'package:harmony_login_ui/src/widgets/password_form_field.dart';
 
 class LoginUIEmailPasswordLogin extends StatefulWidget {
   static const route = '/harmony_login_ui/email_password/login';

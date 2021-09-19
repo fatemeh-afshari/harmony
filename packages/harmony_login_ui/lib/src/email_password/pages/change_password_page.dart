@@ -1,35 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:harmony_auth/harmony_auth.dart';
 import 'package:harmony_login/harmony_login.dart';
-import 'package:harmony_login_ui/src/email_password/widgets/email_form_field.dart';
-import 'package:harmony_login_ui/src/email_password/widgets/loading_elevated_button.dart';
-import 'package:harmony_login_ui/src/email_password/widgets/password_pair_form_field.dart';
+import 'package:harmony_login_ui/src/widgets/loading_elevated_button.dart';
+import 'package:harmony_login_ui/src/widgets/password_form_field.dart';
+import 'package:harmony_login_ui/src/widgets/password_pair_form_field.dart';
 
-class LoginUIEmailPasswordRegister extends StatefulWidget {
-  static const route = '/harmony_login_ui/email_password/register';
+class LoginUIEmailPasswordChangePassword extends StatefulWidget {
+  static const route = '/harmony_login_ui/email_password/change_password';
 
   final AuthRepository authRepository;
   final LoginSystem loginSystem;
 
-  const LoginUIEmailPasswordRegister({
+  const LoginUIEmailPasswordChangePassword({
     Key? key,
     required this.authRepository,
     required this.loginSystem,
   }) : super(key: key);
 
   @override
-  _LoginUIEmailPasswordRegisterState createState() =>
-      _LoginUIEmailPasswordRegisterState();
+  _LoginUIEmailPasswordChangePasswordState createState() =>
+      _LoginUIEmailPasswordChangePasswordState();
 }
 
-class _LoginUIEmailPasswordRegisterState
-    extends State<LoginUIEmailPasswordRegister> {
+class _LoginUIEmailPasswordChangePasswordState
+    extends State<LoginUIEmailPasswordChangePassword> {
   final _formKey = GlobalKey<FormState>();
 
   var _loading = false;
 
-  String? _email;
-  String? _password;
+  String? _oldPassword;
+  String? _newPassword;
 
   @override
   Widget build(BuildContext context) {
@@ -43,19 +43,22 @@ class _LoginUIEmailPasswordRegisterState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                EmailFromField(
-                  onSaved: (value) => _email = value,
+                PasswordFromField(
+                  passwordHint: 'Old Password',
+                  onSaved: (value) => _oldPassword = value,
                 ),
                 const SizedBox(height: 32),
                 PasswordPairFromField(
-                  onSaved: (value) => _password = value,
+                  passwordHint: 'New Password',
+                  confirmHint: 'Confirm New Password',
+                  onSaved: (value) => _newPassword = value,
                 ),
                 const Spacer(),
                 LoginUILoadingElevatedButton(
-                  title: 'Register',
+                  title: 'Change Password',
                   loading: _loading,
-                  onPressed: _register,
-                ),
+                  onPressed: _login,
+                )
               ],
             ),
           ),
@@ -64,24 +67,18 @@ class _LoginUIEmailPasswordRegisterState
     );
   }
 
-  Future<void> _register() async {
+  Future<void> _login() async {
     setState(() => _loading = true);
     try {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         final emailPassword = widget.loginSystem.emailPassword();
-        final result = await emailPassword.register(
-          email: _email!,
-          password: _password!,
+        await emailPassword.changePassword(
+          oldPassword: _oldPassword!,
+          newPassword: _newPassword!,
         );
-        await widget.authRepository.setToken(AuthToken(
-          refresh: result.refresh,
-          access: result.access,
-        ));
         Navigator.of(context).pop(<String, dynamic>{
-          'loggedIn': true,
-          'registered': true,
-          'email': _email!,
+          'passwordChanged': true,
         });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(

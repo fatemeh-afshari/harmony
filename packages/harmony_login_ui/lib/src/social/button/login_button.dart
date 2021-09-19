@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:harmony_auth/harmony_auth.dart';
 import 'package:harmony_fire/harmony_fire.dart';
 import 'package:harmony_login/harmony_login.dart';
-import 'package:harmony_login_ui/src/email_password/widgets/loading_elevated_icon_button.dart';
+import 'package:harmony_login_ui/src/widgets/loading_elevated_icon_button.dart';
 
 class SocialLoginButton extends StatefulWidget {
   final String provider;
