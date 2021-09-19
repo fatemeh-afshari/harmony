@@ -17,8 +17,7 @@ class LogoutButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _LogoutButtonState createState() =>
-      _LogoutButtonState();
+  _LogoutButtonState createState() => _LogoutButtonState();
 }
 
 class _LogoutButtonState extends State<LogoutButton> {
