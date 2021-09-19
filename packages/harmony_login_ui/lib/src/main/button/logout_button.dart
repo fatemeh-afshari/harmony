@@ -41,7 +41,7 @@ class _LogoutButtonState extends State<LogoutButton> {
       widget.onSuccess();
     } catch (_) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('A problem occurred')),
+        const SnackBar(content: Text('A problem occurred')),
       );
     } finally {
       setState(() => _loading = false);

@@ -69,18 +69,18 @@ class _LoginUIEmailPasswordResetPasswordState
           email: _email!,
         );
         // todo
-        await Future<void>.delayed(Duration(seconds: 1));
+        await Future<void>.delayed(const Duration(seconds: 1));
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('TODO')),
+          const SnackBar(content: Text('TODO')),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Form has problems')),
+          const SnackBar(content: Text('Form has problems')),
         );
       }
     } catch (_) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('A problem occurred')),
+        const SnackBar(content: Text('A problem occurred')),
       );
     } finally {
       setState(() => _loading = false);

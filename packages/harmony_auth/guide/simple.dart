@@ -5,7 +5,7 @@ import 'package:logger/logger.dart';
 const baseUrl = 'https://base/';
 const refreshUrl = '${baseUrl}user/token/refresh/';
 
-void init() async {
+Future<void> init() async {
   AuthConfig.logger = Logger(/*...*/);
 
   final dio = Dio(/*...*/);

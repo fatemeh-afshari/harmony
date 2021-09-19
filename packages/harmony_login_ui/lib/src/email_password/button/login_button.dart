@@ -50,7 +50,7 @@ class _EmailPasswordLoginButtonState extends State<EmailPasswordLoginButton> {
     setState(() => _loading = true);
     final result = await Navigator.of(context).push(
       MaterialPageRoute<Object?>(
-        settings: RouteSettings(
+        settings: const RouteSettings(
           name: LoginUIEmailPasswordLogin.route,
         ),
         builder: (context) => LoginUIEmailPasswordLogin(

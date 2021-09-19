@@ -4,7 +4,7 @@ import 'package:logger/logger.dart';
 
 const baseUrl = 'https://base/';
 
-void init() async {
+Future<void> init() async {
   // logger:
   // to add logger:
   final logger = Logger(/*...*/);

@@ -18,7 +18,9 @@ class LoginUILoadingTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: loading ? null : onPressed,
-      child: (showLoading && loading) ? LinearProgressIndicator() : Text(title),
+      child: (showLoading && loading)
+          ? const LinearProgressIndicator()
+          : Text(title),
     );
   }
 }

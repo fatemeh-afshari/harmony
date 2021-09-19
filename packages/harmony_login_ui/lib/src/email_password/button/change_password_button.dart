@@ -38,7 +38,7 @@ class _ChangePasswordButtonState extends State<ChangePasswordButton> {
     setState(() => _loading = true);
     final result = await Navigator.of(context).push(
       MaterialPageRoute<Object?>(
-        settings: RouteSettings(
+        settings: const RouteSettings(
           name: LoginUIEmailPasswordChangePassword.route,
         ),
         builder: (context) => LoginUIEmailPasswordChangePassword(

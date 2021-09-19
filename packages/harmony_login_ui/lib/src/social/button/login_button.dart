@@ -150,7 +150,7 @@ class _SocialLoginButtonState extends State<SocialLoginButton> {
       // nothing
     } catch (_) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('A problem occurred')),
+        const SnackBar(content: Text('A problem occurred')),
       );
     } finally {
       setState(() => _loading = false);

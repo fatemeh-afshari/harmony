@@ -86,12 +86,12 @@ class _LoginUIEmailPasswordRegisterState
         });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Form has problems')),
+          const SnackBar(content: Text('Form has problems')),
         );
       }
     } catch (_) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('A problem occurred')),
+        const SnackBar(content: Text('A problem occurred')),
       );
     } finally {
       setState(() => _loading = false);
