@@ -54,6 +54,7 @@ class _LoginUIEmailPasswordRegisterState
                 LoginUILoadingElevatedButton(
                   title: 'Register',
                   loading: _loading,
+                  showLoading: true,
                   onPressed: _register,
                 ),
               ],

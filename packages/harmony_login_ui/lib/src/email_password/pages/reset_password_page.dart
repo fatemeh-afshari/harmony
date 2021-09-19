@@ -48,6 +48,7 @@ class _LoginUIEmailPasswordResetPasswordState
                 LoginUILoadingElevatedButton(
                   title: 'Reset Password',
                   loading: _loading,
+                  showLoading: true,
                   onPressed: _login,
                 )
               ],

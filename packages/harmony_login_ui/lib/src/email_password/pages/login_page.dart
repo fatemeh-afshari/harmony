@@ -75,6 +75,7 @@ class _LoginUIEmailPasswordLoginState extends State<LoginUIEmailPasswordLogin> {
                 LoginUILoadingElevatedButton(
                   title: 'Login',
                   loading: _loading,
+                  showLoading: true,
                   onPressed: _login,
                 )
               ],

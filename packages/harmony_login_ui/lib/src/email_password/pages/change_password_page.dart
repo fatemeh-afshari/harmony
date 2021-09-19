@@ -57,6 +57,7 @@ class _LoginUIEmailPasswordChangePasswordState
                 LoginUILoadingElevatedButton(
                   title: 'Change Password',
                   loading: _loading,
+                  showLoading: true,
                   onPressed: _login,
                 )
               ],
