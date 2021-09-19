@@ -4,8 +4,8 @@ import 'package:harmony_login/harmony_login.dart';
 import 'package:harmony_login_ui/src/email_password/pages/register_page.dart';
 import 'package:harmony_login_ui/src/email_password/pages/reset_password_page.dart';
 import 'package:harmony_login_ui/src/widgets/email_form_field.dart';
-import 'package:harmony_login_ui/src/widgets/enabled_text_button.dart';
 import 'package:harmony_login_ui/src/widgets/loading_elevated_button.dart';
+import 'package:harmony_login_ui/src/widgets/loading_text_button.dart';
 import 'package:harmony_login_ui/src/widgets/password_form_field.dart';
 
 class LoginUIEmailPasswordLogin extends StatefulWidget {
@@ -56,17 +56,19 @@ class _LoginUIEmailPasswordLoginState extends State<LoginUIEmailPasswordLogin> {
                 Row(
                   children: [
                     const Spacer(),
-                    LoginUIEnabledTextButton(
+                    LoginUILoadingTextButton(
                       title: 'Reset Password',
                       loading: _loading,
+                      showLoading: false,
                       onPressed: _loading ? null : _resetPassword,
                     ),
                   ],
                 ),
                 const Spacer(),
-                LoginUIEnabledTextButton(
+                LoginUILoadingTextButton(
                   title: 'Register',
                   loading: _loading,
+                  showLoading: false,
                   onPressed: _loading ? null : _register,
                 ),
                 const SizedBox(height: 16),

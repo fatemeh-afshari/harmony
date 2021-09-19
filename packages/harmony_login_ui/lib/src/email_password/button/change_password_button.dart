@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harmony_auth/harmony_auth.dart';
 import 'package:harmony_login/harmony_login.dart';
 import 'package:harmony_login_ui/src/email_password/pages/change_password_page.dart';
-import 'package:harmony_login_ui/src/widgets/enabled_text_button.dart';
+import 'package:harmony_login_ui/src/widgets/loading_text_button.dart';
 
 class ChangePasswordButton extends StatefulWidget {
   final AuthRepository authRepository;
@@ -26,9 +26,10 @@ class _ChangePasswordButtonState extends State<ChangePasswordButton> {
 
   @override
   Widget build(BuildContext context) {
-    return LoginUIEnabledTextButton(
+    return LoginUILoadingTextButton(
       title: 'Change Password',
       loading: _loading,
+      showLoading: false,
       onPressed: _onPressed,
     );
   }

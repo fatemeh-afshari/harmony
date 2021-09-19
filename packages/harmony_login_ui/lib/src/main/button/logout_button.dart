@@ -27,9 +27,10 @@ class _LogoutButtonState extends State<LogoutButton> {
   @override
   Widget build(BuildContext context) {
     return LoginUILoadingTextButton(
-      onPressed: _onPressed,
       title: 'Logout',
       loading: _loading,
+      showLoading: true,
+      onPressed: _onPressed,
     );
   }
 
