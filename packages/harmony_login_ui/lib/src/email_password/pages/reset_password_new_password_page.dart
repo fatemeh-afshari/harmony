@@ -72,7 +72,7 @@ class _LoginUIEmailPasswordResetPasswordNewPasswordState
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         final emailPassword = widget.loginSystem.emailPassword();
-        await emailPassword.newPassword(
+        await emailPassword.resetPasswordNewPassword(
           email: widget.email,
           code: widget.code,
           password: _password!,

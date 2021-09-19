@@ -69,7 +69,7 @@ class MockLoginEmailPassword implements LoginEmailPassword {
   }
 
   @override
-  Future<void> verifyCode({
+  Future<void> resetPasswordVerifyCode({
     required String email,
     required String code,
   }) async {
@@ -78,7 +78,7 @@ class MockLoginEmailPassword implements LoginEmailPassword {
   }
 
   @override
-  Future<LoginResult> newPassword({
+  Future<LoginResult> resetPasswordNewPassword({
     required String email,
     required String code,
     required String password,

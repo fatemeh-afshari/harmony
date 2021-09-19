@@ -39,13 +39,6 @@ class LoginEmailPassword {
     throw UnimplementedError();
   }
 
-  /// reset password
-  Future<void> resetPassword({
-    required String email,
-  }) async {
-    throw UnimplementedError();
-  }
-
   /// change password
   Future<void> changePassword({
     required String oldPassword,
@@ -54,16 +47,23 @@ class LoginEmailPassword {
     throw UnimplementedError();
   }
 
-  /// verify code
-  Future<void> verifyCode({
+  /// reset password
+  Future<void> resetPassword({
+    required String email,
+  }) async {
+    throw UnimplementedError();
+  }
+
+  /// reset password verify code
+  Future<void> resetPasswordVerifyCode({
     required String email,
     required String code,
   }) async {
     throw UnimplementedError();
   }
 
-  /// set new password
-  Future<LoginResult> newPassword({
+  /// reset password set new password
+  Future<LoginResult> resetPasswordNewPassword({
     required String email,
     required String code,
     required String password,

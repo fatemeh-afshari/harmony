@@ -73,7 +73,7 @@ class _LoginUIEmailPasswordResetPasswordVerifyCodeState
         _formKey.currentState!.save();
         final code = _code!;
         final emailPassword = widget.loginSystem.emailPassword();
-        await emailPassword.verifyCode(
+        await emailPassword.resetPasswordVerifyCode(
           email: widget.email,
           code: code,
         );
