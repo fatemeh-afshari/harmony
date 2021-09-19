@@ -69,6 +69,30 @@ class MockLoginEmailPassword implements LoginEmailPassword {
   }
 
   @override
+  Future<void> verifyCode({
+    required String email,
+    required String code,
+  }) async {
+    await Future<void>.delayed(const Duration(seconds: 1));
+    if (code != '1234') throw Exception();
+  }
+
+  @override
+  Future<LoginResult> newPassword({
+    required String email,
+    required String code,
+    required String password,
+  }) async {
+    await Future<void>.delayed(const Duration(seconds: 1));
+    if (code != '1234') throw Exception();
+    return const LoginResult(
+      backend: 'email_password',
+      refresh: 'r1',
+      access: 'a1',
+    );
+  }
+
+  @override
   noSuchMethod(Invocation invocation) => throw UnimplementedError();
 }
 

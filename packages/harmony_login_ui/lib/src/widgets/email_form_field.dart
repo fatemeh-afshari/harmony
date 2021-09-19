@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class EmailFromField extends FormField<String> {
+class LoginUIEmailFromField extends FormField<String> {
   static const _pattern =
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
 
@@ -13,7 +13,7 @@ class EmailFromField extends FormField<String> {
     }
   }
 
-  EmailFromField({
+  LoginUIEmailFromField({
     Key? key,
     String? Function(String email)? validator = _validator,
     void Function(String email)? onSaved,

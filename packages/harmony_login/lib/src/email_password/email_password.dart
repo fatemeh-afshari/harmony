@@ -53,4 +53,21 @@ class LoginEmailPassword {
   }) async {
     throw UnimplementedError();
   }
+
+  /// verify code
+  Future<void> verifyCode({
+    required String email,
+    required String code,
+  }) async {
+    throw UnimplementedError();
+  }
+
+  /// set new password
+  Future<LoginResult> newPassword({
+    required String email,
+    required String code,
+    required String password,
+  }) async {
+    throw UnimplementedError();
+  }
 }

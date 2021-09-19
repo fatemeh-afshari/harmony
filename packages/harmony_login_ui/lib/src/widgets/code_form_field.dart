@@ -61,9 +61,6 @@ class LoginUICodeFormField extends FormField<List<String>> {
                       maxLines: 1,
                       textAlign: TextAlign.center,
                       textAlignVertical: TextAlignVertical.center,
-                      decoration: const InputDecoration(
-                        hintText: '0',
-                      ),
                       onChanged: (value) {
                         // update in-place since we don't expose list
                         list[pos] = value;

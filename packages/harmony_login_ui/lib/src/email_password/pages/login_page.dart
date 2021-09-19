@@ -45,11 +45,11 @@ class _LoginUIEmailPasswordLoginState extends State<LoginUIEmailPasswordLogin> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                EmailFromField(
+                LoginUIEmailFromField(
                   onSaved: (value) => _email = value,
                 ),
                 const SizedBox(height: 32),
-                PasswordFromField(
+                LoginUIPasswordFromField(
                   onSaved: (value) => _password = value,
                 ),
                 const SizedBox(height: 32),
@@ -100,6 +100,7 @@ class _LoginUIEmailPasswordLoginState extends State<LoginUIEmailPasswordLogin> {
       ),
     );
     if (result is Map<String, dynamic>) {
+      assert(result['registered'] == true);
       Navigator.of(context).pop(result);
     }
     setState(() => _loading = false);
@@ -119,6 +120,7 @@ class _LoginUIEmailPasswordLoginState extends State<LoginUIEmailPasswordLogin> {
       ),
     );
     if (result is Map<String, dynamic>) {
+      assert(result['password_reset'] == true);
       Navigator.of(context).pop(result);
     }
     setState(() => _loading = false);
@@ -139,7 +141,7 @@ class _LoginUIEmailPasswordLoginState extends State<LoginUIEmailPasswordLogin> {
           access: result.access,
         ));
         Navigator.of(context).pop(<String, dynamic>{
-          'loggedIn': true,
+          'logged_in': true,
           'registered': false,
           'email': _email!,
         });

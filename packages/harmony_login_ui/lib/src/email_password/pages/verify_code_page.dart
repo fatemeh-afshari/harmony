@@ -1,35 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:harmony_auth/harmony_auth.dart';
 import 'package:harmony_login/harmony_login.dart';
+import 'package:harmony_login_ui/src/email_password/pages/new_password_page.dart';
+import 'package:harmony_login_ui/src/widgets/code_form_field.dart';
 import 'package:harmony_login_ui/src/widgets/loading_elevated_button.dart';
-import 'package:harmony_login_ui/src/widgets/password_form_field.dart';
-import 'package:harmony_login_ui/src/widgets/password_pair_form_field.dart';
 
-class LoginUIEmailPasswordChangePassword extends StatefulWidget {
-  static const route = '/harmony_login_ui/email_password/change_password';
+class LoginUIEmailPasswordVerifyCode extends StatefulWidget {
+  static const route = '/harmony_login_ui/email_password/verify_code';
 
   final AuthRepository authRepository;
   final LoginSystem loginSystem;
+  final String email;
 
-  const LoginUIEmailPasswordChangePassword({
+  const LoginUIEmailPasswordVerifyCode({
     Key? key,
     required this.authRepository,
     required this.loginSystem,
+    required this.email,
   }) : super(key: key);
 
   @override
-  _LoginUIEmailPasswordChangePasswordState createState() =>
-      _LoginUIEmailPasswordChangePasswordState();
+  _LoginUIEmailPasswordVerifyCodeState createState() =>
+      _LoginUIEmailPasswordVerifyCodeState();
 }
 
-class _LoginUIEmailPasswordChangePasswordState
-    extends State<LoginUIEmailPasswordChangePassword> {
+class _LoginUIEmailPasswordVerifyCodeState
+    extends State<LoginUIEmailPasswordVerifyCode> {
   final _formKey = GlobalKey<FormState>();
 
   var _loading = false;
 
-  String? _oldPassword;
-  String? _newPassword;
+  String? _code;
 
   @override
   Widget build(BuildContext context) {
@@ -43,19 +44,15 @@ class _LoginUIEmailPasswordChangePasswordState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                LoginUIPasswordFromField(
-                  passwordHint: 'Old Password',
-                  onSaved: (value) => _oldPassword = value,
-                ),
-                const SizedBox(height: 32),
-                LoginUIPasswordPairFromField(
-                  passwordHint: 'New Password',
-                  confirmHint: 'Confirm New Password',
-                  onSaved: (value) => _newPassword = value,
+                Center(
+                  child: LoginUICodeFormField(
+                    onSaved: (value) => _code = value,
+                    onSubmit: _submit,
+                  ),
                 ),
                 const Spacer(),
                 LoginUILoadingElevatedButton(
-                  title: 'Change Password',
+                  title: 'Submit',
                   loading: _loading,
                   showLoading: true,
                   onPressed: _submit,
@@ -73,14 +70,31 @@ class _LoginUIEmailPasswordChangePasswordState
     try {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
+        final code = _code!;
         final emailPassword = widget.loginSystem.emailPassword();
-        await emailPassword.changePassword(
-          oldPassword: _oldPassword!,
-          newPassword: _newPassword!,
+        await emailPassword.verifyCode(
+          email: widget.email,
+          code: code,
         );
-        Navigator.of(context).pop(<String, dynamic>{
-          'password_changed': true,
-        });
+        final result = await Navigator.of(context).push(
+          MaterialPageRoute<Object?>(
+            settings: const RouteSettings(
+              name: LoginUIEmailPasswordNewPassword.route,
+            ),
+            builder: (context) => LoginUIEmailPasswordNewPassword(
+              loginSystem: widget.loginSystem,
+              authRepository: widget.authRepository,
+              email: widget.email,
+              code: code,
+            ),
+          ),
+        );
+        if (result is Map<String, dynamic>) {
+          assert(result['password_reset'] == true);
+          Navigator.of(context).pop(result);
+        } else {
+          Navigator.of(context).pop();
+        }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Form has problems')),

@@ -17,7 +17,7 @@ class _Password {
         );
 }
 
-class PasswordFromField extends FormField<_Password> {
+class LoginUIPasswordFromField extends FormField<_Password> {
   static String? _validator(String password) {
     if (password.length >= 4) {
       return null;
@@ -26,7 +26,7 @@ class PasswordFromField extends FormField<_Password> {
     }
   }
 
-  PasswordFromField({
+  LoginUIPasswordFromField({
     Key? key,
     String? Function(String password)? validator = _validator,
     void Function(String password)? onSaved,

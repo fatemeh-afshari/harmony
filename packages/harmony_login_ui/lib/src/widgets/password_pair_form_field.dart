@@ -20,7 +20,7 @@ class _PasswordPair {
         );
 }
 
-class PasswordPairFromField extends FormField<_PasswordPair> {
+class LoginUIPasswordPairFromField extends FormField<_PasswordPair> {
   static String? _validator(String password) {
     if (password.length >= 4) {
       return null;
@@ -29,7 +29,7 @@ class PasswordPairFromField extends FormField<_PasswordPair> {
     }
   }
 
-  PasswordPairFromField({
+  LoginUIPasswordPairFromField({
     Key? key,
     String? Function(String password)? validator = _validator,
     void Function(String password)? onSaved,

@@ -48,7 +48,7 @@ class _ChangePasswordButtonState extends State<ChangePasswordButton> {
       ),
     );
     if (result is Map<String, dynamic>) {
-      assert(result['passwordChanged'] == true);
+      assert(result['password_changed'] == true);
       widget.onSuccess();
     }
     setState(() => _loading = false);

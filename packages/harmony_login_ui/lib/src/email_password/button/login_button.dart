@@ -60,7 +60,7 @@ class _EmailPasswordLoginButtonState extends State<EmailPasswordLoginButton> {
       ),
     );
     if (result is Map<String, dynamic>) {
-      assert(result['loggedIn'] == true);
+      assert(result['logged_in'] == true);
       widget.onSuccess(
         'email_password',
         result['email'] as String,
