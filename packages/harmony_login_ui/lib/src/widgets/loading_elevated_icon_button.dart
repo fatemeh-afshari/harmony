@@ -5,6 +5,7 @@ class LoginUILoadingElevatedIconButton extends StatelessWidget {
   final Widget icon;
   final bool loading;
   final void Function()? onPressed;
+  final bool showLoading;
 
   const LoginUILoadingElevatedIconButton({
     Key? key,
@@ -12,6 +13,7 @@ class LoginUILoadingElevatedIconButton extends StatelessWidget {
     required this.icon,
     this.loading = false,
     this.onPressed,
+    this.showLoading = false,
   }) : super(key: key);
 
   @override
@@ -24,7 +26,7 @@ class LoginUILoadingElevatedIconButton extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: loading
+              child: (showLoading && loading)
                   ? const LinearProgressIndicator()
                   : Center(
                       child: Text(title),

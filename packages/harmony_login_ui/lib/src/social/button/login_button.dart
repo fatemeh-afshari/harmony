@@ -115,6 +115,7 @@ class _SocialLoginButtonState extends State<SocialLoginButton> {
         height: 24,
       ),
       loading: _loading,
+      showLoading: true,
       onPressed: _onPressed,
     );
   }

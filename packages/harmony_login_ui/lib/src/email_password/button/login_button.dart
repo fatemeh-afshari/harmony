@@ -41,6 +41,7 @@ class _EmailPasswordLoginButtonState extends State<EmailPasswordLoginButton> {
         height: 24,
       ),
       loading: _loading,
+      showLoading: false,
       onPressed: _onPressed,
     );
   }
