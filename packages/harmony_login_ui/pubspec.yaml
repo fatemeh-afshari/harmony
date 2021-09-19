@@ -29,3 +29,11 @@ dev_dependencies:
     sdk: flutter
   pedantic: any
   mocktail: any
+
+flutter:
+  uses-material-design: true
+  assets:
+    - asset/image/email.svg
+    - asset/image/google.svg
+    - asset/image/apple.svg
+    - asset/image/facebook.svg

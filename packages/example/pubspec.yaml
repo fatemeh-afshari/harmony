@@ -13,8 +13,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  dio: any
-  flutter_svg: any
   harmony_log:
     path: ../harmony_log/
   harmony_auth:
@@ -33,8 +31,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  assets:
-    - asset/image/email.svg
-    - asset/image/google.svg
-    - asset/image/apple.svg
-    - asset/image/facebook.svg
