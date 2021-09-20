@@ -44,6 +44,7 @@ class _LoginUIEmailPasswordRegisterState
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 LoginUIEmailFromField(
+                  hasNext: true,
                   onSaved: (value) => _email = value,
                 ),
                 const SizedBox(height: 32),

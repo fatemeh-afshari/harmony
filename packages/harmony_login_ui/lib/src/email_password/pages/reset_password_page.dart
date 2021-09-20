@@ -43,6 +43,7 @@ class _LoginUIEmailPasswordResetPasswordState
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 LoginUIEmailFromField(
+                  hasNext: false,
                   onSaved: (value) => _email = value,
                 ),
                 const Spacer(),

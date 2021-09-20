@@ -15,9 +15,11 @@ class LoginUIEmailFromField extends FormField<String> {
 
   LoginUIEmailFromField({
     Key? key,
-    String? Function(String email)? validator = _validator,
-    void Function(String email)? onSaved,
-    String? emailHint = 'Email',
+    final String? Function(String email)? validator = _validator,
+    final void Function(String email)? onSaved,
+    final void Function()? onSubmit,
+    final bool hasNext = true,
+    final String? emailHint = 'Email',
   }) : super(
           key: key,
           validator: (String? value) {
@@ -31,12 +33,17 @@ class LoginUIEmailFromField extends FormField<String> {
             final error = field.errorText;
             return TextField(
               autofillHints: const ['email'],
+              textInputAction:
+                  hasNext ? TextInputAction.next : TextInputAction.done,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 hintText: emailHint,
                 errorText: error,
               ),
-              onChanged: (String value) {
+              onSubmitted: (value) {
+                onSubmit?.call();
+              },
+              onChanged: (value) {
                 field.didChange(value.trim());
               },
             );
