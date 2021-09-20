@@ -68,6 +68,7 @@ class LoginUIPasswordPairFromField extends FormField<_PasswordPair> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextField(
+                  key: const Key('password'),
                   autofillHints: const ['password'],
                   enabled: enabled,
                   textInputAction: TextInputAction.next,
@@ -103,6 +104,7 @@ class LoginUIPasswordPairFromField extends FormField<_PasswordPair> {
                 ),
                 const SizedBox(height: 32),
                 TextField(
+                  key: const Key('confirm'),
                   autofillHints: const ['password'],
                   enabled: enabled,
                   textInputAction:
