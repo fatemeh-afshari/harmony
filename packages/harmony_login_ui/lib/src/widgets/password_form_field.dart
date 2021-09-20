@@ -32,10 +32,12 @@ class LoginUIPasswordFromField extends FormField<_Password> {
     final void Function(String password)? onSaved,
     final void Function()? onSubmit,
     final bool hasNext = true,
+    final bool enabled = true,
     final String? passwordHint = 'Password',
     final bool showObscureIcon = true,
   }) : super(
           key: key,
+          enabled: enabled,
           validator: (_Password? value) {
             final pair = value!;
             final password = pair.password;
@@ -56,6 +58,7 @@ class LoginUIPasswordFromField extends FormField<_Password> {
             final isObscure = pair.isObscure;
             return TextField(
               autofillHints: const ['password'],
+              enabled: enabled,
               textInputAction:
                   hasNext ? TextInputAction.next : TextInputAction.done,
               keyboardType: TextInputType.visiblePassword,

@@ -19,9 +19,11 @@ class LoginUIEmailFromField extends FormField<String> {
     final void Function(String email)? onSaved,
     final void Function()? onSubmit,
     final bool hasNext = true,
+    final bool enabled = true,
     final String? emailHint = 'Email',
   }) : super(
           key: key,
+          enabled: enabled,
           validator: (String? value) {
             return validator?.call(value!);
           },
@@ -33,6 +35,7 @@ class LoginUIEmailFromField extends FormField<String> {
             final error = field.errorText;
             return TextField(
               autofillHints: const ['email'],
+              enabled: enabled,
               textInputAction:
                   hasNext ? TextInputAction.next : TextInputAction.done,
               keyboardType: TextInputType.emailAddress,

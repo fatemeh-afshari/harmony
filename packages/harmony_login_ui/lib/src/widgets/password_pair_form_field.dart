@@ -35,12 +35,14 @@ class LoginUIPasswordPairFromField extends FormField<_PasswordPair> {
     final void Function(String password)? onSaved,
     final void Function()? onSubmit,
     final bool hasNext = true,
+    final bool enabled = true,
     final String? passwordHint = 'Password',
     final String? confirmHint = 'Confirm Password',
     final String? matchErrorMessage = 'Passwords do not match',
     final bool showObscureIcon = true,
   }) : super(
           key: key,
+          enabled: enabled,
           validator: (_PasswordPair? value) {
             final pair = value!;
             final password = pair.password;
@@ -67,6 +69,7 @@ class LoginUIPasswordPairFromField extends FormField<_PasswordPair> {
               children: [
                 TextField(
                   autofillHints: const ['password'],
+                  enabled: enabled,
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: isObscure,
@@ -101,6 +104,7 @@ class LoginUIPasswordPairFromField extends FormField<_PasswordPair> {
                 const SizedBox(height: 32),
                 TextField(
                   autofillHints: const ['password'],
+                  enabled: enabled,
                   textInputAction:
                       hasNext ? TextInputAction.next : TextInputAction.done,
                   keyboardType: TextInputType.visiblePassword,

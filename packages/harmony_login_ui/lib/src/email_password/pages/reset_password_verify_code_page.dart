@@ -50,6 +50,7 @@ class _LoginUIEmailPasswordResetPasswordVerifyCodeState
                     onSaved: (value) => _code = value,
                     hasNext: false,
                     onSubmit: _submit,
+                    enabled: !_loading,
                   ),
                 ),
                 const Spacer(),
