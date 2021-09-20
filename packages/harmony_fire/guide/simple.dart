@@ -19,11 +19,7 @@ Future<void> main() async {
 
   // social sign in to firebase:
   // first you need a provider:
-  final provider = FireProvider.google();
-  FireProvider.apple();
-  FireProvider.facebook();
-  // or using `of` method:
-  FireProvider.of('google');
+  final provider = signing.providerOf('google');
   // then check if is available specially for apple:
   await provider.isAvailable;
   // then

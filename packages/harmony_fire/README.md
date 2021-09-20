@@ -19,7 +19,7 @@ import 'package:harmony_fire/harmony_fire.dart';
 
 ## Perquisite
 
-First you need to condigure the following:
+First you need to configure the following:
 
 - firebase
 - google sign in
@@ -66,7 +66,7 @@ You can sign in/up with social accounts using `signInUpSocial`. First you need a
 using `FireProcider` factories or `of` method.
 
 ```
-final provider = FireProvider.google();
+final provider = signing.providerOf('google');
 final info = await signing.signInUpSocial(provider);
 ```
 
