@@ -4,6 +4,7 @@ import '../provider/provider.dart';
 import 'impl/standard.dart';
 
 abstract class FireSigning {
+  /// standard implementation
   const factory FireSigning() = FireSigningStandardImpl;
 
   /// check to see if is signed in.
