@@ -49,6 +49,7 @@ class _LoginUIEmailPasswordRegisterState
                 ),
                 const SizedBox(height: 32),
                 LoginUIPasswordPairFromField(
+                  hasNext: false,
                   onSaved: (value) => _password = value,
                 ),
                 const Spacer(),

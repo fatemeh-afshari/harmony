@@ -67,7 +67,7 @@ class LoginUICodeFormField extends FormField<List<String>> {
                       maxLines: 1,
                       textAlign: TextAlign.center,
                       textAlignVertical: TextAlignVertical.center,
-                      onChanged: (value) {
+                      onChanged: (String value) {
                         // update in-place since we don't expose list
                         list[pos] = value;
                         field.didChange(list);

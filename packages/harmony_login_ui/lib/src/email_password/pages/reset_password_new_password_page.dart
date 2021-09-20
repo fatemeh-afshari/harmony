@@ -47,6 +47,7 @@ class _LoginUIEmailPasswordResetPasswordNewPasswordState
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 LoginUIPasswordPairFromField(
+                  hasNext: false,
                   passwordHint: 'New Password',
                   confirmHint: 'Confirm New Password',
                   onSaved: (value) => _password = value,

@@ -50,6 +50,7 @@ class _LoginUIEmailPasswordChangePasswordState
                 ),
                 const SizedBox(height: 32),
                 LoginUIPasswordPairFromField(
+                  hasNext: false,
                   passwordHint: 'New Password',
                   confirmHint: 'Confirm New Password',
                   onSaved: (value) => _newPassword = value,

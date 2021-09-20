@@ -30,13 +30,15 @@ class LoginUIPasswordPairFromField extends FormField<_PasswordPair> {
   }
 
   LoginUIPasswordPairFromField({
-    Key? key,
-    String? Function(String password)? validator = _validator,
-    void Function(String password)? onSaved,
-    String? passwordHint = 'Password',
-    String? confirmHint = 'Confirm Password',
-    String? matchErrorMessage = 'Passwords do not match',
-    bool showObscureIcon = true,
+    final Key? key,
+    final String? Function(String password)? validator = _validator,
+    final void Function(String password)? onSaved,
+    final void Function()? onSubmit,
+    final bool hasNext = true,
+    final String? passwordHint = 'Password',
+    final String? confirmHint = 'Confirm Password',
+    final String? matchErrorMessage = 'Passwords do not match',
+    final bool showObscureIcon = true,
   }) : super(
           key: key,
           validator: (_PasswordPair? value) {
@@ -65,6 +67,7 @@ class LoginUIPasswordPairFromField extends FormField<_PasswordPair> {
               children: [
                 TextField(
                   autofillHints: const ['password'],
+                  textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: isObscure,
                   decoration: InputDecoration(
@@ -98,6 +101,8 @@ class LoginUIPasswordPairFromField extends FormField<_PasswordPair> {
                 const SizedBox(height: 32),
                 TextField(
                   autofillHints: const ['password'],
+                  textInputAction:
+                      hasNext ? TextInputAction.next : TextInputAction.done,
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: isObscure,
                   decoration: InputDecoration(
@@ -120,6 +125,9 @@ class LoginUIPasswordPairFromField extends FormField<_PasswordPair> {
                         ? matchErrorMessage
                         : null,
                   ),
+                  onSubmitted: (_) {
+                    onSubmit?.call();
+                  },
                   onChanged: (String value) {
                     field.didChange(_PasswordPair(
                       password: password,
