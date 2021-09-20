@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
+import 'package:meta/meta.dart';
 
 import 'impl/apple.dart';
 import 'impl/facebook.dart';
@@ -39,16 +40,22 @@ class FireProviderWeb {
 }
 
 /// social providers
+///
+/// todo: better impl for internals
 abstract class FireProvider {
   /// apple
+  @internal
   const factory FireProvider.apple() = FireProviderAppleImpl;
 
   /// facebook
+  @internal
   const factory FireProvider.facebook() = FireProviderFacebookImpl;
 
   /// google
+  @internal
   const factory FireProvider.google() = FireProviderGoogleImpl;
 
+  @internal
   factory FireProvider.of(String provider) {
     switch (provider) {
       case 'apple':
@@ -61,6 +68,9 @@ abstract class FireProvider {
         throw UnimplementedError();
     }
   }
+
+  /// is available
+  Future<bool> get isAvailable;
 
   /// provider name
   String get name;

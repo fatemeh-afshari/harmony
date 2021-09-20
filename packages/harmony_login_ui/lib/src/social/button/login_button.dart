@@ -123,7 +123,7 @@ class _SocialLoginButtonState extends State<SocialLoginButton> {
   Future<void> _onPressed() async {
     setState(() => _loading = true);
     try {
-      final provider = FireProvider.of(widget.provider);
+      final provider = widget.fireSigning.providerOf(widget.provider);
       final signingInfo = await widget.fireSigning.signInUpSocial(provider);
       try {
         final social = widget.loginSystem.social();

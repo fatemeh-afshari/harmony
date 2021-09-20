@@ -17,6 +17,9 @@ class FireSigningStandardImpl implements FireSigning {
   const FireSigningStandardImpl();
 
   @override
+  FireProvider providerOf(String provider) => FireProvider.of(provider);
+
+  @override
   bool isSignedIn() {
     return FirebaseAuth.instance.currentUser != null;
   }

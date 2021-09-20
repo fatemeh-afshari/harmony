@@ -18,8 +18,8 @@ class FireProviderAppleImpl implements FireProvider {
 
   const FireProviderAppleImpl();
 
-  /// if apple sign in is available
-  static Future<bool> get isAvailable async {
+  @override
+  Future<bool> get isAvailable async {
     if (kIsWeb) {
       final userAgent = html.window.navigator.userAgent.toLowerCase();
       if (userAgent.contains('iphone') || userAgent.contains('ipad')) {
@@ -84,9 +84,7 @@ class FireProviderAppleImpl implements FireProvider {
     if (!kIsWeb) throw AssertionError();
 
     return FireProviderWeb(
-      provider: OAuthProvider('apple.com')
-        ..addScope('email')
-        ..addScope('name'),
+      provider: OAuthProvider('apple.com')..addScope('email')..addScope('name'),
       info: FireProviderInfo(
         provider: name,
       ),

@@ -16,6 +16,9 @@ class FireProviderGoogleImpl implements FireProvider {
   const FireProviderGoogleImpl();
 
   @override
+  Future<bool> get isAvailable async => true;
+
+  @override
   Future<FireProviderNative> native() async {
     if (kIsWeb || !(Platform.isAndroid || Platform.isIOS)) {
       throw AssertionError();

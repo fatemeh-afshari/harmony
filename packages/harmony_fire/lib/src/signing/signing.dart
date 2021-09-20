@@ -7,6 +7,11 @@ abstract class FireSigning {
   /// standard implementation
   const factory FireSigning() = FireSigningStandardImpl;
 
+  /// get provider implementation.
+  ///
+  /// [provider] can be `google`, `apple` and `facebook`.
+  FireProvider providerOf(String provider);
+
   /// check to see if is signed in.
   bool isSignedIn();
 

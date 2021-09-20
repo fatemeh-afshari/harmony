@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:harmony_auth/harmony_auth.dart';
 import 'package:harmony_fire/harmony_fire.dart';
 import 'package:harmony_login/harmony_login.dart';
@@ -151,4 +153,45 @@ class MockFireSigning extends Fake implements FireSigning {
   Future<void> signOut() async {
     await Future<void>.delayed(const Duration(seconds: 1));
   }
+
+  @override
+  FireProvider providerOf(String provider) => MockFireProvider(provider);
 }
+
+class MockFireProvider implements FireProvider {
+  @override
+  final String name;
+
+  const MockFireProvider(this.name);
+
+  @override
+  Future<bool> get isAvailable async => true;
+
+  @override
+  Future<FireProviderNative> native() async {
+    await Future<void>.delayed(const Duration(seconds: 1));
+    return FireProviderNative(
+      credential: MockAuthCredential(),
+      info: FireProviderInfo(
+        provider: name,
+        displayName: 'Mockito',
+      ),
+    );
+  }
+
+  @override
+  Future<FireProviderWeb> web() async {
+    await Future<void>.delayed(const Duration(seconds: 1));
+    return FireProviderWeb(
+      provider: MockAuthProvider(),
+      info: FireProviderInfo(
+        provider: name,
+        displayName: 'Mockito',
+      ),
+    );
+  }
+}
+
+class MockAuthCredential extends Fake implements AuthCredential {}
+
+class MockAuthProvider extends Fake implements AuthProvider {}

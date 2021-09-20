@@ -24,6 +24,8 @@ Future<void> main() async {
   FireProvider.facebook();
   // or using `of` method:
   FireProvider.of('google');
+  // then check if is available specially for apple:
+  await provider.isAvailable;
   // then
   final info = await signing.signInUpSocial(provider);
   print(info.email);
