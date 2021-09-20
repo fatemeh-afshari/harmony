@@ -4,5 +4,3 @@ export 'src/email_password/button/change_password_button.dart';
 export 'src/email_password/button/login_button.dart';
 export 'src/main/button/logout_button.dart';
 export 'src/social/button/login_button.dart';
-
-// todo: add onSubmit and change focus ...
