@@ -1,47 +1,27 @@
 import 'package:dio/dio.dart';
 import 'package:harmony_login/src/email_password/email_password.dart';
 import 'package:harmony_login/src/social/social.dart';
-import 'package:meta/meta.dart';
+import 'package:harmony_login/src/system/impl/standard.dart';
 
 /// harmony_login login system
-class LoginSystem {
-  /// like https://www.example.com/api/v1/hippo_shield/
-  @internal
-  final String baseUrl;
-
-  /// provide the same dio with your auth
-  @internal
-  final Dio dio;
-
-  const LoginSystem({
-    required this.baseUrl,
-    required this.dio,
-  });
+abstract class LoginSystem {
+  /// standard impl
+  const factory LoginSystem({
+    required String baseUrl,
+    required Dio dio,
+  }) = LoginSystemStandardImpl;
 
   /// email-password
-  LoginEmailPassword emailPassword() => LoginEmailPassword(
-        baseUrl: baseUrl,
-        dio: dio,
-      );
+  LoginEmailPassword emailPassword();
 
   /// social
-  LoginSocial social() => LoginSocial(
-        baseUrl: baseUrl,
-        dio: dio,
-      );
+  LoginSocial social();
 
   /// logout
-  Future<void> logout() async {
-    throw UnimplementedError();
-  }
+  Future<void> logout();
 
   /// this can be used to include/exclude urls on auth
-  LoginUrls get urls => LoginUrls(
-        included: {},
-        excluded: {
-          '${baseUrl}email_password_authentication/login/',
-        },
-      );
+  LoginUrls get urls;
 }
 
 /// urls to include/exclude from auth
