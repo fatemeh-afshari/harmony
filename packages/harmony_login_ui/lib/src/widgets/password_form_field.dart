@@ -27,11 +27,13 @@ class LoginUIPasswordFromField extends FormField<_Password> {
   }
 
   LoginUIPasswordFromField({
-    Key? key,
-    String? Function(String password)? validator = _validator,
-    void Function(String password)? onSaved,
-    String? passwordHint = 'Password',
-    bool showObscureIcon = true,
+    final Key? key,
+    final String? Function(String password)? validator = _validator,
+    final void Function(String password)? onSaved,
+    final void Function()? onSubmit,
+    final bool hasNext = true,
+    final String? passwordHint = 'Password',
+    final bool showObscureIcon = true,
   }) : super(
           key: key,
           validator: (_Password? value) {
@@ -54,6 +56,8 @@ class LoginUIPasswordFromField extends FormField<_Password> {
             final isObscure = pair.isObscure;
             return TextField(
               autofillHints: const ['password'],
+              textInputAction:
+                  hasNext ? TextInputAction.next : TextInputAction.done,
               keyboardType: TextInputType.visiblePassword,
               obscureText: isObscure,
               decoration: InputDecoration(
@@ -73,6 +77,9 @@ class LoginUIPasswordFromField extends FormField<_Password> {
                     : null,
                 errorText: error,
               ),
+              onSubmitted: (_) {
+                onSubmit?.call();
+              },
               onChanged: (String value) {
                 field.didChange(_Password(
                   password: value.trim(),

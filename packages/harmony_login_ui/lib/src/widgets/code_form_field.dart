@@ -5,12 +5,14 @@ class LoginUICodeFormField extends FormField<List<String>> {
   final int count;
 
   LoginUICodeFormField({
+    final Key? key,
     this.count = 4,
     final void Function(String code)? onSaved,
     final void Function()? onSubmit,
     final bool enabled = true,
     final bool hasNext = true,
   }) : super(
+          key: key,
           initialValue: List.filled(count, '', growable: false),
           enabled: enabled,
           validator: (List<String>? value) {

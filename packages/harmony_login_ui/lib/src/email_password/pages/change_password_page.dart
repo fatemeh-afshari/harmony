@@ -45,6 +45,7 @@ class _LoginUIEmailPasswordChangePasswordState
               children: [
                 LoginUIPasswordFromField(
                   passwordHint: 'Old Password',
+                  hasNext: true,
                   onSaved: (value) => _oldPassword = value,
                 ),
                 const SizedBox(height: 32),

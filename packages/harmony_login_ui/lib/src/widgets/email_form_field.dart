@@ -14,7 +14,7 @@ class LoginUIEmailFromField extends FormField<String> {
   }
 
   LoginUIEmailFromField({
-    Key? key,
+    final Key? key,
     final String? Function(String email)? validator = _validator,
     final void Function(String email)? onSaved,
     final void Function()? onSubmit,

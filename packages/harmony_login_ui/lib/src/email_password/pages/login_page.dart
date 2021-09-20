@@ -51,6 +51,7 @@ class _LoginUIEmailPasswordLoginState extends State<LoginUIEmailPasswordLogin> {
                 ),
                 const SizedBox(height: 32),
                 LoginUIPasswordFromField(
+                  hasNext: false,
                   onSaved: (value) => _password = value,
                 ),
                 const SizedBox(height: 32),
