@@ -46,6 +46,7 @@ class _LoginUIEmailPasswordChangePasswordState
                 LoginUIPasswordFromField(
                   passwordHint: 'Old Password',
                   hasNext: true,
+                  enabled: !_loading,
                   onSaved: (value) => _oldPassword = value,
                 ),
                 const SizedBox(height: 32),
@@ -53,6 +54,7 @@ class _LoginUIEmailPasswordChangePasswordState
                   hasNext: false,
                   passwordHint: 'New Password',
                   confirmHint: 'Confirm New Password',
+                  enabled: !_loading,
                   onSaved: (value) => _newPassword = value,
                   onSubmit: _submit,
                 ),

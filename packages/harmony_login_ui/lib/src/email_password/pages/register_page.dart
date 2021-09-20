@@ -45,11 +45,13 @@ class _LoginUIEmailPasswordRegisterState
               children: [
                 LoginUIEmailFromField(
                   hasNext: true,
+                  enabled: !_loading,
                   onSaved: (value) => _email = value,
                 ),
                 const SizedBox(height: 32),
                 LoginUIPasswordPairFromField(
                   hasNext: false,
+                  enabled: !_loading,
                   onSaved: (value) => _password = value,
                   onSubmit: _submit,
                 ),

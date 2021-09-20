@@ -44,6 +44,7 @@ class _LoginUIEmailPasswordResetPasswordState
               children: [
                 LoginUIEmailFromField(
                   hasNext: false,
+                  enabled: !_loading,
                   onSaved: (value) => _email = value,
                   onSubmit: _submit,
                 ),

@@ -48,6 +48,7 @@ class _LoginUIEmailPasswordResetPasswordNewPasswordState
               children: [
                 LoginUIPasswordPairFromField(
                   hasNext: false,
+                  enabled: !_loading,
                   passwordHint: 'New Password',
                   confirmHint: 'Confirm New Password',
                   onSaved: (value) => _password = value,
