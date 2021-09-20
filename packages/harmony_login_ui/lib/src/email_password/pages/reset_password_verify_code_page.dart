@@ -48,6 +48,7 @@ class _LoginUIEmailPasswordResetPasswordVerifyCodeState
                 Center(
                   child: LoginUICodeFormField(
                     onSaved: (value) => _code = value,
+                    hasNext: false,
                     onSubmit: _submit,
                   ),
                 ),

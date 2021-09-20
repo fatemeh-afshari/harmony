@@ -9,6 +9,7 @@ class LoginUICodeFormField extends FormField<List<String>> {
     final void Function(String code)? onSaved,
     final void Function()? onSubmit,
     final bool enabled = true,
+    final bool hasNext = true,
   }) : super(
           initialValue: List.filled(count, '', growable: false),
           enabled: enabled,
@@ -43,15 +44,18 @@ class LoginUICodeFormField extends FormField<List<String>> {
                       key: Key('code-$pos'),
                       controller: TextEditingController(),
                       onSubmitted: (value) {
-                        if (isLast) {
+                        if (isLast && !hasNext) {
                           FocusScope.of(field.context).unfocus();
-                          onSubmit?.call();
                         } else {
                           FocusScope.of(field.context).nextFocus();
                         }
+                        if (isLast) {
+                          onSubmit?.call();
+                        }
                       },
-                      textInputAction:
-                          isLast ? TextInputAction.done : TextInputAction.next,
+                      textInputAction: (isLast && !hasNext)
+                          ? TextInputAction.done
+                          : TextInputAction.next,
                       keyboardType: const TextInputType.numberWithOptions(
                         signed: false,
                         decimal: false,
@@ -65,12 +69,14 @@ class LoginUICodeFormField extends FormField<List<String>> {
                         // update in-place since we don't expose list
                         list[pos] = value;
                         field.didChange(list);
-                        if (value.isNotEmpty) {
-                          if (isLast) {
+                        if (value.length == 1) {
+                          if (isLast && !hasNext) {
                             FocusScope.of(field.context).unfocus();
-                            onSubmit?.call();
                           } else {
                             FocusScope.of(field.context).nextFocus();
+                          }
+                          if (isLast) {
+                            onSubmit?.call();
                           }
                         }
                       },
