@@ -17,6 +17,16 @@ import harmony_log.
 import 'package:harmony_fire/harmony_fire.dart';
 ```
 
+## Perquisite
+
+First you need to condigure the following:
+
+- firebase
+- google sign in
+- facebook sign in
+- apple sign in
+- firebase auth for google, apple and facebook
+
 ## Introduction
 
 `harmony_fire` responsibility is to manage a firebase user and authenticate them using oauth providers like google,
