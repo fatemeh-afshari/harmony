@@ -45,13 +45,14 @@ class _LoginUIEmailPasswordResetPasswordState
                 LoginUIEmailFromField(
                   hasNext: false,
                   onSaved: (value) => _email = value,
+                  onSubmit: _submit,
                 ),
                 const Spacer(),
                 LoginUILoadingElevatedButton(
                   title: 'Reset Password',
                   loading: _loading,
                   showLoading: true,
-                  onPressed: _login,
+                  onPressed: _submit,
                 )
               ],
             ),
@@ -61,7 +62,7 @@ class _LoginUIEmailPasswordResetPasswordState
     );
   }
 
-  Future<void> _login() async {
+  Future<void> _submit() async {
     setState(() => _loading = true);
     try {
       if (_formKey.currentState!.validate()) {

@@ -53,6 +53,7 @@ class _LoginUIEmailPasswordLoginState extends State<LoginUIEmailPasswordLogin> {
                 LoginUIPasswordFromField(
                   hasNext: false,
                   onSaved: (value) => _password = value,
+                  onSubmit: _submit,
                 ),
                 const SizedBox(height: 32),
                 Row(
@@ -78,7 +79,7 @@ class _LoginUIEmailPasswordLoginState extends State<LoginUIEmailPasswordLogin> {
                   title: 'Login',
                   loading: _loading,
                   showLoading: true,
-                  onPressed: _login,
+                  onPressed: _submit,
                 )
               ],
             ),
@@ -128,7 +129,7 @@ class _LoginUIEmailPasswordLoginState extends State<LoginUIEmailPasswordLogin> {
     setState(() => _loading = false);
   }
 
-  Future<void> _login() async {
+  Future<void> _submit() async {
     setState(() => _loading = true);
     try {
       if (_formKey.currentState!.validate()) {

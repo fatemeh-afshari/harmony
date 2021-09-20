@@ -51,6 +51,7 @@ class _LoginUIEmailPasswordResetPasswordNewPasswordState
                   passwordHint: 'New Password',
                   confirmHint: 'Confirm New Password',
                   onSaved: (value) => _password = value,
+                  onSubmit: _submit,
                 ),
                 const Spacer(),
                 LoginUILoadingElevatedButton(

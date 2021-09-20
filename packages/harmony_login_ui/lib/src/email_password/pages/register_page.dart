@@ -51,13 +51,14 @@ class _LoginUIEmailPasswordRegisterState
                 LoginUIPasswordPairFromField(
                   hasNext: false,
                   onSaved: (value) => _password = value,
+                  onSubmit: _submit,
                 ),
                 const Spacer(),
                 LoginUILoadingElevatedButton(
                   title: 'Register',
                   loading: _loading,
                   showLoading: true,
-                  onPressed: _register,
+                  onPressed: _submit,
                 ),
               ],
             ),
@@ -67,7 +68,7 @@ class _LoginUIEmailPasswordRegisterState
     );
   }
 
-  Future<void> _register() async {
+  Future<void> _submit() async {
     setState(() => _loading = true);
     try {
       if (_formKey.currentState!.validate()) {
