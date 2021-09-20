@@ -26,7 +26,7 @@ popd || exit 1
 
 pushd harmony_login_ui || exit 1
 echo NOTE harmony_login_ui
-call dart format --fix lib test
+call dart format --fix lib test guide
 popd || exit 1
 
 popd || exit 1
