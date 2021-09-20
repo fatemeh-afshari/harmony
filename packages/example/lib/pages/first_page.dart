@@ -1,5 +1,5 @@
-import 'package:example/mocks.dart';
-import 'package:example/second_page.dart';
+import 'package:example/mocks/mocks.dart';
+import 'package:example/pages/second_page.dart';
 import 'package:flutter/material.dart';
 import 'package:harmony_login_ui/harmony_login_ui.dart';
 

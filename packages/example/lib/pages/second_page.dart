@@ -1,4 +1,4 @@
-import 'package:example/mocks.dart';
+import 'package:example/mocks/mocks.dart';
 import 'package:flutter/material.dart';
 import 'package:harmony_login_ui/harmony_login_ui.dart';
 
