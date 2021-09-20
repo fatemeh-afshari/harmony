@@ -17,3 +17,6 @@ import harmony_log.
 import 'package:harmony_login/harmony_login.dart';
 ```
 
+## Complete Examples
+
+[Simple Example](guide/simple.dart)

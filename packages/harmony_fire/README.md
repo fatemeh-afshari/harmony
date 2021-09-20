@@ -69,3 +69,7 @@ You can sign out using:
 ```
 await signing.signOut();
 ```
+
+## Complete Examples
+
+[Simple Example](guide/simple.dart)

@@ -1,11 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:harmony_login/src/result/result.dart';
+import 'package:meta/meta.dart';
 
 /// email-password backend
 class LoginEmailPassword {
+  @internal
   final String baseUrl;
+
+  @internal
   final Dio dio;
 
+  @internal
   const LoginEmailPassword({
     required this.baseUrl,
     required this.dio,

@@ -1,13 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:harmony_login/src/email_password/email_password.dart';
 import 'package:harmony_login/src/social/social.dart';
+import 'package:meta/meta.dart';
 
 /// harmony_login login system
 class LoginSystem {
   /// like https://www.example.com/api/v1/hippo_shield/
+  @internal
   final String baseUrl;
 
   /// provide the same dio with your auth
+  @internal
   final Dio dio;
 
   const LoginSystem({
