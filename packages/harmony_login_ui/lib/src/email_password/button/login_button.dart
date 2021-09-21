@@ -21,6 +21,8 @@ class EmailPasswordLoginButton extends StatefulWidget {
     Key? key,
     required this.authRepository,
     required this.loginSystem,
+
+    /// will be sign in anonymously to firebase if provided
     this.fireSigning,
     required this.onSuccess,
   }) : super(key: key);
