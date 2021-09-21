@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:harmony_auth/harmony_auth.dart';
-import 'package:logger/logger.dart';
+import 'package:harmony_log/harmony_log.dart';
 
 const baseUrl = 'https://base/';
 const refreshUrl = '${baseUrl}user/token/refresh/';
 
 Future<void> init() async {
-  AuthConfig.logger = Logger(/*...*/);
+  AuthConfig.logger = _buildLog();
 
   final dio = Dio(/*...*/);
   final repository = AuthRepository(
@@ -30,3 +30,14 @@ Future<void> init() async {
   print(repository);
   print(dio);
 }
+
+/// build a logger ...
+Log _buildLog() => Log(
+      id: LogId(),
+      output: LogOutput.redirectOnDebug(
+        child: LogOutput.plain(
+          format: LogPlainFormat.simple(),
+          child: LogPlainOutput.console(),
+        ),
+      ),
+    );

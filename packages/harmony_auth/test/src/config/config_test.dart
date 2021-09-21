@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:harmony_auth/src/config/config.dart';
-import 'package:logger/logger.dart';
+import 'package:harmony_log/harmony_log.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockLogger extends Mock implements Logger {}
+class MockLogger extends Mock implements Log {}
 
 void main() {
   group('AuthConfig', () {
@@ -23,11 +23,9 @@ void main() {
     group('log', () {
       test('with logger', () {
         final logger = MockLogger();
-        when(() => logger.i(any<dynamic>(), any<dynamic>(), any()))
-            .thenAnswer((_) {});
         AuthConfig.logger = logger;
         AuthConfig.log('msg');
-        verify(() => logger.i('msg')).called(1);
+        verify(() => logger.log(LogLevel.info, 'msg')).called(1);
         AuthConfig.logger = null;
       });
 

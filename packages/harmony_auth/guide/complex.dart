@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:harmony_auth/harmony_auth.dart';
-import 'package:logger/logger.dart';
+import 'package:harmony_log/harmony_log.dart';
 
 const baseUrl = 'https://base/';
 
 Future<void> init() async {
   // logger:
   // to add logger:
-  final logger = Logger(/*...*/);
+  final logger = _buildLog();
   AuthConfig.logger = logger;
   // to clear logger:
   AuthConfig.logger = null;
@@ -171,3 +171,14 @@ Future<void> init() async {
   // now you can register dio with dependency injection.
   print(dio);
 }
+
+/// build a logger ...
+Log _buildLog() => Log(
+      id: LogId(),
+      output: LogOutput.redirectOnDebug(
+        child: LogOutput.plain(
+          format: LogPlainFormat.simple(),
+          child: LogPlainOutput.console(),
+        ),
+      ),
+    );
