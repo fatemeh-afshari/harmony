@@ -109,6 +109,6 @@ class FireSigningStandardImpl implements FireSigning {
   }
 
   void _log(String message) {
-    FireConfig.log('harmony_login fire signing: $message');
+    FireConfig.logI('harmony_login fire signing: $message');
   }
 }

@@ -15,9 +15,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  harmony_log:
+    path: ../harmony_log/
   meta: any
   dio: ^4.0.0
-  logger: ^1.0.0
   shared_preferences: ^2.0.0
   firebase_core: ^1.0.0
   firebase_auth: ^3.0.0

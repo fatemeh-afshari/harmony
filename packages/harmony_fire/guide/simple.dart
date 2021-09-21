@@ -1,8 +1,8 @@
 import 'package:harmony_fire/harmony_fire.dart';
-import 'package:logger/logger.dart';
+import 'package:harmony_log/harmony_log.dart';
 
 Future<void> main() async {
-  FireConfig.logger = Logger(/*...*/);
+  FireConfig.log = _buildLog();
 
   // create a signing:
   final signing = FireSigning();
@@ -33,3 +33,14 @@ Future<void> main() async {
   // sign out:
   await signing.signOut();
 }
+
+/// build a logger ...
+Log _buildLog() => Log(
+      id: LogId(),
+      output: LogOutput.redirectOnDebug(
+        child: LogOutput.plain(
+          format: LogPlainFormat.simple(),
+          child: LogPlainOutput.console(),
+        ),
+      ),
+    );
