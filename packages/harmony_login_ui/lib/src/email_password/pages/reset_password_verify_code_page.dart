@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harmony_auth/harmony_auth.dart';
+import 'package:harmony_fire/harmony_fire.dart';
 import 'package:harmony_login/harmony_login.dart';
 import 'package:harmony_login_ui/src/email_password/pages/reset_password_new_password_page.dart';
 import 'package:harmony_login_ui/src/widgets/code_form_field.dart';
@@ -11,12 +12,15 @@ class LoginUIEmailPasswordResetPasswordVerifyCode extends StatefulWidget {
 
   final AuthRepository authRepository;
   final LoginSystem loginSystem;
+  final FireSigning? fireSigning;
+
   final String email;
 
   const LoginUIEmailPasswordResetPasswordVerifyCode({
     Key? key,
     required this.authRepository,
     required this.loginSystem,
+    this.fireSigning,
     required this.email,
   }) : super(key: key);
 
@@ -87,6 +91,7 @@ class _LoginUIEmailPasswordResetPasswordVerifyCodeState
             builder: (context) => LoginUIEmailPasswordResetPasswordNewPassword(
               loginSystem: widget.loginSystem,
               authRepository: widget.authRepository,
+              fireSigning: widget.fireSigning,
               email: widget.email,
               code: code,
             ),

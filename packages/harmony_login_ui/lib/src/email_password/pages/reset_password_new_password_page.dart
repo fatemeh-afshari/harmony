@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harmony_auth/harmony_auth.dart';
+import 'package:harmony_fire/harmony_fire.dart';
 import 'package:harmony_login/harmony_login.dart';
 import 'package:harmony_login_ui/src/widgets/loading_elevated_button.dart';
 import 'package:harmony_login_ui/src/widgets/password_pair_form_field.dart';
@@ -10,6 +11,8 @@ class LoginUIEmailPasswordResetPasswordNewPassword extends StatefulWidget {
 
   final AuthRepository authRepository;
   final LoginSystem loginSystem;
+  final FireSigning? fireSigning;
+
   final String email;
   final String code;
 
@@ -17,6 +20,7 @@ class LoginUIEmailPasswordResetPasswordNewPassword extends StatefulWidget {
     Key? key,
     required this.authRepository,
     required this.loginSystem,
+    this.fireSigning,
     required this.email,
     required this.code,
   }) : super(key: key);
@@ -74,12 +78,17 @@ class _LoginUIEmailPasswordResetPasswordNewPasswordState
     try {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
+        await widget.fireSigning?.signInUpAnonymously();
         final emailPassword = widget.loginSystem.emailPassword();
-        await emailPassword.resetPasswordNewPassword(
+        final result = await emailPassword.resetPasswordNewPassword(
           email: widget.email,
           code: widget.code,
           password: _password!,
         );
+        await widget.authRepository.setToken(AuthToken(
+          refresh: result.refresh,
+          access: result.access,
+        ));
         Navigator.of(context).pop(<String, dynamic>{
           'logged_in': true,
           'registered': false,

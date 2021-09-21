@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harmony_auth/harmony_auth.dart';
+import 'package:harmony_fire/harmony_fire.dart';
 import 'package:harmony_login/harmony_login.dart';
 import 'package:harmony_login_ui/src/email_password/pages/register_page.dart';
 import 'package:harmony_login_ui/src/email_password/pages/reset_password_page.dart';
@@ -13,11 +14,13 @@ class LoginUIEmailPasswordLogin extends StatefulWidget {
 
   final AuthRepository authRepository;
   final LoginSystem loginSystem;
+  final FireSigning? fireSigning;
 
   const LoginUIEmailPasswordLogin({
     Key? key,
     required this.authRepository,
     required this.loginSystem,
+    this.fireSigning,
   }) : super(key: key);
 
   @override
@@ -101,6 +104,7 @@ class _LoginUIEmailPasswordLoginState extends State<LoginUIEmailPasswordLogin> {
         builder: (context) => LoginUIEmailPasswordRegister(
           loginSystem: widget.loginSystem,
           authRepository: widget.authRepository,
+          fireSigning: widget.fireSigning,
         ),
       ),
     );
@@ -121,6 +125,7 @@ class _LoginUIEmailPasswordLoginState extends State<LoginUIEmailPasswordLogin> {
         builder: (context) => LoginUIEmailPasswordResetPassword(
           loginSystem: widget.loginSystem,
           authRepository: widget.authRepository,
+          fireSigning: widget.fireSigning,
         ),
       ),
     );
@@ -136,6 +141,7 @@ class _LoginUIEmailPasswordLoginState extends State<LoginUIEmailPasswordLogin> {
     try {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
+        await widget.fireSigning?.signInUpAnonymously();
         final emailPassword = widget.loginSystem.emailPassword();
         final result = await emailPassword.login(
           email: _email!,

@@ -134,7 +134,7 @@ class MockFireSigning extends Fake implements FireSigning {
 
   @override
   Future<void> signInUpAnonymously() async {
-    await Future<void>.delayed(const Duration(seconds: 1));
+    await Future<void>.delayed(const Duration(milliseconds: 200));
   }
 
   @override
@@ -151,7 +151,7 @@ class MockFireSigning extends Fake implements FireSigning {
 
   @override
   Future<void> signOut() async {
-    await Future<void>.delayed(const Duration(seconds: 1));
+    await Future<void>.delayed(const Duration(milliseconds: 200));
   }
 
   @override
