@@ -27,7 +27,7 @@ class AuthStorageInMemoryImpl implements AuthStorage {
   }
 
   void _log(String message) {
-    AuthConfig.log('harmony_auth storage.inMemory: $message');
+    AuthConfig.logI('storage.inMemory: $message');
   }
 
   @override

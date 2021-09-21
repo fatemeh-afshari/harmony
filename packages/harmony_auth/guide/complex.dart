@@ -8,9 +8,9 @@ Future<void> init() async {
   // logger:
   // to add logger:
   final logger = _buildLog();
-  AuthConfig.logger = logger;
+  AuthConfig.log = logger;
   // to clear logger:
-  AuthConfig.logger = null;
+  AuthConfig.log = null;
 
   // storage:
   // standard storage, persisted using shared_preferences.

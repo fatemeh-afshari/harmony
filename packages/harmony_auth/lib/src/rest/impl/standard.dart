@@ -70,7 +70,7 @@ class AuthRestStandardImpl implements AuthRest {
       AuthMatcher.methodAndUrl('POST', refreshUrl);
 
   void _log(String message) {
-    AuthConfig.log('harmony_auth rest.standard: $message');
+    AuthConfig.logI('rest.standard: $message');
   }
 }
 

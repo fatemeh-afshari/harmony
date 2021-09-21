@@ -6,7 +6,7 @@ const baseUrl = 'https://base/';
 const refreshUrl = '${baseUrl}user/token/refresh/';
 
 Future<void> init() async {
-  AuthConfig.logger = _buildLog();
+  AuthConfig.log = _buildLog();
 
   final dio = Dio(/*...*/);
   final repository = AuthRepository(

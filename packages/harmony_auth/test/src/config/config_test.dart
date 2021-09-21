@@ -8,30 +8,32 @@ class MockLogger extends Mock implements Log {}
 void main() {
   group('AuthConfig', () {
     tearDown(() {
-      AuthConfig.logger = null;
+      AuthConfig.log = null;
     });
 
     test('logger', () {
-      expect(AuthConfig.logger, isNull);
+      expect(AuthConfig.log, isNull);
       final logger = MockLogger();
-      AuthConfig.logger = logger;
-      expect(identical(AuthConfig.logger, logger), isTrue);
-      AuthConfig.logger = null;
-      expect(AuthConfig.logger, isNull);
+      when(() => logger.tagged('harmony_auth')).thenReturn(logger);
+      AuthConfig.log = logger;
+      expect(identical(AuthConfig.log, logger), isTrue);
+      AuthConfig.log = null;
+      expect(AuthConfig.log, isNull);
     });
 
     group('log', () {
       test('with logger', () {
         final logger = MockLogger();
-        AuthConfig.logger = logger;
-        AuthConfig.log('msg');
+        when(() => logger.tagged('harmony_auth')).thenReturn(logger);
+        AuthConfig.log = logger;
+        AuthConfig.logI('msg');
         verify(() => logger.log(LogLevel.info, 'msg')).called(1);
-        AuthConfig.logger = null;
+        AuthConfig.log = null;
       });
 
       test('without logger', () {
-        expect(AuthConfig.logger, isNull);
-        AuthConfig.log('msg');
+        expect(AuthConfig.log, isNull);
+        AuthConfig.logI('msg');
         // nothing should happen
       });
     });

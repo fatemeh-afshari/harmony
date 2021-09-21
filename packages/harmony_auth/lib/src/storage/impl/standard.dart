@@ -46,7 +46,7 @@ class AuthStorageStandardImpl implements AuthStorage {
   }
 
   void _log(String message) {
-    AuthConfig.log('harmony_auth storage.persisted: $message');
+    AuthConfig.logI('storage.persisted: $message');
   }
 
   /// instance

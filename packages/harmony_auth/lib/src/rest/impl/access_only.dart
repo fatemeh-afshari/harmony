@@ -71,7 +71,7 @@ class AuthRestAccessOnlyImpl implements AuthRest {
       AuthMatcher.methodAndUrl('POST', refreshUrl);
 
   void _log(String message) {
-    AuthConfig.log('harmony_auth rest.accessOnly: $message');
+    AuthConfig.logI('rest.accessOnly: $message');
   }
 }
 

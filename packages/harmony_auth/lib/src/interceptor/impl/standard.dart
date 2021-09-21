@@ -144,7 +144,7 @@ class AuthInterceptorStandardImpl implements AuthInterceptor {
       matcher.matchesRequest(request);
 
   void _log(String message) {
-    AuthConfig.log('harmony_auth interceptor.standard: $message');
+    AuthConfig.logI('interceptor.standard: $message');
   }
 }
 

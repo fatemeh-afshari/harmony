@@ -64,7 +64,7 @@ class AuthRepositoryStandardImpl implements AuthRepository {
   Future<void> setToken(AuthToken token) => storage.setToken(token);
 
   void _log(String message) {
-    AuthConfig.log('harmony_auth refresh.standard: $message');
+    AuthConfig.logI('refresh.standard: $message');
   }
 
   @override
