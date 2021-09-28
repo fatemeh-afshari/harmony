@@ -5,8 +5,7 @@ repository: https://github.com/6thsolution/harmony
 
 version: 1.0.0
 
-# remove this to publish
-publish_to: 'none'
+publish_to: https://unpub.cloud.6thsolution.tech
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -16,7 +15,10 @@ dependencies:
   flutter:
     sdk: flutter
   harmony_log:
-    path: ../harmony_log/
+    hosted:
+      name: harmony_log
+      url: https://unpub.cloud.6thsolution.tech
+    version: ^1.0.0
   meta: any
   dio: ^4.0.0
   shared_preferences: ^2.0.0

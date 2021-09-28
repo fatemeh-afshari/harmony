@@ -5,8 +5,7 @@ repository: https://github.com/6thsolution/harmony
 
 version: 1.0.0
 
-# remove this to publish
-publish_to: 'none'
+publish_to: https://unpub.cloud.6thsolution.tech
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -18,11 +17,20 @@ dependencies:
   meta: any
   flutter_svg: any
   harmony_auth:
-    path: ../harmony_auth/
+    hosted:
+      name: harmony_auth
+      url: https://unpub.cloud.6thsolution.tech
+    version: ^1.0.0
   harmony_fire:
-    path: ../harmony_fire/
+    hosted:
+      name: harmony_fire
+      url: https://unpub.cloud.6thsolution.tech
+    version: ^1.0.0
   harmony_login:
-    path: ../harmony_login/
+    hosted:
+      name: harmony_login
+      url: https://unpub.cloud.6thsolution.tech
+    version: ^1.0.0
 
 dev_dependencies:
   flutter_test:

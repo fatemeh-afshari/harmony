@@ -4,11 +4,18 @@ Harmony Logging Mechanism
 
 ## Installation
 
-add this library to your pubspec.yaml.
+Since this package is a private package and we have published it on a private server. you can't directly install it from pub.dev site.
+to add this library to your project, add the following lines to your pubspec.yaml file:
 
 ```yaml
 dependencies:
-  harmony_log: latest.version
+  harmony_log:
+    hosted:
+      # this is your package name
+      name: harmony_log
+      # your private server. change it if you want to use a different server
+      url: https://unpub.cloud.6thsolution.tech
+    version: latest.version
 ```
 
 import harmony_log.

@@ -5,8 +5,7 @@ repository: https://github.com/6thsolution/harmony
 
 version: 1.0.0
 
-# remove this to publish
-publish_to: 'none'
+publish_to: https://unpub.cloud.6thsolution.tech
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
