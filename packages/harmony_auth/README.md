@@ -169,10 +169,10 @@ set operations like `|`, `&`, `_` and `!`.
 
 ```
 final matcher = AuthMatcher.baseUrl(baseUrl) - 
-  AuthMatcher.urls([
+  AuthMatcher.urls({
     '$baseUrl/ignored/1',
     '$baseUrl/ignored/2',
-  ]);
+  });
 ```
 
 Then you should create an auth checker for interceptor. `AuthChecker` responsibility is to check DioErrors to see if it
