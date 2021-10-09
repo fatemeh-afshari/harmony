@@ -213,6 +213,81 @@ void main() {
       expect(matcher.matchesRequest(compose('n', 'https://v')), isFalse);
     });
 
+    group('implementation unionOf', () {
+      test('with 0 elements', () {
+        final matcher = AuthMatcher.unionOf([]);
+        expect(matcher.matchesRequest(compose('m1', 'https://u1')), isFalse);
+      });
+
+      test('with 1 elements', () {
+        final matcher = AuthMatcher.unionOf([
+          AuthMatcher.methodAndUrl('m1', 'https://u1'),
+        ]);
+        expect(matcher.matchesRequest(compose('m1', 'https://u1')), isTrue);
+        expect(matcher.matchesRequest(compose('m2', 'https://u2')), isFalse);
+      });
+
+      test('with 2 elements', () {
+        final matcher = AuthMatcher.unionOf([
+          AuthMatcher.methodAndUrl('m1', 'https://u1'),
+          AuthMatcher.methodAndUrl('m2', 'https://u2'),
+        ]);
+        expect(matcher.matchesRequest(compose('m1', 'https://u1')), isTrue);
+        expect(matcher.matchesRequest(compose('m2', 'https://u2')), isTrue);
+        expect(matcher.matchesRequest(compose('m3', 'https://u3')), isFalse);
+      });
+
+      test('with 3 elements', () {
+        final matcher = AuthMatcher.unionOf([
+          AuthMatcher.methodAndUrl('m1', 'https://u1'),
+          AuthMatcher.methodAndUrl('m2', 'https://u2'),
+          AuthMatcher.methodAndUrl('m3', 'https://u3'),
+        ]);
+        expect(matcher.matchesRequest(compose('m1', 'https://u1')), isTrue);
+        expect(matcher.matchesRequest(compose('m2', 'https://u2')), isTrue);
+        expect(matcher.matchesRequest(compose('m3', 'https://u3')), isTrue);
+        expect(matcher.matchesRequest(compose('m4', 'https://u4')), isFalse);
+      });
+    });
+
+    group('implementation intersectionOf', () {
+      test('with 0 elements', () {
+        final matcher = AuthMatcher.intersectionOf([]);
+        expect(matcher.matchesRequest(compose('m1', 'https://u1')), isTrue);
+      });
+
+      test('with 1 elements', () {
+        final matcher = AuthMatcher.intersectionOf([
+          AuthMatcher.methodAndUrl('m1', 'https://u1'),
+        ]);
+        expect(matcher.matchesRequest(compose('m1', 'https://u1')), isTrue);
+        expect(matcher.matchesRequest(compose('m2', 'https://u2')), isFalse);
+      });
+
+      test('with 2 elements', () {
+        final matcher = AuthMatcher.intersectionOf([
+          AuthMatcher.method('m1'),
+          AuthMatcher.url('https://u1'),
+        ]);
+        expect(matcher.matchesRequest(compose('m1', 'https://u1')), isTrue);
+        expect(matcher.matchesRequest(compose('m2', 'https://u2')), isFalse);
+      });
+
+      test('with 3 elements', () {
+        final matcher = AuthMatcher.intersectionOf([
+          AuthMatcher.methodAndUrl(RegExp('(m1|n1)'), 'https://u1'),
+          AuthMatcher.methodAndUrl(RegExp('(m1|n2)'), 'https://u1'),
+          AuthMatcher.methodAndUrl(RegExp('(m1|n3)'), 'https://u1'),
+        ]);
+        expect(matcher.matchesRequest(compose('m1', 'https://u1')), isTrue);
+        expect(matcher.matchesRequest(compose('n1', 'https://u1')), isFalse);
+        expect(matcher.matchesRequest(compose('n2', 'https://u1')), isFalse);
+        expect(matcher.matchesRequest(compose('n3', 'https://u1')), isFalse);
+        expect(matcher.matchesRequest(compose('m1', 'https://u2')), isFalse);
+        expect(matcher.matchesRequest(compose('m2', 'https://u2')), isFalse);
+      });
+    });
+
     test('implementation general', () {
       final matcher = AuthMatcher.general(
         (r) => r.method == 'm',

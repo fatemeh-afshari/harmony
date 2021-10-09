@@ -119,6 +119,16 @@ abstract class AuthMatcher {
   /// never match
   const factory AuthMatcher.none() = AuthMatcherNoneImpl;
 
+  /// union of matchers
+  const factory AuthMatcher.unionOf(
+    List<AuthMatcher> matchers,
+  ) = AuthMatcherUnionOfImpl;
+
+  /// intersection of matchers
+  const factory AuthMatcher.intersectionOf(
+    List<AuthMatcher> matchers,
+  ) = AuthMatcherIntersectionOfImpl;
+
   /// general matcher
   ///
   /// provide lambda to match
