@@ -88,6 +88,68 @@ void main() {
             );
           });
         });
+
+        group('extra', () {
+          test('null', () async {
+            await storage.setToken(AuthToken(
+              refresh: 'r1',
+              access: 'a1',
+              extra: null,
+            ));
+            final token = await storage.getToken();
+            expect(token, isNotNull);
+            expect(token!.refresh, equals('r1'));
+            expect(token.access, equals('a1'));
+            expect(token.extra, equals(null));
+            await storage.removeToken();
+            expect(await storage.getToken(), isNull);
+          });
+
+          test('string', () async {
+            await storage.setToken(AuthToken(
+              refresh: 'r1',
+              access: 'a1',
+              extra: 'hello',
+            ));
+            final token = await storage.getToken();
+            expect(token, isNotNull);
+            expect(token!.refresh, equals('r1'));
+            expect(token.access, equals('a1'));
+            expect(token.extra, equals('hello'));
+            await storage.removeToken();
+            expect(await storage.getToken(), isNull);
+          });
+
+          test('int', () async {
+            await storage.setToken(AuthToken(
+              refresh: 'r1',
+              access: 'a1',
+              extra: 12,
+            ));
+            final token = await storage.getToken();
+            expect(token, isNotNull);
+            expect(token!.refresh, equals('r1'));
+            expect(token.access, equals('a1'));
+            expect(token.extra, equals(12));
+            await storage.removeToken();
+            expect(await storage.getToken(), isNull);
+          });
+
+          test('map', () async {
+            await storage.setToken(AuthToken(
+              refresh: 'r1',
+              access: 'a1',
+              extra: <String, int>{'a': 12},
+            ));
+            final token = await storage.getToken();
+            expect(token, isNotNull);
+            expect(token!.refresh, equals('r1'));
+            expect(token.access, equals('a1'));
+            expect(token.extra, equals(<String, int>{'a': 12}));
+            await storage.removeToken();
+            expect(await storage.getToken(), isNull);
+          });
+        });
       });
     });
 

@@ -44,6 +44,7 @@ class AuthRestStandardImpl implements AuthRest {
         return AuthToken(
           refresh: data['refresh'] as String,
           access: data['access'] as String,
+          extra: token.extra,
         );
       } on Object {
         // should not happen, but handling loosely ...

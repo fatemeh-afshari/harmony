@@ -6,9 +6,20 @@ class AuthToken {
   /// access token
   final String access;
 
+  /// extra data.
+  ///
+  /// can be null.
+  ///
+  /// it will be copy-pasted when token is refreshed.
+  ///
+  /// THIS should be json encode/decode able.
+  /// for example can be primitive, list or hashmap ...
+  final dynamic extra;
+
   const AuthToken({
     required this.refresh,
     required this.access,
+    this.extra,
   });
 
   @override

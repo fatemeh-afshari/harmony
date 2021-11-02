@@ -45,6 +45,7 @@ class AuthRestAccessOnlyImpl implements AuthRest {
           // using the same refresh token:
           refresh: token.refresh,
           access: data['access'] as String,
+          extra: token.extra,
         );
       } on Object {
         // should not happen, but handling loosely ...

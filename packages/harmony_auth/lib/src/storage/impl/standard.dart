@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,6 +12,7 @@ import '../storage.dart';
 class AuthStorageStandardImpl implements AuthStorage {
   static const _keyAccessToken = 'harmony_auth_storage_access_token';
   static const _keyRefreshToken = 'harmony_auth_storage_refresh_token';
+  static const _keyExtra = 'harmony_auth_storage_extra';
 
   const AuthStorageStandardImpl();
 
@@ -17,15 +20,19 @@ class AuthStorageStandardImpl implements AuthStorage {
   Future<AuthToken?> getToken() async {
     final refresh = await _getStringAndAssert(_keyRefreshToken);
     final access = await _getStringAndAssert(_keyAccessToken);
+    final encoded = await _getStringAndAssert(_keyExtra);
+    final dynamic extra = encoded == null ? null : jsonDecode(encoded);
+
     if (refresh != null && access != null) {
       return AuthToken(
         refresh: refresh,
         access: access,
+        extra: extra,
       );
-    } else if (refresh == null && access == null) {
+    } else if (refresh == null && access == null && extra == null) {
       return null;
     } else {
-      // inconsistency
+      _log('inconsistency');
       await removeToken();
       return null;
     }
@@ -36,6 +43,13 @@ class AuthStorageStandardImpl implements AuthStorage {
     _log('set');
     await _setStringAndAssert(_keyRefreshToken, token.refresh);
     await _setStringAndAssert(_keyAccessToken, token.access);
+
+    final dynamic extra = token.extra;
+    if (extra == null) {
+      await _removeAndAssert(_keyExtra);
+    } else {
+      await _setStringAndAssert(_keyExtra, jsonEncode(extra));
+    }
   }
 
   @override
@@ -43,6 +57,7 @@ class AuthStorageStandardImpl implements AuthStorage {
     _log('remove');
     await _removeAndAssert(_keyRefreshToken);
     await _removeAndAssert(_keyAccessToken);
+    await _removeAndAssert(_keyExtra);
   }
 
   void _log(String message) {
