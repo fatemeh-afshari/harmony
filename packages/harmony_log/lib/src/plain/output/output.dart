@@ -1,6 +1,7 @@
 import 'package:harmony_log/src/plain/output/impl/console.dart';
 import 'package:harmony_log/src/plain/output/impl/custom.dart';
-import 'package:harmony_log/src/plain/output/impl/file.dart';
+import 'package:harmony_log/src/plain/output/impl/file_fake.dart'
+    if (dart.library.io) 'package:harmony_log/src/plain/output/impl/file.dart';
 import 'package:harmony_log/src/plain/output/impl/multi.dart';
 import 'package:harmony_log/src/plain/output/impl/noop.dart';
 import 'package:harmony_log/src/plain/output/impl/redirect.dart';
