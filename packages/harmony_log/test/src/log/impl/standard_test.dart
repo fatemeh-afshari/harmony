@@ -67,7 +67,6 @@ void main() {
                 that: predicate(
                   (LogEvent e) =>
                       e.tag == 'TAG' &&
-                      e.time is DateTime &&
                       e.id == 'hello' &&
                       e.stackTrace == trace &&
                       e.extra == 'extra' &&
@@ -96,7 +95,6 @@ void main() {
                   that: predicate(
                     (LogEvent e) =>
                         e.tag == 'OTHER' &&
-                        e.time is DateTime &&
                         e.id == 'hello' &&
                         e.stackTrace == trace &&
                         e.extra == 'extra' &&
@@ -149,7 +147,6 @@ void main() {
                 that: predicate(
                   (LogEvent e) =>
                       e.tag == null &&
-                      e.time is DateTime &&
                       e.id == 'hello' &&
                       e.stackTrace == trace &&
                       e.extra == 'extra' &&
