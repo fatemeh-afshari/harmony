@@ -4,18 +4,11 @@ Harmony Low-Level Authentication and Token Management Mechanism
 
 ## Installation
 
-Since this package is a private package and we have published it on a private server. you can't directly install it from pub.dev site.
-to add this library to your project, add the following lines to your pubspec.yaml file:
+Add this library to your project, add the following lines to your pubspec.yaml file:
 
 ```yaml
 dependencies:
-  harmony_auth:
-    hosted:
-      # this is your package name
-      name: harmony_auth
-      # your private server. change it if you want to use a different server
-      url: https://unpub.cloud.6thsolution.tech
-    version: latest.version
+  harmony_auth: ^latest.version
   # other libraries
   dio: 4.0.0
 ```
