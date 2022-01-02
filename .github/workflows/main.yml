@@ -32,21 +32,21 @@ jobs:
           flutter pub get
           flutter analyze
           flutter test
-      - name: harmony_fire
-        working-directory: packages/harmony_fire
-        run: |
-          flutter pub get
-          flutter analyze
-          flutter test
-      - name: harmony_login
-        working-directory: packages/harmony_login
-        run: |
-          flutter pub get
-          flutter analyze
-          flutter test
-      - name: harmony_login_ui
-        working-directory: packages/harmony_login_ui
-        run: |
-          flutter pub get
-          flutter analyze
-          flutter test
+#      - name: harmony_fire
+#        working-directory: packages/harmony_fire
+#        run: |
+#          flutter pub get
+#          flutter analyze
+#          flutter test
+#      - name: harmony_login
+#        working-directory: packages/harmony_login
+#        run: |
+#          flutter pub get
+#          flutter analyze
+#          flutter test
+#      - name: harmony_login_ui
+#        working-directory: packages/harmony_login_ui
+#        run: |
+#          flutter pub get
+#          flutter analyze
+#          flutter test
