@@ -75,9 +75,3 @@ build/
 !**/ios/**/default.perspectivev3
 
 coverage/
-
-web/
-lib/generated_plugin_registrant.dart
-test/all.dart
-
-example/

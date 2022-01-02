@@ -1,5 +1,5 @@
 name: harmony_log
-description: Harmony Logging Mechanism.
+description: Harmony Logging Mechanism. It has varous implementations of filters and outputs.
 homepage: https://github.com/6thsolution/harmony
 repository: https://github.com/6thsolution/harmony
 
