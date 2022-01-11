@@ -92,7 +92,7 @@ import 'package:harmony_log/harmony_log.dart';
 void main() {
   final log = Log(
     id: LogId(),
-    output: LogOutput.redirectOnDebug(
+    child: LogOutput.redirectOnDebug(
       child: LogOutput.plain(
         format: LogPlainFormat.simple(),
         child: LogPlainOutput.console(),
@@ -113,7 +113,7 @@ have at least `info` level and using counter id generation:
 
 final log = Log(
   id: LogId.counter(),
-  output: LogOutput.redirectOnDebug(
+  child: LogOutput.redirectOnDebug(
     child: LogOutput.filtered(
       filter: LogFilter.level(LogLevel.info),
       child: LogOutput.plain(
@@ -132,7 +132,7 @@ to a file with json formatting, on release sends logs with level of at least `er
 
 final log = Log(
   id: LogId.counter(),
-  output: LogOutput.multi(
+  child: LogOutput.multi(
     children: [
       LogOutput.redirectOnDebug(
         child: LogOutput.filtered(

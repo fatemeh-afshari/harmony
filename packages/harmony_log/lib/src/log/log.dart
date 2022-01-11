@@ -11,12 +11,16 @@ import 'package:harmony_log/src/output/output.dart';
 /// [Log] class is responsible for managing tags,
 /// adding time and id info to events, and redirecting
 /// events to outputs.
-abstract class Log {
+///
+/// Note: [Log] class itself is also a [LogOutput].
+/// But it provides more utilities over a bare [LogOutput].
+/// Like [log], [tagged] or abbreviated methods like [i].
+abstract class Log implements LogOutput {
   /// standard logger
   const factory Log({
     String? tag,
     required LogId id,
-    required LogOutput output,
+    required LogOutput child,
   }) = LogStandardImpl;
 
   /// tagged logger
@@ -36,6 +40,7 @@ abstract class Log {
   /// this can complete asynchronously
   ///
   /// this will call output init method
+  @override
   void init();
 
   /// get this logger's tag
@@ -50,6 +55,7 @@ abstract class Log {
   /// this should be used only for redirecting one
   /// [Log] to another. Users should not call this
   /// method as it may cause inconsistencies ...
+  @override
   void write(LogEvent event);
 
   /// log
@@ -74,5 +80,6 @@ abstract class Log {
   /// this can complete asynchronously
   ///
   /// this will call output close method
+  @override
   void close();
 }

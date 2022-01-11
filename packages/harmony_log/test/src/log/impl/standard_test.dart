@@ -23,7 +23,7 @@ void main() {
           log = Log(
             tag: 'TAG',
             id: LogId.constant('hello'),
-            output: output,
+            child: output,
           );
         });
 
@@ -119,7 +119,7 @@ void main() {
           log = Log(
             tag: null,
             id: LogId.constant('hello'),
-            output: output,
+            child: output,
           );
         });
 

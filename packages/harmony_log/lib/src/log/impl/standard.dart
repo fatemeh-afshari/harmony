@@ -7,14 +7,14 @@ import 'package:meta/meta.dart';
 
 @internal
 class LogStandardImpl implements Log {
-  final LogOutput output;
+  final LogOutput child;
 
   final LogId id;
 
   const LogStandardImpl({
     this.tag = 'APP',
     required this.id,
-    required this.output,
+    required this.child,
   });
 
   @override
@@ -24,17 +24,17 @@ class LogStandardImpl implements Log {
   Log tagged(String? tag) => LogStandardImpl(
         tag: tag,
         id: id,
-        output: output,
+        child: child,
       );
 
   @override
   void init() {
-    output.init();
+    child.init();
   }
 
   @override
   void write(LogEvent event) {
-    output.write(event);
+    child.write(event);
   }
 
   @override
@@ -60,6 +60,6 @@ class LogStandardImpl implements Log {
 
   @override
   void close() {
-    output.close();
+    child.close();
   }
 }
